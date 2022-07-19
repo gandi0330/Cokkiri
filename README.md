@@ -1,2 +1,2 @@
 # Cokkiri
-- [] test
+- [x] test
