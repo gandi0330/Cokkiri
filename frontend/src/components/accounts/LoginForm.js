@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import useInput from '../../hooks/useInput';
-import { login } from '../../store/authSlice';
+import { loginRequest } from '../../store/authSlice';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ const LoginForm = () => {
   const [password, onChangePassword] = useInput('');
 
   const loginDispatch = async (data) => {
-    await dispatch(login(data));
+    await dispatch(loginRequest(data));
     navigate('/rooms', { replace: true });
   };
 
