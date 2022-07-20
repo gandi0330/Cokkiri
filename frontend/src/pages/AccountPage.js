@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 
 import LoginForm from '../components/layout/LoginForm';
 import SignupEmail from '../components/layout/SignupEmail';
+import SignupCertification from '../components/layout/SignupCertification';
+import SignupDetail from '../components/layout/SignupDetail';
 import Logout from '../components/layout/Logout';
 
 const AccountPage = ({ header }) => {
@@ -11,8 +13,14 @@ const AccountPage = ({ header }) => {
   if (header === 'logout') {
     return <Logout />;
   }
-  if (header === 'signup') {
+  if (header === 'signupEmail') {
     return <SignupEmail />;
+  }
+  if (header === 'signupCertification') {
+    return <SignupCertification />;
+  }
+  if (header === 'signupDetail') {
+    return <SignupDetail />;
   }
   return null;
 };
