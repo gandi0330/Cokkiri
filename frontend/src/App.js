@@ -20,7 +20,9 @@ const App = () => {
         <Route path="/my-page" element={<MyPagePage />} />
         <Route path="/login" element={<AccountPage header="login" />} />
         <Route path="/logout" element={<AccountPage header="logout" />} />
-        <Route path="/signup" element={<AccountPage header="signup" />} />
+        <Route path="/signupEmail" element={<AccountPage header="signupEmail" />} />
+        <Route path="/signupCertification" element={<AccountPage header="signupCertification" />} />
+        <Route path="/signupDetail" element={<AccountPage header="signupDetail" />} />
       </Routes>
     </div>
   );

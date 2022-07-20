@@ -16,7 +16,7 @@ const LoginForm = () => {
     navigate('/rooms', { replace: true });
   };
 
-  const onClickBtn = useCallback((e) => {
+  const onSubmit = useCallback((e) => {
     e.preventDefault();
     loginDispatch({
       email, password,
@@ -25,6 +25,7 @@ const LoginForm = () => {
 
   return (
     <>
+      <h1>로그인</h1>
       <form>
         <label htmlFor="email">이메일
           <input type="email" id="email" name="email" value={email} onChange={onChangeEmail} />
@@ -32,9 +33,9 @@ const LoginForm = () => {
         <label htmlFor="password">비밀번호
           <input type="password" id="password" name="password" value={password} onChange={onChangePassword} />
         </label>
-        <button type="submit" onClick={onClickBtn}>로그인</button>
+        <button type="submit" onClick={onSubmit}>로그인</button>
       </form>
-      <Link to="/signup">회원가입</Link>
+      <Link to="/signupEmail">회원가입</Link>
     </>
   );
 };

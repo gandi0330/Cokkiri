@@ -26,6 +26,7 @@
         "react/function-component-definition":"off",
         "arrow-body-style":"off",
         "no-param-reassign":"off",
-        "no-console":"off"
+        "no-console":"off",
+        "no-alert":"off"
     }
 }
