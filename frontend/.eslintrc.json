@@ -24,6 +24,8 @@
         "react/jsx-one-expression-per-line":"off",
         "no-undef":"off",
         "react/function-component-definition":"off",
-        "arrow-body-style":"off"
+        "arrow-body-style":"off",
+        "no-param-reassign":"off",
+        "no-console":"off"
     }
 }
