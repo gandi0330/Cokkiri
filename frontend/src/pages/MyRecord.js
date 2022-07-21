@@ -1,6 +1,12 @@
+import TimeStamp from '../components/record/TimeStamp';
+import Chart from '../components/record/Chart';
+
 const MyRecord = () => {
   return (
-    <div>MyRecord</div>
+    <>
+      <TimeStamp />
+      <Chart />
+    </>
   );
 };
 
