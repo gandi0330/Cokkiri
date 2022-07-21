@@ -14,10 +14,10 @@ const App = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/my-record" element={<MyRecord />} />
+        <Route path="/my-record/:nickname" element={<MyRecord />} />
         <Route path="/rooms" element={<RoomsPage />} />
-        <Route path="/room" element={<RoomDetailPage />} />
-        <Route path="/my-page" element={<MyPagePage />} />
+        <Route path="/room/:roomName" element={<RoomDetailPage />} />
+        <Route path="/my-page/:nickname" element={<MyPagePage />} />
         <Route path="/login" element={<AccountPage header="login" />} />
         <Route path="/logout" element={<AccountPage header="logout" />} />
         <Route path="/signupEmail" element={<AccountPage header="signupEmail" />} />
