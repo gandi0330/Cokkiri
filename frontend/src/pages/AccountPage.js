@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 
-import LoginForm from '../components/layout/LoginForm';
-import SignupEmail from '../components/layout/SignupEmail';
-import SignupCertification from '../components/layout/SignupCertification';
-import SignupDetail from '../components/layout/SignupDetail';
-import Logout from '../components/layout/Logout';
+import LoginForm from '../components/account/LoginForm';
+import SignupEmail from '../components/account/SignupEmail';
+import SignupCertification from '../components/account/SignupCertification';
+import SignupDetail from '../components/account/SignupDetail';
+import Logout from '../components/account/Logout';
 
 const AccountPage = ({ header }) => {
   if (header === 'login') {

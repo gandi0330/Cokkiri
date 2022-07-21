@@ -1,18 +1,19 @@
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import useInput from '../../hooks/useInput';
-import { loginRequest } from '../../store/authSlice';
+// import { loginRequest } from '../../store/authSlice';
 
 const LoginForm = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
 
   const loginDispatch = async (data) => {
-    await dispatch(loginRequest(data));
+    console.log(data);
+    // await dispatch(loginRequest(data));
     navigate('/rooms', { replace: true });
   };
 

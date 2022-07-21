@@ -1,19 +1,19 @@
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import useInput from '../../hooks/useInput';
-import { signup } from '../../store/authSlice';
+// import { signup } from '../../store/authSlice';
 
 const SignupDetail = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const [passwordCheck, onChangePasswordCheck] = useInput('');
 
   const certificateNumberDispatch = async () => {
-    await dispatch(signup());
+    // await dispatch(signup());
     navigate('/login', { replace: true });
   };
 
