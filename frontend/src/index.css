@@ -12,8 +12,6 @@
   font-family: 'Nanum Gothic', sans-serif;
 }
 
-/* font-family: 'Nanum Pen Script', cursive; */
-
 :root {
 
   /* ---- color ---- */
@@ -37,14 +35,16 @@
   --headingFontSize2: 2rem;
   --headingFontSize3: 1.5rem;
   --headingFontSize4: 1.25rem;
+  --headingFontSize5: 2.5rem;
 
   --smallFontSize1: .875rem;
   --smallFontSize2: .75rem;
+  --smallFontSize3: .5rem;
 
   /* ---- border ---- */
   --borderRadius1: 0.6rem;
   --borderRadius2: 1.25rem;
-
+  --borderRadius3: 0.32rem;
 }
 
 /* ---- general ---- */
@@ -117,4 +117,3 @@ h4 {
 .btn-primary:hover {
   background-color: var(--blueShade3);
 }
-
