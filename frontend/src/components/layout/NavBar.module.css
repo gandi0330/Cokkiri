@@ -1,0 +1,93 @@
+.nav {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--whiteShade1);
+  backdrop-filter: blur(0.8rem);
+  box-shadow: 0 15px 15px -20px rgba(50, 50, 93, 0.23);
+  font-size: var(--baseFontSize1);
+}
+
+.nav ul {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
+
+.navItems {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  gap: .7rem;
+}
+
+.logo img{
+  width: 3rem;
+  height: 2rem;
+}
+
+.logo a {
+  font-size: var(--headingFontSize2);
+  font-family: 'Nanum Brush Script', cursive;
+  font-weight: bold;
+  color: var(--blueShade1);
+}
+
+.accountIcon {
+  color: var(--grayShade1);
+  cursor: pointer;
+}
+
+.navItem {
+  color: var(--grayShade1);
+  transition: all 0.3s;
+}
+
+.navItem:hover,
+.navItem:active
+.navItem.active {
+  color: var(--blueShade1);
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdownMenu {
+  position: absolute;
+  right: 1rem;
+  top: calc(100% + 2.2rem);
+  width: 15rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
+  background-color: var(--whiteShade1);
+  padding: 1rem;
+  border-radius: var(--borderRadius1);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1);
+  color: var(--blackShade1);
+}
+
+.dropdownMenu a {
+  display: block;
+  color: var(--blueShade1);
+}
+
+.dropdownMenu a:last-child {
+  color: var(--redShade1);
+}
