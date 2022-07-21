@@ -5,24 +5,18 @@ import SignupEmail from '../components/account/SignupEmail';
 import SignupCertification from '../components/account/SignupCertification';
 import SignupDetail from '../components/account/SignupDetail';
 import Logout from '../components/account/Logout';
+import styles from './AccountPage.module.css';
 
 const AccountPage = ({ header }) => {
-  if (header === 'login') {
-    return <LoginForm />;
-  }
-  if (header === 'logout') {
-    return <Logout />;
-  }
-  if (header === 'signupEmail') {
-    return <SignupEmail />;
-  }
-  if (header === 'signupCertification') {
-    return <SignupCertification />;
-  }
-  if (header === 'signupDetail') {
-    return <SignupDetail />;
-  }
-  return null;
+  return (
+    <div className={styles.accountPage}>
+      { header === 'login' && <LoginForm /> }
+      { header === 'logout' && <Logout /> }
+      { header === 'signupEmail' && <SignupEmail /> }
+      { header === 'signupCertification' && <SignupCertification /> }
+      { header === 'signupDetail' && <SignupDetail /> }
+    </div>
+  );
 };
 
 AccountPage.propTypes = {
