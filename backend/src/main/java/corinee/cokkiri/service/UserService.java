@@ -16,19 +16,22 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User findByEmail(String email) {
-        System.out.println("서비스 왔다"+email);
         Optional<User> optFindUser = userRepository.findById(email);
         User findUser = null;
         if(optFindUser.isPresent()) {
             findUser = optFindUser.get();
         }
 
-//        User findUser = new User();
-//        findUser.setEmail("test@test.com");
-//        findUser.setPassword("qwerty!@#$%");
-//        findUser.setNickname("testUser");
-
-        System.out.println("서비스 리턴 값은 "+findUser);
         return findUser;
+    }
+
+    public void updateNickname(String email, String nickname) {
+        Optional<User> optUser = userRepository.findById(email);
+        User user = null;
+
+        if(optUser.isPresent()) {
+            user = optUser.get();
+            user.setNickname(nickname);
+        }
     }
 }
