@@ -16,7 +16,7 @@ const Logout = () => {
   useEffect(() => {
     logoutDispatch();
   }, []);
-  return null;
+  return <div>...로그아웃 중</div>;
 };
 
 export default Logout;

@@ -29,6 +29,7 @@
         "no-console":"off",
         "no-alert":"off",
         "no-trailing-spaces":"off",
-        "jsx-a11y/label-has-associated-control":"off"
+        "jsx-a11y/label-has-associated-control":"off",
+        "no-useless-escape":"off"
     }
 }
