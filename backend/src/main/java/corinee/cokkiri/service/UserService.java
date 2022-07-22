@@ -16,8 +16,9 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User findByEmail(String email) {
+        System.out.println("서비스 왔다"+email);
         Optional<User> optFindUser = userRepository.findById(email);
-        User findUser = new User();
+        User findUser = null;
         if(optFindUser.isPresent()) {
             findUser = optFindUser.get();
         }
@@ -27,6 +28,7 @@ public class UserService {
 //        findUser.setPassword("qwerty!@#$%");
 //        findUser.setNickname("testUser");
 
+        System.out.println("서비스 리턴 값은 "+findUser);
         return findUser;
     }
 }
