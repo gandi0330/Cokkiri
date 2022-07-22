@@ -25,6 +25,16 @@ public class UserService {
         return findUser;
     }
 
+    public User setRefreshToken(String email, String refreshToken){
+        Optional<User> optFindUser = userRepository.findById(email);
+        User user = null;
+        if(optFindUser.isPresent()){
+            user = optFindUser.get();
+            user.setRefreshToken(refreshToken);
+        }
+
+        return user;
+        
     public void updateNickname(String email, String nickname) {
         Optional<User> optUser = userRepository.findById(email);
         User user = null;
