@@ -2,6 +2,7 @@ package corinee.cokkiri.controller;
 
 import corinee.cokkiri.common.Result;
 import corinee.cokkiri.domain.User;
+import corinee.cokkiri.request.UpdateNicknameRequest;
 import corinee.cokkiri.request.UserLoginRequest;
 import corinee.cokkiri.response.FindUserResponse;
 import corinee.cokkiri.response.UserLoginResponse;
@@ -12,6 +13,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,9 +45,22 @@ public class UserRestController {
     public ResponseEntity<? extends Result> findUser(@PathVariable("user_email") String email) {
         User findUser = userService.findByEmail(email);
         if (findUser == null)
-            return ResponseEntity.status(404).body(Result.of(401,"유저가 존재하지 않습니다"));
+            return ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
         else
             return ResponseEntity.status(200).body(FindUserResponse.of(200,"success",findUser));
+    }
+
+    @PatchMapping("/user/nickname/{user_email}")
+    public ResponseEntity<? extends Result> updateNickname(
+            @PathVariable("user_email") String email,
+            @RequestBody @Valid UpdateNicknameRequest request) {
+
+        User findUser = userService.findByEmail(email);
+        if (findUser == null)
+            return  ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
+
+        userService.updateNickname(email, request.getNickname());
+        return ResponseEntity.status(200).body(Result.of(200,"success"));
     }
 
 }

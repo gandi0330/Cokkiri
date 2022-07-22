@@ -16,6 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry reg) {
         reg.addInterceptor(new AuthenticationInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/user");
+                .excludePathPatterns("/user")
+                .excludePathPatterns("/user/nickname/**");
     }
 }
