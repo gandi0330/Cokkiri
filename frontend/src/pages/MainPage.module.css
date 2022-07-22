@@ -129,7 +129,7 @@
     flex-direction: row-reverse;
   }
 
-  .footer div {
+  /* .footer div {
     justify-content: flex-start;
-  }
+  } */
 }
