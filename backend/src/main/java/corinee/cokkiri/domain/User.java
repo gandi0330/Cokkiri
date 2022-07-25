@@ -15,7 +15,7 @@ public class User {
     private String password;
     private String nickname;
     private String refreshToken;
-    private Long authState;
+    private boolean authState;
 
     public User(){
 
