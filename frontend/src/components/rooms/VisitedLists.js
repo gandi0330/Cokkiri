@@ -2,12 +2,12 @@ import React from 'react';
 import { MdOutlineKeyboardArrowDown as Arrow } from 'react-icons/md';
 
 import VisitiedListItem from './VisitedListItem';
-import classes from './VisitedList.module.css';
+import classes from './VisitedLists.module.css';
 
 const visitedList = [
   { id: 1, title: 'SSAFY 8기 대비' },
-  { id: 2, title: 'SSAFY', key: 'room2' },
-  { id: 3, title: 'room3', key: 'room3' },
+  { id: 2, title: 'SSAFY' },
+  { id: 3, title: 'room3' },
 ];
 
 const VisitedList = () => {

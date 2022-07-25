@@ -12,6 +12,21 @@ import useToggle from '../../hooks/useToggle';
 const RoomCreationForm = () => {
   const navigate = useNavigate();
 
+  const titleValidationObj = [
+    {
+      fn(value) {
+        return value.trim() === '';
+      },
+      msg: '제목을 작성해 주세요.',
+    },
+    {
+      fn(value) {
+        return !(value.trim().length >= 5 && value.trim().length <= 15);
+      },
+      msg: '제목은 5글자 이상 15글자 이하여야 합니다.',
+    },
+  ];
+
   const {
     value: title,
     valueIsValid: titleIsValid,
@@ -20,7 +35,7 @@ const RoomCreationForm = () => {
     errorMsg: titleErrorMsg,
     valueChangeHandler: titleChangeHandler,
     inputBlurHandler: titleBlurHandler,
-  } = useValidation((value) => value.trim() !== '');
+  } = useValidation(titleValidationObj);
 
   const {
     value: description,
@@ -29,7 +44,7 @@ const RoomCreationForm = () => {
     // reset: resetdescription,
     valueChangeHandler: descriptionChangeHandler,
     inputBlurHandler: descriptionBlurHandler,
-  } = useValidation((value) => value.trim() !== '');
+  } = useValidation(titleValidationObj);
 
   const {
     value: pwd,
@@ -38,7 +53,35 @@ const RoomCreationForm = () => {
     // reset: resetpwd,
     valueChangeHandler: pwdChangeHandler,
     inputBlurHandler: pwdBlurHandler,
-  } = useValidation((value) => value.trim() !== '');
+  } = useValidation(titleValidationObj);
+
+  // const {
+  //   value: title,
+  //   valueIsValid: titleIsValid,
+  //   hasError: titleHasError,
+  //   // reset: resetTitle,
+  //   errorMsg: titleErrorMsg,
+  //   valueChangeHandler: titleChangeHandler,
+  //   inputBlurHandler: titleBlurHandler,
+  // } = useValidation((value) => value.trim() !== '');
+
+  // const {
+  //   value: description,
+  //   valueIsValid: descriptionIsValid,
+  //   hasError: descriptionHasError,
+  //   // reset: resetdescription,
+  //   valueChangeHandler: descriptionChangeHandler,
+  //   inputBlurHandler: descriptionBlurHandler,
+  // } = useValidation((value) => value.trim() !== '');
+
+  // const {
+  //   value: pwd,
+  //   valueIsValid: pwdIsValid,
+  //   hasError: pwdHasError,
+  //   // reset: resetpwd,
+  //   valueChangeHandler: pwdChangeHandler,
+  //   inputBlurHandler: pwdBlurHandler,
+  // } = useValidation((value) => value.trim() !== '');
 
   const [selected, setSelected] = useState(2);
 
@@ -79,7 +122,7 @@ const RoomCreationForm = () => {
           {titleHasError && (
             <span className={classes.titleError}>
               <MdWarning />
-              유효한 방 제목을 입력해주세요.
+              {/* 유효한 방 제목을 입력해주세요. */}
               {titleErrorMsg}
             </span>
           )}
