@@ -3,6 +3,7 @@ package corinee.cokkiri.controller;
 import corinee.cokkiri.common.Result;
 import corinee.cokkiri.domain.User;
 import corinee.cokkiri.request.UpdateNicknameRequest;
+import corinee.cokkiri.request.UpdatePasswordRequest;
 import corinee.cokkiri.request.UserLoginRequest;
 import corinee.cokkiri.request.UserSignupRequest;
 import corinee.cokkiri.response.FindUserResponse;
@@ -88,16 +89,28 @@ public class UserRestController {
     }
 
 
-    @PatchMapping("/user/nickname/{user_email}")
+    @PatchMapping("/user/nickname")
     public ResponseEntity<? extends Result> updateNickname(
-            @PathVariable("user_email") String email,
             @RequestBody @Valid UpdateNicknameRequest request) {
 
-        User findUser = userService.findByEmail(email);
+        User findUser = userService.updateNickname(request.getUserEmail(), request.getNickname());
         if (findUser == null)
             return  ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
+        else if (findUser.getPassword().equals(request.getNickname()))
+            return ResponseEntity.status(500).body(Result.of(500,"닉네임이 정상적으로 수정 되지 않았습니다"));
+        return ResponseEntity.status(200).body(Result.of(200,"success"));
+    }
 
-        userService.updateNickname(email, request.getNickname());
+
+    @PatchMapping("/user/pw")
+    public ResponseEntity<? extends Result> updatePassword(
+            @RequestBody @Valid UpdatePasswordRequest request) {
+
+        User findUser = userService.updatePassword(request.getUserEmail(), request.getPassword());
+        if (findUser == null)
+            return  ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
+        else if (findUser.getPassword().equals(request.getPassword()))
+            return ResponseEntity.status(500).body(Result.of(500,"닉네임이 정상적으로 수정 되지 않았습니다"));
         return ResponseEntity.status(200).body(Result.of(200,"success"));
     }
 
@@ -111,5 +124,6 @@ public class UserRestController {
 
         userService.addUser(userSignupRequest);
         return ResponseEntity.status(200).body(Result.of(200, "회원가입 성공"));
+
     }
 }

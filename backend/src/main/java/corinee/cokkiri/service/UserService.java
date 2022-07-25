@@ -37,7 +37,7 @@ public class UserService {
         return user;
     }
 
-    public void updateNickname(String email, String nickname) {
+    public User updateNickname(String email, String nickname) {
         Optional<User> optUser = userRepository.findByEmail(email);
         User user = null;
 
@@ -45,6 +45,20 @@ public class UserService {
             user = optUser.get();
             user.setNickname(nickname);
         }
+
+        return user;
+    }
+
+    public User updatePassword(String email, String password) {
+        Optional<User> optUser = userRepository.findByEmail(email);
+        User user = null;
+
+        if(optUser.isPresent()) {
+            user = optUser.get();
+            user.setPassword(password);
+        }
+
+        return user;
     }
 
     public void addUser(UserSignupRequest userSignupRequest) {

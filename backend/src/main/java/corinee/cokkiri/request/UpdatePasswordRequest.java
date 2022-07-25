@@ -5,10 +5,11 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class UpdateNicknameRequest {
+public class UpdatePasswordRequest {
 
     @NotEmpty
     private String userEmail;
     @NotEmpty
-    private String nickname;
+    private String password;
 }
+
