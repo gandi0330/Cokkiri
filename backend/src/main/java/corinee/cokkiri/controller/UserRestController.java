@@ -65,6 +65,18 @@ public class UserRestController {
 
     }
 
+    @GetMapping("/user/{user_email}")
+    public ResponseEntity<Result> logout(@PathVariable("user_email") String email){
+        User user = userService.removeRefreshToken(email);
+
+        if(user == null)
+            return ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
+        else if(!user.getRefreshToken().equals(""))
+            return ResponseEntity.status(500).body(Result.of(500,"리프레쉬 토큰 삭제중 오류 발생"));
+        return ResponseEntity.status(200).body(Result.of(200,"success"));
+
+    }
+
     @GetMapping("/user/info/{user_email}")
     public ResponseEntity<? extends Result> findUser(@PathVariable("user_email") String email) {
         User findUser = userService.findByEmail(email);
