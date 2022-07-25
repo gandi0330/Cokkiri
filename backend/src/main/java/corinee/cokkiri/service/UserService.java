@@ -2,6 +2,7 @@ package corinee.cokkiri.service;
 
 import corinee.cokkiri.domain.User;
 import corinee.cokkiri.repository.UserRepository;
+import corinee.cokkiri.request.UserSignupRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,5 +45,15 @@ public class UserService {
             user = optUser.get();
             user.setNickname(nickname);
         }
+    }
+
+    public void addUser(UserSignupRequest userSignupRequest) {
+        User user = new User();
+        user.setEmail(userSignupRequest.getEmail());
+        user.setPassword(userSignupRequest.getPassword());
+        user.setNickname(userSignupRequest.getNickname());
+        user.setAuthState(false);
+
+        userRepository.save(user);
     }
 }
