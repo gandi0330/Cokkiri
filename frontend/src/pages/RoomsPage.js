@@ -3,7 +3,7 @@ import { useState } from 'react';
 import useRoomSearch from '../hooks/useRoomSearch';
 import SearchBar from '../components/rooms/SearchBar';
 import RoomList from '../components/rooms/RoomList';
-import VisitedList from '../components/rooms/VisitedList';
+import VisitedLists from '../components/rooms/VisitedLists';
 import RoomListNoti from '../components/rooms/RoomListNoti';
 import Footer from '../components/layout/Footer';
 import { LoadingRoomList } from '../components/rooms/LoadingRoomList';
@@ -68,7 +68,7 @@ const RoomsPage = () => {
     // </div>
     <div className={classes.wrapper}>
       <div className={classes.container}>
-        <VisitedList className={classes.sidePannel} />
+        <VisitedLists className={classes.sidePannel} />
         <main className={classes.main}>
           <SearchBar onSearchHandler={onSearchHandler} />
           {!error && (
