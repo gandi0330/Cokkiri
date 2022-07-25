@@ -1,0 +1,48 @@
+.visitedStudyCard {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: .3em;
+  border-radius: var(--borderRadius3);
+  transition: all .5s;
+}
+
+.visitedStudyCard:hover {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.visitedStudyCard div {
+  display: flex;
+  gap: 1em;
+}
+
+.visitedStudyCard div span {
+  color: var(--blueShade1);
+  font-size: var(--baseFontSize1);
+}
+
+.visitedStudyCard div i {
+  cursor: pointer;
+}
+
+.btn {
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  color: var(--grayShade1);
+}
+
+.gotoStudy {
+  color: var(--orangeShade1);
+}
+
+.notGotoStudy {
+  color: var(--grayShade1);
+}
+
+@media only screen and (min-width: 750px) {
+  .visitedStudyCard div span {
+    font-size: var(--smallFontSize1);
+  }
+}

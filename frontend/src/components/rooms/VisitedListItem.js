@@ -1,18 +1,27 @@
 import PropTypes from 'prop-types';
 
-const VisitedListItem = ({ room }) => {
+import { FaStar } from 'react-icons/fa';
+import { MdMoreVert } from 'react-icons/md';
+
+import classes from './VisitedListItem.module.css';
+
+const VisitedListItem = ({ title }) => {
   return (
-    <>
-      <span>star</span>
-      <span>{ room.title }</span>
-      <span>dotdotdot</span>
-      <br />
-    </>
+    <div className={classes.visitedStudyCard}>
+      <div>
+        <i><FaStar /></i>
+        {/* FIX Link tag로 바꿔야 한다 */}
+        {/* TODO check 여부에 따라 별 색과 순위 바뀌는 것 */}
+        <span>{ title }</span>
+      </div>
+      <button type="button" className={classes.btn}><MdMoreVert /></button>
+    </div>
   );
 };
 
 VisitedListItem.propTypes = {
-  room: PropTypes.objectOf.isRequired,
+  // id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default VisitedListItem;

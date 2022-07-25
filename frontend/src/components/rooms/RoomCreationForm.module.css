@@ -1,0 +1,161 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 13em;
+}
+
+.form > div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: .5em 0;
+  gap: 1em;
+}
+
+.form h6 {
+  margin-left: .2em;
+  font-size: var(--smallFontSize1);
+  color: var(--blueShade1);
+}
+
+.title,
+.description,
+.options {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  gap: .5em;
+}
+
+.options span {
+  color: var(--blueShade1);
+  font-size: var(--smallFontSize1);
+}
+
+.title input,
+.description textarea {
+  border: 1px solid var(--blueShade2);
+  border-radius: var(--borderRadius3);
+  padding: .5em;
+}
+
+.description textarea {
+  resize: none;
+}
+
+.optionPersonNum,
+.optionAlarm,
+.optionTimer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-left: .5em;
+}
+
+.optionPublic {
+  display: flex;
+  margin-left: .5em;
+  flex-direction: column;
+  gap: .5em;
+}
+
+.optionPublic div {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.optionPublic input {
+  width: 75%;
+  margin-left: auto;
+  margin-right: 0;
+  border: 1px solid var(--grayShade1);
+  border-radius: var(--borderRadius3);
+  padding: .2em;
+}
+
+.title input,
+.description textarea,
+.optionPublic input {
+  outline: none;
+  font-size: inherit;
+}
+
+.optionPublic input {
+  padding: .5em;
+  font-size: var(--smallFontSize2);
+  text-align: right;
+}
+
+
+.btn {
+  display: grid;
+  place-items: center;
+}
+
+.form button {
+  width: 6em;
+  height: 2.5em;
+  border: none;
+  outline: none;
+  background-color: var(--blueShade1);
+  color: var(--whiteShade2);
+  border-radius: var(--borderRadius3);
+  cursor: pointer;
+}
+
+.title .invalid,
+.description .invalid,
+.optionPublic .invalid  {
+  border: 1px solid var(--redShade1);
+}
+
+.btn .btnDetail:hover {
+  background-color: var(--blueShade3);
+}
+
+.titleError,
+.descriptionError,
+.options .pwdError {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  font-size: .6em;
+  color: var(--redShade1);
+  gap: .3em;
+}
+
+.titleError,
+.descriptionError {
+  top: .8em;
+}
+
+.options .pwdError {
+  bottom: -1.5em;
+}
+
+@media only screen and (min-width: 750px) {
+  .form {
+    width: 18em;
+  }
+
+  .titleError,
+  .descriptionError,
+  .options .pwdError {
+    font-size: var(--smallFontSize2);
+  }
+
+  .titleError,
+  .descriptionError {
+    top: .5em;
+  }
+
+  .options .pwdError {
+    bottom: -1.2em;
+  }
+}
+
