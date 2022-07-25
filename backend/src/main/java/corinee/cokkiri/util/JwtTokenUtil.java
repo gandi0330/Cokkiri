@@ -21,7 +21,7 @@ public class JwtTokenUtil {
 
     public static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
 
-    private static final String SALT = "sseuktudySecret";
+    private static final String SALT = "cokkiriSecret";
     private static final int EXPIRE_MINUTES = 10; //토큰 만료 시간
 
 
@@ -93,6 +93,20 @@ public class JwtTokenUtil {
         } catch (Exception e) {
             logger.error(e.getMessage());
             return false;
+        }
+    }
+
+    public String decodeToken(String jwt) {
+        try {
+            //Json Web Signature? 서버에서 인증을 근거로 인증정보를 서버의 private key로 서명 한것을 토큰화 한것
+            //setSigningKey : JWS 서명 검증을 위한  secretkey 셋팅
+            //parseClaimsJws : 파싱하여 원본 jws 만들기
+            Jws<Claims> claims = Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(jwt);
+            logger.debug("claim : ", claims);
+            return claims.getBody().get("user_id").toString();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return "access-token-invalid";
         }
     }
 
