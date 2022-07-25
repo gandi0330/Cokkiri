@@ -14,16 +14,34 @@ const RoomCreationForm = () => {
 
   const titleValidationObj = [
     {
-      fn(value) {
-        return value.trim() === '';
-      },
+      fn: (value) => value.trim() === '',
       msg: '제목을 작성해 주세요.',
     },
     {
-      fn(value) {
-        return !(value.trim().length >= 5 && value.trim().length <= 15);
-      },
+      fn: (value) => !(value.trim().length >= 5 && value.trim().length <= 15),
       msg: '제목은 5글자 이상 15글자 이하여야 합니다.',
+    },
+  ];
+
+  const descriptionValidationObj = [
+    {
+      fn: (value) => value.trim() === '',
+      msg: '방 설명을 작성해 주세요.',
+    },
+    {
+      fn: (value) => value.trim().length > 200,
+      msg: '방 설명은 200글자 미만이어야 합니다.',
+    },
+  ];
+  
+  const pwdValidationObj = [
+    {
+      fn: (value) => value.trim() === '',
+      msg: '비밀번호를 작성해 주세요.',
+    },
+    {
+      fn: (value) => value.trim().length > 10,
+      msg: '비밀번호는 10글자 미만이어야 합니다.',
     },
   ];
 
@@ -42,18 +60,20 @@ const RoomCreationForm = () => {
     valueIsValid: descriptionIsValid,
     hasError: descriptionHasError,
     // reset: resetdescription,
+    errorMsg: descriptionErrorMsg,
     valueChangeHandler: descriptionChangeHandler,
     inputBlurHandler: descriptionBlurHandler,
-  } = useValidation(titleValidationObj);
+  } = useValidation(descriptionValidationObj);
 
   const {
     value: pwd,
     valueIsValid: pwdIsValid,
     hasError: pwdHasError,
     // reset: resetpwd,
+    errorMsg: pwdErrorMsg,
     valueChangeHandler: pwdChangeHandler,
     inputBlurHandler: pwdBlurHandler,
-  } = useValidation(titleValidationObj);
+  } = useValidation(pwdValidationObj);
 
   // const {
   //   value: title,
@@ -112,7 +132,7 @@ const RoomCreationForm = () => {
 
   const titleInputClasses = titleHasError ? classes.invalid : '';
   const descriptionInputClasses = descriptionHasError ? classes.invalid : '';
-  const pwdInputClasses = pwdHasError ? classes.invalid : '';
+  const pwdInputClasses = (isRoomPublic && pwdHasError) ? classes.invalid : '';
 
   return (
     <form className={classes.form} onSubmit={submitHandler}>
@@ -122,7 +142,6 @@ const RoomCreationForm = () => {
           {titleHasError && (
             <span className={classes.titleError}>
               <MdWarning />
-              {/* 유효한 방 제목을 입력해주세요. */}
               {titleErrorMsg}
             </span>
           )}
@@ -144,7 +163,7 @@ const RoomCreationForm = () => {
           {descriptionHasError && (
             <span className={classes.descriptionError}>
               <MdWarning />
-              유효한 방 설명을 입력해주세요.
+              {descriptionErrorMsg}
             </span>
           )}
           <textarea
@@ -203,11 +222,12 @@ const RoomCreationForm = () => {
               onBlur={pwdBlurHandler}
               className={pwdInputClasses}
               autoComplete="off"
+              disabled={!isRoomPublic}
             />
-            {pwdHasError && (
+            {isRoomPublic && pwdHasError && (
               <span className={classes.pwdError}>
                 <MdWarning />
-                유효한 패스워드를 입력해주세요.
+                {pwdErrorMsg}
               </span>
             )}
           </div>
