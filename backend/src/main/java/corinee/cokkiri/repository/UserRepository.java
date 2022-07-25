@@ -22,4 +22,8 @@ public class UserRepository {
     public void save(User info) {
         em.persist(info);
     }
+
+    public void deleteUser(String email) {
+        em.remove(email);
+    }
 }

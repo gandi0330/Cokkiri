@@ -81,4 +81,8 @@ public class UserService {
 
         userRepository.save(user);
     }
+
+    public void deleteUser(String email) {
+        userRepository.deleteUser(email);
+    }
 }

@@ -138,4 +138,17 @@ public class UserRestController {
         return ResponseEntity.status(200).body(Result.of(200, "회원가입 성공"));
 
     }
+
+    @DeleteMapping("/user/secession/{user_email}")
+    public ResponseEntity<? extends Result> deleteUser(@PathVariable("user_email") String email) {
+        userService.deleteUser(email);
+        User user = userService.findByEmail(email);
+        if (user != null)
+            return ResponseEntity.status(500).body(Result.of(
+                    500, "회원탈퇴가 정상적으로 이루어지지 않았습니다"));
+        else {
+            return ResponseEntity.status(200).body(Result.of(
+                    200, "회원 탈퇴 성공"));
+        }
+    }
 }
