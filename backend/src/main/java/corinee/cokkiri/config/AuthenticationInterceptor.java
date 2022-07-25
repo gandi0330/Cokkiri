@@ -4,12 +4,14 @@ import corinee.cokkiri.service.UserService;
 import corinee.cokkiri.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Component
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Autowired

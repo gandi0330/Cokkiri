@@ -33,7 +33,7 @@ public class UserRestController {
     private final JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/user")
-    public ResponseEntity<? extends Result> loginUser(@RequestBody UserLoginRequest userLoginRequest, HttpServletResponse response){
+    public ResponseEntity<? extends Result> loginUser(@RequestBody @Valid UserLoginRequest userLoginRequest, HttpServletResponse response){
         String email = userLoginRequest.getEmail();
         String password = userLoginRequest.getPassword();
         User user =userService.findByEmail(email);
