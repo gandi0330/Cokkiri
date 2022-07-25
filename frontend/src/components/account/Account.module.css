@@ -37,8 +37,8 @@
   margin-top: 3vh;
   margin-bottom: 2vh;
   border-radius: 5px;
-  border: 1px solid var(--grayShade1);
-  background-color: var(--grayShade1);
+  border: 1px solid var(--blueShade1);
+  background-color: var(--blueShade1);
   color: var(--whiteShade1);
   font-weight: 600;
   font-size: 1.05rem;
@@ -87,9 +87,9 @@
   justify-content: space-between;
 }
 
-.errorBox {
+/* .errorBox {
   border: 2px solid var(--redShade1);
-}
+} */
 
 .icon {
   display: inline-block;
@@ -97,10 +97,10 @@
   margin-right: 5px;
 }
 
-.successBtn {
+/* .successBtn {
   border: 1px solid var(--blueShade1) !important;
   background-color: var(--blueShade1) !important;
-}
+} */
 
 .timer {
   color: var(--redShade1);
@@ -108,4 +108,8 @@
   right: 0;
   top: -22px;
   font-size: var(--smallFontSize1);
+}
+
+.invalid {
+  border: 1px solid var(--redShade1);
 }
