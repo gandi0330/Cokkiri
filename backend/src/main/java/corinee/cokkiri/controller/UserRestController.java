@@ -18,7 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -29,7 +31,7 @@ public class UserRestController {
     private final JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/user")
-    public ResponseEntity<? extends Result> loginUser(@RequestBody UserLoginRequest userLoginRequest){
+    public ResponseEntity<? extends Result> loginUser(@RequestBody UserLoginRequest userLoginRequest, HttpServletResponse response){
         String email = userLoginRequest.getEmail();
         String password = userLoginRequest.getPassword();
         User user =userService.findByEmail(email);
@@ -50,7 +52,14 @@ public class UserRestController {
         if(!changedUser.getRefreshToken().equals(refreshToken))
             return ResponseEntity.status(500).body(Result.of(500,"토큰 넣는 도중 오류 발생"));
 
-        return ResponseEntity.ok(UserLoginResponse.of(200,"success", accessToken, refreshToken,  user.getEmail()));
+        Cookie cookie = new Cookie("refresh-token",refreshToken);
+        cookie.setMaxAge(365*24*60*60);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok(UserLoginResponse.of(200,"success", accessToken,  user.getEmail()));
 
     }
 
@@ -65,12 +74,12 @@ public class UserRestController {
 
 
     @GetMapping("/user/refreshtoken/{user_email}")
-    public ResponseEntity<? extends Result> getToken(@PathVariable("user_email") String email, HttpServletRequest request){
+    public ResponseEntity<? extends Result> getToken(@PathVariable("user_email") String email, HttpServletRequest request, @CookieValue("refresh-token") String refreshToken){
         User user = userService.findByEmail(email);
         if(user == null)
             return ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
 
-        if(!request.getHeader("X-refresh-token").equals(user.getRefreshToken()))
+        if(!refreshToken.equals(user.getRefreshToken()))
             return ResponseEntity.status(401).body(Result.of(401,"일치하지 않는 토큰입니다"));
 
         String accessToken = jwtTokenUtil.createAccessToken("email",user.getEmail());
