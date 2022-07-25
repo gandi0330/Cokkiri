@@ -19,4 +19,7 @@ public class UserRepository {
         return Optional.ofNullable(user);
     }
 
+    public void save(User info) {
+        em.persist(info);
+    }
 }

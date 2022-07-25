@@ -4,6 +4,7 @@ import corinee.cokkiri.common.Result;
 import corinee.cokkiri.domain.User;
 import corinee.cokkiri.request.UpdateNicknameRequest;
 import corinee.cokkiri.request.UserLoginRequest;
+import corinee.cokkiri.request.UserSignupRequest;
 import corinee.cokkiri.response.FindUserResponse;
 import corinee.cokkiri.response.GetTokenResponse;
 import corinee.cokkiri.response.UserLoginResponse;
@@ -100,4 +101,15 @@ public class UserRestController {
         return ResponseEntity.status(200).body(Result.of(200,"success"));
     }
 
+    @PostMapping("/user/new")
+    public ResponseEntity<? extends Result> signUp(@RequestBody UserSignupRequest userSignupRequest) {
+        User user = userService.findByEmail(userSignupRequest.getEmail());
+
+        if(user != null) {
+            return ResponseEntity.status(409).body(Result.of(409, "이미 존재하는 이메일"));
+        }
+
+        userService.addUser(userSignupRequest);
+        return ResponseEntity.status(200).body(Result.of(200, "회원가입 성공"));
+    }
 }
