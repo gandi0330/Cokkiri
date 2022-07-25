@@ -1,19 +1,19 @@
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 
 import RightSideBar from '../components/roomDetail/RightSideBar';
-import RightSidePanel from '../components/roomDetail/RightSidePanel';
+// import RightSidePanel from '../components/roomDetail/RightSidePanel';
 import VideoSection from '../components/roomDetail/VideoSection';
 
+import classes from './RoomDetailPage.module.css';
+
 const RoomDetailPage = () => {
-  const { roomName } = useParams();
-  console.log(roomName);
+  // const { roomName } = useParams();
   return (
-    <>
-      <div>RoomDetailPage</div>
+    <div className={classes.container}>
       <VideoSection />
-      <RightSidePanel />
       <RightSideBar />
-    </>
+      {/* <RightSidePanel /> */}
+    </div>
   );
 };
 

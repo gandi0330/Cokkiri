@@ -1,0 +1,40 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(0.5rem);
+  border-radius: var(--borderRadius1);
+  box-shadow: 0 2px 20px 3px rgba(0, 0, 0, .1);
+  z-index: 1000;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  /* background-color: rgba(0, 0, 0, .7); */
+  z-index: 1000;
+}
+
+.modal .modal__btn {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  width: 1.5em;
+  height: 1.5em;
+  border: none;
+  border-radius: 50%;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  color: var(--grayShade1);
+  font-size: var(--baseFontSize1);
+}
+
+.modal button:hover {
+  background-color: rgba(208, 208, 208, 0.3);
+}

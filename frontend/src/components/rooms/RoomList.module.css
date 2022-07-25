@@ -1,0 +1,24 @@
+.roomList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 2em;
+}
+
+@media only screen and (min-width: 750px) {
+  .roomList {
+    width: 90%;
+    min-height: 400px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1em;
+    margin-top: 1em;
+  }
+
+  .roomList .noResult {
+    grid-column: 1 / 4;
+    text-align: center;
+  }
+}
