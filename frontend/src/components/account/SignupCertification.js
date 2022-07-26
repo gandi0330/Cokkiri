@@ -1,18 +1,18 @@
 import { useCallback } from 'react';
-// import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AiFillWarning } from 'react-icons/ai';
 
-// import { certificateNumber } from '../../store/authSlice';
 import styles from './Account.module.css';
 import Timer from './Timer';
 import useValidation from '../../hooks/useValidation';
 import { validateNumber } from './validationCheck';
+import { singupCertification } from '../../store/authSlice';
 
 const SignupCertification = () => {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
-
+  const dispatch = useDispatch();
+  const { state } = useLocation();
   const {
     value: certificateNumber,
     hasError: certificateNumberHasError,
@@ -21,18 +21,14 @@ const SignupCertification = () => {
     inputBlurHandler: certificateNumberBlurHandler,
   } = useValidation([{ fn: validateNumber, msg: '잘못된 인증번호를 입력하셨습니다.' }]);
 
-  const certificateNumberDispatch = async (data) => {
-    console.log(data);
-    // await dispatch(certificateNumber(data));
-    navigate('/signupDetail', { replace: true });
-  };
-
   const onSubmit = useCallback((e) => {
     e.preventDefault();
     if (certificateNumberHasError) {
       return;
     }
-    certificateNumberDispatch(e.target.value);
+    dispatch(singupCertification({ email: state.email, number: e.target.value })).then(() => {
+      navigate('/login', { replace: true });
+    });
   }, [certificateNumberHasError]);
 
   return (
