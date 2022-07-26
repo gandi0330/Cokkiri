@@ -15,15 +15,23 @@ public class EmailAuthController {
 
     @PostMapping("/user/email")
     public ResponseEntity<? extends Result> sendEmail(@RequestBody EmailAuthRequest emailAuthRequest) {
+        Email email = emailService.findByEmail(emailAuthRequest.getEmail());
+        if(email != null) {
+            emailService.deleteEmail(emailAuthRequest.getEmail());
+        }
         emailService.addEmailEntity(emailAuthRequest.getEmail());
-        emailService.sendMessage(emailAuthRequest.getEmail());
 
+        Email findEmail = emailService.sendMessage(emailAuthRequest.getEmail());
+        if(findEmail == null) {
+            return ResponseEntity.status(404).body(Result.of(404, "Email이 존재하지 않습니다."));
+        }
         return ResponseEntity.status(200).body(Result.of(200, "이메일 전송 성공"));
     }
 
     @GetMapping("/user/email/{userEmail}/{authNumber}")
     public ResponseEntity<? extends Result> checkAuth(@PathVariable("userEmail") String email, @PathVariable("authNumber") String authNum) {
         Email findEmail = emailService.updateAuthState(email);
+
         if(findEmail == null)
             return ResponseEntity.status(404).body(Result.of(404, "Email이 존재하지 않습니다."));
         else if(!findEmail.getAuthToken().equals(authNum))
