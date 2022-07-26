@@ -16,8 +16,12 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry reg) {
         reg.addInterceptor(authenticationInterceptor)
-                .addPathPatterns("/**")
+                .addPathPatterns("/user/*")
                 .excludePathPatterns("/user/new")
-                .excludePathPatterns("/user/email/**");
+                .addPathPatterns("/user/info/*")
+                .addPathPatterns("/user/refreshtoken/*")
+                .addPathPatterns("/user/secession/*");
+                .addPathPatterns("/user/email/**");
+
     }
 }

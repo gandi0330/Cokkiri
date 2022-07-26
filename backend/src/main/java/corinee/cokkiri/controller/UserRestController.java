@@ -108,7 +108,7 @@ public class UserRestController {
         User findUser = userService.updateNickname(request.getUserEmail(), request.getNickname());
         if (findUser == null)
             return  ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
-        else if (findUser.getPassword().equals(request.getNickname()))
+        else if (findUser.getNickname().equals(request.getNickname()))
             return ResponseEntity.status(500).body(Result.of(500,"닉네임이 정상적으로 수정 되지 않았습니다"));
         return ResponseEntity.status(200).body(Result.of(200,"success"));
     }
@@ -122,7 +122,7 @@ public class UserRestController {
         if (findUser == null)
             return  ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
         else if (findUser.getPassword().equals(request.getPassword()))
-            return ResponseEntity.status(500).body(Result.of(500,"닉네임이 정상적으로 수정 되지 않았습니다"));
+            return ResponseEntity.status(500).body(Result.of(500,"비밀번호가 정상적으로 수정 되지 않았습니다"));
         return ResponseEntity.status(200).body(Result.of(200,"success"));
     }
 
