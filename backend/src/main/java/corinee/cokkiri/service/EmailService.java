@@ -56,12 +56,18 @@ public class EmailService {
     }
 
     public void addEmailEntity(String email) {
-        Email emailObj = new Email();
-        emailObj.setEmail(email);
-        emailObj.setAuthToken(makeAuthToken());
-        emailObj.setGenerateTime(LocalDateTime.now());
+        Optional<User> optFindUser = userRepository.findByEmail(email);
 
-        emailRepository.save(emailObj);
+        if(optFindUser.isPresent()) {
+            Email emailObj = new Email();
+            emailObj.setEmail(email);
+            emailObj.setAuthToken(makeAuthToken());
+            emailObj.setGenerateTime(LocalDateTime.now());
+
+            emailRepository.save(emailObj);
+        }
+
+
     }
 
     public Email sendMessage(String email) {
