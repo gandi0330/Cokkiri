@@ -23,7 +23,7 @@ public class UserRepository {
         em.persist(info);
     }
 
-    public void deleteUser(String email) {
-        em.remove(email);
+    public void deleteUser(User user) {
+        em.remove(user);
     }
 }

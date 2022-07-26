@@ -83,6 +83,10 @@ public class UserService {
     }
 
     public void deleteUser(String email) {
-        userRepository.deleteUser(email);
+        Optional<User> findUser = userRepository.findByEmail(email);
+        if (findUser.isPresent()) {
+            User user = findUser.get();
+            userRepository.deleteUser(user);
+        }
     }
 }
