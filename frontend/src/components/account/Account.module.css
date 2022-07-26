@@ -44,6 +44,11 @@
   font-size: 1.05rem;
 }
 
+.main button:hover {
+  cursor: pointer;
+}
+
+
 .main p {
   text-align: center;
   color: var(--blackShade1);

@@ -7,14 +7,12 @@ import { useNavigate } from 'react-router-dom';
 const Logout = () => {
   const navigate = useNavigate();
   // const dispatch = useDispatch();
-
-  const logoutDispatch = async () => {
-    // await dispatch(logout());
-    navigate('/login', { replace: true });
-  };
-
   useEffect(() => {
-    logoutDispatch();
+    navigate('/login', { replace: true });
+    // 이메일을 넣어야함
+    // dispatch(logout()).then(() => {
+    //   navigate('/login', { replace: true });
+    // });
   }, []);
   return <div>...로그아웃 중</div>;
 };

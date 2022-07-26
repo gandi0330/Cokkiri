@@ -1,17 +1,16 @@
 import { useCallback, useState } from 'react';
-// import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { AiFillWarning } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 
-// import { signup } from '../../store/authSlice';
 import styles from './Account.module.css';
 import useValidation from '../../hooks/useValidation';
 import { validateEmail, validateNickname, validatePassword } from './validationCheck';
+import { singupDetail } from '../../store/authSlice';
 
 const SignupDetail = () => {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
-
+  const dispatch = useDispatch();
   const {
     value: email,
     hasError: emailHasError,
@@ -19,7 +18,6 @@ const SignupDetail = () => {
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
   } = useValidation([{ fn: validateEmail, msg: '유효한 이메일을 입력해 주세요.' }]);
-
   const {
     value: nickname,
     hasError: nicknameHasError,
@@ -27,7 +25,6 @@ const SignupDetail = () => {
     valueChangeHandler: nicknameChangeHandler,
     inputBlurHandler: nicknameBlurHandler,
   } = useValidation([{ fn: validateNickname, msg: '유효한 닉네임을 입력해 주세요.' }]);
-
   const {
     value: password,
     hasError: passwordHasError,
@@ -35,28 +32,23 @@ const SignupDetail = () => {
     valueChangeHandler: passwordChangeHandler,
     inputBlurHandler: passwordBlurHandler,
   } = useValidation([{ fn: validatePassword, msg: '유효한 비밀번호를 입력해 주세요.' }]);
-
   const [passwordCheck, setPasswordCheck] = useState('');
   const [passwordCheckError, setPasswordCheckError] = useState(false);
-  // const [isTouchedPasswordCheck, setIsTouchedPasswordCheck] = useState('');
 
   const onChangePasswordCheck = useCallback((e) => {
     setPasswordCheck(e.target.value);
     setPasswordCheckError(password !== e.target.value);
   }, [password]);
 
-  const certificateNumberDispatch = async () => {
-    // await dispatch(signup());
-    navigate('/login', { replace: true });
-  };
-
   const onSubmit = useCallback((e) => {
     e.preventDefault();
     if (emailHasError || nicknameHasError || passwordHasError || passwordCheckError) {
       return;
     }
-    certificateNumberDispatch({
-      email, password,
+    dispatch(singupDetail({
+      email, nickname, password,
+    })).then(() => {
+      navigate('/signupEmail', { replace: true });
     });
   }, [email, password, emailHasError, nicknameHasError, passwordHasError, passwordCheckError]);
 

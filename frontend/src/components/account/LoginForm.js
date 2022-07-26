@@ -1,23 +1,17 @@
 import { useCallback } from 'react';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiFillWarning } from 'react-icons/ai';
 
-// import useInput from '../../hooks/useInput';
-// import { loginRequest } from '../../store/authSlice';
 import styles from './Account.module.css';
 import useValidation from '../../hooks/useValidation';
 import { validateEmail, validatePassword } from './validationCheck';
+import { login } from '../../store/authSlice';
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   // useSelector로 loginError 받아오기
-
-  const loginDispatch = async (data) => {
-    console.log(data);
-    // await dispatch(loginRequest(data));
-    navigate('/rooms', { replace: true });
-  };
 
   const {
     value: email,
@@ -40,8 +34,10 @@ const LoginForm = () => {
     if (emailHasError || passwordHasError) {
       return;
     }
-    loginDispatch({
+    dispatch(login({ 
       email, password,
+    })).then(() => {
+      navigate('/', { replace: true });
     });
   }, [email, password, emailHasError, passwordHasError]);
 
