@@ -36,15 +36,15 @@ public class UserRestController {
     public ResponseEntity<? extends Result> loginUser(@RequestBody @Valid UserLoginRequest userLoginRequest, HttpServletResponse response){
         String email = userLoginRequest.getEmail();
         String password = userLoginRequest.getPassword();
+
         User user =userService.findByEmail(email);
 
-        if(user == null){
+        if(user == null)
             return ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
-        }
-
-        if(!password.equals(user.getPassword())){
-            return ResponseEntity.status(401).body(Result.of(401,"비밀번호가 일치하지 않습니다"));
-        }
+        else if (!password.equals(user.getPassword()))
+            return ResponseEntity.status(403).body(Result.of(403,"비밀번호가 일치하지 않습니다"));
+        else if (!user.isAuthState())
+            return ResponseEntity.status(401).body(Result.of(401,"인증되지 않은 이메일입니다"));
 
         String accessToken = jwtTokenUtil.createAccessToken("email",user.getEmail());
         String refreshToken = jwtTokenUtil.createRefreshToken("email",user.getEmail());

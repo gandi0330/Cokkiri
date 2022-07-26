@@ -31,11 +31,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 return false;
             };
 
-            if(!userService.findByEmail(jwtTokenUtil.decodeToken(token)).isAuthState()){
-                response.setStatus(401);
-                response.getWriter().write("auth-state-false");
-                return false;
-            }
 
             response.setStatus(200);
             return true;
