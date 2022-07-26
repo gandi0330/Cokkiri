@@ -23,4 +23,8 @@ public class EmailRepository {
     public void save(Email email) {
         em.persist(email);
     }
+
+    public void delete(Email email) {
+        em.remove(email);
+    }
 }
