@@ -16,6 +16,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry reg) {
         reg.addInterceptor(authenticationInterceptor)
-                .addPathPatterns("/**");
+                .addPathPatterns("/**")
+                .excludePathPatterns("/user/new")
+                .excludePathPatterns("/user/email/**");
     }
 }
