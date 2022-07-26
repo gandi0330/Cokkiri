@@ -36,7 +36,7 @@ public class UserRestController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
 
-    @ApiOperation(value = "로그인", notes = "이메일과 비밀번호를 통해 회원가입")
+    @ApiOperation(value = "로그인", notes = "이메일과 비밀번호를 통해 로그인")
     @PostMapping("/user")
     public ResponseEntity<? extends Result> loginUser(@RequestBody @Valid UserLoginRequest userLoginRequest, HttpServletResponse response){
         String email = userLoginRequest.getEmail();
