@@ -14,8 +14,6 @@ public class EmailRepository {
 
     private final EntityManager em;
 
-
-
     public Optional<Email> findByEmail(String email) {
         Email emailObj = em.find(Email.class, email);
 
