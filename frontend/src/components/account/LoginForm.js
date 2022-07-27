@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiFillWarning } from 'react-icons/ai';
@@ -6,12 +6,12 @@ import { AiFillWarning } from 'react-icons/ai';
 import styles from './Account.module.css';
 import useValidation from '../../hooks/useValidation';
 import { validateEmail, validatePassword } from './validationCheck';
-import { login } from '../../store/authSlice';
+import { login, addUserEmail, getUserInfo } from '../../store/authSlice';
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // useSelector로 loginError 받아오기
+  const [loginError, setloginError] = useState(null);
 
   const {
     value: email,
@@ -19,7 +19,7 @@ const LoginForm = () => {
     errorMsg: emailErrorMsg,
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
-  } = useValidation([{ fn: validateEmail, msg: '유효한 이메일을 입력해 주세요.' }]);
+  } = useValidation([{ fn: validateEmail, msg: '이메일이 유효하지 않습니다.' }]);
 
   const {
     value: password,
@@ -27,30 +27,93 @@ const LoginForm = () => {
     errorMsg: passwordErrorMsg,
     valueChangeHandler: passwordChangeHandler,
     inputBlurHandler: passwordBlurHandler,
-  } = useValidation([{ fn: validatePassword, msg: '유효한 비밀번호를 입력해 주세요.' }]);
+  } = useValidation([{ fn: validatePassword, msg: '비밀번호가 일치하지 않습니다.' }]);
 
-  const onSubmit = useCallback((e) => {
-    e.preventDefault();
-    if (emailHasError || passwordHasError) {
-      return;
-    }
-    dispatch(login({ 
-      email, password,
-    })).then(() => {
-      navigate('/', { replace: true });
-    });
-  }, [email, password, emailHasError, passwordHasError]);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    if (emailHasError || passwordHasError) return;
+
+    // const userInfo = {
+    //   email,
+    //   nickname: null,
+    //   accessToken: null,
+    //   isLoggedIn: true,
+    // };
+
+    dispatch(login({ email, password })).unwrap()
+      .then((res) => {
+        // userInfo.accessToken = res.accessToken;
+        dispatch(getUserInfo({ email })).unwrap()
+          .then(() => {
+            // userInfo.nickname = data.nickname;
+            // dispatch(addUser(userInfo));
+            navigate('/', { replace: true });
+          })
+          .catch(() => {
+            // DB에 없는 이메일인 경우
+            setloginError('아이디 또는 비밀번호를 잘못 입력했습니다');
+            // console.error(err);
+          });
+        console.log(res);
+      })
+      .catch((err) => {
+        // TODO 401이 괜찮은것인가
+        if (err.statusCode === 401) {
+          dispatch(addUserEmail({ email }));
+          navigate('/signupEmail');
+          return;
+        }
+        setloginError('아이디 또는 비밀번호를 잘못 입력했습니다');
+        console.log(err);
+      });
+    
+    // dispatch(getUserInfo({ email })).unwrap()
+    //   .then((res) => {
+    //     userInfo.nickname = res.nickname;
+    //     dispatch(addUser(userInfo));
+    //     navigate('/', { replace: true });
+    //   })
+    //   .catch(() => {
+    //     // DB에 없는 이메일인 경우
+    //     setloginError('아이디 또는 비밀번호를 잘못 입력했습니다');
+    //     // console.error(err);
+    //   });
+
+    // dispatch(login({ email, password })).unwrap()
+    //   .then((res) => {
+    //     console.log(res);
+    //     // info를 가져와야한다
+    //     dispatch(getUserInfo({ email })).unwrap()
+    //       .then((userRes) => {
+    //         console.log('useRes', userRes);
+    //       })
+    //       .catch((err) => {
+    //         console.error('err', err);
+    //         return;
+    //       });
+
+    //     return res;
+    //   })
+    //   .then((data) => {
+    //     dispatch(addUser({ email: data.email, accessToken: data.accessToken }));
+    //     navigate('/', { replace: true });
+    //   })
+    //   .catch((err) => {
+    //     setloginError('아이디 또는 비밀번호를 잘못 입력했습니다');
+    //     console.log(err);
+    //   });
+  };
 
   return (
     <div className={styles.main}>
       <h2>로그인</h2>
       <form onSubmit={onSubmit}>
         <div className={`${styles.inputBox} ${emailHasError && styles.invalid}`}>
-          { emailHasError
+          { (emailHasError || loginError)
               && (
                 <div className={styles.errorMsg}>
                   <AiFillWarning className={styles.icon} />
-                  { emailErrorMsg }
+                  { emailErrorMsg || loginError }
                 </div>
               )}
           <label htmlFor="email">이메일</label>
@@ -86,7 +149,7 @@ const LoginForm = () => {
         <button type="submit">로그인</button>
       </form>
       <div className={styles.formFooter}>
-        <Link className={styles.link} to="/signupEmail">회원가입</Link>
+        <Link className={styles.link} to="/signupDetail">회원가입</Link>
         <Link className={styles.link} to="/">비밀번호 찾기</Link>
       </div>
     </div>

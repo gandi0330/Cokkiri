@@ -17,7 +17,7 @@ export const validateNumber = (inputText) => {
 
 // Instagram
 export const validateNickname = (inputText) => {
-  if (inputText.match(/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/)) {
+  if (inputText.match(/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{4,19}$/)) {
     return false;
   }
   return true;

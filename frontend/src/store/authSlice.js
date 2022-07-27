@@ -3,75 +3,52 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../api/axios';
 
 const initialState = {
-  loginLoading: false,
-  loginDone: false,
-  loginError: null,
-
-  logoutLoading: false,
-  logoutDone: false,
-  logoutError: null,
-
-  signupEmailLoading: false,
-  signupEmailDone: false,
-  signupEmailError: null,
-
-  signupCertificationLoading: false,
-  signupCertificationDone: false,
-  signupCertificationError: null,
-
-  signupDetailLoading: false,
-  signupDetailDone: false,
-  signupDetailError: null,
+  user: {
+    email: null,
+    nickname: null,
+    // accessToken: null,
+    isLoggedIn: false,
+  },
+  
+  loading: false,
+  success: false,
+  error: false,
 };
 
-export const singupDetail = createAsyncThunk(
+export const signupDetail = createAsyncThunk(
   'auth/singupDetail',
   async ({ email, nickname, password }, thunkAPI) => {
     try {
       const res = await axios.post('/user/new', { email, nickname, password });
       const { data } = res;
-      console.log('res', res);
-      // if (res.status === 200) {
-      //   navigate('/singupEmail', { replace: true });
-      // }
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      console.error(error.response.data);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   },
 );
 
-export const singupEmail = createAsyncThunk(
+export const signupEmail = createAsyncThunk(
   'auth/singupEmail',
   async ({ email }, thunkAPI) => {
     try {
       const res = await axios.post('/user/email', { email });
       const { data } = res;
-      console.log('res', res);
-      // if (res.status === 200) {
-      //   navigate('/signupCertification', { replace: true, state: { email } });
-      // }
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      console.error(error.response.data);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   },
 );
 
-export const singupCertification = createAsyncThunk(
+export const signupCertification = createAsyncThunk(
   'auth/singupCertification',
   async ({ email, number }, thunkAPI) => {
     try {
       const res = await axios.get(`/user/email/${email}/${number}`);
       const { data } = res;
-      console.log('data', res);
-      // if (res.status === 200) {
-      // }
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      console.error(error.response.data);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   },
@@ -82,14 +59,9 @@ export const login = createAsyncThunk(
   async ({ email, password }, thunkAPI) => {
     try {
       const res = await axios.post('/user', { email, password });
-      console.log('res', res);
       const { data } = res;
-      if (res.status === 200) {
-        localStorage.setItem('token', data.accessToken);
-      }
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      console.error(error.response.data);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   },
@@ -100,11 +72,24 @@ export const logout = createAsyncThunk(
   async ({ email }, thunkAPI) => {
     try {
       const res = await axios.get(`/user/${email}`);
-      console.log('res', res);
       const { data } = res;
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      console.error(error.response.data);
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const getUserInfo = createAsyncThunk(
+  'auth/getuserInfo',
+  async ({ email }, thunkAPI) => {
+    try {
+      const res = await axios.get(`/user/info/${email}`);
+      const { data } = res;
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      console.error(error);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   },
@@ -113,95 +98,132 @@ export const logout = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    addUserEmail(state, { payload }) {
+      state.user.email = payload.email;
+    },
+    addUser(state, { payload }) {
+      state.user.email = payload.email;
+      state.user.nickname = payload.nickname;
+      // state.user.accessToken = payload.accessToken;
+    },
+    // resetUser(state) {
+    //   state.user.email = null;
+    //   state.user.nickname = null;
+    //   // state.user.accessToken = null;
+    // },
+  },
   extraReducers: (builder) => {
-    builder.addCase(singupDetail.pending, (state) => {
-      state.signupDetailLoading = true;
-      state.signupDetailDone = false;
-      state.signupDetailError = null;
+    builder.addCase(signupDetail.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = false;
     });
-    builder.addCase(singupDetail.fulfilled, (state, { payload }) => {
-      console.log(payload);
-      state.signupDetailLoading = false;
-      state.signupDetailDone = true;
-      state.signupDetailError = null;
+    builder.addCase(signupDetail.fulfilled, (state) => {
+      state.loading = false;
+      state.success = true;
+      state.error = false;
     });
-    builder.addCase(singupDetail.rejected, (state, { payload }) => {
-      state.signupDetailLoading = false;
-      state.signupDetailDone = false;
-      state.signupDetailError = payload;
+    builder.addCase(signupDetail.rejected, (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
+      state.user.email = null;
     });
-    builder.addCase(singupEmail.pending, (state) => {
-      state.signupEmailLoading = true;
-      state.signupEmailDone = false;
-      state.signupEmailError = null;
+    builder.addCase(signupEmail.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = false;
     });
-    builder.addCase(singupEmail.fulfilled, (state, { payload }) => {
-      console.log(payload);
-      state.signupEmailLoading = false;
-      state.signupEmailDone = true;
-      state.signupEmailError = null;
+    builder.addCase(signupEmail.fulfilled, (state) => {
+      state.loading = false;
+      state.success = true;
+      state.error = false;
     });
-    builder.addCase(singupEmail.rejected, (state, { payload }) => {
-      state.signupEmailLoading = false;
-      state.signupEmailDone = false;
-      state.signupEmailError = payload;
+    builder.addCase(signupEmail.rejected, (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
     });
-    builder.addCase(singupCertification.pending, (state) => {
-      state.signupCertificationLoading = true;
-      state.signupCertificationDone = false;
-      state.signupCertificationError = null;
+    builder.addCase(signupCertification.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = false;
     });
-    builder.addCase(singupCertification.fulfilled, (state, { payload }) => {
-      console.log(payload);
-      state.signupCertificationLoading = false;
-      state.signupCertificationDone = true;
-      state.signupCertificationError = null;
+    builder.addCase(signupCertification.fulfilled, (state) => {
+      state.loading = false;
+      state.success = true;
+      state.error = false;
     });
-    builder.addCase(singupCertification.rejected, (state, { payload }) => {
-      state.signupCertificationLoading = false;
-      state.signupCertificationDone = false;
-      state.signupCertificationError = payload;
+    builder.addCase(signupCertification.rejected, (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
     });
     builder.addCase(login.pending, (state) => {
-      state.loginLoading = true;
-      state.loginDone = false;
-      state.loginError = null;
+      state.loading = true;
+      state.success = false;
+      state.error = false;
     });
-    builder.addCase(login.fulfilled, (state, { payload }) => {
-      console.log('payload', payload);
-      state.loginLoading = false;
-      state.loginDone = true;
-      state.loginError = null;
+    builder.addCase(login.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = true;
+      state.error = false;
+      state.email = action.payload.email;
+      state.isLoggedIn = true;
+      console.log(action.payload.accessToken);
+      localStorage.setItem('token', action.payload.accessToken);
     });
-    builder.addCase(login.rejected, (state, { payload }) => {
-      console.log('payload', payload);
-      state.loginLoading = false;
-      state.loginDone = false;
-      state.loginError = payload;
+    builder.addCase(login.rejected, (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
     });
     builder.addCase(logout.pending, (state) => {
-      state.logoutLoading = true;
-      state.logoutDone = false;
-      state.logoutError = null;
+      state.loading = true;
+      state.success = false;
+      state.error = false;
     });
-    builder.addCase(logout.fulfilled, (state, { payload }) => {
-      console.log('payload', payload);
-      state.logoutLoading = false;
-      state.logoutDone = true;
-      state.logoutError = null;
+    builder.addCase(logout.fulfilled, (state) => {
+      state.loading = false;
+      state.success = true;
+      state.error = false;
+      localStorage.removeItem('token');
+      state.email = null;
+      state.nickname = null;
+      state.isLoggedIn = false;
     });
-    builder.addCase(logout.rejected, (state, { payload }) => {
-      console.log('payload', payload);
-      state.logoutLoading = false;
-      state.logoutDone = false;
-      state.logoutError = payload;
+    builder.addCase(logout.rejected, (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
+    });
+    builder.addCase(getUserInfo.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = false;
+    });
+    builder.addCase(getUserInfo.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = true;
+      state.error = false;
+      console.log(action);
+      state.nickname = action.payload.nickname; // TODO 제대로 됐는지 체크 필요
+    });
+    builder.addCase(getUserInfo.rejected, (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
     });
   },
 });
 
-// export const {
-//   singupEmail,
-// } = authSlice.actions;
+export const getUser = (state) => state.auth.user;
+export const getUserEmail = (state) => state.auth.user.email;
+export const getAllUserState = (state) => state.auth;
+export const getLoggedIn = (state) => state.auth.user.isLoggedIn;
+export const getLoadding = (state) => state.auth.loading;
+
+export const { addUser, addUserEmail, resetUser } = authSlice.actions;
 
 export default authSlice.reducer;
