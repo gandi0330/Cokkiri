@@ -2,17 +2,22 @@ package corinee.cokkiri.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
-public class Email {
+public class Email implements Serializable {
 
     @Id
-    private String email;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "email")
+    @OnDelete(action= OnDeleteAction.CASCADE)
+    private User user;
 
     private String authToken;
     private LocalDateTime generateTime;
