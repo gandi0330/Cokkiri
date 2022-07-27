@@ -60,7 +60,7 @@ public class EmailService {
 
         if(optFindUser.isPresent()) {
             Email emailObj = new Email();
-            emailObj.setEmail(email);
+            emailObj.setUser(optFindUser.get());
             emailObj.setAuthToken(makeAuthToken());
             emailObj.setGenerateTime(LocalDateTime.now());
 
@@ -81,7 +81,7 @@ public class EmailService {
             SimpleMailMessage message = new SimpleMailMessage();
 
             message.setFrom("noreply@cokkiri");
-            message.setTo(emailObj.getEmail());
+            message.setTo(emailObj.getUser().getEmail());
             message.setSubject("Cokkiri 회원 인증 번호");
             message.setText("Cokkiri 인증번호 : " + emailObj.getAuthToken());
 

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter @Setter
 public class Question {
-    @Id
+    @Id @GeneratedValue
     private long questionId;
 
     @ManyToOne
