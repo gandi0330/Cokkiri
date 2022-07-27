@@ -1,11 +1,27 @@
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import classes from './NavBar.module.css';
 import Elephant from '../../images/Elephant.png';
+import { 
+  getLoggedIn, logout, 
+  getUserEmail, resetUser,
+} from '../../store/authSlice';
 
 const NavBar = () => {
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(getLoggedIn);
+  const email = useSelector(getUserEmail);
+
+  const logoutHandler = () => {
+    dispatch(logout({ email })).unwrap()
+      .then(() => {
+        dispatch(resetUser);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   return (
     <nav className={classes.nav}>
@@ -32,7 +48,7 @@ const NavBar = () => {
               {/* <div><span>kkiri</span>님</div>
               <div><span>이메일: </span>ssafy@naver.com</div>
               <Link to="/logout">비밀번호 변경</Link> */}
-              <Link to="/logout">로그아웃</Link>
+              <button type="button" onClick={logoutHandler}>로그아웃</button>
             </>
           )}
         </li>

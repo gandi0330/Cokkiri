@@ -12,7 +12,7 @@ const Timer = ({ min, sec }) => {
       }
       if (parseInt(seconds, 10) === 0) {
         if (parseInt(minutes, 10) === 0) {
-          clearInterval(countdown);
+          clearInterval(countDown);
         } else {
           setMinutes(parseInt(minutes, 10) - 1);
           setSeconds(59);

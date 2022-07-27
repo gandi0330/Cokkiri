@@ -1,80 +1,103 @@
 .main {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  width: 340px;
+  gap: .3rem;
+  /* width: 340px; */
+  width: min(21rem, 90%);
+  height: 100%;
 }
 
 .main h2 {
   color: var(--blackShade1);
   text-align: center;
-  margin-bottom: 10vh;
+  margin-bottom: 3vh;
+  font-size: var(--headingFontSize2);
 }
 
 .main form {
+  width: 100%;
   color: var(--blueShade1);
   display: flex;
   flex-direction: column;
 }
 
 .main input {
-  width: 200px;
+  width: 67%;
+  font-size: var(--smallFontSize1);
+  padding: .3em;
+  border: none;
+  outline: none;
+  /* width: 200px;
   font-size: 15px;
   border: none;
   outline: none;
-  height: 44px;
+  height: 44px; */
 }
 
 .main label {
-  width: 120px;
+  font-size: var(--smallFontSize1);
+  /* width: 120px;
   padding: 16px;
   padding-right: 10px;
-  font-size: var(--smallFontSize1);
+  font-size: var(--smallFontSize1); */
 }
 
 .main button {
-  height: 50px;
-  margin-top: 3vh;
+  height: 2.7rem;
+  margin-top: 1.2rem;
   margin-bottom: 2vh;
-  border-radius: 5px;
-  border: 1px solid var(--blueShade1);
+  border-radius: var(--borderRadius3);
+  border: none;
+  outline: none;
   background-color: var(--blueShade1);
   color: var(--whiteShade1);
   font-weight: 600;
-  font-size: 1.05rem;
+  font-size: var(--baseFontSize);
 }
 
 .main button:hover {
   cursor: pointer;
+  background-color: var(--blueShade3);
 }
 
 
-.main p {
+/* .main p {
   text-align: center;
   color: var(--blackShade1);
   margin-bottom: 20px;
   display: inline-block;
   width: 500px;
-}
+} */
 
 .errorMsg {
+  position: absolute;
+  top: -50%;
+  left: 1%;
   color: var(--redShade1);
-  margin-bottom: 10px;
   font-size: var(--smallFontSize2);
   position: absolute;
-  right: 100;
-  top: -22px;
 }
 
 .inputBox {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: .4em .8em;
   border: 2px solid var(--blueShade2);
+  border-radius: var(--borderRadius3);
+
+  /* border: 2px solid var(--blueShade2);
   border-radius: 5px;
   height: 48px;
   width: 340px;
   display: flex;
   align-items: center;
   position: relative;
-  margin-bottom: 10px;
+  margin-bottom: 10px; */
 }
 
 .link {
@@ -116,5 +139,5 @@
 }
 
 .invalid {
-  border: 1px solid var(--redShade1);
+  border: 2px solid var(--redShade1);
 }

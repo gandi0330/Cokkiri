@@ -6,11 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Account.module.css';
 import useValidation from '../../hooks/useValidation';
 import { validateEmail, validateNickname, validatePassword } from './validationCheck';
-import { singupDetail } from '../../store/authSlice';
+import { signupDetail, addUserEmail } from '../../store/authSlice';
 
 const SignupDetail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [signupError, setSignupError] = useState(null);
+
   const {
     value: email,
     hasError: emailHasError,
@@ -18,6 +20,7 @@ const SignupDetail = () => {
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
   } = useValidation([{ fn: validateEmail, msg: '유효한 이메일을 입력해 주세요.' }]);
+  
   const {
     value: nickname,
     hasError: nicknameHasError,
@@ -32,6 +35,7 @@ const SignupDetail = () => {
     valueChangeHandler: passwordChangeHandler,
     inputBlurHandler: passwordBlurHandler,
   } = useValidation([{ fn: validatePassword, msg: '유효한 비밀번호를 입력해 주세요.' }]);
+  
   const [passwordCheck, setPasswordCheck] = useState('');
   const [passwordCheckError, setPasswordCheckError] = useState(false);
 
@@ -40,30 +44,35 @@ const SignupDetail = () => {
     setPasswordCheckError(password !== e.target.value);
   }, [password]);
 
-  const onSubmit = useCallback((e) => {
-    e.preventDefault();
+  const onSubmit = (event) => {
+    event.preventDefault();
     if (emailHasError || nicknameHasError || passwordHasError || passwordCheckError) {
       return;
     }
-    dispatch(singupDetail({
-      email, nickname, password,
-    })).then(() => {
-      navigate('/signupEmail', { replace: true });
-    });
-  }, [email, password, emailHasError, nicknameHasError, passwordHasError, passwordCheckError]);
+
+    dispatch(signupDetail({ email, nickname, password })).unwrap()
+      .then(() => {
+        dispatch(addUserEmail({ email }));
+        navigate('/signupEmail', { replace: true });
+      })
+      .catch((err) => {
+        setSignupError(`${err.message}입니다.`);
+        // dispatch(resetUser);
+      });
+  };
 
   return (
     <div className={styles.main}>
       <h2>회원가입</h2>
       <form onSubmit={onSubmit}>
         <div className={`${styles.inputBox} ${emailHasError && styles.invalid}`}>
-          { emailHasError
-              && (
-                <div className={styles.errorMsg}>
-                  <AiFillWarning className={styles.icon} />
-                  {emailErrorMsg}
-                </div>
-              )}
+          {(emailHasError || signupError)
+          && (
+            <div className={styles.errorMsg}>
+              <AiFillWarning className={styles.icon} />
+              {emailErrorMsg || signupError}
+            </div>
+          )}
           <label htmlFor="email">이메일</label>
           <input placeholder="이메일을 입력해 주세요." id="email" name="email" value={email} onChange={emailChangeHandler} onBlur={emailBlurHandler} />
         </div>

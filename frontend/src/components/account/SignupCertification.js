@@ -1,18 +1,22 @@
-import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { AiFillWarning } from 'react-icons/ai';
 
 import styles from './Account.module.css';
 import Timer from './Timer';
 import useValidation from '../../hooks/useValidation';
 import { validateNumber } from './validationCheck';
-import { singupCertification } from '../../store/authSlice';
+import { signupCertification, getUserEmail } from '../../store/authSlice';
 
 const SignupCertification = () => {
+  // TODO 새로고침 시 메인 페이지로 보내기
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { state } = useLocation();
+  const email = useSelector(getUserEmail);
+  const [failMsg, setFailMsg] = useState(null);
+  // const { state } = useLocation();
   const {
     value: certificateNumber,
     hasError: certificateNumberHasError,
@@ -21,15 +25,26 @@ const SignupCertification = () => {
     inputBlurHandler: certificateNumberBlurHandler,
   } = useValidation([{ fn: validateNumber, msg: '잘못된 인증번호를 입력하셨습니다.' }]);
 
-  const onSubmit = useCallback((e) => {
-    e.preventDefault();
+  const onSubmit = (event) => {
+    event.preventDefault();
     if (certificateNumberHasError) {
       return;
     }
-    dispatch(singupCertification({ email: state.email, number: e.target.value })).then(() => {
-      navigate('/login', { replace: true });
-    });
-  }, [certificateNumberHasError]);
+
+    dispatch(signupCertification({ email, number: event.target.value })).unwrap()
+      .then(() => {
+        navigate('/login', { replace: true });
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.statusCode === 404) {
+          navigate('/login', { replace: true });
+          return;
+        }
+        setFailMsg('인증번호를 잘못 입력하셨습니다.');
+        // TODO backend에서 인증번호 수정하는 로직이 완성 된 후 가능
+      });
+  };
 
   return (
     <div className={styles.main}>
@@ -39,11 +54,11 @@ const SignupCertification = () => {
       <br />
       <form onSubmit={onSubmit}>
         <div className={`${styles.inputBox} ${certificateNumberErrorMsg && styles.invalid}`}>
-          { certificateNumberHasError
+          { (certificateNumberHasError || failMsg)
               && (
                 <span className={styles.errorMsg}>
                   <AiFillWarning className={styles.icon} />
-                  잘못된 인증번호를 입력하셨습니다.
+                  {failMsg || ('잘못된 인증번호를 입력하셨습니다.')}
                 </span>
               )}
           <span className={styles.timer}><Timer min={3} sec={0} /></span>
