@@ -2,9 +2,6 @@ package corinee.cokkiri.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -13,17 +10,23 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
-public class Room {
+public class Question {
     @Id
-    private Long roomId;
+    private long questionId;
 
     @ManyToOne
-    @JoinColumn(name = "leader_email", referencedColumnName = "email")
     @OnDelete(action= OnDeleteAction.CASCADE)
-    private User user;
+    @JoinColumn(name="room_id")
+    Room room;
+
+    @ManyToOne
+    @OnDelete(action= OnDeleteAction.CASCADE)
+    @JoinColumn(name="question_writer_email", referencedColumnName = "email")
+    User user;
 
     private String title;
+    private String content;
     private LocalDateTime createDatetime;
-    private Long userLimit;
-    private String password;
+
+
 }
