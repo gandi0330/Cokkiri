@@ -109,6 +109,7 @@ public class EmailService {
         if(optFindEmail.isPresent()) {
             emailObj = optFindEmail.get();
             LocalDateTime currentTime = LocalDateTime.now();
+
             if(currentTime.compareTo(emailObj.getGenerateTime().plusMinutes(3)) <= 0) {
                 changeAuthState(email);
             }
