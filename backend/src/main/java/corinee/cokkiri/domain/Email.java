@@ -12,7 +12,10 @@ import java.time.LocalDateTime;
 public class Email {
 
     @Id
-    private String email;
+    @OneToOne
+    @JoinColumn(name = "email")
+    @OnDelete(action= OnDeleteAction.CASCADE)
+    private User user;
 
     private String authToken;
     private LocalDateTime generateTime;
