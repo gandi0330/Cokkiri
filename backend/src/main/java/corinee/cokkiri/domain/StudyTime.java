@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter @Setter
 public class StudyTime {
 
-    @Id
+    @Id @GeneratedValue
     private Long id;
 
     @ManyToOne(fetch = LAZY)

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter @Setter
 public class Room {
-    @Id
+    @Id @GeneratedValue
     private Long roomId;
 
     @ManyToOne
