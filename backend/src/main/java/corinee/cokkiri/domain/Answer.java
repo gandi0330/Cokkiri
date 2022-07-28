@@ -33,4 +33,10 @@ public class Answer {
     private String content;
     private LocalDateTime createDatetime;
 
+    public Answer(){
+        super();
+        this.createDatetime = LocalDateTime.now();
+    };
+
+
 }
