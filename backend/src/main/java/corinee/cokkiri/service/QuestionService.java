@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,5 +52,12 @@ public class QuestionService {
             question = optQuestion.get();
         }
         return question;
+    }
+
+    public void removeQuestion(Long questionId){
+        Optional<Question> optQuestion = questionRepository.getQuestion(questionId);
+        if(optQuestion.isPresent()){
+            questionRepository.removeQuestion(optQuestion.get());
+        }
     }
 }
