@@ -33,11 +33,4 @@ public class Question {
         this.createDatetime = LocalDateTime.now();
     };
 
-    public Question(Room room, User user, String title, String content){
-        this.room = room;
-        this.user = user;
-        this.title = title;
-        this.content = content;
-        this.createDatetime = LocalDateTime.now();
-    }
 }
