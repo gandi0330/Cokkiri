@@ -19,4 +19,10 @@ public class StudyTimeRepository {
                 .setParameter("email", email)
                 .getResultList());
     }
+
+    public Optional<StudyTime> findById(Long id) {
+        StudyTime studyTime = em.find(StudyTime.class, id);
+
+        return Optional.ofNullable(studyTime);
+    }
 }

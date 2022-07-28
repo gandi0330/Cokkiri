@@ -41,4 +41,28 @@ public class StudyTimeService {
 
         return res;
     }
+
+    public void updateStartTime(Long id) {
+
+        Optional<StudyTime> optFindStudyTime = studyTimeRepository.findById(id);
+        StudyTime studyTime = null;
+
+        if(optFindStudyTime.isPresent()) {
+            studyTime = optFindStudyTime.get();
+
+            studyTime.setStartDatetime(LocalDateTime.now());
+        }
+    }
+
+    public void updateEndTime(Long id) {
+
+        Optional<StudyTime> optFindStudyTime = studyTimeRepository.findById(id);
+        StudyTime studyTime = null;
+
+        if(optFindStudyTime.isPresent()) {
+            studyTime = optFindStudyTime.get();
+
+            studyTime.setEndDatetime(LocalDateTime.now());
+        }
+    }
 }
