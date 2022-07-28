@@ -26,4 +26,15 @@ public class Room {
     private LocalDateTime createDatetime;
     private Long userLimit;
     private String password;
+
+    public Room() {
+
+    }
+
+    public Room(User user, String title, Long userLimit) {
+        this.user = user;
+        this.title = title;
+        this.createDatetime = LocalDateTime.now();
+        this.userLimit = userLimit;
+    }
 }
