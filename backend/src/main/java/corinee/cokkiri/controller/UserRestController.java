@@ -70,7 +70,6 @@ public class UserRestController {
 
         Cookie cookie = new Cookie("refresh-token",refreshToken);
         cookie.setMaxAge(365*24*60*60);
-        cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         response.addCookie(cookie);
@@ -118,12 +117,14 @@ public class UserRestController {
             @ApiResponse(code=401, message = "일치하지 않는 토큰입니다"),
             @ApiResponse(code=404, message = "유저가 존재하지 않습니다"),
     })
-    public ResponseEntity<? extends Result> getToken(@PathVariable("user_email") String email, HttpServletRequest request, @CookieValue("refresh-token") String refreshToken){
+    public ResponseEntity<? extends Result> getToken(@PathVariable("user_email") String email, @CookieValue(value = "refresh-token", required = false) Cookie cookie){
+
+        String refreshToken = cookie.getValue();
         User user = userService.findByEmail(email);
         if(user == null)
             return ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
 
-        if(!refreshToken.equals(user.getRefreshToken()))
+        if(refreshToken == null || !refreshToken.equals(user.getRefreshToken()))
             return ResponseEntity.status(401).body(Result.of(401,"일치하지 않는 토큰입니다"));
 
         String accessToken = jwtTokenUtil.createAccessToken("email",user.getEmail());

@@ -19,4 +19,14 @@ public class QuestionRepository {
                 .setParameter("roomId",roomId)
                 .getResultList());
     }
+
+    public Long save(Question question){
+        em.persist(question);
+
+        return question.getQuestionId();
+    }
+
+    public Optional<Question> getQuestion(Long questionId){
+        return Optional.ofNullable(em.find(Question.class, questionId));
+    }
 }
