@@ -58,7 +58,7 @@ export const login = createAsyncThunk(
   'auth/login',
   async ({ email, password }, thunkAPI) => {
     try {
-      const res = await axios.post('/user', { email, password });
+      const res = await axios.post('/user', { email, password }, { headers: { 'Content-Type': 'application/json' } });
       const { data } = res;
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
@@ -85,8 +85,10 @@ export const getUserInfo = createAsyncThunk(
   'auth/getuserInfo',
   async ({ email }, thunkAPI) => {
     try {
-      const res = await axios.get(`/user/info/${email}`);
+      const axiosPrivate = useAxiosPrivate();
+      const res = await axiosPrivate.get(`/user/info/${email}`);
       const { data } = res;
+      console.log(res);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       console.error(error);
