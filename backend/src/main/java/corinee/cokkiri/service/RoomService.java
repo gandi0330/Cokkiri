@@ -1,14 +1,18 @@
 package corinee.cokkiri.service;
 
 import corinee.cokkiri.domain.Room;
+import corinee.cokkiri.domain.StudyTime;
 import corinee.cokkiri.domain.User;
 import corinee.cokkiri.repository.RoomRepository;
+import corinee.cokkiri.repository.StudyTimeRepository;
 import corinee.cokkiri.repository.UserRepository;
 import corinee.cokkiri.request.CreateRoomRequest;
+import corinee.cokkiri.request.EnterRoomRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +23,7 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
+    private final StudyTimeRepository studyTimeRepository;
 
     public Room findById(Long id) {
         Room room = roomRepository.findById(id);
@@ -49,5 +54,17 @@ public class RoomService {
 
     public List<Room> findRoomList(int offset, int limit) {
         return roomRepository.findRoomList(offset, limit);
+    }
+
+    public Long enterRoom(EnterRoomRequest request) {
+        StudyTime studyTime = new StudyTime();
+        Optional<User> optUser = userRepository.findByEmail(request.getUserEmail());
+        if (optUser.isPresent())
+            studyTime.setUser(optUser.get());
+        else
+            return -1L;
+        studyTime.setStartDatetime(LocalDateTime.now());
+        Long index = studyTimeRepository.save(studyTime);
+        return index;
     }
 }

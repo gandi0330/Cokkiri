@@ -25,4 +25,10 @@ public class StudyTimeRepository {
 
         return Optional.ofNullable(studyTime);
     }
+
+    public Long save(StudyTime studyTime) {
+        em.persist(studyTime);
+        StudyTime findStudyTime = em.find(StudyTime.class, studyTime.getId());
+        return findStudyTime.getId();
+    }
 }
