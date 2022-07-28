@@ -7,6 +7,7 @@ import corinee.cokkiri.request.QuestionAddRequest;
 import corinee.cokkiri.response.GetQuestionListResponse;
 import corinee.cokkiri.service.QuestionService;
 import corinee.cokkiri.service.RoomService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
+@Api(value = "질문 API", tags = {"Question"})
 @RequiredArgsConstructor
 public class QuestionController {
 
@@ -64,5 +66,19 @@ public class QuestionController {
 
         return ResponseEntity.status(200).body(Result.of(200,"success"));
 
+    }
+
+    @DeleteMapping("/question/{question_id}")
+    @ApiOperation(value="질문 삭제", notes="질문을 삭제한다")
+    @ApiResponses({
+            @ApiResponse(code=200, message="성공"),
+            @ApiResponse(code=500, message="서버 오류")
+    })
+    public ResponseEntity<Result> removeQuestion(@PathVariable("question_id") Long questionId){
+        questionService.removeQuestion(questionId);
+        Question question = questionService.getQuestion(questionId);
+        if(question != null)
+            return ResponseEntity.status(500).body(Result.of(500, "질문이 삭제되지 않았습니다"));
+        return ResponseEntity.status(200).body(Result.of(200,"success"));
     }
 }
