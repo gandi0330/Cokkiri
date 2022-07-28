@@ -6,12 +6,14 @@ import { AiFillWarning } from 'react-icons/ai';
 import styles from './Account.module.css';
 import useValidation from '../../hooks/useValidation';
 import { validateEmail, validatePassword } from './validationCheck';
-import { login, addUserEmail, getUserInfo } from '../../store/authSlice';
+import { login, addUserEmail } from '../../store/authSlice';
+import useAuth from '../../hooks/useAuth';
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loginError, setloginError] = useState(null);
+  const { setAuth } = useAuth();
 
   const {
     value: email,
@@ -42,19 +44,22 @@ const LoginForm = () => {
 
     dispatch(login({ email, password })).unwrap()
       .then((res) => {
-        // userInfo.accessToken = res.accessToken;
-        dispatch(getUserInfo({ email })).unwrap()
-          .then(() => {
-            // userInfo.nickname = data.nickname;
-            // dispatch(addUser(userInfo));
-            navigate('/', { replace: true });
-          })
-          .catch(() => {
-            // DB에 없는 이메일인 경우
-            setloginError('아이디 또는 비밀번호를 잘못 입력했습니다');
-            // console.error(err);
-          });
-        console.log(res);
+        // console.log(res);
+        const accessToken = res?.accessToken;
+        setAuth({ accessToken, email });
+
+        // dispatch(getUserInfo({ email })).unwrap()
+        //   .then(() => {
+        //     // userInfo.nickname = data.nickname;
+        //     // dispatch(addUser(userInfo));
+        //     navigate('/', { replace: true });
+        //   })
+        //   .catch(() => {
+        //     // DB에 없는 이메일인 경우
+        //     setloginError('아이디 또는 비밀번호를 잘못 입력했습니다');
+        //     // console.error(err);
+        //   });
+        // console.log(res);
       })
       .catch((err) => {
         // TODO 401이 괜찮은것인가

@@ -5,13 +5,24 @@ import classes from './NavBar.module.css';
 import Elephant from '../../images/Elephant.png';
 import { 
   getLoggedIn, logout, 
-  getUserEmail, resetUser,
+  resetUser,
 } from '../../store/authSlice';
+// import useRefreshToken from '../../hooks/useRefreshToken';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import useAuth from '../../hooks/useAuth';
 
 const NavBar = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(getLoggedIn);
-  const email = useSelector(getUserEmail);
+  // const email = useSelector(getUserEmail);
+  // const refresh = useRefreshToken();
+  const axiosPrivate = useAxiosPrivate();
+  const { auth } = useAuth();
+
+  const getUserInfo = async () => {
+    const res = await axiosPrivate.get(`/user/info/${auth.email}`);
+    console.log(res);
+  };
 
   const logoutHandler = () => {
     dispatch(logout({ email })).unwrap()
@@ -51,6 +62,9 @@ const NavBar = () => {
               <button type="button" onClick={logoutHandler}>로그아웃</button>
             </>
           )}
+        </li>
+        <li>
+          <button type="button" onClick={() => getUserInfo()}>refresh</button>
         </li>
       </ul>
       <label htmlFor="navToggle" className={classes.navToggleLabel}>
