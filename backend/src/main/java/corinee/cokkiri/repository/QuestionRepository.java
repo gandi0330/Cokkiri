@@ -29,4 +29,6 @@ public class QuestionRepository {
     public Optional<Question> getQuestion(Long questionId){
         return Optional.ofNullable(em.find(Question.class, questionId));
     }
+
+    public void removeQuestion(Question question){em.remove(question);}
 }
