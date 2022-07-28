@@ -5,6 +5,7 @@ import corinee.cokkiri.repository.QuestionRepository;
 import corinee.cokkiri.repository.RoomRepository;
 import corinee.cokkiri.repository.UserRepository;
 import corinee.cokkiri.request.QuestionAddRequest;
+import corinee.cokkiri.request.UpdateQuestionRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,13 +25,7 @@ public class QuestionService {
     private final UserRepository userRepository;
 
     public List<Question> getQuestionList(Long roomId){
-        Optional<List<Question>> optQuesitonList = questionRepository.getQuestionList(roomId);
-        List<Question> questionList = null;
-        if(optQuesitonList.isPresent()){
-            questionList = optQuesitonList.get();
-        }
-
-        return questionList;
+        return questionRepository.getQuestionList(roomId);
     }
 
     public Long addQuestion(QuestionAddRequest questionAddRequest){
@@ -44,20 +39,21 @@ public class QuestionService {
     }
 
     public Question getQuestion(Long questionId){
-        Optional<Question> optQuestion = questionRepository.getQuestion(questionId);
-
-        Question question = null;
-
-        if(optQuestion.isPresent()){
-            question = optQuestion.get();
-        }
-        return question;
+        return questionRepository.getQuestion(questionId);
     }
 
     public void removeQuestion(Long questionId){
-        Optional<Question> optQuestion = questionRepository.getQuestion(questionId);
-        if(optQuestion.isPresent()){
-            questionRepository.removeQuestion(optQuestion.get());
-        }
+        Question question= questionRepository.getQuestion(questionId);
+
+        questionRepository.removeQuestion(question);
+    }
+
+    public Question updateQuestion(UpdateQuestionRequest request){
+        Question question = questionRepository.getQuestion(request.getQuestionId());
+
+        question.setContent(request.getContent());
+        question.setTitle(request.getTitle());
+
+        return question;
     }
 }

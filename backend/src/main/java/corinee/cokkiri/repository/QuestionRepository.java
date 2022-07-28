@@ -14,10 +14,10 @@ public class QuestionRepository {
 
     private final EntityManager em;
 
-    public Optional<List<Question>> getQuestionList(Long roomId){
-        return Optional.ofNullable(em.createQuery("select q from Question q where q.room.roomId=:roomId", Question.class)
+    public List<Question> getQuestionList(Long roomId){
+        return em.createQuery("select q from Question q where q.room.roomId=:roomId", Question.class)
                 .setParameter("roomId",roomId)
-                .getResultList());
+                .getResultList();
     }
 
     public Long save(Question question){
@@ -26,8 +26,8 @@ public class QuestionRepository {
         return question.getQuestionId();
     }
 
-    public Optional<Question> getQuestion(Long questionId){
-        return Optional.ofNullable(em.find(Question.class, questionId));
+    public Question getQuestion(Long questionId){
+        return em.find(Question.class, questionId);
     }
 
     public void removeQuestion(Question question){em.remove(question);}
