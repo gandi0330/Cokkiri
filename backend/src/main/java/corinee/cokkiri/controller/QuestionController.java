@@ -6,6 +6,7 @@ import corinee.cokkiri.domain.Room;
 import corinee.cokkiri.request.QuestionAddRequest;
 import corinee.cokkiri.request.UpdateQuestionRequest;
 import corinee.cokkiri.response.GetQuestionListResponse;
+import corinee.cokkiri.response.GetQuestionResponse;
 import corinee.cokkiri.service.QuestionService;
 import corinee.cokkiri.service.RoomService;
 import io.swagger.annotations.Api;
@@ -28,7 +29,7 @@ public class QuestionController {
     private final QuestionService questionService;
     private final RoomService roomService;
 
-    @GetMapping("/question/{room_id}")
+    @GetMapping("/question/list/{room_id}")
     @ApiOperation(value="질문 목록조회",notes="해당 방의 질문들을 모두 조회한다")
     @ApiResponses({
             @ApiResponse(code=200, message="성공"),
@@ -103,5 +104,20 @@ public class QuestionController {
             return ResponseEntity.status(500).body(Result.of(500, "수정되지 않았습니다"));
 
         return ResponseEntity.status(200).body(Result.of(200,"success"));
+    }
+
+    @GetMapping("/question/detail/{question_id}")
+    @ApiOperation(value="질문 상세 조회", notes="질문 하나를 조회한다")
+    @ApiResponses({
+            @ApiResponse(code=200, message="성공"),
+            @ApiResponse(code=404, message="질문이 존재하지 않음"),
+            @ApiResponse(code=500, message="서버 오류")
+    })
+    public ResponseEntity<? extends Result> getQuestion(@PathVariable("question_id") Long questionId){
+        Question question = questionService.getQuestion(questionId);
+
+        if(question == null)
+            return ResponseEntity.status(404).body(Result.of(404, "질문이 존재하지 않습니다"));
+        return ResponseEntity.status(200).body(GetQuestionResponse.of(200,"success",question));
     }
 }
