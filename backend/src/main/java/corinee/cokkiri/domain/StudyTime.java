@@ -18,6 +18,7 @@ public class StudyTime {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "email")
     private User user;
+
     private LocalDateTime startDatetime;
     private LocalDateTime endDatetime;
 }
