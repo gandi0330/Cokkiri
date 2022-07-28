@@ -46,4 +46,8 @@ public class RoomService {
         List<Room> result = roomRepository.findByTitle(title);
         return result.size() > 0;
     }
+
+    public List<Room> findRoomList(int offset, int limit) {
+        return roomRepository.findRoomList(offset, limit);
+    }
 }
