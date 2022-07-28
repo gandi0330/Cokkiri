@@ -30,4 +30,11 @@ public class RoomRepository {
                 .setParameter("title", title)
                 .getResultList();
     }
+
+    public List<Room> findRoomList(int offset, int limit) {
+        return em.createQuery("select r from Room r", Room.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
 }
