@@ -21,6 +21,7 @@ public class RoomRepository {
     public Long createRoom(Room room) {
         em.persist(room);
         Room findRoom = em.find(Room.class, room.getRoomId());
+
         return findRoom.getRoomId();
     }
 

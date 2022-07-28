@@ -2,6 +2,9 @@ package corinee.cokkiri.service;
 
 import corinee.cokkiri.domain.Question;
 import corinee.cokkiri.repository.QuestionRepository;
+import corinee.cokkiri.repository.RoomRepository;
+import corinee.cokkiri.repository.UserRepository;
+import corinee.cokkiri.request.QuestionAddRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +18,9 @@ import java.util.Optional;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final RoomRepository roomRepository;
+
+    private final UserRepository userRepository;
 
     public List<Question> getQuestionList(Long roomId){
         Optional<List<Question>> optQuesitonList = questionRepository.getQuestionList(roomId);
@@ -24,5 +30,26 @@ public class QuestionService {
         }
 
         return questionList;
+    }
+
+    public Long addQuestion(QuestionAddRequest questionAddRequest){
+        Question question = new Question();
+        question.setRoom(roomRepository.findById(questionAddRequest.getRoomId()));
+        question.setContent(questionAddRequest.getContent());
+        question.setTitle(questionAddRequest.getTitle());
+        question.setUser(userRepository.findByEmail(questionAddRequest.getEmail()).get());
+
+        return questionRepository.save(question);
+    }
+
+    public Question getQuestion(Long questionId){
+        Optional<Question> optQuestion = questionRepository.getQuestion(questionId);
+
+        Question question = null;
+
+        if(optQuestion.isPresent()){
+            question = optQuestion.get();
+        }
+        return question;
     }
 }
