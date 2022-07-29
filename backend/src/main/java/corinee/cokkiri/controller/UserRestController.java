@@ -32,11 +32,12 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @Api(value = "유저 API", tags = {"User"})
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin("*")
 public class UserRestController {
 
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
+
 
     @ApiOperation(value = "로그인", notes = "이메일과 비밀번호를 통해 로그인")
     @PostMapping("/user")

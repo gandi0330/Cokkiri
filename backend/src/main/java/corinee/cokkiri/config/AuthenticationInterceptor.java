@@ -10,8 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
-import java.util.Iterator;
+import java.io.PrintWriter;
 
 @Component
 public class AuthenticationInterceptor implements HandlerInterceptor {
@@ -26,24 +25,22 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
         try{
-            Iterator<String> stringIterator = request.getHeaderNames().asIterator();
-            while (stringIterator.hasNext()) {
-                String header = stringIterator.next();
-                System.out.println("header = " + header);
-            }
+
             String token = request.getHeader("jwt");
-            System.out.println("token = " + token);
-            if(token == null || !jwtTokenUtil.verifyToken(token)){
+            System.out.println(token);
+            if(token == null){
+                response.setStatus(404);
+                return false;
+            }
+            else if(!jwtTokenUtil.verifyToken(token)){
                 response.setStatus(401);
-                response.getWriter().write("access-token-invalid");
                 return false;
             };
-
-
             response.setStatus(200);
             return true;
 
         }catch(Exception e){
+            System.out.println(e.getMessage());
             response.setStatus(500);
         }
 

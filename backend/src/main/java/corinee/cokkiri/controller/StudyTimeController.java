@@ -36,6 +36,8 @@ public class StudyTimeController {
             return  ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
         }
 
+
+
         long time = studyTimeService.calStudyTime(studyTimeList);
 
         return ResponseEntity.status(200).body(Result.of(200, "성공"));
