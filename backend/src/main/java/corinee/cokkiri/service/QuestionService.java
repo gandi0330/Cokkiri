@@ -51,6 +51,8 @@ public class QuestionService {
     public Question updateQuestion(UpdateQuestionRequest request){
         Question question = questionRepository.getQuestion(request.getQuestionId());
 
+        if(question == null) return null;
+
         question.setContent(request.getContent());
         question.setTitle(request.getTitle());
 
