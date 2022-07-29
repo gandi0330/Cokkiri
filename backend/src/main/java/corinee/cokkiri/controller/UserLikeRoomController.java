@@ -5,7 +5,7 @@ import corinee.cokkiri.domain.Room;
 import corinee.cokkiri.domain.User;
 import corinee.cokkiri.domain.UserLikeRoom;
 import corinee.cokkiri.request.UserLikeRoomRequest;
-import corinee.cokkiri.response.UserLikeRoomListResponse;
+import corinee.cokkiri.response.FindUserLikeRoomListResponse;
 import corinee.cokkiri.service.RoomService;
 import corinee.cokkiri.service.UserLikeRoomService;
 import corinee.cokkiri.service.UserService;
@@ -44,7 +44,7 @@ public class UserLikeRoomController {
             return ResponseEntity.status(404).body(Result.of(404, "즐겨찾기 목록이 존재하지 않습니다"));
         }
 
-        return ResponseEntity.status(200).body(UserLikeRoomListResponse.of(200, "성공", userLikeRoomList));
+        return ResponseEntity.status(200).body(FindUserLikeRoomListResponse.of(200, "성공", userLikeRoomList));
     }
 
     @PostMapping("/room/favorite")
@@ -53,6 +53,7 @@ public class UserLikeRoomController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=404, message = "유저가 존재하지 않습니다"),
             @ApiResponse(code=404, message = "방이 존재하지 않습니다"),
+            @ApiResponse(code=409, message = "이미 즐겨찾기에 등록된 방입니다"),
             @ApiResponse(code=500, message = "즐겨찾기 등록에 실패했습니다"),
     })
     public ResponseEntity<? extends Result> addUserLikeRoom(@RequestBody UserLikeRoomRequest request) {
@@ -66,6 +67,10 @@ public class UserLikeRoomController {
             return ResponseEntity.status(404).body(Result.of(404,"방이 존재하지 않습니다"));
         }
 
+        if(userLikeRoomService.duplicatedRoomId(request)) {
+            return ResponseEntity.status(409).body(Result.of(409,"이미 즐겨찾기에 등록된 방입니다"));             /////////////// 에러코드 확인
+        }
+
         Long userLikeRoomId = userLikeRoomService.addUserLikeRoom(user, room);
 
         if(userLikeRoomService.checkUserLikeRoom(userLikeRoomId) == null) {
@@ -76,7 +81,7 @@ public class UserLikeRoomController {
     }
 
     @DeleteMapping("/room/favorite")
-    @ApiOperation(value = "스터디룸 즐겨찾기 추가", notes = "로그인한 이메일의 스터디룸 즐겨찾기 추가")
+    @ApiOperation(value = "스터디룸 즐겨찾기 삭제", notes = "로그인한 이메일의 스터디룸 즐겨찾기 삭제")
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=404, message = "즐겨찾기 목록이 삭제되지 않았습니다"),
