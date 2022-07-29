@@ -43,6 +43,7 @@ public class RoomService {
             return -1L;
 
         Room room = new Room(user, request.getTitle(), request.getUserLimit());
+        room.setUserCount(0L);
         Long id = roomRepository.createRoom(room);
         return id;
     }
@@ -63,6 +64,14 @@ public class RoomService {
             studyTime.setUser(optUser.get());
         else
             return -1L;
+        Room room = roomRepository.findById(request.getRoomNumber());
+        if (room == null) {
+            return -1L;
+        }
+        if (room.getUserCount() >= room.getUserLimit()) {
+            return -2L;
+        }
+        room.setUserCount(room.getUserCount()+1);
         studyTime.setStartDatetime(LocalDateTime.now());
         Long index = studyTimeRepository.save(studyTime);
         return index;
