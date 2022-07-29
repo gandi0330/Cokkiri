@@ -89,7 +89,7 @@
 .formFooter {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   font-size: var(--smallFontSize2);
 }
 
