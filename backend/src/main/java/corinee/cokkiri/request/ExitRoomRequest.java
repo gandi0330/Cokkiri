@@ -3,7 +3,8 @@ package corinee.cokkiri.request;
 import lombok.Data;
 
 @Data
-public class EnterRoomRequest {
+public class ExitRoomRequest {
+    private Long index;
     private Long roomNumber;
     private String userEmail;
 }

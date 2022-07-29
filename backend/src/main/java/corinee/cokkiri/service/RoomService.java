@@ -8,6 +8,7 @@ import corinee.cokkiri.repository.StudyTimeRepository;
 import corinee.cokkiri.repository.UserRepository;
 import corinee.cokkiri.request.CreateRoomRequest;
 import corinee.cokkiri.request.EnterRoomRequest;
+import corinee.cokkiri.request.ExitRoomRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,5 +76,24 @@ public class RoomService {
         studyTime.setStartDatetime(LocalDateTime.now());
         Long index = studyTimeRepository.save(studyTime);
         return index;
+    }
+
+    public boolean exitRoom(ExitRoomRequest request) {
+        Optional<StudyTime> optStudyTime = studyTimeRepository.findById(request.getIndex());
+        if (optStudyTime.isPresent()) {
+            StudyTime studyTime = optStudyTime.get();
+            studyTime.setEndDatetime(LocalDateTime.now());
+        } else {
+            return false;
+        }
+
+        Room room = roomRepository.findById(request.getRoomNumber());
+        if (room != null) {
+            room.setUserCount(room.getUserCount()-1);
+        } else {
+            return false;
+        }
+
+        return true;
     }
 }
