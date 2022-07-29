@@ -113,7 +113,7 @@ const LoginForm = () => {
       </form>
       <div className={styles.formFooter}>
         <Link className={styles.link} to="/signupDetail">회원가입</Link>
-        <Link className={styles.link} to="/">비밀번호 찾기</Link>
+        {/* <Link className={styles.link} to="/changePassword">비밀번호 찾기</Link> */}
       </div>
     </div>
   );

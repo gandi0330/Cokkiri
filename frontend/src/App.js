@@ -39,6 +39,7 @@ const App = () => {
           <Route path="/signupEmail" element={<AccountPage header="signupEmail" />} />
           <Route path="/signupCertification" element={<AccountPage header="signupCertification" />} />
           <Route path="/signupDetail" element={<AccountPage header="signupDetail" />} />
+          {/* <Route path="/changePassword" element={<AccountPage header="changePassword" />} /> */}
           {/* {!isLoggedIn && <Route path="/login" element={<AccountPage header="login" />} />}
           {isLoggedIn && <Route path="/logout" element={<AccountPage header="logout" />} />}
           {!isLoggedIn && <Route path="/signupEmail" 
