@@ -1,0 +1,25 @@
+.notFound {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 4rem;
+  width: 100%;
+  height: 100vh;
+}
+
+.notFound img {
+  width: min(50%, 20rem);
+  margin-bottom: 5%;
+}
+
+.notFound h3 {
+  color: var(--blueShade2);
+}
+
+@media only screen and (min-width: 750px) {
+  .notFound h3 {
+    font-size: var(--headingFontSize1);
+  }
+}
+

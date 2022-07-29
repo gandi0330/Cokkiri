@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiFillWarning } from 'react-icons/ai';
@@ -16,7 +16,23 @@ const SignupCertification = () => {
   const dispatch = useDispatch();
   const email = useSelector(getUserEmail);
   const [failMsg, setFailMsg] = useState(null);
-  // const { state } = useLocation();
+
+  const alertUser = (event) => {
+    event.preventDefault();
+    event.returnValue = '정말 나가시겠습니까?';
+  };
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', alertUser);
+    return () => {
+      window.removeEventListener('beforeunload', alertUser);
+    };
+  }, []);
+
+  const onTimerZero = () => {
+    setFailMsg('시간이 초과되었습니다. 다시 시도해 주세요.');
+  };
+  
   const {
     value: certificateNumber,
     hasError: certificateNumberHasError,
@@ -31,7 +47,7 @@ const SignupCertification = () => {
       return;
     }
 
-    dispatch(signupCertification({ email, number: event.target.value })).unwrap()
+    dispatch(signupCertification({ email, number: certificateNumber })).unwrap()
       .then(() => {
         navigate('/login', { replace: true });
       })
@@ -42,7 +58,6 @@ const SignupCertification = () => {
           return;
         }
         setFailMsg('인증번호를 잘못 입력하셨습니다.');
-        // TODO backend에서 인증번호 수정하는 로직이 완성 된 후 가능
       });
   };
 
@@ -50,7 +65,7 @@ const SignupCertification = () => {
     <div className={styles.main}>
       <h2>회원가입</h2>
       <p>인증번호가 귀하의 메일로 전송 되었습니다.</p>
-      <p>이메일을 통해 온 인증번호 6자리를 입력하시면 가입이 계속됩니다.</p>
+      <p>이메일 인증번호 6자리를 입력해주세요.</p>
       <br />
       <form onSubmit={onSubmit}>
         <div className={`${styles.inputBox} ${certificateNumberErrorMsg && styles.invalid}`}>
@@ -61,7 +76,7 @@ const SignupCertification = () => {
                   {failMsg || ('잘못된 인증번호를 입력하셨습니다.')}
                 </span>
               )}
-          <span className={styles.timer}><Timer min={3} sec={0} /></span>
+          <span className={styles.timer}><Timer min={3} sec={0} onTimerZero={onTimerZero} /></span>
           <label htmlFor="number">인증번호</label>
           <input placeholder="인증번호를 입력해 주세요." name="number" id="number" value={certificateNumber} onChange={certificateNumberChangeHandler} onBlur={certificateNumberBlurHandler} maxLength={6} />
         </div>

@@ -1,18 +1,18 @@
+import { useSelector } from 'react-redux';
 import axios from '../api/axios';
-import useAuth from './useAuth';
+import { getAllUserState } from '../store/authSlice';
 
 const useRefreshToken = () => {
-  const { auth, setAuth } = useAuth();
+  let { email } = useSelector(getAllUserState);
 
   const refresh = async () => {
-    const response = await axios.get(`/user/refreshtoken/${auth.email}`, { withCredentials: true });
-    // console.log(response.data.accessToken);
-    setAuth((prevState) => {
-      // console.log('refresh', JSON.stringify(prevState));
-      return { ...prevState, accessToken: response.data.accessToken };
-    });
-
-    return response.data.accessToken;
+    if (!email) email = localStorage.getItem('email');
+    if (email) {
+      const response = await axios.get(`/user/refreshtoken/${email}`);
+      localStorage.setItem('token', response.data.accessToken);
+      return response.data.accessToken;
+    }
+    return '';
   };
   
   return refresh;

@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-const Timer = ({ min, sec }) => {
+const Timer = ({ min, sec, onTimerZero }) => {
   const [minutes, setMinutes] = useState(parseInt(min, 10));
   const [seconds, setSeconds] = useState(parseInt(sec, 10));
 
   useEffect(() => {
+    if (!minutes && !seconds) onTimerZero();
+
     const countDown = setInterval(() => {
       if (parseInt(seconds, 10) > 0) {
         setSeconds(parseInt(seconds, 10) - 1);
@@ -32,6 +34,7 @@ const Timer = ({ min, sec }) => {
 Timer.propTypes = {
   min: PropTypes.number.isRequired,
   sec: PropTypes.number.isRequired,
+  onTimerZero: PropTypes.func.isRequired,
 };
 
 export default Timer;
