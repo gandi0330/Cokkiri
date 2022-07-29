@@ -6,6 +6,8 @@ import corinee.cokkiri.domain.Question;
 import corinee.cokkiri.domain.Room;
 import corinee.cokkiri.request.AnswerAddRequest;
 import corinee.cokkiri.request.QuestionAddRequest;
+import corinee.cokkiri.request.UpdateAnswerRequest;
+import corinee.cokkiri.request.UpdateQuestionRequest;
 import corinee.cokkiri.response.GetAnswerResponse;
 import corinee.cokkiri.response.GetQuestionResponse;
 import corinee.cokkiri.service.AnswerService;
@@ -66,4 +68,28 @@ public class AnswerController {
         return ResponseEntity.status(200).body(GetAnswerResponse.of(200,"success",answer));
     }
 
+    @PutMapping("/answer")
+    @ApiOperation(value="답변 수정", notes="답변을 수정한다")
+    @ApiResponses({
+            @ApiResponse(code=200, message="성공"),
+            @ApiResponse(code=403, message="답변 수정의 권한이 없음"),
+            @ApiResponse(code=404, message="답변이 존재하지 않음"),
+            @ApiResponse(code=500, message="서버 오류")
+    })
+    public ResponseEntity<Result> updateAnswer(@RequestBody UpdateAnswerRequest request){
+        Answer answer = answerService.getAnswer(request.getAnswerId());
+
+        if(answer == null)
+            return ResponseEntity.status(404).body(Result.of(404,"질문이 존재하지 않습니다"));
+
+        if(!request.getEmail().equals(answer.getUser().getEmail()))
+            return ResponseEntity.status(403).body(Result.of(403,"수정에 대한 권한이 없습니다"));
+
+        Answer changedAnswer = answerService.updateAnswer(request);
+
+        if (!answer.getContent().equals(changedAnswer.getContent()) || !answer.getTitle().equals(changedAnswer.getTitle()))
+            return ResponseEntity.status(500).body(Result.of(500, "수정되지 않았습니다"));
+
+        return ResponseEntity.status(200).body(Result.of(200,"success"));
+    }
 }
