@@ -29,8 +29,8 @@ public class StudyTimeService {
         return studyTimeList;
     }
 
-    public long calStudyTime(List<StudyTime> studyTimes) {
-        long res = 0;
+    public Long calStudyTime(List<StudyTime> studyTimes) {
+        Long res = 0L;
         for(StudyTime studyTime : studyTimes) {
             LocalDateTime startDateTime = studyTime.getStartDatetime();
             LocalDateTime endDateTime = studyTime.getEndDatetime();
