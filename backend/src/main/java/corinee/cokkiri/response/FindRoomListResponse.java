@@ -28,6 +28,7 @@ public class FindRoomListResponse extends Result {
             findRoom.setTitle(room.getTitle());
             findRoom.setCreateDateTime(room.getCreateDatetime());
             findRoom.setUserLimit(room.getUserLimit());
+            findRoom.setUserCount(room.getUserCount());
             response.findRoomList.add(findRoom);
         }
         return response;
@@ -40,4 +41,5 @@ class FindRoom {
     private String title;
     private LocalDateTime createDateTime;
     private Long userLimit;
+    private Long userCount;
 }

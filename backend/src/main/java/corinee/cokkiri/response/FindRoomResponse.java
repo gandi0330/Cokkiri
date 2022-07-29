@@ -14,6 +14,7 @@ public class FindRoomResponse extends Result {
     private String title;
     private LocalDateTime createDatetime;
     private Long userLimit;
+    private Long userCount;
 
     public static FindRoomResponse of (int statusCode, String message, Room room){
         FindRoomResponse response = new FindRoomResponse();
@@ -23,6 +24,7 @@ public class FindRoomResponse extends Result {
         response.setTitle(room.getTitle());
         response.setCreateDatetime(room.getCreateDatetime());
         response.setUserLimit(room.getUserLimit());
+        response.setUserCount(room.getUserCount());
         return response;
     }
 }

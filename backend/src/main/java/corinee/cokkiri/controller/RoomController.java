@@ -78,6 +78,9 @@ public class RoomController {
         if (index == -1) {
             return ResponseEntity.status(500).body(Result.of(500, "스터디룸 입장 실패"));
         }
+        else if (index == -2) {
+            return ResponseEntity.status(500).body(Result.of(403, "스터디룸 정원 초과"));
+        }
         return ResponseEntity.status(200).body(EnterRoomResponse.of(200, "스터디룸 입장 성공", index));
     }
 }

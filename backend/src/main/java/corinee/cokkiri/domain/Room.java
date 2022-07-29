@@ -26,6 +26,7 @@ public class Room {
     private LocalDateTime createDatetime;
     private Long userLimit;
     private String password;
+    private Long userCount;
 
     public Room() {
 
