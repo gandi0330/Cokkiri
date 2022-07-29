@@ -4,6 +4,7 @@ import corinee.cokkiri.common.Result;
 import corinee.cokkiri.domain.Room;
 import corinee.cokkiri.request.CreateRoomRequest;
 import corinee.cokkiri.request.EnterRoomRequest;
+import corinee.cokkiri.request.ExitRoomRequest;
 import corinee.cokkiri.response.EnterRoomResponse;
 import corinee.cokkiri.response.FindRoomListResponse;
 import corinee.cokkiri.response.FindRoomResponse;
@@ -73,6 +74,11 @@ public class RoomController {
 
     @ApiOperation(value = "스터디룸 입장", notes = "Response 로 응답된 [정수 index] 저장, 스터디룸 퇴장 요청 때 다시 전달 해주세요")
     @PostMapping("/room/entrance")
+    @ApiResponses({
+            @ApiResponse(code=200, message = "성공"),
+            @ApiResponse(code=403, message = "스터디룸 정원 초과"),
+            @ApiResponse(code=500, message = "스터디룸 입장 실패"),
+    })
     public ResponseEntity<? extends Result> enterRoom(@RequestBody @Valid EnterRoomRequest request) {
         Long index = roomService.enterRoom(request);
         if (index == -1) {
@@ -83,4 +89,18 @@ public class RoomController {
         }
         return ResponseEntity.status(200).body(EnterRoomResponse.of(200, "스터디룸 입장 성공", index));
     }
+
+    @ApiOperation(value = "스터디룸 퇴장", notes = "enterRoom 에서 받은 [정수 index] 전달해주세요")
+    @PostMapping("/room/exit")
+    @ApiResponses({
+            @ApiResponse(code=200, message = "성공"),
+            @ApiResponse(code=500, message = "스터디룸 입장 실패"),
+    })
+    public ResponseEntity<? extends Result> exitRoom(@RequestBody @Valid ExitRoomRequest request) {
+        if (roomService.exitRoom(request))
+            return ResponseEntity.status(200).body(Result.of(200, "스터디룸 퇴장 성공"));
+        else
+            return ResponseEntity.status(500).body(Result.of(500, "스터디룸 퇴장 실패"));
+    }
+
 }

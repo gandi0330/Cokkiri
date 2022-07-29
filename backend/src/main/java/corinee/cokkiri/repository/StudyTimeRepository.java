@@ -31,4 +31,5 @@ public class StudyTimeRepository {
         StudyTime findStudyTime = em.find(StudyTime.class, studyTime.getId());
         return findStudyTime.getId();
     }
+
 }
