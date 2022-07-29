@@ -2,13 +2,44 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import axios from '../api/axios';
 
-const initialState = {
-  user: {
-    email: null,
-    nickname: null,
-    // accessToken: null,
-    isLoggedIn: false,
+axios.interceptors.request.use(
+  (config) => {
+    const accessToken = localStorage.getItem('token') || '';
+    if (config.headers) {
+      config.headers = {
+        ...config.headers,
+        jwt: accessToken,
+      };
+    } else {
+      config.headers = { ...config.headers };
+    }
+    return config;
   },
+  (error) => {
+    console.error(err);
+    return Promise.reject(error);
+  },
+);
+
+// TODO response interceptor & refresh token 확인 필요
+// axios.interceptors.response.use(
+//   (response) => response,
+//   async (error) => { 
+//     const prevRequest = error?.config;
+//     if (error?.response?.status === 403 && !prevRequest?.sent) {
+//       prevRequest.sent = true;
+//       const newAccessToken = await refresh();
+//       prevRequest.headers.jwt = newAccessToken;
+//       return axiosPrivate(prevRequest); 
+//     }
+//     return Promise.reject(error);
+//   },
+// );
+
+const initialState = {
+  email: null,
+  nickname: null,
+  isLoggedIn: false,
   
   loading: false,
   success: false,
@@ -58,7 +89,7 @@ export const login = createAsyncThunk(
   'auth/login',
   async ({ email, password }, thunkAPI) => {
     try {
-      const res = await axios.post('/user', { email, password }, { headers: { 'Content-Type': 'application/json' } });
+      const res = await axios.post('/user', { email, password });
       const { data } = res;
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
@@ -85,10 +116,8 @@ export const getUserInfo = createAsyncThunk(
   'auth/getuserInfo',
   async ({ email }, thunkAPI) => {
     try {
-      const axiosPrivate = useAxiosPrivate();
-      const res = await axiosPrivate.get(`/user/info/${email}`);
+      const res = await axios.get(`/user/info/${email}`);
       const { data } = res;
-      console.log(res);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       console.error(error);
@@ -102,18 +131,15 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     addUserEmail(state, { payload }) {
-      state.user.email = payload.email;
+      state.email = payload.email;
     },
     addUser(state, { payload }) {
-      state.user.email = payload.email;
-      state.user.nickname = payload.nickname;
-      // state.user.accessToken = payload.accessToken;
+      state.email = payload.email;
+      state.nickname = payload.nickname;
     },
-    // resetUser(state) {
-    //   state.user.email = null;
-    //   state.user.nickname = null;
-    //   // state.user.accessToken = null;
-    // },
+    addErrMsg(state, { payload }) {
+      state.errMsg = payload.errMsg;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(signupDetail.pending, (state) => {
@@ -125,12 +151,13 @@ const authSlice = createSlice({
       state.loading = false;
       state.success = true;
       state.error = false;
+      // payload에 email 미존재
     });
     builder.addCase(signupDetail.rejected, (state) => {
       state.loading = false;
       state.success = false;
       state.error = true;
-      state.user.email = null;
+      state.email = null;
     });
     builder.addCase(signupEmail.pending, (state) => {
       state.loading = true;
@@ -173,13 +200,16 @@ const authSlice = createSlice({
       state.error = false;
       state.email = action.payload.email;
       state.isLoggedIn = true;
-      console.log(action.payload.accessToken);
+      // TODO 의논 필요
+      localStorage.setItem('email', action.payload.email);
       localStorage.setItem('token', action.payload.accessToken);
     });
     builder.addCase(login.rejected, (state) => {
       state.loading = false;
       state.success = false;
       state.error = true;
+      localStorage.removeItem('email');
+      localStorage.removeItem('token');
     });
     builder.addCase(logout.pending, (state) => {
       state.loading = true;
@@ -190,10 +220,11 @@ const authSlice = createSlice({
       state.loading = false;
       state.success = true;
       state.error = false;
-      localStorage.removeItem('token');
       state.email = null;
       state.nickname = null;
       state.isLoggedIn = false;
+      localStorage.removeItem('token');
+      localStorage.removeItem('email');
     });
     builder.addCase(logout.rejected, (state) => {
       state.loading = false;
@@ -209,8 +240,9 @@ const authSlice = createSlice({
       state.loading = false;
       state.success = true;
       state.error = false;
-      console.log(action);
-      state.nickname = action.payload.nickname; // TODO 제대로 됐는지 체크 필요
+      state.isLoggedIn = true;
+      state.email = action.payload.email;
+      state.nickname = action.payload.nickname;
     });
     builder.addCase(getUserInfo.rejected, (state) => {
       state.loading = false;
@@ -221,11 +253,11 @@ const authSlice = createSlice({
 });
 
 export const getUser = (state) => state.auth.user;
-export const getUserEmail = (state) => state.auth.user.email;
+export const getUserEmail = (state) => state.auth.email;
 export const getAllUserState = (state) => state.auth;
-export const getLoggedIn = (state) => state.auth.user.isLoggedIn;
+export const getLoggedIn = (state) => state.auth.isLoggedIn;
 export const getLoadding = (state) => state.auth.loading;
 
-export const { addUser, addUserEmail, resetUser } = authSlice.actions;
+export const { addUser, addUserEmail } = authSlice.actions;
 
 export default authSlice.reducer;

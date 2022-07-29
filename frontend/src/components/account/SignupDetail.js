@@ -44,6 +44,11 @@ const SignupDetail = () => {
     setPasswordCheckError(password !== e.target.value);
   }, [password]);
 
+  const onEmailChangeHandler = (event) => {
+    emailChangeHandler(event);
+    setSignupError(null);
+  };
+
   const onSubmit = (event) => {
     event.preventDefault();
     if (emailHasError || nicknameHasError || passwordHasError || passwordCheckError) {
@@ -56,8 +61,10 @@ const SignupDetail = () => {
         navigate('/signupEmail', { replace: true });
       })
       .catch((err) => {
-        setSignupError(`${err.message}입니다.`);
-        // dispatch(resetUser);
+        if (err.statusCode === 409) {
+          setSignupError('이미 존재하는 이메일입니다.');
+        }
+        console.error(err);
       });
   };
 
@@ -74,7 +81,7 @@ const SignupDetail = () => {
             </div>
           )}
           <label htmlFor="email">이메일</label>
-          <input placeholder="이메일을 입력해 주세요." id="email" name="email" value={email} onChange={emailChangeHandler} onBlur={emailBlurHandler} />
+          <input placeholder="이메일을 입력해 주세요." id="email" name="email" value={email} onChange={onEmailChangeHandler} onBlur={emailBlurHandler} />
         </div>
         <br />
 

@@ -3,32 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import classes from './NavBar.module.css';
 import Elephant from '../../images/Elephant.png';
-import { 
-  getLoggedIn, logout, 
-  resetUser,
-} from '../../store/authSlice';
-// import useRefreshToken from '../../hooks/useRefreshToken';
-import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import useAuth from '../../hooks/useAuth';
+import { logout } from '../../store/authSlice';
 
 const NavBar = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(getLoggedIn);
-  // const email = useSelector(getUserEmail);
-  // const refresh = useRefreshToken();
-  const axiosPrivate = useAxiosPrivate();
-  const { auth } = useAuth();
-
-  const getUserInfo = async () => {
-    const res = await axiosPrivate.get(`/user/info/${auth.email}`);
-    console.log(res);
-  };
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const email = localStorage.getItem('email');
 
   const logoutHandler = () => {
     dispatch(logout({ email })).unwrap()
-      .then(() => {
-        dispatch(resetUser);
-      })
+      .then(() => {})
       .catch((err) => {
         console.error(err);
       });
@@ -53,18 +37,8 @@ const NavBar = () => {
           <Link to="/rooms">마이 페이지</Link>
         </li>
         <li>
-          {isLoggedIn && <Link to="/login">로그인</Link>}
-          {!isLoggedIn && (
-            <>
-              {/* <div><span>kkiri</span>님</div>
-              <div><span>이메일: </span>ssafy@naver.com</div>
-              <Link to="/logout">비밀번호 변경</Link> */}
-              <button type="button" onClick={logoutHandler}>로그아웃</button>
-            </>
-          )}
-        </li>
-        <li>
-          <button type="button" onClick={() => getUserInfo()}>refresh</button>
+          {!isLoggedIn ? <Link to="/login">로그인</Link> 
+            : <Link to="/logout" onClick={logoutHandler}>로그아웃</Link>}
         </li>
       </ul>
       <label htmlFor="navToggle" className={classes.navToggleLabel}>

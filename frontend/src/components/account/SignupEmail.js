@@ -1,17 +1,26 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { AiFillWarning } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './Account.module.css';
-// import useValidation from '../../hooks/useValidation';
-// import { validateEmail } from './validationCheck';
 import { signupEmail, getUserEmail } from '../../store/authSlice';
 
 const SignupEmail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const email = useSelector(getUserEmail);
-  console.log(email);
+
+  const alertUser = (event) => {
+    event.preventDefault();
+    event.returnValue = '정말 나가시겠습니까?';
+  };
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', alertUser);
+    return () => {
+      window.removeEventListener('beforeunload', alertUser);
+    };
+  }, []);
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -21,7 +30,6 @@ const SignupEmail = () => {
     }
     dispatch(signupEmail({ email })).unwrap()
       .then(() => {
-        // FIX Null 상태의 이메일도 인증이 보내진다
         navigate('/signupCertification', { replace: true });
       })
       .catch((err) => {
