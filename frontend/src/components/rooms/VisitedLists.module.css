@@ -1,0 +1,70 @@
+.section {
+  width: 100%;
+}
+
+.studyListTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: .5em;
+  color: var(--blueShade1);
+  font-size: var(--headingFontSize4);
+}
+
+.studyListTitle::after {
+  content: "";
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 100%;
+  height: 1px;
+  background-color: var(--blueShade2);
+  border-radius: var(--borderRadius3);
+}
+
+.section label {
+  position: absolute;
+  right: 2em;
+  top: 5.8rem;
+}
+
+.section label {
+  cursor: pointer;
+}
+
+.studyDropdown {
+  padding: .5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  /* gap: .5em; */
+  /* padding-left: .5em; */
+}
+
+.hideDropdown {
+  display: none;
+}
+
+.section input[type="checkbox"] {
+  display: none;
+}
+
+.section input[type="checkbox"]:checked ~ div {
+  display: block;
+}
+
+.dropdownMsg {
+  font-size: var(--smallFontSize1);
+}
+
+@media only screen and (min-width: 750px) {
+  .section label {
+    display: none;
+  }
+
+  .hideDropdown {
+    display: block;
+  }
+}

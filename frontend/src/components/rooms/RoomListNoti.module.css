@@ -1,0 +1,20 @@
+.roomListError {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 5em 0;
+  gap: 1em;
+}
+
+.roomListError img {
+  width: 10em;
+}
+
+.roomListError div {
+  color: var(--blueShade2);
+  font-size: var(--headingFontSize3);
+  text-align: center;
+  line-height: 1.4;
+}

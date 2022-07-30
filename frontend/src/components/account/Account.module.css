@@ -1,0 +1,124 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: .3rem;
+  width: min(21rem, 90%);
+  height: 100%;
+}
+
+.main h2 {
+  color: var(--blackShade1);
+  text-align: center;
+  margin-bottom: 3vh;
+  font-size: var(--headingFontSize2);
+}
+
+.main p {
+  font-size: var(--smallFontSize1);
+}
+
+.main form {
+  width: 100%;
+  color: var(--blueShade1);
+  display: flex;
+  flex-direction: column;
+}
+
+.main input {
+  width: 67%;
+  font-size: var(--smallFontSize1);
+  padding: .3em;
+  border: none;
+  outline: none;
+}
+
+.main label {
+  font-size: var(--smallFontSize1);
+}
+
+.main button {
+  height: 2.7rem;
+  margin-top: 1.2rem;
+  margin-bottom: 2vh;
+  border-radius: var(--borderRadius3);
+  border: none;
+  outline: none;
+  background-color: var(--blueShade1);
+  color: var(--whiteShade1);
+  font-weight: 600;
+  font-size: var(--baseFontSize);
+}
+
+.main button:hover {
+  cursor: pointer;
+  background-color: var(--blueShade3);
+}
+
+
+.errorMsg {
+  position: absolute;
+  top: -50%;
+  left: 1%;
+  color: var(--redShade1);
+  font-size: var(--smallFontSize2);
+  position: absolute;
+}
+
+.inputBox {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: .4em .8em;
+  border: 2px solid var(--blueShade2);
+  border-radius: var(--borderRadius3);
+}
+
+.link {
+  color: var(--blueShade1);
+  font-weight: 600;
+}
+
+.blank {
+  display: none;
+}
+
+.formFooter {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  font-size: var(--smallFontSize2);
+}
+
+
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+
+.timer {
+  color: var(--redShade1);
+  position: absolute;
+  right: 0;
+  top: -20px;
+  font-size: var(--smallFontSize2);
+}
+
+.invalid {
+  border: 2px solid var(--redShade1);
+}
+
+@media only screen and (min-width: 750px) {
+  .formFooter {
+    font-size: var(--baseFontSize);
+  }
+
+  .timer {
+    font-size: var(--smallFontSize1);
+  }
+}
