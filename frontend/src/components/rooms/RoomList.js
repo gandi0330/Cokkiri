@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import RoomListItem from './RoomListItem';
-import RoomListNoti from './RoomListNoti';
+// import RoomListNoti from './RoomListNoti';
 
 import classes from './RoomList.module.css';
 
@@ -42,16 +42,25 @@ const RoomList = ({
 
   return (
     <section className={classes.roomList}>
-      {rooms.length ? rooms.map((room, index) => {
+      {rooms.length > 0 && rooms.map((room, index) => {
         if (index + 1 === rooms.length) {
           return <RoomListItem ref={lastRoomElementRef} key={room} title={room} />;
         } 
         return <RoomListItem key={room} title={room} />;
-      }) : (
+      })}
+      {/* {rooms.length 
+        && rooms.map((room, index) => {
+          if (index + 1 === rooms.length) {
+            return <RoomListItem ref={lastRoomElementRef} key={room} title={room} />;
+          } 
+          return <RoomListItem key={room} title={room} />;
+        }
+      } */}
+      {/* {!loading && rooms.length === 0 && (
         <div className={classes.noResult}>
           <RoomListNoti condition="noResult" />
         </div>
-      )}
+      )} */}
     </section>
   );
 };
