@@ -10,11 +10,11 @@ import MyRecord from './pages/MyRecord';
 import RoomsPage from './pages/RoomsPage';
 import RoomDetailPage from './pages/RoomDetailPage';
 import AccountPage from './pages/AccountPage';
-// import NotFoundPage from './pages/NotFoundPage';
+import NotFoundPage from './pages/NotFoundPage';
 import Loader from './components/layout/Loader';
 
 const App = () => {
-  const { loading } = useSelector((state) => state.auth);
+  const loading = useSelector((state) => state.auth.loading);
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
   const email = localStorage.getItem('email');
@@ -39,21 +39,12 @@ const App = () => {
           <Route path="/signupEmail" element={<AccountPage header="signupEmail" />} />
           <Route path="/signupCertification" element={<AccountPage header="signupCertification" />} />
           <Route path="/signupDetail" element={<AccountPage header="signupDetail" />} />
+          <Route path="*" element={<NotFoundPage />} />
           {/* <Route path="/changePassword" element={<AccountPage header="changePassword" />} /> */}
-          {/* {!isLoggedIn && <Route path="/login" element={<AccountPage header="login" />} />}
-          {isLoggedIn && <Route path="/logout" element={<AccountPage header="logout" />} />}
-          {!isLoggedIn && <Route path="/signupEmail" 
-          element={<AccountPage header="signupEmail" />} />}
-          {!isLoggedIn && <Route path="/signupCertification" 
-          element={<AccountPage header="signupCertification" />} />}
-          {!isLoggedIn && <Route path="/signupDetail" 
-          element={<AccountPage header="signupDetail" />} />} */}
         </Route>
         {/* TODO 나중에 room 기능 완성되면 navigation guard 붙이기 */}
         <Route path="/room/:roomName" element={<RoomDetailPage />} />
-        {/* WRONG 왜 계속 NotFound가 같이 뜰까 */}
-        {/* <Route path="*" element={<NotFoundPage />} /> */}
-        {/* {!loading && <Route path="*" element={<NotFoundPage />} />} */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   );
