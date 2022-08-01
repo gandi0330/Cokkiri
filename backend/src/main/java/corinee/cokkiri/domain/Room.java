@@ -17,7 +17,7 @@ public class Room {
     @Id @GeneratedValue
     private Long roomId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "leader_email", referencedColumnName = "email")
     @OnDelete(action= OnDeleteAction.CASCADE)
     private User user;

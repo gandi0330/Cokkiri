@@ -9,11 +9,13 @@ import corinee.cokkiri.repository.UserRepository;
 import corinee.cokkiri.request.CreateRoomRequest;
 import corinee.cokkiri.request.EnterRoomRequest;
 import corinee.cokkiri.request.ExitRoomRequest;
+import corinee.cokkiri.request.SearchRoomRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,5 +97,13 @@ public class RoomService {
         }
 
         return true;
+    }
+
+    public List<Room> searchRoom(SearchRoomRequest request) {
+        List<Room> roomList = null;
+        if (request.getColumn().equals("title")){
+            roomList = roomRepository.searchRoomByTitle(request);
+        }
+        return roomList;
     }
 }
