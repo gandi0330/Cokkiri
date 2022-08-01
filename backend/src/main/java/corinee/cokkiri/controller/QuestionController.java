@@ -76,16 +76,21 @@ public class QuestionController {
     @ApiResponses({
             @ApiResponse(code=200, message="성공"),
             @ApiResponse(code=403, message="질문 삭제의 권한이 없음"),
+            @ApiResponse(code=404, message="질문이 존재하지 않음"),
             @ApiResponse(code=500, message="서버 오류")
     })
     public ResponseEntity<Result> removeQuestion(@PathVariable("question_id") Long questionId, @PathVariable("email") String email){
-        questionService.removeQuestion(questionId);
         Question question = questionService.getQuestion(questionId);
+
+        if(question == null)
+            return ResponseEntity.status(404).body(Result.of(404,"존재하지 않는 질문입니다"));
+        if(!email.equals(question.getUser().getEmail()))
+            return ResponseEntity.status(403).body(Result.of(403, "삭제에 대한 권한이 없습니다"));
+
+        questionService.removeQuestion(questionId);
+
         if(question != null)
             return ResponseEntity.status(500).body(Result.of(500, "질문이 삭제되지 않았습니다"));
-
-        if(!email.equals(question.getUser().getEmail()))
-            return ResponseEntity.status(403).body(Result.of(403,"삭제에 대한 권한이 없습니다"));
 
         return ResponseEntity.status(200).body(Result.of(200,"success"));
     }

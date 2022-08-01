@@ -46,4 +46,9 @@ public class AnswerService {
         return answer;
     }
 
+    public void removeAnswer(Long answerId){
+        Answer answer = answerRepository.getAnswer(answerId);
+        answerRepository.removeAnswer(answer);
+    }
+
 }
