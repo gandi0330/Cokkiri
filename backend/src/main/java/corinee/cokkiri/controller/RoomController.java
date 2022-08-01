@@ -5,6 +5,7 @@ import corinee.cokkiri.domain.Room;
 import corinee.cokkiri.request.CreateRoomRequest;
 import corinee.cokkiri.request.EnterRoomRequest;
 import corinee.cokkiri.request.ExitRoomRequest;
+import corinee.cokkiri.request.SearchRoomRequest;
 import corinee.cokkiri.response.EnterRoomResponse;
 import corinee.cokkiri.response.FindRoomListResponse;
 import corinee.cokkiri.response.FindRoomResponse;
@@ -103,4 +104,12 @@ public class RoomController {
             return ResponseEntity.status(500).body(Result.of(500, "스터디룸 퇴장 실패"));
     }
 
+    @PostMapping("/room/search")
+    public ResponseEntity<? extends Result> searchRoom(@RequestBody @Valid SearchRoomRequest request) {
+        List<Room> roomList = roomService.searchRoom(request);
+        if (roomList == null)
+            return ResponseEntity.status(404).body(FindRoomListResponse.of(404, "스터디룸 목록 조회 실패"));
+
+        return ResponseEntity.status(200).body(FindRoomListResponse.of(200, "스터디룸 목록 조회 성공", roomList));
+    }
 }

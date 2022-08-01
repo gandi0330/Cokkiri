@@ -1,6 +1,7 @@
 package corinee.cokkiri.repository;
 
 import corinee.cokkiri.domain.Room;
+import corinee.cokkiri.request.SearchRoomRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -33,6 +34,19 @@ public class RoomRepository {
 
     public List<Room> findRoomList(int offset, int limit) {
         return em.createQuery("select r from Room r", Room.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
+    public List<Room> searchRoomByTitle(SearchRoomRequest request) {
+
+        String value = request.getValue();
+        int offset = request.getOffset();
+        int limit = request.getLimit();
+
+        return em.createQuery("select r from Room r where r.title like :value", Room.class)
+                .setParameter("value", "%" + value + "%")
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultList();
