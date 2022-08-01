@@ -21,4 +21,6 @@ public class AnswerRepository {
     public Answer getAnswer(Long answerId){
         return em.find(Answer.class, answerId);
     }
+
+    public void removeAnswer(Answer answer){ em.remove(answer);}
 }
