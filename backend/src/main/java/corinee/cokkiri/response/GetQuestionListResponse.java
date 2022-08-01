@@ -14,12 +14,12 @@ import java.util.List;
 @Setter
 public class GetQuestionListResponse extends Result {
 
-    private List<FindQuestion> questions;
+    private List<FindQuestion> findQuestionList;
 
-    public static GetQuestionListResponse of (int statusCode, String message, List<Question> questions){
+    public static GetQuestionListResponse of (int statusCode, String message, List<Question> questionList){
         GetQuestionListResponse resList = new GetQuestionListResponse();
-        resList.questions = new ArrayList<>();
-        for(Question question : questions){
+        resList.findQuestionList = new ArrayList<>();
+        for(Question question : questionList){
             FindQuestion findQuestion = new FindQuestion();
             findQuestion.setQuestionId(question.getQuestionId());
             findQuestion.setTitle(question.getTitle());
@@ -27,7 +27,7 @@ public class GetQuestionListResponse extends Result {
             findQuestion.setRoomId(question.getRoom().getRoomId());
             findQuestion.setQuestionWriterEmail(question.getUser().getEmail());
             findQuestion.setCreateDateTime(question.getCreateDatetime());
-            resList.questions.add(findQuestion);
+            resList.findQuestionList.add(findQuestion);
         }
         resList.setStatusCode(statusCode);
         resList.setMessage(message);

@@ -8,6 +8,7 @@ import corinee.cokkiri.request.AnswerAddRequest;
 import corinee.cokkiri.request.QuestionAddRequest;
 import corinee.cokkiri.request.UpdateAnswerRequest;
 import corinee.cokkiri.request.UpdateQuestionRequest;
+import corinee.cokkiri.response.GetAnswerListResponse;
 import corinee.cokkiri.response.GetAnswerResponse;
 import corinee.cokkiri.response.GetQuestionResponse;
 import corinee.cokkiri.service.AnswerService;
@@ -21,6 +22,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.QueryEval;
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
 @Api(value="답변 API", tags= {"Answer"})
@@ -30,6 +34,25 @@ public class AnswerController {
     private final AnswerService answerService;
 
     private final QuestionService questionService;
+
+
+    @GetMapping("/answer/list/{answer_id}")
+    @ApiOperation(value="답변 목록조회", notes="답변 목록을 조회한다")
+    @ApiResponses({
+            @ApiResponse(code=200, message="성공"),
+            @ApiResponse(code=404, message="자원이 없음"),
+            @ApiResponse(code=500, message="서버 오류")
+    })
+    public ResponseEntity<? extends Result> getAnswerList(@PathVariable("question_id") Long questionId){
+        Question question = questionService.getQuestion(questionId);
+
+        if(question == null)
+            return ResponseEntity.status(404).body(Result.of(404,"질문이 존재하지 않습니다"));
+
+        List<Answer> answerList = answerService.getAnswerList(questionId);
+
+        return ResponseEntity.status(200).body(GetAnswerListResponse.of(200,"success", answerList));
+    }
 
     @PostMapping("/answer")
     @ApiOperation(value="답변 생성", notes="답변을 생성한다")

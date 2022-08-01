@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -22,6 +24,10 @@ public class AnswerService {
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
 
+
+    public List<Answer> getAnswerList(Long questionId){
+        return answerRepository.getAnswerList(questionId);
+    }
     public Long addAnswer(AnswerAddRequest answerAddRequest){
         Answer answer = new Answer();
         answer.setContent(answerAddRequest.getContent());
