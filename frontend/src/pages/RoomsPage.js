@@ -71,7 +71,7 @@ const RoomsPage = () => {
         <VisitedLists className={classes.sidePannel} />
         <main className={classes.main}>
           <SearchBar onSearchHandler={onSearchHandler} />
-          {!error && (
+          {!error && rooms.length !== 0 && (
             <RoomList
               loading={loading}
               hasMore={hasMore}
@@ -79,11 +79,16 @@ const RoomsPage = () => {
               pageHandler={pageHandler}
             />
           )}
+          {!error && !loading && rooms.length === 0 && (
+            <div className={classes.noResult}>
+              <RoomListNoti condition="noResult" />
+            </div>
+          )}
           {loading && <LoadingRoomList />}
           {error && <RoomListNoti condition="error" />}
         </main>
       </div>
-      <Footer className={classes.foot} />
+      <Footer />
     </div>
   );
 };
