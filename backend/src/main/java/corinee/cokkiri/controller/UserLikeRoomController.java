@@ -22,7 +22,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Api(value = "스터디룸 즐겨찾기 API", tags = {"UserLikeRoom"})
-@CrossOrigin("*")
 public class UserLikeRoomController {
 
     private final UserLikeRoomService userLikeRoomService;

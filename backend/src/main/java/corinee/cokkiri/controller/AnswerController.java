@@ -26,7 +26,6 @@ import javax.management.QueryEval;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
 @Api(value="답변 API", tags= {"Answer"})
 @RequiredArgsConstructor
 public class AnswerController {

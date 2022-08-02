@@ -1,9 +1,8 @@
 package corinee.cokkiri.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import corinee.cokkiri.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -26,5 +25,15 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/answer/**")
                 .addPathPatterns("/question")
                 .addPathPatterns("/question/**");
+    }
+
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry){
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:3000")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .allowCredentials(true);
     }
 }

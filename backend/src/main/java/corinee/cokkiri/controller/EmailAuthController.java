@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Api(value = "메일 인증 API", tags = {"EmailAuth"})
-@CrossOrigin("*")
 public class EmailAuthController {
     private final EmailService emailService;
     private final UserService userService;
