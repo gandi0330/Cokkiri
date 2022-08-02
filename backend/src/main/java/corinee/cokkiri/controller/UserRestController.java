@@ -124,9 +124,8 @@ public class UserRestController {
         User user = userService.findByEmail(email);
         if(user == null)
             return ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
-
-        if(refreshToken == null || !refreshToken.equals(user.getRefreshToken()))
-            return ResponseEntity.status(401).body(Result.of(401,"일치하지 않는 토큰입니다"));
+        if(!jwtTokenUtil.verifyToken(refreshToken) || !refreshToken.equals(user.getRefreshToken()))
+            return ResponseEntity.status(401).body(Result.of(401,"리프레쉬토큰이 만료되었습니다"));
 
         String accessToken = jwtTokenUtil.createAccessToken("email",user.getEmail());
         return ResponseEntity.ok(GetTokenResponse.of(200,"success", accessToken, user.getEmail()));
