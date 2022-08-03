@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
+// import { coy } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const Markdown = ({ review }) => {
   console.log(review);
@@ -21,7 +21,7 @@ const Markdown = ({ review }) => {
           return !inline && match ? (
             <SyntaxHighlighter
               children={String(children).replace(/\n$/, '')}
-              style={okaidia}
+              // style={coy}
               language={match[1]}
               PreTag="div"
               showLineNumbers
