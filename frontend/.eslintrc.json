@@ -38,6 +38,7 @@
         "no-restricted-syntax": "off",
         "react/jsx-no-constructed-context-values": "off",
         "react/no-unstable-nested-components": "off",
-        "react/no-children-prop": "off"
+        "react/no-children-prop": "off",
+        "prefer-template": "off"
     }
 }
