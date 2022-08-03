@@ -5,11 +5,15 @@ import { getUserInfo } from './store/authSlice';
 
 import BasicLayout from './components/layout/BasicLayout';
 import MainPage from './pages/MainPage';
+import AccountPage from './pages/AccountPage';
 import MyPagePage from './pages/MyPagePage';
 import MyRecord from './pages/MyRecord';
 import RoomsPage from './pages/RoomsPage';
 import RoomDetailPage from './pages/RoomDetailPage';
-import AccountPage from './pages/AccountPage';
+import QuestionPage from './pages/questions/QuestionPage';
+import QuestionNewPage from './pages/questions/QuestionNewPage';
+import QuestionUpdatePage from './pages/questions/QuestionUpdatePage';
+import QuestionDetailPage from './pages/questions/QuestionDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
 import Loader from './components/layout/Loader';
 
@@ -43,7 +47,11 @@ const App = () => {
           {/* <Route path="/changePassword" element={<AccountPage header="changePassword" />} /> */}
         </Route>
         {/* TODO 나중에 room 기능 완성되면 navigation guard 붙이기 */}
-        <Route path="/room/:roomName" element={<RoomDetailPage />} />
+        <Route path="/room/:roomId" element={<RoomDetailPage />} />
+        <Route path="/room/:roomId/questions" element={<QuestionPage />} />
+        <Route path="/room/:roomId/questions/new" element={<QuestionNewPage />} />
+        <Route path="/room/:roomId/question/:questionId" element={<QuestionDetailPage />} />
+        <Route path="/room/:roomId/question/:questionId/update" element={<QuestionUpdatePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
