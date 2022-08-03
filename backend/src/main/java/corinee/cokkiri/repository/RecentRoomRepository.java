@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -22,6 +23,14 @@ public class RecentRoomRepository {
         em.persist(recentRoom);
 
         return recentRoom.getRecentRoomId();
+    }
+
+    public LocalDateTime setVisitedTime(Long recentRoomId) {
+        RecentRoom recentRoom = em.find(RecentRoom.class, recentRoomId);
+
+        recentRoom.setVisitedTime(LocalDateTime.now());
+
+        return recentRoom.getVisitedTime();
     }
 
     public RecentRoom getRecentRoom(Long recentRoomId) {

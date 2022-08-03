@@ -1,7 +1,10 @@
 package corinee.cokkiri.service;
 
 import corinee.cokkiri.domain.RecentRoom;
+import corinee.cokkiri.domain.Room;
+import corinee.cokkiri.domain.User;
 import corinee.cokkiri.repository.RecentRoomRepository;
+import corinee.cokkiri.request.RecentRoomRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +28,36 @@ public class RecentRoomService {
         Collections.sort(recentRoomList, comp);
 
         return recentRoomList;
+    }
+
+    public boolean duplicatedRoomId(RecentRoomRequest request) {
+        List<RecentRoom> recentRoomList = findListByEmail(request.getEmail());
+
+        for(RecentRoom recentRoom : recentRoomList) {
+            if(recentRoom.getRoom().getRoomId() == request.getRoomId()) {
+                recentRoomRepository.setVisitedTime(recentRoom.getRecentRoomId());
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Long addRecentRoom(User user, Room room) {
+        RecentRoom recentRoom = new RecentRoom();
+        recentRoom.setUser(user);
+        recentRoom.setRoom(room);
+        recentRoom.setVisitedTime(LocalDateTime.now());
+
+        return recentRoomRepository.save(recentRoom);
+    }
+
+    public void removeRecentRoom(RecentRoom recentRoom) {
+        recentRoomRepository.removeRecentRoom(recentRoom);
+    }
+
+    public RecentRoom checkRecentRoom(Long recentRoomId) {
+        return recentRoomRepository.getRecentRoom(recentRoomId);
     }
 }
 
