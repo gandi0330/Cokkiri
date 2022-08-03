@@ -8,7 +8,20 @@ const DUMMY_QUESTION = {
   title: 'python이 뭐예요?',
   author: '자린이',
   content: '오늘 파이썬 처음 들어봤어요.',
-  comments: [{ id: 1, author: '파프로', content: '공식문서 찾아보세요' }, { id: 2, author: '파파프로', content: '뱀 이름 이예요' }],
+  comments: [
+    {
+      id: 1,
+      author: '파프로',
+      content: '공식문서 찾아보세요',
+      review: '\`\`\`js\nconsole.log(123)\n\`\`\`',
+    },
+    {
+      id: 2,
+      author: '파파프로',
+      content: '뱀 이름 이예요',
+      review: '```js\nconsole.log(456)\n```',
+    },
+  ],
   createdAt: '2022-08-01',
   updatedAt: '2022-08-02',
 };
@@ -18,7 +31,9 @@ const QuestionDetailPage = () => {
     <>
       <section>
         <h3>{DUMMY_QUESTION.title}</h3>
-        <span>{`${DUMMY_QUESTION.createdAt} ${DUMMY_QUESTION.createdAt !== DUMMY_QUESTION.updatedAt ? '(수정됨)' : ''}`}</span>
+        <span>
+          {`${DUMMY_QUESTION.createdAt} ${DUMMY_QUESTION.createdAt !== DUMMY_QUESTION.updatedAt ? '(수정됨)' : ''}`}
+        </span>
         <p>{DUMMY_QUESTION.content}</p>
         <div>
           <button type="submit">삭제하기</button>
