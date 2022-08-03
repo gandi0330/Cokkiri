@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
 @Api(value = "질문 API", tags = {"Question"})
 @RequiredArgsConstructor
 public class QuestionController {

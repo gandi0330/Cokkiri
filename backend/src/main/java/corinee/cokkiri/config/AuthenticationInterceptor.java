@@ -3,8 +3,10 @@ package corinee.cokkiri.config;
 import corinee.cokkiri.service.UserService;
 import corinee.cokkiri.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -24,10 +26,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
+        if(HttpMethod.OPTIONS.matches(request.getMethod())) {
+            response.setHeader("Access-Control_Allow_Origin","localhost:3000");
+            return true;
+        }
+
         try{
 
             String token = request.getHeader("jwt");
-            System.out.println(token);
             if(token == null){
                 response.setStatus(404);
                 return false;

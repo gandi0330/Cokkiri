@@ -20,7 +20,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Api(value = "공부 시간 API", tags = {"StudyTime"})
-@CrossOrigin("*")
 public class StudyTimeController {
     private final StudyTimeService studyTimeService;
 
