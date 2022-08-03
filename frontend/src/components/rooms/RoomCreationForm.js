@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdWarning } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Toggle from '../layout/Toggle';
 import Dropdown from '../layout/Dropdown';
@@ -8,9 +9,12 @@ import Dropdown from '../layout/Dropdown';
 import classes from './RoomCreationForm.module.css';
 import useValidation from '../../hooks/useValidation';
 import useToggle from '../../hooks/useToggle';
+import { makeRoom } from '../../store/roomSlice';
 
 const RoomCreationForm = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { email } = useSelector((state) => state.auth);
 
   const titleValidationObj = [
     {
@@ -118,12 +122,18 @@ const RoomCreationForm = () => {
     if (!isRoomPublic) formIsValid = true;
   }
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
     console.log(isAlarm, isTimer, isRoomPublic, selected);
 
     if (!titleIsValid || !descriptionIsValid || !pwdIsValid) {
       return;
+    }
+
+    try {
+      dispatch(makeRoom({ email, title, userLimit: 4 }));
+    } catch (error) {
+      console.error(error);
     }
 
     formIsValid = false;

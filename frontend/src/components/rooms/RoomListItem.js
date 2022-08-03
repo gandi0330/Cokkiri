@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-
 import { MdPersonOutline } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux/es/exports';
 
 import classes from './RoomListItem.module.css';
 
@@ -18,10 +18,20 @@ const THUMBNAILS = [
 ];
 
 const RoomListItem = forwardRef(({ title }, ref) => {
+  const dispatch = useDispatch();
+  const { email } = useSelector((state) => state.auth);
   const tnIdx = Math.floor(Math.random() * 4);
 
+  const onClick = async () => {
+    try {
+      dispatch(entranceRoom({ roomNumber: 1, email }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <div className={classes.card} ref={ref}>
+    <div onClick={onClick} className={classes.card} ref={ref}>
       <img src={THUMBNAILS[tnIdx].thumbnailSrc} alt="스터디룸 이미지" />
       <div>
         <span>{ title }</span>
