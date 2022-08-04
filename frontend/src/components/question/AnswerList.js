@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import AnswerListItem from './AnswerListItem';
 import classes from './QuestionList.module.css';
 
-const AnswerList = ({ comments }) => {
+const AnswerList = ({ comments, originalCode }) => {
   return (
     <div className={classes.answer__list}>
       {comments.map((comment) => (
@@ -14,6 +14,7 @@ const AnswerList = ({ comments }) => {
           writer={comment.writer}
           content={comment.content}
           review={comment.review}
+          originalCode={originalCode}
         />
       ))}
     </div>
@@ -29,6 +30,7 @@ AnswerList.propTypes = {
       review: PropTypes.string,
     }),
   ).isRequired,
+  originalCode: PropTypes.string.isRequired,
 };
 
 export default AnswerList;

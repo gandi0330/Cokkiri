@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
+import Editor from './Editor';
 import Modal from '../layout/Modal';
+import QuestionDropdown from './QuestionDropdown';
 import SadElephant from '../icons/SadElephant';
 
 import classes from './QuestionList.module.css';
@@ -16,14 +19,15 @@ const QuestionForm = ({
   const [title, setTitle] = useState(qTitle);
   const [content, setContent] = useState(qContent);
   const [code, setCode] = useState(qCode);
+  const [language, setLanguage] = useState('java');
+
+  const languageOptions = ['java', 'python', 'cpp', 'javascript', 'typescript', 'css', 'html', 'json'];
 
   const submitHandler = (event) => {
     event.preventDefault();
 
     // axios 
   };
-
-  console.log(title, content, code);
 
   return (
     <>
@@ -79,15 +83,23 @@ const QuestionForm = ({
         )}
         {codeEditorOpen && (
           <div>
-            <label htmlFor="content">코드</label>
-            <textarea
+            <div className={classes.question__form__code}>
+              <label htmlFor="content">코드</label>
+              <QuestionDropdown 
+                selected={language} 
+                setSelected={setLanguage} 
+                options={languageOptions} 
+              />
+            </div>
+            {/* <textarea
               name="content"
               id="content"
               value={code}
               onChange={(event) => setCode(event.target.value)}
               cols="30"
               rows="10"
-            />
+            /> */}
+            <Editor code={code} setCode={setCode} language={language} />
           </div>
         )}
         <div className={classes.question__form__btn}>
