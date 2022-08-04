@@ -4,4 +4,36 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+}
+
+.contents {
+  display: grid;
+  grid-template-rows: 25fr 1fr;
+}
+
+.rightSideBar {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: var(--blueShade1);
+}
+
+@media screen and (min-width: 750px) {
+  .container {
+    display: grid;
+    flex-direction: row;
+    grid-template-columns: 20fr 1fr;
+    height: 100vh;
+  }
+
+  .contents {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .rightSideBar {
+    position: static;
+  }
 }
