@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { OpenVidu } from 'openvidu-browser';
+// import { OpenVidu } from 'openvidu-browser';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -20,19 +20,19 @@ const VideoSection = ({ roomId }) => {
   const [subscribers, setSubscribers] = useState([]);
   const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
 
-  const reqCameraAndAudio = async () => {
-    try {
-      await navigator.mediaDevices.getUserMedia({ audio: true, video: { facingMode: 'user' } });
-    } catch (err) {
-      if (err.message === 'Permission denied') {
-        window.alert('마이크, 오디오 권한을 재설정 해주세요!');
-      }
-    }
-  };
+  // const reqCameraAndAudio = async () => {
+  //   try {
+  //     await navigator.mediaDevices.getUserMedia({ audio: true, video: { facingMode: 'user' } });
+  //   } catch (err) {
+  //     if (err.message === 'Permission denied') {
+  //       window.alert('마이크, 오디오 권한을 재설정 해주세요!');
+  //     }
+  //   }
+  // };
 
-  useEffect(() => {
-    reqCameraAndAudio();
-  }, []);
+  // useEffect(() => {
+  // reqCameraAndAudio();
+  // }, []);
 
   const handleMainVideoStream = (stream) => {
     if (mainStreamManager === stream) return;
@@ -54,15 +54,15 @@ const VideoSection = ({ roomId }) => {
     return () => window.removeEventListener('beforeunload', leaveSession);
   });
 
-  const joinSession = () => {
-    // event.preventDefault();
-    OV = new OpenVidu();
-    setSession(OV.initSession());
-  };
+  // const joinSession = () => {
+  //   // event.preventDefault();
+  //   OV = new OpenVidu();
+  //   setSession(OV.initSession());
+  // };
 
-  useEffect(() => {
-    joinSession();
-  });
+  // useEffect(() => {
+  //   joinSession();
+  // });
 
   useEffect(() => {
     if (!session) return;
@@ -179,7 +179,7 @@ const VideoSection = ({ roomId }) => {
 };
 
 VideoSection.propTypes = {
-  roomId: PropTypes.number.isRequired,
+  roomId: PropTypes.string.isRequired,
 };
 
 export default VideoSection;

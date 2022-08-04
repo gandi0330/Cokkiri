@@ -1,0 +1,23 @@
+.nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 80px;
+  border-top: 4px solid var(--grayShade2);
+}
+
+
+@media screen and (min-width: 750px) {
+  .nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    border-top: none;
+    border-left: 4px solid var(--grayShade2);
+    height: 100vh;
+  }
+
+  .nav > div {
+    margin-top: 20px;
+  }
+}
