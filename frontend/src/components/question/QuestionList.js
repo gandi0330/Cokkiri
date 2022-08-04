@@ -13,7 +13,7 @@ const QuestionList = ({ questions }) => {
           key={question.id}
           id={question.id}
           title={question.title}
-          author={question.author}
+          writer={question.writer}
           content={question.content}
           createdAt={question.createdAt}
           updatedAt={question.updatedAt}
@@ -27,11 +27,11 @@ QuestionList.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
-    author: PropTypes.string,
+    writer: PropTypes.string,
     contents: PropTypes.string,
     comments: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number,
-      author: PropTypes.string,
+      writer: PropTypes.string,
       contents: PropTypes.string,
     })),
     createdAt: PropTypes.string,

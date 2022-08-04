@@ -1,3 +1,14 @@
+.header {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+}
+
+.header h3 {
+  color: var(--blueShade1);
+  font-size: var(--headingFontSize4);
+}
+
 .questions__list {
   display: flex;
   flex-direction: column;
@@ -6,6 +17,25 @@
 
 .questions__item {
   padding: 0 .5rem;
+}
+
+.questions__item:first-child {
+  position: relative;
+  margin-top: 1.5rem;
+}
+
+.questions__item:first-child::before {
+  position: absolute;
+  content: "";
+  width: 98%;
+  height: 1px;
+  top: -20%;
+  left: 1%;
+  background-color: var(--grayShade1);
+}
+
+.questions__item:last-child {
+  margin-bottom: 5rem;
 }
 
 .questions__item h4 {
@@ -39,4 +69,122 @@
   height: 1px;
   bottom: -150%;
   background-color: var(--grayShade1);
+}
+
+
+.question__form {
+  padding: 1.5rem 0 1rem 0;
+}
+
+.question__form div  {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  margin-bottom: 1rem;
+}
+
+.question__form label {
+  color: var(--blueShade1);
+  font-weight: bold;
+}
+
+.question__form input,
+.question__form textarea {
+  padding: 1rem;
+  border: 1px solid var(--grayShade1);
+  border-radius: var(--borderRadius3);
+  font-size: var(--smallFontSize1);
+  line-height: 1.5;
+}
+
+.question__form input:focus,
+.question__form textarea:focus {
+  outline: 1px solid var(--blueShade2);
+}
+
+.question__form textarea {
+  resize: none;
+}
+
+.question__form__content {
+  position: relative;
+}
+
+.question__form__content span {
+  position: absolute;
+  font-size: var(--smallFontSize3);
+  right: 0;
+  top: 2%;
+}
+
+.question__form__btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.question__form__btn button,
+.question__cancel button {
+  padding: .5rem;
+  border: none;
+  border-radius: var(--borderRadius3);
+  outline: none;
+  cursor: pointer;
+  color: var(--whiteShade2);
+  font-size: var(--smallFontSize1);
+}
+
+.question__form__btn button:first-child {
+  background-color: var(--grayShade1);
+}
+
+.question__form__btn button:first-child:hover {
+  background-color: var(--grayShade2);
+}
+
+.question__form__btn button:last-child {
+  background-color: var(--blueShade1);
+}
+
+.question__form__btn button:last-child:hover {
+  background-color: var(--blueShade3);
+}
+
+.question__cancel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.question__cancel div {
+  width: 15rem;
+  text-align: center;
+  line-height: 1.5;
+  color: var(--blackShade1);
+  font-size: var(--smallFontSize1);
+}
+
+.question__cancel div:last-child {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.question__cancel button:first-child {
+  background-color: var(--redShade1);
+}
+
+.question__cancel button:last-child {
+  background-color: var(--blueShade1);
+}
+
+.question__cancel button:first-child:hover {
+  background-color: var(--redShade2);
+}
+
+.question__cancel button:last-child:hover {
+  background-color: var(--blueShade3);
 }

@@ -121,3 +121,21 @@ h4 {
 .btn-primary:hover {
   background-color: var(--blueShade3);
 }
+
+.question__btn {
+  margin: 1rem 0;
+  padding: .7rem;
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: var(--borderRadius3);
+  background-color: #bfd7ea86;
+  font-weight: bold;
+  text-align: start;
+  color: var(--blueShade1);
+  cursor: pointer;
+}
+
+.question__btn:hover {
+  background-color: var(--blueShade2);
+}
