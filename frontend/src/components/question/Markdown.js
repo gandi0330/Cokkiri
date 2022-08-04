@@ -13,7 +13,6 @@ const Markdown = ({ review }) => {
       children={review}
       remarkPlugins={[remarkGfm]}
       components={{
-        // code의 children은 위의 children={review}에서 내려온다
         code({ 
           inline, className, children,
         }) {
