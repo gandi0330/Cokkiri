@@ -107,6 +107,14 @@
   resize: none;
 }
 
+.question__form__code.question__form__code {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+}
+
 .question__form__content {
   position: relative;
 }
@@ -268,4 +276,53 @@
   top: 10%;
   right: -20%;
   background-color: var(--grayShade1);
+}
+
+.question__remove {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.question__remove div {
+  width: 15rem;
+  text-align: center;
+  line-height: 1.5;
+  color: var(--blackShade1);
+  font-size: var(--baseFontSize);
+}
+
+.question__remove div:last-child {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.question__remove button {
+  padding: .5rem;
+  border: none;
+  border-radius: var(--borderRadius3);
+  outline: none;
+  cursor: pointer;
+  color: var(--whiteShade2);
+  font-size: var(--smallFontSize1);
+}
+
+.question__remove button:first-child {
+  background-color: var(--redShade1);
+}
+
+.question__remove button:last-child {
+  background-color: var(--blueShade1);
+}
+
+.question__remove button:first-child:hover {
+  background-color: var(--redShade2);
+}
+
+.question__remove button:last-child:hover {
+  background-color: var(--blueShade3);
 }

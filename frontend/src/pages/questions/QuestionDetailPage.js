@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { MdKeyboardArrowLeft as Back } from 'react-icons/md';
 
 import AnswerForm from '../../components/question/AnswerForm';
 import AnswerList from '../../components/question/AnswerList';
@@ -35,6 +37,7 @@ const DUMMY_QUESTION = {
 };
 
 const QuestionDetailPage = () => {
+  const navigate = useNavigate();
   const [removeModalOpen, setRemoveModalOpen] = useState(false);
 
   const removeHandler = (event) => {
@@ -62,6 +65,7 @@ const QuestionDetailPage = () => {
       <div className={classes.detail}>
         <header>
           <h3>{`Q. ${DUMMY_QUESTION.title}`}</h3>
+          <button type="button" onClick={() => navigate(-1)}><Back /></button>
           <span>
             {`${DUMMY_QUESTION.writer} | ${DUMMY_QUESTION.createdAt} ${
               DUMMY_QUESTION.createdAt !== DUMMY_QUESTION.updatedAt
@@ -74,13 +78,13 @@ const QuestionDetailPage = () => {
           <p>{DUMMY_QUESTION.content}</p>
           <Markdown review={DUMMY_QUESTION.code} />
           <div className={classes.detail_btn}>
-            <button type="button" onClick={() => setRemoveModalOpen(true)}>삭제</button>
             <button type="button">수정</button>
+            <button type="button" onClick={() => setRemoveModalOpen(true)}>삭제</button>
           </div>
         </main>
         <section className={classes.detail__answer}>
           <AnswerForm code={DUMMY_QUESTION.code} />
-          <AnswerList comments={DUMMY_QUESTION.comments} />
+          <AnswerList comments={DUMMY_QUESTION.comments} originalCode={DUMMY_QUESTION.code} />
         </section>
       </div>
       <Footer />

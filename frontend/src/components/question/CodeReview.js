@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { diffLines, formatLines } from 'unidiff';
 
+import Editor from './Editor';
 import Markdown from './Markdown'; 
 
 // set review도 내려옴
@@ -15,17 +16,17 @@ const CodeReview = ({ oldCode, language }) => {
 
   const updatedCode = '```diff\n' + diffCode.replace(regEx, '') + '\n```';
 
-  console.log('newCode', newCode);
   console.log('language', language); // 올려 보낼 때 ```language 붙여서 올려 보내기```
 
   return (
     <>
       <Markdown review={updatedCode} />
-      <textarea
+      {/* <textarea
         value={newCode}
         onChange={(event) => setNewCode(event.target.value)}
         rows="10"
-      />
+      /> */}
+      <Editor code={newCode} setCode={setNewCode} language={language} />
     </>
   );
 };
