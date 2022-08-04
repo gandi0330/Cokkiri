@@ -1,19 +1,25 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-
 import PropTypes from 'prop-types';
 
+import classes from './QuestionList.module.css';
+
 const QuestionListItem = ({
-  id, title, author, content, createdAt, updatedAt,
+  id, title, author, content, createdAt,
 }) => {
   const { roomId } = useParams();
   return (
-    <Link to={`/room/${roomId}/question/${id}`}>
+    <Link to={`/room/${roomId}/question/${id}`} className={classes.questions__item}>
       <h4>{title}</h4>
-      <span>{author}</span>
-      <p>{content}</p>
-      <span>{`${createdAt} ${createdAt !== updatedAt ? '(수정됨)' : ''}`}</span>
-      <hr />
+      <p>{content.length < 150 ? content : `${content.slice(0, 150)}...`}</p>
+      <div className={classes.questions__extra}>
+        <span>
+          {`${author} | ${createdAt}`}
+        </span>
+        <span>
+          답변: 0개
+        </span>
+      </div>
     </Link>
   );
 };
@@ -24,7 +30,6 @@ QuestionListItem.propTypes = {
   author: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
-  updatedAt: PropTypes.string.isRequired,
 };
 
 export default QuestionListItem;

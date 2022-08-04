@@ -3,10 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import QuestionListItem from './QuestionListItem';
 
+import classes from './QuestionList.module.css';
+
 const QuestionList = ({ questions }) => {
   return (
-    <div>
-      QuestionList
+    <div className={classes.questions__list}>
       {questions.map((question) => (
         <QuestionListItem
           key={question.id}
