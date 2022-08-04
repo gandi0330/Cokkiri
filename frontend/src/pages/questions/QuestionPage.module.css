@@ -1,36 +1,6 @@
 .questions {
   width: 100%;
-  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  /* background-color: aquamarine; */
-}
-
-.questions header {
-  display: flex;
-  gap: .5rem;
-  align-items: center;
-}
-
-.questions h3 {
-  color: var(--blueShade1);
-  font-size: var(--headingFontSize4);
-}
-
-.questions button {
-  margin: 1rem 0;
-  padding: .7rem;
-  border: none;
-  outline: none;
-  border-radius: var(--borderRadius3);
-  background-color: #bfd7ea86;
-  font-weight: bold;
-  text-align: start;
-  color: var(--blueShade1);
-}
-
-.questions button:hover {
-  background-color: var(--blueShade2);
-  cursor: pointer;
 }
