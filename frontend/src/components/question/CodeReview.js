@@ -4,6 +4,7 @@ import { diffLines, formatLines } from 'unidiff';
 
 import Markdown from './Markdown'; 
 
+// set review도 내려옴
 const CodeReview = ({ oldCode, language }) => {
   // const oldCodes = oldCode.match(/```[a-z]*\n[\s\S]*?\n```/g) || [];
   console.log('oldCodes', oldCode);
@@ -20,10 +21,10 @@ const CodeReview = ({ oldCode, language }) => {
   return (
     <>
       <Markdown review={updatedCode} />
-      CodeReview
       <textarea
         value={newCode}
         onChange={(event) => setNewCode(event.target.value)}
+        rows="10"
       />
     </>
   );

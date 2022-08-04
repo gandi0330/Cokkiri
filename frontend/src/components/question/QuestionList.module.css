@@ -90,6 +90,7 @@
 
 .question__form input,
 .question__form textarea {
+  width: 100%;
   padding: 1rem;
   border: 1px solid var(--grayShade1);
   border-radius: var(--borderRadius3);
@@ -187,4 +188,84 @@
 
 .question__cancel button:last-child:hover {
   background-color: var(--blueShade3);
+}
+
+.question__answerForm {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--grayShade2);
+  border-bottom: 1px solid var(--grayShade2);
+}
+
+.question__answerbtn {
+  margin-top: 1rem;
+  padding: .5rem;
+  border: none;
+  outline: none;
+  border-radius: var(--borderRadius3);
+  color: var(--whiteShade2);
+  background-color: var(--blueShade1);
+  cursor: pointer;
+}
+
+.question__answerbtn:hover {
+  background-color: var(--blueShade3);
+}
+
+.answer__list {
+  padding: 2rem 0 8rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.answer__item {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.answer__item {
+  padding-left: 1rem;
+  border-left: 1px solid var(--grayShade2);
+}
+
+.answer__item > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.answer__item span {
+  font-size: var(--smallFontSize1);
+}
+
+.answer__item p {
+  color: var(--blackShade1);
+}
+
+.answer__item__btn {
+  display: flex;
+  justify-content: flex-end;
+  font-size: var(--smallFontSize3);
+  gap: .5rem;
+}
+
+.answer__item__btn button {
+  position: relative;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--grayShade1);
+  cursor: pointer;
+}
+
+.answer__item__btn button:first-child::after {
+  position: absolute;
+  content: "";
+  width: 1px;
+  height: .9rem;
+  top: 10%;
+  right: -20%;
+  background-color: var(--grayShade1);
 }

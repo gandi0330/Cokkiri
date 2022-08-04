@@ -1,25 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import AnswerForm from '../../components/question/AnswerForm';
 import AnswerList from '../../components/question/AnswerList';
 import Markdown from '../../components/question/Markdown';
+import Modal from '../../components/layout/Modal';
+import SadElephant from '../../components/icons/SadElephant';
+import Footer from '../../components/layout/Footer';
+
+import classes from './QuestionPage.module.css';
 
 const DUMMY_QUESTION = {
   id: 2,
   title: 'python이 뭐예요?',
-  author: '자린이',
+  writer: '자린이',
   content: 
-    '오늘 파이썬 처음 들어봤어요.\n```js\nconsole.log(123);\n```\n```python\nprint(123)\n```',
+    '오늘 파이썬 처음 들어봤어요.',
+  code: '```js\nconsole.log(123);\n```',
   comments: [
     {
       id: 1,
-      author: '파프로',
+      writer: '파프로',
       content: '공식문서 찾아보세요',
       review: '```js\nconsole.log(123)\n```',
     },
     {
       id: 2,
-      author: '파파프로',
+      writer: '파파프로',
       content: '뱀 이름 이예요',
       review: '```js\nconsole.log(456)\n```',
     },
@@ -29,27 +35,55 @@ const DUMMY_QUESTION = {
 };
 
 const QuestionDetailPage = () => {
+  const [removeModalOpen, setRemoveModalOpen] = useState(false);
+
+  const removeHandler = (event) => {
+    event.preventDafault();
+  };
+
   return (
     <>
-      <section>
-        <h3>{DUMMY_QUESTION.title}</h3>
-        <span>
-          {`${DUMMY_QUESTION.createdAt} ${
-            DUMMY_QUESTION.createdAt !== DUMMY_QUESTION.updatedAt
-              ? '(수정됨)'
-              : ''
-          }`}
-        </span>
-        <Markdown review={DUMMY_QUESTION.content} />
-        <div>
-          <button type="submit">삭제하기</button>
-          <button type="button">수정하기</button>
+      <Modal open={removeModalOpen} onClose={() => setRemoveModalOpen(false)}>
+        <div className={classes.question__remove}>
+          <SadElephant />
+          <div>
+            <p>정말 삭제하시겠어요?</p>
+          </div>
+          <div>
+            <button type="submit" onClick={removeHandler}>
+              삭제하기
+            </button>
+            <button type="button" onClick={() => setRemoveModalOpen(false)}>
+              취소하기
+            </button>
+          </div>
         </div>
-      </section>
-      <section>
-        <AnswerForm content={DUMMY_QUESTION.content} />
-        <AnswerList comments={DUMMY_QUESTION.comments} />
-      </section>
+      </Modal>
+      <div className={classes.detail}>
+        <header>
+          <h3>{`Q. ${DUMMY_QUESTION.title}`}</h3>
+          <span>
+            {`${DUMMY_QUESTION.writer} | ${DUMMY_QUESTION.createdAt} ${
+              DUMMY_QUESTION.createdAt !== DUMMY_QUESTION.updatedAt
+                ? '(수정됨)'
+                : ''
+            }`}
+          </span>
+        </header>
+        <main className={classes.detail__main}>
+          <p>{DUMMY_QUESTION.content}</p>
+          <Markdown review={DUMMY_QUESTION.code} />
+          <div className={classes.detail_btn}>
+            <button type="button" onClick={() => setRemoveModalOpen(true)}>삭제</button>
+            <button type="button">수정</button>
+          </div>
+        </main>
+        <section className={classes.detail__answer}>
+          <AnswerForm code={DUMMY_QUESTION.code} />
+          <AnswerList comments={DUMMY_QUESTION.comments} />
+        </section>
+      </div>
+      <Footer />
     </>
   );
 };
