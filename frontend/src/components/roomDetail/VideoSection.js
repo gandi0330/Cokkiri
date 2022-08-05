@@ -173,7 +173,7 @@ const VideoSection = ({ roomId }) => {
                 </div>
               </div>
             ))}
-          <VideoController />
+          <VideoController publisher={publisher} />
         </div>
       )}
     </div>
