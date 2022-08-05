@@ -39,29 +39,27 @@ const NavBar = () => {
         checked={isDropdownOpen}
         onChange={() => setIsDropdwonOpen((prev) => !prev)}
       />
-      {isDropdownOpen && (
-        <ul>
-          <li>
-            <Link to="/my-record">공부 기록</Link>
-          </li>
-          <li>
-            <Link to="/rooms">스터디 룸</Link>
-          </li>
-          <li>
-            {/* FIX url 수정 필요 */}
-            <Link to="/rooms">마이 페이지</Link>
-          </li>
-          <li>
-            {!isLoggedIn ? (
-              <Link to="/login">로그인</Link>
-            ) : (
-              <Link to="/logout" onClick={logoutHandler}>
-                로그아웃
-              </Link>
-            )}
-          </li>
-        </ul>
-      )}
+      <ul>
+        <li>
+          <Link to="/my-record">공부 기록</Link>
+        </li>
+        <li>
+          <Link to="/rooms">스터디 룸</Link>
+        </li>
+        <li>
+          {/* FIX url 수정 필요 */}
+          <Link to="/rooms">마이 페이지</Link>
+        </li>
+        <li>
+          {!isLoggedIn ? (
+            <Link to="/login">로그인</Link>
+          ) : (
+            <Link to="/logout" onClick={logoutHandler}>
+              로그아웃
+            </Link>
+          )}
+        </li>
+      </ul>
       <label htmlFor="navToggle" className={classes.navToggleLabel}>
         <span>{/*  */}</span>
       </label>
