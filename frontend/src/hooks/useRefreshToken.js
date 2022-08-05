@@ -1,15 +1,13 @@
-// import { useSelector } from 'react-redux';
-import axios from '../api/axios';
-// import { getAllUserState } from '../store/authSlice';
+import axios from 'axios';
+
+// const BASE_URL = 'https://i7c107.p.ssafy.io/api';
+const BASE_URL = '';
 
 const useRefreshToken = () => {
-  // let { email } = useSelector(getAllUserState);
-
   const refresh = async () => {
     const email = localStorage.getItem('email');
-    // if (!email) email = localStorage.getItem('email');
     if (email) {
-      const response = await axios.get(`/user/refreshtoken/${email}`);
+      const response = await axios.get(`${BASE_URL}/user/refreshtoken/${email}`);
       localStorage.setItem('token', response.data.accessToken);
       return response.data.accessToken;
     }
