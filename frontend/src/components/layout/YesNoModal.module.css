@@ -1,0 +1,38 @@
+.modal__contents {
+  width: min(70vw, 16rem);
+}
+
+.modal__btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.modal__yes,
+.modal__no {
+  margin-top: 1.5rem;
+  padding: .5rem .8rem;
+  border: none;
+  outline: none;
+  border-radius: var(--borderRadius3);
+  cursor: pointer;
+}
+
+.modal__yes {
+  background-color: var(--blueShade1);
+  color: var(--whiteShade2);
+}
+
+.modal__no {
+  background-color: var(--redShade1);
+  color: var(--whiteShade2);
+}
+
+.modal__yes:hover {
+  background-color: var(--blueShade3);
+}
+
+.modal__no:hover {
+  background-color: var(--redShade2);
+}

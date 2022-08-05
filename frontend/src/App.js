@@ -37,7 +37,7 @@ const App = () => {
           <Route index element={<MainPage />} />
           <Route path="/my-record/:nickname" element={<MyRecord />} />
           <Route path="/rooms" element={<RoomsPage />} />
-          <Route path="/my-page/:nickname" element={<MyPagePage />} />
+          <Route path="/my-page/:email" element={<MyPagePage />} />
           <Route path="/login" element={<AccountPage header="login" />} />
           <Route path="/logout" element={<AccountPage header="logout" />} />
           <Route path="/signupEmail" element={<AccountPage header="signupEmail" />} />

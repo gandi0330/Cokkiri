@@ -131,6 +131,40 @@ export const getUserInfo = createAsyncThunk(
   },
 );
 
+export const changeNickname = createAsyncThunk(
+  'auth/changeNickname',
+  async ({ email, nickname }, thunkAPI) => {
+    try {
+      const res = await axios.patch('/user/nickname', {
+        nickname,
+        userEmail: email,
+      });
+      const { data } = res;
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      console.error(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const changePassword = createAsyncThunk(
+  'auth/changePassword',
+  async ({ email, password }, thunkAPI) => {
+    try {
+      const res = await axios.patch('/user/pw', {
+        password,
+        userEmail: email,
+      });
+      const { data } = res;
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      console.error(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -205,7 +239,6 @@ const authSlice = createSlice({
       state.error = false;
       state.email = action.payload.email;
       state.isLoggedIn = true;
-      // TODO 의논 필요
       localStorage.setItem('email', action.payload.email);
       localStorage.setItem('token', action.payload.accessToken);
     });
@@ -254,10 +287,41 @@ const authSlice = createSlice({
       state.success = false;
       state.error = true;
     });
+    builder.addCase(changeNickname.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = false;
+    });
+    builder.addCase(changeNickname.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = true;
+      state.error = false;
+      state.nickname = action.payload.nickname;
+    });
+    builder.addCase(changeNickname.rejected, (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
+    });
+    builder.addCase(changePassword.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = false;
+    });
+    builder.addCase(changePassword.fulfilled, (state) => {
+      state.loading = false;
+      state.success = true;
+      state.error = false;
+    });
+    builder.addCase(changePassword.rejected, (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
+    });
   },
 });
 
-export const getUser = (state) => state.auth.user;
+export const getNickname = (state) => state.auth.nickname;
 export const getUserEmail = (state) => state.auth.email;
 export const getAllUserState = (state) => state.auth;
 export const getLoggedIn = (state) => state.auth.isLoggedIn;

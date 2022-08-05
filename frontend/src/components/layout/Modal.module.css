@@ -13,6 +13,13 @@
   z-index: 1000;
 }
 
+.modal p {
+  color: var(--blackShade1);
+  font-size: var(--smallFontSize1);
+  margin-top: 1rem;
+  text-align: center;
+}
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -35,6 +42,6 @@
   font-size: var(--baseFontSize1);
 }
 
-.modal button:hover {
+.modal__btn:hover {
   background-color: rgba(208, 208, 208, 0.3);
 }
