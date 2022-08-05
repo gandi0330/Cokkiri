@@ -1,17 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './Chat.module.css';
 import ChatContent from './ChatContent';
+import ChatForm from './ChatForm';
 
 const Chat = ({ session }) => {
-  const input = useRef();
-  const [myMsg, setMyMsg] = useState('');
   const [chats, setChats] = useState([]);
-
-  const onChangeMsg = (e) => {
-    setMyMsg(e.target.value);
-  };
 
   useEffect(() => {
     if (!session) {
@@ -33,44 +28,31 @@ const Chat = ({ session }) => {
     });
   }, [session]);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await session.signal({ data: myMsg });
-      // console.log('Msg successfully sent');
-      setMyMsg('');
-      if (input && input.current) {
-        input.current.focus();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
-    <>
-      <h4>채팅</h4>
-      <hr />
-      {session && session.connection && session.connection.connectionId
-      && chats.length > 0 && chats.map((chat, idx) => {
-        if (chat.from === session.connection.connectionId) {
+    <div className={styles.wrapper}>
+      <div>
+        <h4>채팅</h4>
+        <hr />
+      </div>
+      <div>
+        {session && session.connection && session.connection.connectionId
+        && chats.length > 0 && chats.map((chat, idx) => {
+          if (chat.from === session.connection.connectionId) {
+            return (
+              <div key={`${idx * 1}`} className={styles.me}>
+                <ChatContent chat={chat} />
+              </div>
+            );
+          }
           return (
-            <div key={`${idx * 1}`} className={styles.me}>
+            <div key={`${idx * 1}`} className={styles.others}>
               <ChatContent chat={chat} />
             </div>
           );
-        }
-        return (
-          <div key={`${idx * 1}`} className={styles.others}>
-            <ChatContent chat={chat} />
-          </div>
-        );
-      }) }
-      <form onSubmit={onSubmit}>
-        <textarea ref={input} value={myMsg} onChange={onChangeMsg} />
-        <input type="submit" />
-      </form>
-    </>
+        }) }
+      </div>
+      <ChatForm session={session} />
+    </div>
   );
 };
 
