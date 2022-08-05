@@ -33,7 +33,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("localhost:3000","i7c107.p.ssafy.io","https://i7c107.p.ssafy.io")
                 .allowedMethods("*")
-                .allowedHeaders("*")
+                .allowedHeaders("Access-Control-Allow-Headers", "Origin", "Accept", "X-Requested-With", "Content-Type", "Access-Control-Request-Methods", "Access-Control-Request-Headers", "jwt", "access-control-allow-origin")
                 .allowCredentials(true);
     }
 }
