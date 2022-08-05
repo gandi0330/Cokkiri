@@ -28,6 +28,8 @@ public class GetAnswerListResponse extends Result {
                     .answerWriterEmail(answer.getUser().getEmail())
                     .answerId(answer.getAnswerId())
                     .create_dateTime(answer.getCreateDatetime())
+                    .code(answer.getCode())
+                    .language(answer.getLanguage())
                     .build();
             resList.findAnswerList.add(findAnswer);
         }
@@ -47,4 +49,6 @@ class FindAnswer{
     private Long questionId;
     private String answerWriterEmail;
     private LocalDateTime create_dateTime;
+    private String code;
+    private String language;
 }

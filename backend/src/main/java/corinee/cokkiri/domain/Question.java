@@ -26,6 +26,8 @@ public class Question {
 
     private String title;
     private String content;
+    private String language;
+    private String code;
     private LocalDateTime createDatetime;
 
     public Question(){

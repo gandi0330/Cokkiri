@@ -13,6 +13,8 @@ public class GetQuestionResponse extends Result {
     private String title;
     private String content;
     private Long roomId;
+    private String code;
+    private String language;
     private String questionWriterEmail;
     private LocalDateTime create_dateTime;
 
@@ -26,6 +28,8 @@ public class GetQuestionResponse extends Result {
         res.setRoomId(question.getRoom().getRoomId());
         res.setQuestionWriterEmail(question.getUser().getEmail());
         res.setCreate_dateTime(question.getCreateDatetime());
+        res.setCode(question.getCode());
+        res.setLanguage(question.getLanguage());
 
         return res;
     }

@@ -2,6 +2,7 @@ package corinee.cokkiri.response;
 
 import corinee.cokkiri.common.Result;
 import corinee.cokkiri.domain.Question;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,13 +21,16 @@ public class GetQuestionListResponse extends Result {
         GetQuestionListResponse resList = new GetQuestionListResponse();
         resList.findQuestionList = new ArrayList<>();
         for(Question question : questionList){
-            FindQuestion findQuestion = new FindQuestion();
-            findQuestion.setQuestionId(question.getQuestionId());
-            findQuestion.setTitle(question.getTitle());
-            findQuestion.setContent(question.getContent());
-            findQuestion.setRoomId(question.getRoom().getRoomId());
-            findQuestion.setQuestionWriterEmail(question.getUser().getEmail());
-            findQuestion.setCreateDateTime(question.getCreateDatetime());
+            FindQuestion findQuestion = FindQuestion.builder()
+                    .questionId(question.getQuestionId())
+                    .title(question.getTitle())
+                    .content(question.getContent())
+                    .roomId(question.getRoom().getRoomId())
+                    .questionWriterEmail(question.getUser().getEmail())
+                    .createDateTime(question.getCreateDatetime())
+                    .language(question.getLanguage())
+                    .code(question.getCode())
+                    .build();
             resList.findQuestionList.add(findQuestion);
         }
         resList.setStatusCode(statusCode);
@@ -37,11 +41,14 @@ public class GetQuestionListResponse extends Result {
 }
 
 @Data
+@Builder
 class FindQuestion{
     private Long questionId;
     private String title;
     private String content;
     private Long roomId;
+    private String language;
+    private String code;
     private String questionWriterEmail;
     private LocalDateTime createDateTime;
 }

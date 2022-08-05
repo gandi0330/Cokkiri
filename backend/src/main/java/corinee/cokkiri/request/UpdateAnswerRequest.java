@@ -8,4 +8,6 @@ public class UpdateAnswerRequest {
     private Long answerId;
     private String title;
     private String content;
+    private String code;
+    private String language;
 }

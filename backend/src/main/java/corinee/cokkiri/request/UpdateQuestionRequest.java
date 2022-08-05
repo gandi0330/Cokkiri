@@ -8,4 +8,6 @@ public class UpdateQuestionRequest {
     private Long questionId;
     private String title;
     private String content;
+    private String code;
+    private String language;
 }

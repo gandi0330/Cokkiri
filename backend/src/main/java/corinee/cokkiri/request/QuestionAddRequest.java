@@ -8,4 +8,6 @@ public class QuestionAddRequest {
     private Long roomId;
     private String title;
     private String content;
+    private String language;
+    private String code;
 }
