@@ -1,47 +1,45 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import axios from '../api/axios';
-import useRefreshToken from '../hooks/useRefreshToken';
+// import useRefreshToken from '../hooks/useRefreshToken';
 
-axios.interceptors.request.use(
-  (config) => {
-    const accessToken = localStorage.getItem('token') || '';
-    if (config.headers) {
-      config.headers = {
-        ...config.headers,
-        jwt: accessToken,
-      };
-    } else {
-      config.headers = { ...config.headers };
-    }
-    return config;
-  },
-  (error) => {
-    console.error(err);
-    return Promise.reject(error);
-  },
-);
+// axios.interceptors.request.use(
+//   (config) => {
+//     const accessToken = localStorage.getItem('token') || '';
+//     if (config.headers) {
+//       config.headers = {
+//         ...config.headers,
+//         jwt: accessToken,
+//       };
+//     } else {
+//       config.headers = { ...config.headers };
+//     }
+//     return config;
+//   },
+//   (error) => {
+//     console.error(err);
+//     return Promise.reject(error);
+//   },
+// );
 
-// DONE response interceptor & refresh token 확인 
-// TODO refresh token도 만료되면 어떻게 되는지 확인 필요
-axios.interceptors.response.use(
-  (response) => response,
-  async (error) => { 
-    const prevRequest = error?.config;
-    const refresh = useRefreshToken();
-    console.log('error', error);
-    console.log('prevRequest', prevRequest);
-    // access token invalid
-    if (error?.response?.status === 401 && !prevRequest?.sent) {
-      prevRequest.sent = true;
-      const newAccessToken = await refresh();
-      prevRequest.headers.jwt = newAccessToken;
-      console.log('refreshed');
-      return axios(prevRequest); 
-    }
-    return Promise.reject(error);
-  },
-);
+// axios.interceptors.response.use(
+//   (response) => response,
+//   async (error) => { 
+//     const prevRequest = error?.config;
+//     const refresh = useRefreshToken();
+//     console.log('error', error);
+//     console.log('prevRequest', prevRequest);
+//     // access token invalid
+//     if (error?.response?.status === 401 && !prevRequest?.sent) {
+//       prevRequest.sent = true;
+//       const newAccessToken = await refresh();
+//       prevRequest.headers.jwt = newAccessToken;
+//       console.log('refreshed');
+//       return axios(prevRequest); 
+//     }
+//     return Promise.reject(error);
+//   },
+// );
 
 const initialState = {
   roomTitle: null,

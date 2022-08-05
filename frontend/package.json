@@ -23,6 +23,7 @@
     "unidiff": "^1.0.2",
     "web-vitals": "^2.1.4"
   },
+  "proxy": "https://i7c107.p.ssafy.io/api",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
