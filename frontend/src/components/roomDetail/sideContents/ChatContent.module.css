@@ -1,0 +1,14 @@
+.chat {
+  display: flex;
+  flex-direction: column;
+}
+
+.nickname {
+  color: var(--blueShade1);
+}
+
+.content {
+  margin-top: 4px;
+  color: var(--blackShade1);
+  font-size: var(--headingFontSize4);
+}

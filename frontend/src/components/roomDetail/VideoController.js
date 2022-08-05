@@ -1,10 +1,27 @@
+import { useState } from 'react';
 import { AiOutlineAudioMuted, AiOutlineAudio } from 'react-icons/ai';
 import { BiBell, BiExit } from 'react-icons/bi';
 import { FiShare, FiVideo, FiVideoOff } from 'react-icons/fi';
+import PropTypes from 'prop-types';
 
 import styles from './VideoController.module.css';
 
-const VideoController = () => {
+const Controller = ({ publisher, leaveSession }) => {
+  const [audioActive, setAudioActive] = useState(true);
+  const [videoActive, setVideoActive] = useState(true);
+
+  const handleMuteClick = () => {
+    const state = !publisher.stream.audioActive;
+    publisher.publishAudio(state);
+    setAudioActive(state);
+  };
+
+  const handelCameraClick = () => {
+    const state = !publisher.stream.videoActive;
+    publisher.publishVideo(state);
+    setVideoActive(state);
+  };
+
   return (
     <div className={styles.buttonGroup}>
       <div className={styles.button} onClick={handleMuteClick}>
@@ -20,4 +37,9 @@ const VideoController = () => {
   );
 };
 
-export default VideoController;
+Controller.propTypes = {
+  publisher: PropTypes.func.isRequired,
+  leaveSession: PropTypes.func.isRequired,
+};
+
+export default Controller;
