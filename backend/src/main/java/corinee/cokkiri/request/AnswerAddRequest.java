@@ -9,4 +9,6 @@ public class AnswerAddRequest {
     private String title;
     private Long roomId;
     private String answerWriterEmail;
+    private String code;
+    private String language;
 }

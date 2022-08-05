@@ -17,6 +17,8 @@ public class GetAnswerResponse extends Result{
     private Long questionId;
     private String answerWriterEmail;
     private LocalDateTime create_dateTime;
+    private String code;
+    private String language;
 
     public static GetAnswerResponse of (int statusCode, String message, Answer answer){
         GetAnswerResponse res = new GetAnswerResponse();
@@ -29,6 +31,8 @@ public class GetAnswerResponse extends Result{
         res.setRoomId(answer.getRoom().getRoomId());
         res.setAnswerWriterEmail(answer.getUser().getEmail());
         res.setCreate_dateTime(answer.getCreateDatetime());
+        res.setCode(answer.getCode());
+        res.setLanguage(answer.getLanguage());
 
         return res;
     }
