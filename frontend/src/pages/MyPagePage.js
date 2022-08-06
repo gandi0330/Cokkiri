@@ -130,6 +130,7 @@ const MyPagePage = () => {
         yes="변경하기"
         no="취소하기"
         onYesClick={() => pwdSendHandler()}
+        onNoClick={() => setIsPwdModalOpen(false)} 
       >
         <p>정말 비밀번호를 변경하시겠습니까?</p>
       </YesNoModal>
@@ -139,6 +140,7 @@ const MyPagePage = () => {
         yes="변경하기"
         no="취소하기"
         onYesClick={() => nameSendHandler()}
+        onNoClick={() => setIsNameModalOpen(false)} 
       >
         <p>정말 닉네임을 변경하시겠습니까?</p>
       </YesNoModal>

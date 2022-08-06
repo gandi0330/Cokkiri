@@ -1,11 +1,16 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { MdWarning } from 'react-icons/md';
+import { createQuestion, updateQuestion } from '../../store/questionSlice';
+import { getUserEmail } from '../../store/authSlice';
+import useValidation from '../../hooks/useValidation';
 
 import Editor from './Editor';
-import Modal from '../layout/Modal';
+import YesNoModal from '../layout/YesNoModal';
 import QuestionDropdown from './QuestionDropdown';
-import SadElephant from '../icons/SadElephant';
+import ExcitingElephant from '../icons/ExcitingElephant';
 
 import classes from './QuestionList.module.css';
 
@@ -13,60 +18,140 @@ const QuestionForm = ({
   type, qTitle, qContent, qCode,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const email = useSelector(getUserEmail);
+  const { roomId } = useParams();
+  let questionId;
+  if (type === '수정') {
+    questionId = useParams().questionId;
+  }
   const [codeEditorOpen, setCodeEditorOpen] = useState(false);
   const [cancelModalOpen, setCancelModalOpen] = useState(false);
-
-  const [title, setTitle] = useState(qTitle);
-  const [content, setContent] = useState(qContent);
   const [code, setCode] = useState(qCode);
   const [language, setLanguage] = useState('java');
 
-  const languageOptions = ['java', 'python', 'cpp', 'javascript', 'typescript', 'css', 'html', 'json'];
+  const languageOptions = [
+    'java',
+    'python',
+    'cpp',
+    'javascript',
+    'typescript',
+    'css',
+    'html',
+    'json',
+  ];
+
+  const {
+    value: title,
+    setValue: setTitle,
+    hasError: titleHasError,
+    errorMsg: titleErrorMsg,
+    reset: resetTitle,
+    valueChangeHandler: titleChangeHandler,
+    inputBlurHandler: titleBlurHandler,
+  } = useValidation([{ fn: (value) => value.trim() === '', msg: '제목을 입력해주세요.' }]);
+
+  const {
+    value: content,
+    setValue: setContent,
+    hasError: contentHasError,
+    errorMsg: contentErrorMsg,
+    reset: resetContent,
+    valueChangeHandler: contentChangeHandler,
+    inputBlurHandler: contentBlurHandler,
+  } = useValidation([{ fn: (value) => value.trim() === '', msg: '내용을 입력해주세요.' }]);
 
   const submitHandler = (event) => {
     event.preventDefault();
 
-    // axios 
+    if (!languageOptions.includes(language)) return;
+    if (titleHasError || contentHasError) return;
+
+    setCode(code.trim());
+
+    if (type === '작성') {
+      dispatch(createQuestion({
+        email, title, content, roomId, code, language,
+      }))
+        .unwrap()
+        .then(() => {
+          resetTitle('');
+          resetContent('');
+          setCode('');
+          setLanguage('java');
+          setCodeEditorOpen(false);
+          navigate(`/room/${roomId}/questions`);
+        })
+        .catch((error) => console.error(error));
+    }
+
+    if (type === '수정') {
+      dispatch(updateQuestion({
+        email, title, content, questionId, code, language,
+      }))
+        .unwrap()
+        .then(() => {
+          resetTitle('');
+          resetContent('');
+          setCode('');
+          setLanguage('java');
+          setCodeEditorOpen(false);
+          navigate(`/room/${roomId}/question/${questionId}`);
+        })
+        .catch((error) => console.error(error));
+    }
   };
+
+  useEffect(() => {
+    setTitle(qTitle);
+    setContent(qContent);
+  }, []);
 
   return (
     <>
-      <Modal open={cancelModalOpen} onClose={() => setCancelModalOpen(false)}>
-        <div className={classes.question__cancel}>
-          <SadElephant />
-          <div>
-            <p>정말 나가시겠어요?</p>
-            <p>지금까지 작성된 내용이 사라집니다.</p>
-          </div>
-          <div>
-            <button type="button" onClick={() => navigate(-1)}>
-              나가기
-            </button>
-            <button type="button" onClick={() => setCancelModalOpen(false)}>
-              머무르기
-            </button>
-          </div>
-        </div>
-      </Modal>
+      <YesNoModal
+        open={cancelModalOpen}
+        yes="머무르기"
+        no="나가기"
+        onNoClick={() => navigate(-1)}
+        onYesClick={() => setCancelModalOpen(false)}
+        onClose={() => setCancelModalOpen(false)}
+      >
+        <ExcitingElephant />
+        <p>정말 나가시겠어요?</p>
+        <p>지금까지 작성된 내용이 사라집니다.</p>
+      </YesNoModal>
       <form className={classes.question__form} onSubmit={submitHandler}>
         <div>
           <label htmlFor="title">제목</label>
+          {titleHasError && (
+            <span className={classes.question__form__warning}>
+              <MdWarning /> {titleErrorMsg}
+            </span>
+          )}
           <input
             id="title"
             type="text"
             value={title}
-            onChange={(event) => setTitle(event.target.value)}
+            onChange={titleChangeHandler}
+            onBlur={titleBlurHandler}
             required
           />
         </div>
         <div className={classes.question__form__content}>
           <label htmlFor="content">내용</label>
           <span>코끼리는 마크다운도 지원해요!</span>
+          {contentHasError && (
+            <span className={classes.question__form__warning}>
+              <MdWarning /> {contentErrorMsg}
+            </span>
+          )}
           <textarea
             name="content"
             id="content"
             value={content}
-            onChange={(event) => setContent(event.target.value)}
+            onChange={contentChangeHandler}
+            onBlur={contentBlurHandler}
             cols="30"
             rows="10"
             required
@@ -85,20 +170,12 @@ const QuestionForm = ({
           <div>
             <div className={classes.question__form__code}>
               <label htmlFor="content">코드</label>
-              <QuestionDropdown 
-                selected={language} 
-                setSelected={setLanguage} 
-                options={languageOptions} 
+              <QuestionDropdown
+                selected={language}
+                setSelected={setLanguage}
+                options={languageOptions}
               />
             </div>
-            {/* <textarea
-              name="content"
-              id="content"
-              value={code}
-              onChange={(event) => setCode(event.target.value)}
-              cols="30"
-              rows="10"
-            /> */}
             <Editor code={code} setCode={setCode} language={language} />
           </div>
         )}

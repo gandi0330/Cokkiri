@@ -13,12 +13,12 @@
   z-index: 1000;
 }
 
-.modal p {
+/* .modal p {
   color: var(--blackShade1);
   font-size: var(--smallFontSize1);
   margin-top: 1rem;
   text-align: center;
-}
+} */
 
 .overlay {
   position: fixed;
