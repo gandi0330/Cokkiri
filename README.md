@@ -2,6 +2,12 @@
 
 ## 프로젝트 개요
 
+## 팀 소개
+| 정현명 | OOO | OOO | OOO | OOO |
+|:--------:|:--------:|:--------:|:--------:|:--------:|
+| ![img](https://avatars.githubusercontent.com/u/51132077?s=120&v=4) | ![img](https://avatars.githubusercontent.com/u/67041709?s=120&v=4) | ![img](https://avatars.githubusercontent.com/u/66074802?s=120&v=4) | ![img](https://avatars.githubusercontent.com/u/78056880?s=120&v=4)     | ![img](https://avatars.githubusercontent.com/u/78056880?s=120&v=4) |
+| [hm](https://github.com/gandi0330) | [jiho-bae](https://github.com/jiho-bae) | [Dev-Beom](https://github.com/Dev-Beom) | [hanbyeol](https://github.com/Narastro) | [jiho-bae](https://github.com/jiho-bae) |
+| Web Backend | Web Frontend | Web Backend | Web Frontend | Web Frontend | 
 
 
 ## 기술스택
