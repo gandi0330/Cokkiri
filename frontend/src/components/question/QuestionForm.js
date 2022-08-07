@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { MdWarning } from 'react-icons/md';
-import { createQuestion, updateQuestion } from '../../store/questionSlice';
+import { createQuestion, updateQuestion, getQuestion } from '../../store/questionSlice';
 import { getUserEmail } from '../../store/authSlice';
 import useValidation from '../../hooks/useValidation';
 
@@ -20,6 +20,7 @@ const QuestionForm = ({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const email = useSelector(getUserEmail);
+  const question = useSelector(getQuestion);
   const { roomId } = useParams();
   let questionId;
   if (type === '수정') {
@@ -28,7 +29,7 @@ const QuestionForm = ({
   const [codeEditorOpen, setCodeEditorOpen] = useState(false);
   const [cancelModalOpen, setCancelModalOpen] = useState(false);
   const [code, setCode] = useState(qCode);
-  const [language, setLanguage] = useState('java');
+  const [language, setLanguage] = useState(type === '수정' ? question.language : 'java');
 
   const languageOptions = [
     'java',

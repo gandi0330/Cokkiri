@@ -10,7 +10,7 @@ const CodeReview = ({
 }) => {
   // const oldCodes = oldCode.match(/```[a-z]*\n[\s\S]*?\n```/g) || [];
 
-  const [newCode, setNewCode] = useState(type === 'create' ? oldCode : prevReview);
+  const [newCode, setNewCode] = useState(type === 'create' ? oldCode : (prevReview || oldCode));
   const diffCode = formatLines(diffLines(oldCode, newCode), { context: 2 });
   const regEx = /-{3} a\n\+{3} b\n@{2} -\d+,?\d? \+\d+,?\d? @{2}\n/g;
 

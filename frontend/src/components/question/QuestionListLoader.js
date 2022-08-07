@@ -2,25 +2,24 @@ import React from 'react';
 
 import classes from './QuestionListLoader.module.css';
 
+const QuestionListLoaderItem = () => {
+  return (
+    <>
+      <div className={classes.questionList__loader__title} />
+      <div className={classes.questionList__loader__content} />
+      <div className={classes.questionList__loader__writer} />
+      <span />
+    </>
+  );
+};
+
 const QuestionListLoader = () => {
   return (
     <div className={classes.questionList__loader}>
-      <div className={classes.questionList__loader__title} />
-      <div className={classes.questionList__loader__content} />
-      <div className={classes.questionList__loader__writer} />
-      <span />
-      <div className={classes.questionList__loader__title} />
-      <div className={classes.questionList__loader__content} />
-      <div className={classes.questionList__loader__writer} />
-      <span />
-      <div className={classes.questionList__loader__title} />
-      <div className={classes.questionList__loader__content} />
-      <div className={classes.questionList__loader__writer} />
-      <span />
-      <div className={classes.questionList__loader__title} />
-      <div className={classes.questionList__loader__content} />
-      <div className={classes.questionList__loader__writer} />
-      <span />
+      <QuestionListLoaderItem />
+      <QuestionListLoaderItem />
+      <QuestionListLoaderItem />
+      <QuestionListLoaderItem />
     </div>
   );
 };
