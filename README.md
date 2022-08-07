@@ -93,7 +93,7 @@
 - Figma
 
 ## 🟦 팀원 소개
-
+![cokkiri 팀원 이미지](images/teams.png)
 
 
 <br>
