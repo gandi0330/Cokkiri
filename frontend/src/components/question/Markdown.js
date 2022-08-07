@@ -7,7 +7,6 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 // import { coy } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const Markdown = ({ review }) => {
-  console.log(review);
   return (
     <ReactMarkdown
       children={review}
@@ -39,29 +38,4 @@ Markdown.propTypes = {
   review: PropTypes.string.isRequired,
 };
 
-export default Markdown;
-
-// import React, { useRef } from 'react';
-// import PropTypes from 'prop-types';
-
-// import ReactMarkdown from 'react-markdown';
-
-// import CodeSnippet from './CodeSnippet';
-
-// const Markdown = ({ review }) => {
-//   const markdownRef = useRef();
-//   return (
-//     <ReactMarkdown
-//       remarkPlugins={[remarkGfm]}
-//       components={<CodeSnippet className="">{review}</CodeSnippet>}
-//     >
-//       {review}
-//     </ReactMarkdown>
-//   );
-// };
-
-// Markdown.propTypes = {
-//   review: PropTypes.string.isRequired,
-// };
-
-// export default Markdown;
+export default React.memo(Markdown);

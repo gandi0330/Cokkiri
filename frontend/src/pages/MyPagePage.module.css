@@ -1,0 +1,77 @@
+.myPage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(95%, 25rem);
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.myPage h3 {
+  color: var(--blueShade1);
+  font-size: var(--headingFontSize3);
+  margin-bottom: 1rem;
+}
+
+.myPage__email,
+.myPage__nickname,
+.myPage__pwd {
+  width: 100%;
+  /* position: relative; */
+}
+
+.myPage__email label,
+.myPage__nickname label,
+.myPage__pwd label {
+  color: var(--blueShade1);
+  font-weight: bold;
+  padding-left: .3rem;
+}
+
+.myPage__email input, 
+.myPage__nickname input,
+.myPage__pwd input {
+  display: block;
+  width: 100%;
+  padding: .7rem;
+  margin-top: .5rem;
+  font-size: var(--smallFontSize1);
+  color: var(--blackShade1);
+  border-radius: var(--borderRadius3);
+  background-color: none;
+  outline: none;
+  border: 1px solid var(--blueShade1);
+}
+
+.myPage__nickname span,
+.myPage__pwd span {
+  display: flex;
+  gap: .2rem;
+  align-items: center;
+  font-size: var(--smallFontSize3);
+  color: var(--redShade1);
+  margin-top: .4rem;
+  padding-left: .3rem;
+}
+
+.myPage__nickname button,
+.myPage__pwd button {
+  width: 100%;
+  margin-top: 1rem;
+  padding: .7rem;
+  border: none;
+  outline: none;
+  border-radius: var(--borderRadius3);
+  background-color: var(--blueShade1);
+  color: var(--whiteShade2);
+  cursor: pointer;
+}
+
+.myPage__nickname button:hover,
+.myPage__pwd button:hover {
+  background-color: var(--blueShade3);
+}

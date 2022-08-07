@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { MdOutlineKeyboardArrowDown as Arrow } from 'react-icons/md';
 
@@ -40,4 +40,4 @@ QuestionDropdown.propTypes = {
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-export default QuestionDropdown;
+export default React.memo(QuestionDropdown);

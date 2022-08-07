@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 const useValidation = (validationCheckObj) => {
   // validationCheckObj === 오류나는 조건으로 작성
+  // [{fn:validationFn, msg:Errmsg}, ...]
   const [enteredValue, setEnteredValue] = useState('');
   const [isTouched, setIsTouched] = useState(false);
   const [errorMsg, setErrMsg] = useState(null);
@@ -44,6 +45,7 @@ const useValidation = (validationCheckObj) => {
 
   return {
     value: enteredValue,
+    setValue: setEnteredValue,
     valueIsValid,
     hasError,
     errorMsg,

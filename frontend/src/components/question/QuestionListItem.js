@@ -5,19 +5,19 @@ import PropTypes from 'prop-types';
 import classes from './QuestionList.module.css';
 
 const QuestionListItem = ({
-  id, title, writer, content, createdAt,
+  questionId, title, writer, content, createdAt,
 }) => {
   const { roomId } = useParams();
   return (
-    <Link to={`/room/${roomId}/question/${id}`} className={classes.questions__item}>
+    <Link to={`/room/${roomId}/question/${questionId}`} className={classes.questions__item}>
       <h4>{title}</h4>
-      <p>{content.length < 100 ? content : `${content.slice(0, 100)}...`}</p>
+      <p>{content.length < 50 ? content : `${content.slice(0, 50)}...`}</p>
       <div className={classes.questions__extra}>
         <span>
-          {`${writer} | ${createdAt}`}
+          {`${writer} | ${createdAt.slice(0, createdAt.indexOf('T'))}`}
         </span>
         <span>
-          답변: 0개
+          {/* 답변: 0개 */}
         </span>
       </div>
     </Link>
@@ -25,7 +25,7 @@ const QuestionListItem = ({
 };
 
 QuestionListItem.propTypes = {
-  id: PropTypes.number.isRequired,
+  questionId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   writer: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,

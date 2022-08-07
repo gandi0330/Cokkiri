@@ -1,92 +1,104 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { MdKeyboardArrowLeft as Back } from 'react-icons/md';
 
+import { getUserEmail } from '../../store/authSlice';
+import { fetchQuestionDetail, getQuestion, deleteQuestion } from '../../store/questionSlice';
 import AnswerForm from '../../components/question/AnswerForm';
 import AnswerList from '../../components/question/AnswerList';
+import QuestionLoader from '../../components/question/QuestionLoader';
 import Markdown from '../../components/question/Markdown';
-import Modal from '../../components/layout/Modal';
+import YesNoModal from '../../components/layout/YesNoModal';
 import SadElephant from '../../components/icons/SadElephant';
 import Footer from '../../components/layout/Footer';
 
 import classes from './QuestionPage.module.css';
 
-const DUMMY_QUESTION = {
-  id: 2,
-  title: 'python이 뭐예요?',
-  writer: '자린이',
-  content: 
-    '오늘 파이썬 처음 들어봤어요.',
-  code: '```js\nconsole.log(123);\n```',
-  comments: [
-    {
-      id: 1,
-      writer: '파프로',
-      content: '공식문서 찾아보세요',
-      review: '```js\nconsole.log(123)\n```',
-    },
-    {
-      id: 2,
-      writer: '파파프로',
-      content: '뱀 이름 이예요',
-      review: '```js\nconsole.log(456)\n```',
-    },
-  ],
-  createdAt: '2022-08-01',
-  updatedAt: '2022-08-02',
-};
-
 const QuestionDetailPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { roomId, questionId } = useParams();
+  const question = useSelector(getQuestion);
+  const email = useSelector(getUserEmail);
+  const loading = useSelector((state) => state.question.loading);
   const [removeModalOpen, setRemoveModalOpen] = useState(false);
 
-  const removeHandler = (event) => {
-    event.preventDafault();
+  const codeContent = question.code ? '```' + question.language + '\n' + question.code + '\n```' : '';
+
+  useEffect(() => {
+    dispatch(fetchQuestionDetail({ questionId }))
+      .unwrap()
+      .then()
+      .catch((err) => {
+        if (err.statusCode === 404) {
+          navigate('*');
+        }
+
+        console.error(err);
+      });
+  }, []);
+
+  const toUpdatePage = () => {
+    navigate(`/room/${roomId}/question/${questionId}/update`);
+  };
+
+  const removeHandler = () => {
+    if (email !== question.questionWriterEmail) return;
+    dispatch(deleteQuestion({ questionId, email }))
+      .unwrap()
+      .then()
+      .catch((err) => console.error(err));
+    navigate(`/room/${roomId}/questions`);
   };
 
   return (
     <>
-      <Modal open={removeModalOpen} onClose={() => setRemoveModalOpen(false)}>
-        <div className={classes.question__remove}>
-          <SadElephant />
-          <div>
-            <p>정말 삭제하시겠어요?</p>
-          </div>
-          <div>
-            <button type="submit" onClick={removeHandler}>
-              삭제하기
-            </button>
-            <button type="button" onClick={() => setRemoveModalOpen(false)}>
-              취소하기
-            </button>
-          </div>
+      <YesNoModal 
+        yes="취소하기" 
+        no="삭제하기"
+        onClose={() => setRemoveModalOpen(false)} 
+        open={removeModalOpen}
+        onYesClick={() => setRemoveModalOpen(false)}
+        onNoClick={() => removeHandler()}
+      >
+        <SadElephant />
+        <p>정말 삭제하시겠어요?</p>
+      </YesNoModal>
+      {loading && <QuestionLoader />}
+      {!loading && (
+        <div className={classes.detail}>
+          <header>
+            <h3>{`Q. ${question.title}`}</h3>
+            <button type="button" onClick={() => navigate(`/room/${roomId}/questions`)}><Back /></button>
+            <span>
+              {`${question.questionWriterEmail} | ${question?.create_dateTime?.slice(0, question?.create_dateTime?.indexOf('T'))}`}
+            </span>
+          </header>
+          <main className={classes.detail__main}>
+            {/* <p>{question.content}</p> */}
+            <Markdown review={question.content || ''} />
+            {question.code && <Markdown review={codeContent} />}
+            {email === question.questionWriterEmail && (
+              <div className={classes.detail_btn}>
+                <button type="button" onClick={toUpdatePage}>수정</button>
+                <button type="button" onClick={() => setRemoveModalOpen(true)}>삭제</button>
+              </div>
+            )}
+          </main>
+          <section className={classes.detail__answer}>
+            <AnswerForm 
+              type="create"
+              prevAnswer=""
+              prevReview=""
+              answerId={-1}
+              code={question.code || ''} 
+              language={question.language || ''} 
+            />
+            <AnswerList originalCode={question.code || ''} />
+          </section>
         </div>
-      </Modal>
-      <div className={classes.detail}>
-        <header>
-          <h3>{`Q. ${DUMMY_QUESTION.title}`}</h3>
-          <button type="button" onClick={() => navigate(-1)}><Back /></button>
-          <span>
-            {`${DUMMY_QUESTION.writer} | ${DUMMY_QUESTION.createdAt} ${
-              DUMMY_QUESTION.createdAt !== DUMMY_QUESTION.updatedAt
-                ? '(수정됨)'
-                : ''
-            }`}
-          </span>
-        </header>
-        <main className={classes.detail__main}>
-          <p>{DUMMY_QUESTION.content}</p>
-          <Markdown review={DUMMY_QUESTION.code} />
-          <div className={classes.detail_btn}>
-            <button type="button">수정</button>
-            <button type="button" onClick={() => setRemoveModalOpen(true)}>삭제</button>
-          </div>
-        </main>
-        <section className={classes.detail__answer}>
-          <AnswerForm code={DUMMY_QUESTION.code} />
-          <AnswerList comments={DUMMY_QUESTION.comments} originalCode={DUMMY_QUESTION.code} />
-        </section>
-      </div>
+      )}
       <Footer />
     </>
   );

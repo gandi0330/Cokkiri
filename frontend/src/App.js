@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserInfo } from './store/authSlice';
 
@@ -20,12 +20,14 @@ import Loader from './components/layout/Loader';
 const App = () => {
   const loading = useSelector((state) => state.auth.loading);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const token = localStorage.getItem('token');
   const email = localStorage.getItem('email');
 
   useEffect(() => {
     if (token) {
       dispatch(getUserInfo({ email })).then(() => {}).catch((err) => console.error(err));
+      if (!email) navigate('/login'); // TODO 체크 필요 
     }
   }, [token]);
 
@@ -37,7 +39,7 @@ const App = () => {
           <Route index element={<MainPage />} />
           <Route path="/my-record/:nickname" element={<MyRecord />} />
           <Route path="/rooms" element={<RoomsPage />} />
-          <Route path="/my-page/:nickname" element={<MyPagePage />} />
+          <Route path="/my-page/:email" element={<MyPagePage />} />
           <Route path="/login" element={<AccountPage header="login" />} />
           <Route path="/logout" element={<AccountPage header="logout" />} />
           <Route path="/signupEmail" element={<AccountPage header="signupEmail" />} />

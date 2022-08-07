@@ -5,7 +5,6 @@ import classes from './Modal.module.css';
 
 const Modal = ({ children, open, onClose }) => {
   if (!open) return null;
-
   return ReactDom.createPortal(
     <>
       <div className={classes.overlay} />

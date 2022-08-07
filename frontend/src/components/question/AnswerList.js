@@ -1,19 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { fetchAnswerList, getAnswers } from '../../store/answerSlice';
 import AnswerListItem from './AnswerListItem';
 import classes from './QuestionList.module.css';
 
-const AnswerList = ({ comments, originalCode }) => {
+const AnswerList = ({ originalCode }) => {
+  const dispatch = useDispatch();
+  const answers = useSelector(getAnswers);
+  const { questionId } = useParams();
+
+  useEffect(() => {
+    dispatch(fetchAnswerList({ questionId }));
+  }, []);
+
   return (
     <div className={classes.answer__list}>
-      {comments.map((comment) => (
+      {answers.map((answer) => (
         <AnswerListItem
-          key={comment.id}
-          id={comment.id}
-          writer={comment.writer}
-          content={comment.content}
-          review={comment.review}
+          key={answer.answerId}
+          answerId={answer.answerId}
+          questionId={answer.questionId}
+          roomId={answer.roomId}
+          writer={answer.answerWriterEmail}
+          content={answer.content}
+          review={answer.code || ''}
+          language={answer.language}
+          createdAt={answer.create_datetime}
           originalCode={originalCode}
         />
       ))}
@@ -22,14 +37,6 @@ const AnswerList = ({ comments, originalCode }) => {
 };
 
 AnswerList.propTypes = {
-  comments: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      writer: PropTypes.string,
-      content: PropTypes.string,
-      review: PropTypes.string,
-    }),
-  ).isRequired,
   originalCode: PropTypes.string.isRequired,
 };
 

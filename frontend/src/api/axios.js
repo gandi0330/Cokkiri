@@ -44,7 +44,7 @@ instance.interceptors.response.use(
         try {
           const newAccessToken = await refresh();
           originalConfig.headers.jwt = newAccessToken;
-          // console.log('refreshed');
+          console.log('refreshed');
           return axios(originalConfig); 
         } catch (err) {
           localStorage.removeItem('email');
