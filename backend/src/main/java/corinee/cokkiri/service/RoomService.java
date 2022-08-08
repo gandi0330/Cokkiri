@@ -95,6 +95,8 @@ public class RoomService {
         Openvidu openvidu = createConnection(room.getRoomId());
         openvidu.setIndex(index);
 
+        openvidu.setNickname(room.getUser().getNickname());
+
         return openvidu;
 
 
@@ -211,8 +213,12 @@ public class RoomService {
 
             return openvidu;
         }
+
         return null;
+
     }
+
+
 
     public void closeConnection(ExitRoomRequest request) {
         String url = "http://i7c107.p.ssafy.io:5443/openvidu/api/sessions/" + request.getRoomId() + "/connection/" + request.getConnectionId();
