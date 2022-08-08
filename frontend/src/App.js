@@ -7,7 +7,7 @@ import BasicLayout from './components/layout/BasicLayout';
 import MainPage from './pages/MainPage';
 import AccountPage from './pages/AccountPage';
 import MyPagePage from './pages/MyPagePage';
-import MyRecord from './pages/MyRecord';
+import MyRecordPage from './pages/MyRecordPage';
 import RoomsPage from './pages/RoomsPage';
 import RoomDetailPage from './pages/RoomDetailPage';
 import QuestionPage from './pages/questions/QuestionPage';
@@ -37,7 +37,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<BasicLayout />}>
           <Route index element={<MainPage />} />
-          <Route path="/my-record/:nickname" element={<MyRecord />} />
+          <Route path="/my-record/:email" element={<MyRecordPage />} />
           <Route path="/rooms" element={<RoomsPage />} />
           <Route path="/my-page/:email" element={<MyPagePage />} />
           <Route path="/login" element={<AccountPage header="login" />} />

@@ -1,0 +1,82 @@
+.accChart {
+  width: 95%;
+  padding: 1rem;
+}
+
+.accChart__info {
+  margin-bottom: .5rem;
+}
+
+.accChart__info span {
+  font-size: var(--baseFontSize);
+  font-weight: bold;
+  color: var(--blueShade1);
+}
+
+.accChart__progress {
+  position: relative;
+  height: 1.5rem;
+  width: 100%;
+  border-radius: 2rem;
+  background-color: var(--whiteShade2);
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.05),
+                    0px 1px rgba(255, 255, 255, 0.8);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: animate 1s cubic-bezier(1, 0, 0.5, 1) forwards;
+  overflow: hidden;
+}
+
+.accChart__progress__bar {
+  height: 100%;
+  width: 80%;
+  background: var(--blueShade2);
+  /* background: linear-gradient(to right, var(--whiteShade1), var(--blueShade2), var(--blueShade1)); */
+  position: absolute;
+  border-radius: 2rem;
+  border: 1px solid var(--blueShade2);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: animate 1s cubic-bezier(1, 0, 0.5, 1) forwards;
+}
+
+@keyframes animate {
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+/* .accChart__progress span::before {
+  position: absolute;
+  width: 0;
+  height: 0;
+  content: "";
+  top: -.5rem;
+  right: 0;
+  border: 7px solid transparent;
+  border-bottom-width: 0px;
+  border-right-width: 0px;
+  border-top-color: var(--blueShade1);
+  opacity: 0;
+  animation: showText 0.5s 1.5s linear forwards;
+}
+
+.accChart__progress span::after {
+  position: absolute;
+  content: "80%";
+  top: -2.2em;
+  right: 0;
+  background: var(--blueShade1);
+  color: var(--whiteShade2);
+  font-size: var(--smallFontSize2);
+  padding: .2rem .4rem;
+  border-radius: .2rem;
+  opacity: 0;
+  animation: showText 0.5s 1.5s linear forwards;
+}
+
+@keyframes showText {
+  100% {
+    opacity: 1;
+  }
+} */

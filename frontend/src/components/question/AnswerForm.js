@@ -73,7 +73,7 @@ const AnswerForm = ({
     }
   };
 
-  console.log(prevAnswer, prevReview);
+  // console.log(prevAnswer, prevReview);
 
   useEffect(() => {
     setAnswer(prevAnswer);

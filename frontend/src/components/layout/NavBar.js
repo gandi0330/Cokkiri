@@ -41,7 +41,7 @@ const NavBar = () => {
       />
       <ul>
         <li>
-          <Link to="/my-record">공부 기록</Link>
+          <Link to={`/my-record/${email}`}>공부 기록</Link>
         </li>
         <li>
           <Link to="/rooms">스터디 룸</Link>
