@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 public class GetAnswerResponse extends Result{
 
     private Long answerId;
-    private String title;
     private String content;
     private Long roomId;
     private Long questionId;
@@ -26,7 +25,6 @@ public class GetAnswerResponse extends Result{
         res.setStatusCode(statusCode);
         res.setMessage(message);
         res.setQuestionId(answer.getQuestion().getQuestionId());
-        res.setTitle(answer.getTitle());
         res.setContent(answer.getContent());
         res.setRoomId(answer.getRoom().getRoomId());
         res.setAnswerWriterEmail(answer.getUser().getEmail());

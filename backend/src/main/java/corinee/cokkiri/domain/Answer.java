@@ -29,7 +29,6 @@ public class Answer {
     @JoinColumn(name = "answer_writer_email", referencedColumnName = "email")
     User user;
 
-    private String title;
     private String content;
     private String language;
     private String code;
