@@ -28,3 +28,11 @@
   box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
   transform: translateY(-7px);
 }
+
+.colorRed {
+  color: var(--redShade1);
+}
+
+.hidden {
+  display: none;
+}

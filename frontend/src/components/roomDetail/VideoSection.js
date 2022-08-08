@@ -141,40 +141,48 @@ const VideoSection = ({ roomId }) => {
     <div className="container">
       <h1>VideoSection</h1>
       {session && (
-        <div className={styles.wrapper}>
-          {mainStreamManager && (
-            <div className={styles.videoWrapper}>
-              <div className={styles.videoContainer}>
-                <UserVideoComponent streamManager={mainStreamManager} />
-                {/* <button onClick={switchCamera}>Switch Camera</button> */}
-              </div>
+      <div className={styles.wrapper}>
+        {mainStreamManager && (
+          <div className={styles.videoWrapper}>
+            <div className={styles.videoContainer}>
+              <UserVideoComponent streamManager={mainStreamManager} />
+              {/* <button onClick={switchCamera}>Switch Camera</button> */}
             </div>
-          )}
-          {publisher && (
-            <div
-              className="stream-container"
-              onClick={() => handleMainVideoStream(publisher)}
-            >
-              Publisher
-              <UserVideoComponent streamManager={publisher} />
-            </div>
-          )}
+          </div>
+        )}
+        {publisher && (
+          <div
+            className="stream-container"
+            onClick={() => handleMainVideoStream(publisher)}
+          >
+            Publisher
+            <UserVideoComponent streamManager={publisher} />
+          </div>
+        )}
 
-          {subscribers.length > 0
-            && subscribers.map((sub, idx) => (
-              <div className={styles.videoWrapper}>
-                <div
-                  key={`subscriber ${idx * 1}`}
-                  className={styles.videoContainer}
-                  // onClick={() => handleMainVideoStream(sub)}
-                >
-                  Remote
-                  <UserVideoComponent streamManager={sub} />
-                </div>
+        {subscribers.length > 0
+          && subscribers.map((sub, idx) => (
+            <div className={styles.videoWrapper}>
+              <div
+                key={`subscriber ${idx * 1}`}
+                className={styles.videoContainer}
+                // onClick={() => handleMainVideoStream(sub)}
+              >
+                Remote
+                <UserVideoComponent streamManager={sub} />
               </div>
-            ))}
-          <VideoController publisher={publisher} />
-        </div>
+            </div>
+          ))}
+        {publisher
+          && (
+          <VideoController
+            publisher={publisher}
+            leaveSession={leaveSession}
+            getToken={getToken}
+            session={session}
+          />
+          )}
+      </div>
       )}
     </div>
   );
