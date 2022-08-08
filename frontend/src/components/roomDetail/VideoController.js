@@ -69,7 +69,6 @@ const Controller = ({
 
   const handleBellClick = () => {
     setBellActice((prev) => !prev);
-    console.log(bellActive);
   };
 
   return (
