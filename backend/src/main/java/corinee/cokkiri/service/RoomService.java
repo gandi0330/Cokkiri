@@ -111,13 +111,17 @@ public class RoomService {
             return false;
         }
 
-        Room room = roomRepository.findById(request.getRoomNumber());
-        if (room != null) {
-            room.setUserCount(room.getUserCount()-1);
-        } else {
+        Room room = roomRepository.findById(request.getRoomId());
+
+        if(room == null) {
             return false;
         }
 
+        room.setUserCount(room.getUserCount() - 1);
+        closeConnection(request);
+        if( room.getUserCount() < 1 ) {
+            closeSession(request);
+        }
         return true;
     }
 
@@ -216,4 +220,42 @@ public class RoomService {
 
 
 
+    public void closeConnection(ExitRoomRequest request) {
+        String url = "http://i7c107.p.ssafy.io:5443/openvidu/api/sessions/" + request.getRoomId() + "/connection/" + request.getConnectionId();
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setBasicAuth("OPENVIDUAPP", "COKKIRI");
+        httpHeaders.add("Content-Type", "application/json");
+
+        HttpEntity<?> requestEntity = new HttpEntity<>(httpHeaders);
+        System.out.println("requestEntity = " + requestEntity);
+
+        HttpEntity<String> response = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, String.class);
+        HttpHeaders responseHeaders = response.getHeaders();
+        String responseBody = response.getBody();
+        System.out.println("responseHeaders = " + responseHeaders);
+        System.out.println("responseBody = " + responseBody);
+    }
+
+    public void closeSession(ExitRoomRequest request) {
+        String url = "http://i7c107.p.ssafy.io:5443/openvidu/api/sessions/" + request.getRoomId();
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setBasicAuth("OPENVIDUAPP", "COKKIRI");
+        httpHeaders.add("Content-Type", "application/json");
+
+        HttpEntity<?> requestEntity = new HttpEntity<>(httpHeaders);
+        System.out.println("requestEntity = " + requestEntity);
+
+        HttpEntity<String> response = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, String.class);
+        HttpHeaders responseHeaders = response.getHeaders();
+        String responseBody = response.getBody();
+        System.out.println("responseHeaders = " + responseHeaders);
+        System.out.println("responseBody = " + responseBody);
+    }
 }
+
