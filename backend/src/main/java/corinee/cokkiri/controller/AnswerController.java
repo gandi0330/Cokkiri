@@ -35,7 +35,7 @@ public class AnswerController {
     private final QuestionService questionService;
 
 
-    @GetMapping("/answer/list/{answer_id}")
+    @GetMapping("/answer/list/{question_id}")
     @ApiOperation(value="답변 목록조회", notes="답변 목록을 조회한다")
     @ApiResponses({
             @ApiResponse(code=200, message="성공"),
@@ -43,6 +43,7 @@ public class AnswerController {
             @ApiResponse(code=500, message="서버 오류")
     })
     public ResponseEntity<? extends Result> getAnswerList(@PathVariable("question_id") Long questionId){
+        System.out.println(questionId);
         Question question = questionService.getQuestion(questionId);
 
         if(question == null)

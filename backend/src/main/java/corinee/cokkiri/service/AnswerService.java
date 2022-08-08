@@ -35,7 +35,8 @@ public class AnswerService {
         answer.setQuestion(questionRepository.getQuestion(answerAddRequest.getQuestionId()));
         answer.setRoom(roomRepository.findById(answerAddRequest.getRoomId()));
         answer.setUser(userRepository.findByEmail(answerAddRequest.getAnswerWriterEmail()).get());
-
+        answer.setCode(answerAddRequest.getCode());
+        answer.setLanguage(answerAddRequest.getLanguage());
         return answerRepository.save(answer);
     }
 
@@ -48,6 +49,8 @@ public class AnswerService {
 
         answer.setContent(request.getContent());
         answer.setTitle(request.getTitle());
+        answer.setCode(request.getCode());
+        answer.setLanguage(request.getLanguage());
 
         return answer;
     }

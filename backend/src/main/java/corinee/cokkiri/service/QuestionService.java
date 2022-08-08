@@ -34,6 +34,8 @@ public class QuestionService {
         question.setContent(questionAddRequest.getContent());
         question.setTitle(questionAddRequest.getTitle());
         question.setUser(userRepository.findByEmail(questionAddRequest.getEmail()).get());
+        question.setCode(questionAddRequest.getCode());
+        question.setLanguage(questionAddRequest.getLanguage());
 
         return questionRepository.save(question);
     }
@@ -55,6 +57,8 @@ public class QuestionService {
 
         question.setContent(request.getContent());
         question.setTitle(request.getTitle());
+        question.setCode(request.getCode());
+        question.setLanguage(request.getLanguage());
 
         return question;
     }
