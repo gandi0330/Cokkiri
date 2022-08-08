@@ -88,7 +88,8 @@ public class QuestionController {
 
         questionService.removeQuestion(questionId);
 
-        if(question != null)
+        Question removedQuestion = questionService.getQuestion(questionId);
+        if(removedQuestion != null)
             return ResponseEntity.status(500).body(Result.of(500, "질문이 삭제되지 않았습니다"));
 
         return ResponseEntity.status(200).body(Result.of(200,"success"));
