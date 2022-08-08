@@ -1,5 +1,8 @@
 package corinee.cokkiri.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mysql.cj.xdevapi.JsonParser;
+import corinee.cokkiri.domain.Openvidu;
 import corinee.cokkiri.domain.Room;
 import corinee.cokkiri.domain.StudyTime;
 import corinee.cokkiri.domain.User;
@@ -10,14 +13,19 @@ import corinee.cokkiri.request.CreateRoomRequest;
 import corinee.cokkiri.request.EnterRoomRequest;
 import corinee.cokkiri.request.ExitRoomRequest;
 import corinee.cokkiri.request.SearchRoomRequest;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -60,24 +68,36 @@ public class RoomService {
         return roomRepository.findRoomList(offset, limit);
     }
 
-    public Long enterRoom(EnterRoomRequest request) {
+    public Openvidu enterRoom(EnterRoomRequest request) {
         StudyTime studyTime = new StudyTime();
         Optional<User> optUser = userRepository.findByEmail(request.getUserEmail());
         if (optUser.isPresent())
             studyTime.setUser(optUser.get());
         else
-            return -1L;
+            return null;
         Room room = roomRepository.findById(request.getRoomNumber());
         if (room == null) {
-            return -1L;
+            return null;
         }
         if (room.getUserCount() >= room.getUserLimit()) {
-            return -2L;
+            return null;
         }
-        room.setUserCount(room.getUserCount()+1);
+
+
         studyTime.setStartDatetime(LocalDateTime.now());
         Long index = studyTimeRepository.save(studyTime);
-        return index;
+
+        if(room.getUserCount() < 1){
+            room.setUserCount(room.getUserCount()+1);
+            createSession(room.getRoomId());
+        }
+
+        Openvidu openvidu = createConnection(room.getRoomId());
+        openvidu.setIndex(index);
+
+        return openvidu;
+
+
     }
 
     public boolean exitRoom(ExitRoomRequest request) {
@@ -106,4 +126,92 @@ public class RoomService {
         }
         return roomList;
     }
+
+
+    public String createSession(Long roomId) {
+        System.out.println("@@@@@@createSession!!" + roomId);
+        String url = "http://i7c107.p.ssafy.io:5443/openvidu/api/sessions";
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setBasicAuth("OPENVIDUAPP", "COKKIRI");
+        httpHeaders.add("Content-Type", "application/json");
+
+        Session sess = new Session();
+        sess.setCustomSessionId(roomId+"");
+
+        HttpEntity<?> requestEntity = new HttpEntity<>(sess, httpHeaders);
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+        String responseBody = response.getBody();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> map = new HashMap<>();
+        System.out.println("!!!!!"+responseBody);
+        try {
+            map = objectMapper.readValue(responseBody, Map.class);
+
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+        if(map != null){
+            return map.get("id");
+        }
+
+        return null;
+    }
+
+    @Data
+    static class Connection{
+        private String type;
+    }
+
+    @Data
+    static class Session{
+        private String customSessionId;
+    }
+
+    public Openvidu createConnection(Long roomId){
+        System.out.println("@@@@conection : " + roomId);
+        String url = "http://i7c107.p.ssafy.io:5443/openvidu/api/sessions/"+roomId+"/connection";
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setBasicAuth("OPENVIDUAPP", "COKKIRI");
+        httpHeaders.add("Content-Type", "application/json");
+
+
+        Connection conn = new Connection();
+        conn.setType("WEBRTC");
+
+        HttpEntity<?> requestEntity = new HttpEntity<>(conn,httpHeaders);
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+        String responseBody = response.getBody();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> map = new HashMap<>();
+        try {
+            map = objectMapper.readValue(responseBody, Map.class);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+        if(map != null){
+            Openvidu openvidu = new Openvidu();
+            openvidu.setConnectionId(map.get("id"));
+            openvidu.setToken(map.get("token"));
+
+            return openvidu;
+        }
+
+        return null;
+
+    }
+
+
+
 }
