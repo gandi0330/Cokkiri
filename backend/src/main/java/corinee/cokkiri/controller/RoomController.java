@@ -1,6 +1,7 @@
 package corinee.cokkiri.controller;
 
 import corinee.cokkiri.common.Result;
+import corinee.cokkiri.domain.Openvidu;
 import corinee.cokkiri.domain.Room;
 import corinee.cokkiri.request.CreateRoomRequest;
 import corinee.cokkiri.request.EnterRoomRequest;
@@ -76,18 +77,14 @@ public class RoomController {
     @PostMapping("/room/entrance")
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
-            @ApiResponse(code=403, message = "스터디룸 정원 초과"),
             @ApiResponse(code=500, message = "스터디룸 입장 실패"),
     })
     public ResponseEntity<? extends Result> enterRoom(@RequestBody @Valid EnterRoomRequest request) {
-        Long index = roomService.enterRoom(request);
-        if (index == -1) {
+        Openvidu openvidu = roomService.enterRoom(request);
+        if (openvidu == null) {
             return ResponseEntity.status(500).body(Result.of(500, "스터디룸 입장 실패"));
         }
-        else if (index == -2) {
-            return ResponseEntity.status(500).body(Result.of(403, "스터디룸 정원 초과"));
-        }
-        return ResponseEntity.status(200).body(EnterRoomResponse.of(200, "스터디룸 입장 성공", index));
+        return ResponseEntity.status(200).body(EnterRoomResponse.of(200, "스터디룸 입장 성공", openvidu));
     }
 
     @ApiOperation(value = "스터디룸 퇴장", notes = "enterRoom 에서 받은 [정수 index] 전달해주세요")

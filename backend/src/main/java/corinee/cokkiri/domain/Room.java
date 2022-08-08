@@ -21,7 +21,6 @@ public class Room {
     @JoinColumn(name = "leader_email", referencedColumnName = "email")
     @OnDelete(action= OnDeleteAction.CASCADE)
     private User user;
-
     private String title;
     private LocalDateTime createDatetime;
     private Long userLimit;
