@@ -4,7 +4,7 @@ import { getNickname, getUserEmail } from '../store/authSlice';
 import { fetchStudyTime } from '../store/studyTimeSlice';
 
 import AccChart from '../components/record/AccChart';
-// import WeekChart from '../components/record/WeekChart';
+import WeekChart from '../components/record/WeekChart';
 
 import classes from './MyRecordPage.module.css';
 
@@ -15,7 +15,7 @@ const MyRecordPage = () => {
 
   useEffect(() => {
     if (!email) return;
-    
+
     dispatch(fetchStudyTime({ email }))
       .unwrap()
       .then()
@@ -32,7 +32,7 @@ const MyRecordPage = () => {
         <p className={classes.myRecord__today__diff}>오늘은 어제보다 00시간 00분 더 공부하셨습니다.</p>
       </div>
       <AccChart />
-      {/* <WeekChart /> */}
+      <WeekChart />
     </div>
   );
 };
