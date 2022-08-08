@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-const Timer = ({ min, sec, onTimerZero }) => {
+const Timer = ({
+  hour, min, sec, onTimerZero,
+}) => {
+  const [hours, setHours] = useState(parseInt(hour, 10));
   const [minutes, setMinutes] = useState(parseInt(min, 10));
   const [seconds, setSeconds] = useState(parseInt(sec, 10));
 
   useEffect(() => {
-    if (!minutes && !seconds) onTimerZero();
+    if (!hours && !minutes && !seconds) onTimerZero();
 
     const countDown = setInterval(() => {
       if (parseInt(seconds, 10) > 0) {
@@ -14,7 +17,10 @@ const Timer = ({ min, sec, onTimerZero }) => {
       }
       if (parseInt(seconds, 10) === 0) {
         if (parseInt(minutes, 10) === 0) {
-          clearInterval(countDown);
+          if (parseInt(hours, 10) > 0) {
+            setHours(parseInt(hours, 10) - 1);
+            setMinutes(59);
+          }
         } else {
           setMinutes(parseInt(minutes, 10) - 1);
           setSeconds(59);
@@ -26,12 +32,13 @@ const Timer = ({ min, sec, onTimerZero }) => {
   
   return (
     <div>
-      {minutes} : {seconds < 10 ? `0${seconds}` : seconds}
+      {hours > 0 ? <span>{hours} : </span> : null} {minutes < 10 ? `0${minutes}` : minutes} : {seconds < 10 ? `0${seconds}` : seconds}
     </div>
   );
 };
 
 Timer.propTypes = {
+  hour: PropTypes.number.isRequired,
   min: PropTypes.number.isRequired,
   sec: PropTypes.number.isRequired,
   onTimerZero: PropTypes.func.isRequired,
