@@ -39,6 +39,7 @@
         "react/jsx-no-constructed-context-values": "off",
         "react/no-unstable-nested-components": "off",
         "react/no-children-prop": "off",
-        "prefer-template": "off"
+        "prefer-template": "off",
+        "consistent-return":"off"
     }
 }

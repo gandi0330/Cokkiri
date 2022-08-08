@@ -2,10 +2,22 @@
 import { AiOutlineAudioMuted, AiOutlineAudio } from 'react-icons/ai';
 // import { BiBell } from 'react-icons/bi';
 import { FiVideo, FiVideoOff } from 'react-icons/fi';
+import { BiBell } from 'react-icons/bi';
 
 import styles from './ParticipantListItem.module.css';
 
 const ParticipantListItem = ({ publisher, subscriber }) => {
+  const onClickBell = (target) => {
+    session.signal({
+      to: [target],
+      type: 'bell',
+    }).then(() => {
+      console.log('bell successfully sent');
+    }).catch((error) => {
+      console.error(error);
+    });
+  };
+
   if (publisher?.session?.connection) {
     return (
       <div className={styles.wrapper}>
@@ -45,6 +57,9 @@ const ParticipantListItem = ({ publisher, subscriber }) => {
             ) : (
               <div className={styles.no}><FiVideoOff /></div>
             )}
+          <div className={styles.yes} onClick={() => onClickBell(subscriber.stream.connection)}>
+            <BiBell />
+          </div>
         </div>
       </div>
     );
