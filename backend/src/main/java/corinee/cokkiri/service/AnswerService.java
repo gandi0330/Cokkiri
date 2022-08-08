@@ -31,7 +31,6 @@ public class AnswerService {
     public Long addAnswer(AnswerAddRequest answerAddRequest){
         Answer answer = new Answer();
         answer.setContent(answerAddRequest.getContent());
-        answer.setTitle(answerAddRequest.getTitle());
         answer.setQuestion(questionRepository.getQuestion(answerAddRequest.getQuestionId()));
         answer.setRoom(roomRepository.findById(answerAddRequest.getRoomId()));
         answer.setUser(userRepository.findByEmail(answerAddRequest.getAnswerWriterEmail()).get());
@@ -48,7 +47,6 @@ public class AnswerService {
         if(answer == null) return null;
 
         answer.setContent(request.getContent());
-        answer.setTitle(request.getTitle());
         answer.setCode(request.getCode());
         answer.setLanguage(request.getLanguage());
 

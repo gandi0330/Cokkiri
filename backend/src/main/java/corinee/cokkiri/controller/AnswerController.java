@@ -110,7 +110,7 @@ public class AnswerController {
 
         Answer changedAnswer = answerService.updateAnswer(request);
 
-        if (!answer.getContent().equals(changedAnswer.getContent()) || !answer.getTitle().equals(changedAnswer.getTitle()))
+        if (!answer.getContent().equals(changedAnswer.getContent()))
             return ResponseEntity.status(500).body(Result.of(500, "수정되지 않았습니다"));
 
         return ResponseEntity.status(200).body(Result.of(200,"success"));

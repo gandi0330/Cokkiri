@@ -22,7 +22,6 @@ public class GetAnswerListResponse extends Result {
         for(Answer answer : answerList){
             FindAnswer findAnswer = FindAnswer.builder()
                     .questionId(answer.getQuestion().getQuestionId())
-                    .title(answer.getTitle())
                     .content(answer.getContent())
                     .roomId(answer.getRoom().getRoomId())
                     .answerWriterEmail(answer.getUser().getEmail())
@@ -43,7 +42,6 @@ public class GetAnswerListResponse extends Result {
 @Builder
 class FindAnswer{
     private Long answerId;
-    private String title;
     private String content;
     private Long roomId;
     private Long questionId;
