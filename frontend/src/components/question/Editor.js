@@ -13,7 +13,8 @@ const Editor = ({
       onChange={(event) => setCode(event.target.value)}
       padding={15}
       style={{ 
-        fontSize: '.8rem',
+        fontSize: '.9rem',
+        wordSpacing: '.1rem',
         lineHeight: '1.5',
         minHeight: '20rem',
         maxHeight: '30rem',

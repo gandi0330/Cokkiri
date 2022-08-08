@@ -71,7 +71,7 @@ const AnswerListItem = ({
           </div>
         )}
         {!editOpen && originalCode && review && <Markdown review={updatedCode} />}
-        {editOpen && originalCode && (
+        {editOpen && (
           <AnswerForm
             type="edit"
             answerId={answerId || -1}
