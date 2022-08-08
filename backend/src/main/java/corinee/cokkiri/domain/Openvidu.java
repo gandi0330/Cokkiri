@@ -8,4 +8,5 @@ public class Openvidu {
     String token;
     String connectionId;
     Long index;
+    String nickname;
 }

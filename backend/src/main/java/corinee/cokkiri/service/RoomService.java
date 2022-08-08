@@ -95,6 +95,8 @@ public class RoomService {
         Openvidu openvidu = createConnection(room.getRoomId());
         openvidu.setIndex(index);
 
+        openvidu.setNickname(room.getUser().getNickname());
+
         return openvidu;
 
 

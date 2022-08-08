@@ -12,6 +12,7 @@ public class EnterRoomResponse extends Result {
     private String token;
     private String connectionId;
     private Long index;
+    private String nickname;
 
 
     public static EnterRoomResponse of (int statusCode, String message, Openvidu openvidu){
@@ -21,6 +22,7 @@ public class EnterRoomResponse extends Result {
         response.setToken(openvidu.getToken());
         response.setConnectionId(openvidu.getConnectionId());
         response.setIndex(openvidu.getIndex());
+        response.setNickname(openvidu.getNickname());
         return response;
     }
 }
