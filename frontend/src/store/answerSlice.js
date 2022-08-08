@@ -47,7 +47,7 @@ export const createAnswer = createAsyncThunk(
         roomId,
         answerWriterEmail: email,
         content,
-        title: '가짜',
+        // title: '가짜',
         language,
         code,
       });
@@ -71,7 +71,7 @@ export const updateAnswer = createAsyncThunk(
         code,
         content,
         language,
-        title: '가짜', // TODO 미래에 삭제
+        // title: '가짜',
       });
       const { data } = res;
       return thunkAPI.fulfillWithValue(data);
