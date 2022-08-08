@@ -42,7 +42,7 @@ import axios from '../api/axios';
 // );
 
 const initialState = {
-  roomTitle: null,
+  room: {},
   token: null,
 
   loading: false,
@@ -91,6 +91,7 @@ const roomSlice = createSlice({
       state.error = false;
     });
     builder.addCase(makeRoom.fulfilled, (state, { payload }) => {
+      console.log(payload);
       state.loading = false;
       state.success = true;
       state.error = false;

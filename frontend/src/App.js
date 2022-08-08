@@ -49,6 +49,7 @@ const App = () => {
           {/* <Route path="/changePassword" element={<AccountPage header="changePassword" />} /> */}
         </Route>
         {/* TODO 나중에 room 기능 완성되면 navigation guard 붙이기 */}
+        <Route path="/room/:roomName" element={<RoomDetailPage />} />
         <Route path="/room/:roomId" element={<RoomDetailPage />} />
         <Route path="/room/:roomId/questions" element={<QuestionPage />} />
         <Route path="/room/:roomId/questions/new" element={<QuestionNewPage />} />
