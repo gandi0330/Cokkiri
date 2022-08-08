@@ -1,16 +1,37 @@
-import { useState } from 'react';
+/* eslint-disable react/forbid-prop-types */
+import { useEffect, useState, useRef } from 'react';
 import { AiOutlineAudioMuted, AiOutlineAudio } from 'react-icons/ai';
-import { BiBell, BiExit } from 'react-icons/bi';
+import { BiExit, BiBell, BiBellOff } from 'react-icons/bi';
 import { FiShare, FiVideo, FiVideoOff } from 'react-icons/fi';
 import PropTypes from 'prop-types';
+import { OpenVidu } from 'openvidu-browser';
 
+import useAudio from '../../hooks/useAudio';
 import styles from './VideoController.module.css';
+import music from '../../audios/voice-elephant.mp3';
 
 let OV;
 
-const Controller = ({ publisher, leaveSession }) => {
+const Controller = ({
+  publisher, leaveSession, getToken, session,
+}) => {
+  const audioBtn = useRef();
   const [audioActive, setAudioActive] = useState(true);
   const [videoActive, setVideoActive] = useState(true);
+  const [bellActive, setBellActice] = useState(true);
+  const [toggle] = useAudio(music);
+
+  useEffect(() => {
+    if (!session) {
+      return;
+    }
+    session.on('signal:bell', () => {
+      audioBtn.current.click();
+    });
+    return () => {
+      session.off('signal:bell', () => {});
+    };
+  }, [session, bellActive]);
 
   const handleMuteClick = () => {
     const state = !publisher.stream.audioActive;
@@ -46,15 +67,25 @@ const Controller = ({ publisher, leaveSession }) => {
     });
   };
 
+  const handleBellClick = () => {
+    setBellActice((prev) => !prev);
+    console.log(bellActive);
+  };
+
   return (
     <div className={styles.buttonGroup}>
+      <div className={styles.hidden}>
+        <button ref={audioBtn} onClick={toggle} type="button" />
+      </div>
       <div className={styles.button} onClick={handleMuteClick}>
         {audioActive ? <AiOutlineAudio size="24" /> : <div className={styles.colorRed}><AiOutlineAudioMuted size="24" /></div>}
       </div>
       <div className={styles.button} onClick={handelCameraClick}>
         {videoActive ? <FiVideo size="24" /> : <div className={styles.colorRed}><FiVideoOff size="24" /></div>}
       </div>
-      <div className={styles.button}><BiBell size="24" /></div>
+      <div className={styles.button} onClick={handleBellClick}>
+        {bellActive ? <BiBell size="24" /> : <div className={styles.colorRed}><BiBellOff size="24" /></div>}
+      </div>
       <div className={styles.button} onClick={handleShareClick}><FiShare size="24" /></div>
       <div className={`${styles.button} ${styles.exitButton}`} onClick={leaveSession}><BiExit size="24" /></div>
     </div>
@@ -62,8 +93,10 @@ const Controller = ({ publisher, leaveSession }) => {
 };
 
 Controller.propTypes = {
-  publisher: PropTypes.func.isRequired,
+  publisher: PropTypes.object.isRequired,
   leaveSession: PropTypes.func.isRequired,
+  getToken: PropTypes.func.isRequired,
+  session: PropTypes.object.isRequired,
 };
 
 export default Controller;
