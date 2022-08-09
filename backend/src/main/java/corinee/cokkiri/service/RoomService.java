@@ -64,8 +64,8 @@ public class RoomService {
         return result.size() > 0;
     }
 
-    public List<Room> findRoomList(int offset, int limit) {
-        return roomRepository.findRoomList(offset, limit);
+    public List<Room> findRoomList(int offset, int limit, String keyword) {
+        return roomRepository.findRoomList(offset, limit, keyword);
     }
 
     public Openvidu enterRoom(EnterRoomRequest request) {
@@ -123,14 +123,6 @@ public class RoomService {
             closeSession(request);
         }
         return true;
-    }
-
-    public List<Room> searchRoom(SearchRoomRequest request) {
-        List<Room> roomList = null;
-        if (request.getColumn().equals("title")){
-            roomList = roomRepository.searchRoomByTitle(request);
-        }
-        return roomList;
     }
 
 
