@@ -1,9 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux/es/exports';
+import { useSelector } from 'react-redux';
+import { FaRegClock } from 'react-icons/fa';
 
 import { getTotalTime } from '../../store/studyTimeSlice';
 
-import classes from './AccChart.module.css';
+import classes from './Chart.module.css';
 
 const AccChart = () => {
   const currentAccHour = Math.round(useSelector(getTotalTime) / 3600);
@@ -29,16 +30,20 @@ const AccChart = () => {
     <div className={classes.accChart}>
       <div className={classes.accChart__bar}>
         <div className={classes.accChart__info}>
-          <span>전체 누적 시간</span>
-        </div>
-        <div className={classes.accChart__progress}>
-          <span 
-            className={classes.accChart__progress__bar}
-            style={progressBarStyles}
-          />
+          <div>
+            <FaRegClock />
+            <span>전체 누적 시간</span>
+          </div>
+          <span>{`${percent}%`}</span>
         </div>
       </div>
-      <span>{`${currentAccHour}시간/총 ${total}시간`}</span>
+      <div className={classes.accChart__progress}>
+        <span 
+          className={classes.accChart__progress__bar}
+          style={progressBarStyles}
+        />
+      </div>
+      <span className={classes.accChart__caption}>{`${currentAccHour}시간 / 총 ${total}시간`}</span>
     </div>
   );
 };

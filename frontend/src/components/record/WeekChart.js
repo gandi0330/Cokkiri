@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { MdAutoGraph } from 'react-icons/md';
 import { Line } from 'react-chartjs-2';
 import {
   Chart,
@@ -13,6 +14,8 @@ import {
   Legend,
   Tooltip,
 } from 'chart.js';
+
+import classes from './Chart.module.css';
 
 Chart.register(
   LineController,
@@ -50,8 +53,11 @@ const WeekChart = () => {
   };
 
   return (
-    <div>
-      WeekChart
+    <div className={classes.weekChart}>
+      <div className={classes.weekChart__title}>
+        <MdAutoGraph />
+        <h4>주간 기록</h4>
+      </div>
       <Line
         datasetIdKey="id"
         options={options}
