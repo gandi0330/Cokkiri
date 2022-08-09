@@ -7,5 +7,4 @@ public class ExitRoomRequest {
     private Long index;
     private Long roomId;
     private String userEmail;
-    private String connectionId;
 }
