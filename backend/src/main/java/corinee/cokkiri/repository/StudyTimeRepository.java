@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,10 +15,17 @@ public class StudyTimeRepository {
 
     private final EntityManager em;
 
-    public Optional<List<StudyTime>> findByEmail(String email) {
-        return Optional.ofNullable(em.createQuery("SELECT s FROM StudyTime s WHERE s.user.email = :email", StudyTime.class)
-                .setParameter("email", email)
-                .getResultList());
+    public Optional<List<StudyTime>> findByEmail(String email, LocalDateTime startDatetime, LocalDateTime endDatetime) {
+        return Optional.ofNullable(em.createQuery(
+                " SELECT s FROM StudyTime s " +
+                        " WHERE s.user.email = :email " +
+                        " and s.endDatetime is not null " +
+                        " and s.startDatetime > :startDatetime " +
+                        " and s.endDatetime < :endDatetime ", StudyTime.class)
+                        .setParameter("email", email)
+                        .setParameter("startDatetime", startDatetime)
+                        .setParameter("endDatetime", endDatetime)
+                        .getResultList());
     }
 
     public Optional<StudyTime> findById(Long id) {

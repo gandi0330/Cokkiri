@@ -70,12 +70,12 @@ public class RoomService {
 
     public Openvidu enterRoom(EnterRoomRequest request) {
         StudyTime studyTime = new StudyTime();
-        Optional<User> optUser = userRepository.findByEmail(request.getUserEmail());
+        Optional<User> optUser = userRepository.findByEmail(request.getEmail());
         if (optUser.isPresent())
             studyTime.setUser(optUser.get());
         else
             return null;
-        Room room = roomRepository.findById(request.getRoomNumber());
+        Room room = roomRepository.findById(request.getRoomId());
         if (room == null) {
             return null;
         }
