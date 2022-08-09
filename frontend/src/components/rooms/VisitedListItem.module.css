@@ -19,18 +19,15 @@
 .visitedStudyCard div span {
   color: var(--blueShade1);
   font-size: var(--baseFontSize1);
+  cursor: pointer;
+}
+
+.visitedStudyCard div span:hover {
+  font-weight: bold;
 }
 
 .visitedStudyCard div i {
   cursor: pointer;
-}
-
-.btn {
-  background: none;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  color: var(--grayShade1);
 }
 
 .gotoStudy {

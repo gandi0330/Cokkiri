@@ -59,6 +59,20 @@
   font-size: var(--smallFontSize1);
 }
 
+.studyList__partition {
+  height: 1px;
+  width: 100%;
+  margin-top: .5rem;
+  background-color: var(--grayShade2);
+}
+
+.studyList__subtitle {
+  padding: .5rem 0;
+  color: var(--blackShade1);
+  font-size: var(--smallFontSize1);
+  font-weight: bold;
+}
+
 @media only screen and (min-width: 750px) {
   .section label {
     display: none;
