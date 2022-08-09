@@ -42,6 +42,7 @@
         "prefer-template": "off",
         "consistent-return":"off",
         "react/forbid-prop-types":"off",
-        "no-shadow":"off"
+        "no-shadow":"off",
+        "jsx-a11y/media-has-caption":"off"
     }
 }

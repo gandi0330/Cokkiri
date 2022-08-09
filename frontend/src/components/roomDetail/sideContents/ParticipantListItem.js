@@ -57,7 +57,7 @@ const ParticipantListItem = ({ publisher, subscriber }) => {
             ) : (
               <div className={styles.no}><FiVideoOff /></div>
             )}
-          <div className={styles.yes} onClick={() => onClickBell(subscriber.stream.connection)}>
+          <div className={`${styles.yes} ${styles.bell}`} onClick={() => onClickBell(subscriber.stream.connection)}>
             <BiBell />
           </div>
         </div>

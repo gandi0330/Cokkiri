@@ -29,6 +29,11 @@
   transform: translateY(-7px);
 }
 
+.exitButton {
+  color: var(--whiteShade1);
+  background-color: var(--redShade2);
+}
+
 .colorRed {
   color: var(--redShade1);
 }
