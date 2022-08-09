@@ -17,14 +17,16 @@ const THUMBNAILS = [
   { id: 3, thumbnailSrc: RoomThumbnail4 },
 ];
 
-const RoomListItem = forwardRef(({ title }, ref) => {
+const RoomListItem = forwardRef(({ 
+  roomId, title, userCount, userLimit,
+}, ref) => {
   const dispatch = useDispatch();
   const { email } = useSelector((state) => state.auth);
   const tnIdx = Math.floor(Math.random() * 4);
 
   const onClick = async () => {
     try {
-      dispatch(entranceRoom({ roomNumber: 1, email }));
+      dispatch(entranceRoom({ roomNumber: roomId, email }));
     } catch (error) {
       console.error(error);
     }
@@ -35,15 +37,17 @@ const RoomListItem = forwardRef(({ title }, ref) => {
       <img src={THUMBNAILS[tnIdx].thumbnailSrc} alt="스터디룸 이미지" />
       <div>
         <span>{ title }</span>
-        <span><i><MdPersonOutline /></i>3/4</span>
+        <span><i><MdPersonOutline /></i>{userCount}/{userLimit}</span>
       </div>
     </div>
   );
 });
 
 RoomListItem.propTypes = {
-  // id: PropTypes.number.isRequired,
+  roomId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  userCount: PropTypes.number.isRequired,
+  userLimit: PropTypes.number.isRequired,
 };
 
 export default RoomListItem;

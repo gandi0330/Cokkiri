@@ -20,7 +20,6 @@ const useRoomSearch = (query, pageNumber) => {
 
     axios({
       method: 'GET',
-      // dummy url
       url: 'http://openlibrary.org/search.json',
       params: { q: query, page: pageNumber },
       signal: controller.signal,

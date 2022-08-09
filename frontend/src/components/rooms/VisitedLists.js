@@ -1,5 +1,8 @@
-import React from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { MdOutlineKeyboardArrowDown as Arrow } from 'react-icons/md';
+import { fetchRecentRooms } from '../../store/roomListSlice';
+import { getUserEmail } from '../../store/authSlice';
 
 import VisitiedListItem from './VisitedListItem';
 import classes from './VisitedLists.module.css';
@@ -11,6 +14,13 @@ const visitedList = [
 ];
 
 const VisitedList = () => {
+  const dispatch = useDispatch();
+  const email = useSelector(getUserEmail);
+
+  useEffect(() => {
+    dispatch(fetchRecentRooms({ email }));
+  }, []);
+
   return (
     <section className={classes.section}>
       <div className={classes.studyListTitle}>
