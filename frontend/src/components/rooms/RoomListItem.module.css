@@ -5,6 +5,7 @@
   align-items: center;
   gap: .5em;
   width: 95%;
+  cursor: pointer;
 }
 
 .card img {

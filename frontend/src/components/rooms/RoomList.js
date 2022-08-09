@@ -2,28 +2,9 @@ import { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import RoomListItem from './RoomListItem';
-// import RoomListNoti from './RoomListNoti';
 
 import classes from './RoomList.module.css';
 
-// dummy 용
-// const RoomList = ({
-//   rooms,
-// }) => {
-//   return (
-//     <section className={classes.roomList}>
-//       {rooms.length ? rooms.map((room) => (
-//         <RoomListItem key={room.id} id={room.id} title={room.title} />
-//       )) : <p>검색 결과가 없습니다.</p>}
-//     </section>
-//   );
-// };
-
-// RoomList.propTypes = {
-//   rooms: PropTypes.arrayOf.isRequired,
-// };
-
-// api 용
 const RoomList = ({
   rooms, loading, hasMore, pageHandler,
 }) => {
@@ -44,29 +25,39 @@ const RoomList = ({
     <section className={classes.roomList}>
       {rooms.length > 0 && rooms.map((room, index) => {
         if (index + 1 === rooms.length) {
-          return <RoomListItem ref={lastRoomElementRef} key={room} title={room} />;
+          return (
+            <RoomListItem 
+              ref={lastRoomElementRef} 
+              key={room.roomId} 
+              roomId={room.roomId}
+              title={room.title}
+              userCount={room.userCount}
+              userLimit={room.userLimit}
+            />
+          );
         } 
-        return <RoomListItem key={room} title={room} />;
+        return (
+          <RoomListItem 
+            key={room.roomId} 
+            title={room.title} 
+            roomId={room.roomId}
+            userCount={room.userCount}
+            userLimit={room.userLimit}
+          />
+        );
       })}
-      {/* {rooms.length 
-        && rooms.map((room, index) => {
-          if (index + 1 === rooms.length) {
-            return <RoomListItem ref={lastRoomElementRef} key={room} title={room} />;
-          } 
-          return <RoomListItem key={room} title={room} />;
-        }
-      } */}
-      {/* {!loading && rooms.length === 0 && (
-        <div className={classes.noResult}>
-          <RoomListNoti condition="noResult" />
-        </div>
-      )} */}
     </section>
   );
 };
 
 RoomList.propTypes = {
-  rooms: PropTypes.arrayOf.isRequired,
+  rooms: PropTypes.arrayOf(PropTypes.shape({
+    roomId: PropTypes.number,
+    title: PropTypes.string,
+    createDateTime: PropTypes.string,
+    userCount: PropTypes.number,
+    userLimit: PropTypes.number,
+  })).isRequired,
   loading: PropTypes.bool.isRequired,
   hasMore: PropTypes.bool.isRequired,
   pageHandler: PropTypes.func.isRequired,
