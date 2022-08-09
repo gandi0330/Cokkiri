@@ -12,7 +12,7 @@ public class CokkiriApplication extends SpringBootServletInitializer {
 	// 현명 테스트 완료
 	// 동완 테스트 완료
 	// 석호 테스트 완료
-
+	// 220810 jenkins test
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application){
 		return application.sources(CokkiriApplication.class);
