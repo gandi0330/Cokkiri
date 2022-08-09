@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -28,14 +29,15 @@ public class RecentRoomController {
     private final UserService userService;
     private final RoomService roomService;
 
-    @GetMapping("/room/recent/{user_email}")
+    @GetMapping("/room/recent/{email}")
     @ApiOperation(value = "최근방문 스터디룸 목록 조회", notes = "로그인한 이메일의 최근방문 스터디룸 목록을 3개까지 조회")
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
     })
-    public ResponseEntity<? extends Result> findRecentRoom(@PathVariable("user_email") String email) {
+    public ResponseEntity<? extends Result> findRecentRoom(@PathVariable("email") String email) {
         List<RecentRoom> recentRoomList = recentRoomService.findListByEmail(email);
-
+        if(recentRoomList == null)
+            return ResponseEntity.status(204).body(Result.of(204, "최근 방문한 스터디룸이 존재하지 않습니다"));
         return ResponseEntity.status(200).body(FindRecentRoomListResponse.of(200, "성공", recentRoomList));
     }
 

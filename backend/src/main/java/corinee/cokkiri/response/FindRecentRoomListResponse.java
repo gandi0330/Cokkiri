@@ -3,10 +3,13 @@ package corinee.cokkiri.response;
 import corinee.cokkiri.common.Result;
 import corinee.cokkiri.domain.RecentRoom;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter @Setter
 public class FindRecentRoomListResponse extends Result {
 
     private List<FindRecentRoom> findRecentRoomList;

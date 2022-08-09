@@ -22,7 +22,6 @@ public class FindRoomListResponse extends Result {
         response.setMessage(message);
 
         for (Room room: roomList) {
-            System.out.println(room);
             FindRoom findRoom = new FindRoom();
             findRoom.setRoomId(room.getRoomId());
             findRoom.setTitle(room.getTitle());
