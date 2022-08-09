@@ -1,39 +1,39 @@
 import { useEffect, useState } from 'react';
-// import { OpenVidu } from 'openvidu-browser';
-import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { OpenVidu } from 'openvidu-browser';
+import axios from '../../api/axios';
 
 import UserVideoComponent from './UserVideoComponent';
-import { entranceRoom } from '../../store/roomSlice';
 import VideoController from './VideoController';
-// import VideoController from './VideoController';
 // import VideoList from './VideoList';
+import styles from './VideoSection.module.css';
+
+const OPENVIDU_SERVER_URL = 'http://i7c107.p.ssafy.io/:5443';
+const OPENVIDU_SERVER_SECRET = 'KOKKIRI';
 
 let OV;
 
-const VideoSection = ({ roomId }) => {
-  const dispatch = useDispatch();
-  const { email } = useSelector((state) => state.auth);
-
+const VideoSection = ({ title }) => {
   const [session, setSession] = useState(null);
+  const [sessionId] = useState(title);
   const [mainStreamManager, setMainStreamManager] = useState(null);
   const [publisher, setPublisher] = useState(null);
   const [subscribers, setSubscribers] = useState([]);
   const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
+  console.log(currentVideoDevice);
+  const reqCameraAndAudio = async () => {
+    try {
+      await navigator.mediaDevices.getUserMedia({ audio: true, video: { facingMode: 'user' } });
+    } catch (err) {
+      if (err.message === 'Permission denied') {
+        window.alert('마이크, 오디오 권한을 재설정 해주세요!');
+      }
+    }
+  };
 
-  // const reqCameraAndAudio = async () => {
-  //   try {
-  //     await navigator.mediaDevices.getUserMedia({ audio: true, video: { facingMode: 'user' } });
-  //   } catch (err) {
-  //     if (err.message === 'Permission denied') {
-  //       window.alert('마이크, 오디오 권한을 재설정 해주세요!');
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => {
-  // reqCameraAndAudio();
-  // }, []);
+  useEffect(() => {
+    reqCameraAndAudio();
+  }, []);
 
   const handleMainVideoStream = (stream) => {
     if (mainStreamManager === stream) return;
@@ -50,20 +50,101 @@ const VideoSection = ({ roomId }) => {
     setCurrentVideoDevice(null);
   };
 
+  const joinSession = () => {
+    OV = new OpenVidu();
+    setSession(OV.initSession());
+  };
+
+  useEffect(() => {
+    joinSession();
+  }, []);
+
   useEffect(() => {
     window.addEventListener('beforeunload', leaveSession);
     return () => window.removeEventListener('beforeunload', leaveSession);
   });
 
-  // const joinSession = () => {
-  //   // event.preventDefault();
-  //   OV = new OpenVidu();
-  //   setSession(OV.initSession());
-  // };
+  const createSession = (sessionId) => {
+    return new Promise((resolve) => {
+      const data = JSON.stringify({ customSessionId: sessionId });
+      axios.post(OPENVIDU_SERVER_URL + '/openvidu/api/sessions', data, {
+        headers: {
+          Authorization:
+          'Basic ' + btoa('OPENVIDUAPP:' + OPENVIDU_SERVER_SECRET),
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => {
+          console.log('CREATE SESSION', response);
+          resolve(response.data.id);
+        })
+        .catch((response) => {
+          const error = { ...response };
+          if (error.response && error.response.status === 409) {
+            resolve(sessionId);
+          } else {
+            console.log(error);
+            console.warn(
+              `No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}`,
+            );
+            if (
+              window.confirm(
+                `No connection to OpenVidu Server. This may be a certificate error at "${OPENVIDU_SERVER_URL}"\n\nClick OK to navigate and accept it.
+                  If no certificate warning is shown, then check that your OpenVidu Server is up and running at "${OPENVIDU_SERVER_URL}"`,
+              )
+            ) {
+              window.location.assign(
+                OPENVIDU_SERVER_URL + '/accept-certificate',
+              );
+            }
+          }
+        });
+    });
+  };
 
-  // useEffect(() => {
-  //   joinSession();
-  // });
+  const createToken = (sessionId) => {
+    return new Promise((resolve, reject) => {
+      const data = {};
+      axios.post(
+        `${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`, 
+        data,
+        {
+          headers: {
+            Authorization:
+              'Basic ' + btoa('OPENVIDUAPP:' + OPENVIDU_SERVER_SECRET),
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+        .then((response) => {
+          console.log('TOKEN', response);
+          resolve(response.data.token);
+        })
+        .catch((error) => reject(error));
+    });
+  };
+
+  const getToken = () => createSession(sessionId).then((sessionId) => createToken(sessionId));
+
+  const connectCamera = async () => {
+    const devices = await OV.getDevices();
+    const videoDevices = devices.filter((device) => device.kind === 'videoinput');
+    const tmpPublisher = OV.initPublisher(undefined, {
+      audioSource: undefined, 
+      videoSource: videoDevices[0].deviceId, 
+      publishAudio: true, 
+      publishVideo: true, 
+      resolution: '640x480', 
+      frameRate: 30, 
+      insertMode: 'APPEND', 
+      mirror: false, 
+    });
+    session.publish(tmpPublisher);
+    setCurrentVideoDevice(videoDevices[0]);
+    console.log('tmpPublisher', tmpPublisher, typeof tmpPublisher);
+    setMainStreamManager(tmpPublisher);
+    setPublisher(tmpPublisher);
+  };
 
   useEffect(() => {
     if (!session) return;
@@ -79,26 +160,11 @@ const VideoSection = ({ roomId }) => {
     session.on('exception', (exception) => {
       console.warn(exception);
     });
-    // getToken 자리
-    dispatch(entranceRoom({ roomNumber: roomId, userEmail: email })).then((token) => {
-      session.connect(token, { clientData: email })
-        .then(async () => {
-          const devices = await OV.getDevices();
-          const videoDevices = devices.filter((device) => device.kind === 'videoinput');
-          const tmpPublisher = OV.initPublisher(undefined, {
-            audioSource: undefined, 
-            videoSource: videoDevices[0].deviceId, 
-            publishAudio: true, 
-            publishVideo: true, 
-            resolution: '640x480', 
-            frameRate: 30, 
-            insertMode: 'APPEND', 
-            mirror: false, 
-          });
-          session.publish(tmpPublisher);
-          setCurrentVideoDevice(videoDevices[0]);
-          setMainStreamManager(tmpPublisher);
-          setPublisher(tmpPublisher);
+
+    getToken().then((token) => {
+      session.connect(token, { clientData: title })
+        .then(() => {
+          connectCamera();
         })
         .catch((error) => {
           console.log(
@@ -110,33 +176,32 @@ const VideoSection = ({ roomId }) => {
     });
   }, [session]);
 
-  const switchCamera = async () => {
-    try {
-      const devices = await OV.getDevices();
-      const videoDevices = devices.filter((device) => device.kind === 'videoinput');
-      if (videoDevices?.length > 1) {
-        const newVideoDevice = videoDevices.filter((device) => {
-          return device.deviceId !== currentVideoDevice.deviceId;
-        });
-        if (newVideoDevice.length) {
-          const newPublisher = OV.initPublisher(undefined, {
-            videoSource: newVideoDevice[0].deviceId,
-            publishAudio: true,
-            publishVideo: true,
-            mirror: true,
-          });
-          await session.unpublish(mainStreamManager);
-          await session.publish(newPublisher);
-          setCurrentVideoDevice(newVideoDevice);
-          setMainStreamManager(newPublisher);
-          setPublisher(newPublisher);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  console.log('switchCamera', switchCamera);
+  // const switchCamera = async () => {
+  //   try {
+  //     const devices = await OV.getDevices();
+  //     const videoDevices = devices.filter((device) => device.kind === 'videoinput');
+  //     if (videoDevices?.length > 1) {
+  //       const newVideoDevice = videoDevices.filter((device) => {
+  //         return device.deviceId !== currentVideoDevice.deviceId;
+  //       });
+  //       if (newVideoDevice.length) {
+  //         const newPublisher = OV.initPublisher(undefined, {
+  //           videoSource: newVideoDevice[0].deviceId,
+  //           publishAudio: true,
+  //           publishVideo: true,
+  //           mirror: true,
+  //         });
+  //         await session.unpublish(mainStreamManager);
+  //         await session.publish(newPublisher);
+  //         setCurrentVideoDevice(newVideoDevice);
+  //         setMainStreamManager(newPublisher);
+  //         setPublisher(newPublisher);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   return (
     <div className="container">
       <h1>VideoSection</h1>
@@ -166,7 +231,7 @@ const VideoSection = ({ roomId }) => {
               <div
                 key={`subscriber ${idx * 1}`}
                 className={styles.videoContainer}
-                // onClick={() => handleMainVideoStream(sub)}
+                onClick={() => handleMainVideoStream(sub)}
               >
                 Remote
                 <UserVideoComponent streamManager={sub} />
@@ -189,7 +254,10 @@ const VideoSection = ({ roomId }) => {
 };
 
 VideoSection.propTypes = {
-  roomId: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  // OV: PropTypes.string.isRequired,
+  // token: PropTypes.string.isRequired,
+  // session: PropTypes.object.isRequired,
 };
 
 export default VideoSection;

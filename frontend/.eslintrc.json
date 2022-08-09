@@ -41,6 +41,7 @@
         "react/no-children-prop": "off",
         "prefer-template": "off",
         "consistent-return":"off",
-        "react/forbid-prop-types":"off"
+        "react/forbid-prop-types":"off",
+        "no-shadow":"off"
     }
 }

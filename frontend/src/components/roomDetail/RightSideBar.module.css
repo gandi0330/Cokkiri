@@ -11,7 +11,7 @@
   .nav {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     border-top: none;
     border-left: 4px solid var(--grayShade2);
     height: 100vh;

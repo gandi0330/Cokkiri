@@ -131,8 +131,8 @@ const RoomCreationForm = () => {
     }
 
     try {
-      await dispatch(makeRoom({ email, title, userLimit: 4 }));
-      navigate(`/room/${title}`, { replace: true });
+      const res = await dispatch(makeRoom({ email, title, userLimit: 4 }));
+      navigate(`/room/${res.payload.roomId}`, { replace: true });
     } catch (error) {
       console.error(error);
     }
