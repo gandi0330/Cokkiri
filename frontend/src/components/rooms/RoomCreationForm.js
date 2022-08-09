@@ -124,20 +124,20 @@ const RoomCreationForm = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    console.log(isAlarm, isTimer, isRoomPublic, selected);
+    // console.log(isAlarm, isTimer, isRoomPublic, selected);
 
     if (!titleIsValid || !descriptionIsValid || !pwdIsValid) {
       return;
     }
 
     try {
-      dispatch(makeRoom({ email, title, userLimit: 4 }));
+      await dispatch(makeRoom({ email, title, userLimit: 4 }));
+      navigate(`/room/${title}`, { replace: true });
     } catch (error) {
       console.error(error);
     }
 
     formIsValid = false;
-    navigate(`/roomDetail/${roomName}`, { replace: true });
   };
 
   const titleInputClasses = titleHasError ? classes.invalid : '';

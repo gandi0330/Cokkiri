@@ -70,7 +70,7 @@ const RoomsPage = () => {
       <div className={classes.container}>
         <VisitedLists className={classes.sidePannel} />
         <main className={classes.main}>
-          <SearchBar onSearchHandler={onSearchHandler} />
+          <SearchBar onSearchHandler={onSearchHandler} rooms={rooms} />
           {!error && rooms.length !== 0 && (
             <RoomList
               loading={loading}

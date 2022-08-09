@@ -49,7 +49,7 @@ const SearchBar = (
 };
 
 SearchBar.propTypes = {
-  rooms: PropTypes.arrayOf.isRequired,
+  rooms: PropTypes.array.isRequired,
   // onSearchedRooms: PropTypes.func.isRequired,
   onSearchHandler: PropTypes.func.isRequired,
 };

@@ -40,6 +40,7 @@
         "react/no-unstable-nested-components": "off",
         "react/no-children-prop": "off",
         "prefer-template": "off",
-        "consistent-return":"off"
+        "consistent-return":"off",
+        "react/forbid-prop-types":"off"
     }
 }
