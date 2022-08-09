@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class EnterRoomRequest {
-    private Long roomNumber;
-    private String userEmail;
+    private Long roomId;
+    private String email;
 }

@@ -18,8 +18,8 @@ public class StudyTimeService {
 
     private final StudyTimeRepository studyTimeRepository;
 
-    public List<StudyTime> findListByEmail(String email) {
-        Optional<List<StudyTime>> optStudyTimeList = studyTimeRepository.findByEmail(email);
+    public List<StudyTime> findListByEmail(String email, LocalDateTime startDatetime, LocalDateTime endDatetime) {
+        Optional<List<StudyTime>> optStudyTimeList = studyTimeRepository.findByEmail(email, startDatetime, endDatetime);
         List<StudyTime> studyTimeList = null;
 
         if(optStudyTimeList.isPresent()) {

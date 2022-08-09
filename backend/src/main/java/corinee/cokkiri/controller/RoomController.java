@@ -7,6 +7,7 @@ import corinee.cokkiri.request.CreateRoomRequest;
 import corinee.cokkiri.request.EnterRoomRequest;
 import corinee.cokkiri.request.ExitRoomRequest;
 import corinee.cokkiri.request.SearchRoomRequest;
+import corinee.cokkiri.response.CreateRoomResponse;
 import corinee.cokkiri.response.EnterRoomResponse;
 import corinee.cokkiri.response.FindRoomListResponse;
 import corinee.cokkiri.response.FindRoomResponse;
@@ -42,7 +43,7 @@ public class RoomController {
             return ResponseEntity.status(500).body(Result.of(500, "스터디룸 생성에 실패했습니다"));
         if (roomId == -1)
             return ResponseEntity.status(409).body(Result.of(409, "이미 사용중인 방 제목 입니다"));
-        return ResponseEntity.status(200).body(Result.of(200, "스터디룸 생성에 성공했습니다"));
+        return ResponseEntity.status(200).body(CreateRoomResponse.of(200, "스터디룸 생성에 성공했습니다", roomId));
     }
 
     @ApiOperation(value = "스터디룸 목록 조회", notes = "[offset : 페이지 시작점]    [limit : 1페이당 정보 개수]")
