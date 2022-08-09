@@ -32,23 +32,16 @@ public class RoomRepository {
                 .getResultList();
     }
 
-    public List<Room> findRoomList(int offset, int limit) {
-        return em.createQuery("select r from Room r", Room.class)
+    public List<Room> findRoomList(int offset, int limit, String keyword) {
+        if(keyword == null) return em.createQuery("select r from Room r", Room.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+        return em.createQuery("select r from Room r where r.title like :keyword", Room.class)
+                .setParameter("keyword", "%" + keyword + "%")
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultList();
     }
 
-    public List<Room> searchRoomByTitle(SearchRoomRequest request) {
-
-        String value = request.getValue();
-        int offset = request.getOffset();
-        int limit = request.getLimit();
-
-        return em.createQuery("select r from Room r where r.title like :value", Room.class)
-                .setParameter("value", "%" + value + "%")
-                .setFirstResult(offset)
-                .setMaxResults(limit)
-                .getResultList();
-    }
 }
