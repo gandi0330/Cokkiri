@@ -5,6 +5,7 @@ import questionSlice from './questionSlice';
 import answerSlice from './answerSlice';
 import studyTimeSlice from './studyTimeSlice';
 import roomListSlice from './roomListSlice';
+import roomSlice from './roomSlice';
 
 export default configureStore({
   reducer: {
@@ -13,5 +14,6 @@ export default configureStore({
     answer: answerSlice,
     studyTime: studyTimeSlice,
     roomList: roomListSlice,
+    room: roomSlice,
   },
 });

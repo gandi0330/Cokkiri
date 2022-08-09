@@ -1,26 +1,28 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { OpenVidu } from 'openvidu-browser';
-import axios from '../../api/axios';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 import UserVideoComponent from './UserVideoComponent';
 import VideoController from './VideoController';
 // import VideoList from './VideoList';
 import styles from './VideoSection.module.css';
 
-const OPENVIDU_SERVER_URL = 'http://i7c107.p.ssafy.io/:5443';
-const OPENVIDU_SERVER_SECRET = 'KOKKIRI';
+const OPENVIDU_SERVER_URL = 'http://i7c107.p.ssafy.io:5443';
+const OPENVIDU_SERVER_SECRET = 'COKKIRI';
 
 let OV;
 
-const VideoSection = ({ title }) => {
+const VideoSection = ({ roomId }) => {
   const [session, setSession] = useState(null);
-  const [sessionId] = useState(title);
   const [mainStreamManager, setMainStreamManager] = useState(null);
   const [publisher, setPublisher] = useState(null);
   const [subscribers, setSubscribers] = useState([]);
   const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
   console.log(currentVideoDevice);
+  const { email } = useSelector((state) => state.auth);
+
   const reqCameraAndAudio = async () => {
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true, video: { facingMode: 'user' } });
@@ -34,6 +36,20 @@ const VideoSection = ({ title }) => {
   useEffect(() => {
     reqCameraAndAudio();
   }, []);
+
+  if (publisher) {
+    publisher.on('streamPropertyChanged', () => {
+      setEmpty((prev) => prev + 1);
+    });
+  }
+
+  if (subscribers.length > 0) {
+    subscribers.forEach((sub) => {
+      sub.on('streamPropertyChanged', () => {
+        setEmpty((prev) => prev + 1);
+      });
+    });
+  }
 
   const handleMainVideoStream = (stream) => {
     if (mainStreamManager === stream) return;
@@ -124,7 +140,7 @@ const VideoSection = ({ title }) => {
     });
   };
 
-  const getToken = () => createSession(sessionId).then((sessionId) => createToken(sessionId));
+  const getToken = () => createSession(roomId).then((sessionId) => createToken(sessionId));
 
   const connectCamera = async () => {
     const devices = await OV.getDevices();
@@ -160,9 +176,10 @@ const VideoSection = ({ title }) => {
     session.on('exception', (exception) => {
       console.warn(exception);
     });
-
+    console.log('----------', session);
     getToken().then((token) => {
-      session.connect(token, { clientData: title })
+      console.log('============', token);
+      session.connect(token, { clientData: email })
         .then(() => {
           connectCamera();
         })
@@ -254,7 +271,7 @@ const VideoSection = ({ title }) => {
 };
 
 VideoSection.propTypes = {
-  title: PropTypes.string.isRequired,
+  roomId: PropTypes.string.isRequired,
   // OV: PropTypes.string.isRequired,
   // token: PropTypes.string.isRequired,
   // session: PropTypes.object.isRequired,
