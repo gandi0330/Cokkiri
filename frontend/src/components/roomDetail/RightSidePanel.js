@@ -1,6 +1,8 @@
+import classes from './RightSidePanel.module.css';
+
 const RightSidePanel = () => {
   return (
-    <div>RightSidePanel</div>
+    <div className={classes.rightPanel}>RightSidePanel</div>
   );
 };
 

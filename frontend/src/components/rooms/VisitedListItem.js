@@ -5,6 +5,7 @@ import { FaStar } from 'react-icons/fa';
 import { getUserEmail } from '../../store/authSlice';
 import { 
   addFavoriteRoom, 
+  removeFavoriteRoom,
   fetchFavoriteRooms,
 } from '../../store/roomListSlice';
 
@@ -22,6 +23,15 @@ const VisitedListItem = ({
 
     if (type === 'recent') {
       dispatch(addFavoriteRoom({ email, roomId }))
+        .unwrap()
+        .then(() => {
+          dispatch(fetchFavoriteRooms({ email }));
+        })
+        .catch((err) => console.error(err));
+    }
+
+    if (type === 'favorite') {
+      dispatch(removeFavoriteRoom({ email, roomId }))
         .unwrap()
         .then(() => {
           dispatch(fetchFavoriteRooms({ email }));

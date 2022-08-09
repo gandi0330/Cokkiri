@@ -133,7 +133,7 @@ const roomListSlice = createSlice({
       state.loading = false;
       state.success = true;
       state.error = false;
-      console.log('roomlist', payload);
+      // console.log('roomlist', payload);
       if (payload.meta.keyword === '' && payload.payload.findRoomList?.length > 0) {
         state.rooms = [...new Set([...state.rooms, ...payload.payload.findRoomList])];
       } 
@@ -144,10 +144,6 @@ const roomListSlice = createSlice({
           state.rooms = [...new Set([...state.rooms, ...payload.payload.findRoomList])];
         }
       }
-
-      // if (payload.payload.findRoomList?.length > 0) {
-      //   state.rooms = [...new Set([...state.rooms, ...payload.payload.findRoomList])];
-      // }
       state.hasMore = payload.payload.findRoomList?.length > 0;
     });
     builder.addCase(fetchRoomList.rejected, (state, payload) => {

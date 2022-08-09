@@ -13,10 +13,10 @@ const RoomDetailPage = () => {
   return (
     <div className={classes.container}>
       <div className={classes.contents}>
-        <div>
+        <div className={classes.contents__left}>
           {roomId && <VideoSection roomId={roomId} />}
         </div>
-        <div>
+        <div className={classes.contents__right}>
           {isActive && <RightSidePanel />}
         </div>
       </div>

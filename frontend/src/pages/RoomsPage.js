@@ -43,13 +43,13 @@ const RoomsPage = () => {
   }, [query]);
 
   useEffect(() => {
-    const limit = 6;
+    const limit = 12;
     const offset = limit * pageNumber;
     const promise = dispatch(fetchRoomList({ 
       offset, limit, keyword: query,
     }));
     return () => { 
-      console.log('aborted!');
+      // console.log('aborted!');
       promise.abort();
     };
   }, [query, pageNumber]);
