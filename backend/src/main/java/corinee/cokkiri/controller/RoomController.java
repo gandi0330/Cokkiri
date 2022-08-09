@@ -48,15 +48,15 @@ public class RoomController {
     @GetMapping("/room")
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
-            @ApiResponse(code=404, message = "스터디룸이 존재하지 않습니다"),
+            @ApiResponse(code=204, message = "스터디룸이 존재하지 않습니다"),
     })
     public ResponseEntity<? extends Result> findRoomList(@RequestParam("offset") int offset,
                                                          @RequestParam("limit") int limit,
                                                          @RequestParam(required = false, value = "keyword") String keyword) {
 
         List<Room> roomList = roomService.findRoomList(offset, limit, keyword);
-        if (roomList.size() == 0)
-            return ResponseEntity.status(404).body(Result.of(404, "스터디룸이 존재하지 않습니다"));
+        if (roomList == null || roomList.size() == 0)
+            return ResponseEntity.status(204).body(Result.of(204, "스터디룸이 존재하지 않습니다"));
         return ResponseEntity.status(200).body(FindRoomListResponse.of(200, "스터디룸 목록 조회 성공", roomList));
     }
 

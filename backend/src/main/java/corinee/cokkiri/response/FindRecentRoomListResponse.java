@@ -22,6 +22,7 @@ public class FindRecentRoomListResponse extends Result {
             FindRecentRoom findRecentRoom = new FindRecentRoom();
             findRecentRoom.setEmail(recentRoom.getUser().getEmail());
             findRecentRoom.setRoomId(recentRoom.getRoom().getRoomId());
+            findRecentRoom.setTitle(recentRoom.getRoom().getTitle());
             response.findRecentRoomList.add(findRecentRoom);
         }
 
@@ -36,4 +37,5 @@ public class FindRecentRoomListResponse extends Result {
 class FindRecentRoom {
     private String email;
     private Long roomId;
+    private String title;
 }
