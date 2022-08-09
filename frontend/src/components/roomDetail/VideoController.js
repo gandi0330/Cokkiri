@@ -77,16 +77,18 @@ const Controller = ({
         <button ref={audioBtn} onClick={toggle} type="button" />
       </div>
       <div className={styles.button} onClick={handleMuteClick}>
-        {audioActive ? <AiOutlineAudio size="24" /> : <div className={styles.colorRed}><AiOutlineAudioMuted size="24" /></div>}
+        {audioActive ? <AiOutlineAudio /> : ( 
+          <div className={styles.colorRed}><AiOutlineAudioMuted /></div>
+        )}
       </div>
       <div className={styles.button} onClick={handelCameraClick}>
-        {videoActive ? <FiVideo size="24" /> : <div className={styles.colorRed}><FiVideoOff size="24" /></div>}
+        {videoActive ? <FiVideo /> : <div className={styles.colorRed}><FiVideoOff /></div>}
       </div>
       <div className={styles.button} onClick={handleBellClick}>
-        {bellActive ? <BiBell size="24" /> : <div className={styles.colorRed}><BiBellOff size="24" /></div>}
+        {bellActive ? <BiBell /> : <div className={styles.colorRed}><BiBellOff /></div>}
       </div>
-      <div className={styles.button} onClick={handleShareClick}><FiShare size="24" /></div>
-      <div className={`${styles.button} ${styles.exitButton}`} onClick={leaveSession}><BiExit size="24" /></div>
+      <div className={styles.button} onClick={handleShareClick}><FiShare /></div>
+      <div className={`${styles.button} ${styles.exitButton}`} onClick={leaveSession}><BiExit /></div>
     </div>
   );
 };

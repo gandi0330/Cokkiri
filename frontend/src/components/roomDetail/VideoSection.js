@@ -255,7 +255,7 @@ const VideoSection = ({ roomId }) => {
               </div>
             </div>
           ))}
-        {publisher
+        {!publisher
           && (
           <VideoController
             publisher={publisher}

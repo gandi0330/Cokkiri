@@ -47,26 +47,26 @@ const RightSideBar = ({ setIsActive }) => {
     <nav className={styles.nav}>
       <div>
         {activeParticipants
-          ? <BsPeopleFill size="30" onClick={toggleParticipants} /> 
-          : <BsPeople size="30" onClick={toggleParticipants} />}
+          ? <BsPeopleFill onClick={toggleParticipants} /> 
+          : <BsPeople onClick={toggleParticipants} />}
       </div>
 
       <div>
         {activeStopWatch
-          ? <BsStopwatchFill size="30" onClick={toggleStopWatch} /> 
-          : <BsStopwatch size="30" onClick={toggleStopWatch} />}
+          ? <BsStopwatchFill onClick={toggleStopWatch} /> 
+          : <BsStopwatch onClick={toggleStopWatch} />}
       </div>
 
       <div>
         {activeChat
-          ? <AiFillMessage size="30" onClick={toggleChat} /> 
-          : <AiOutlineMessage size="30" onClick={toggleChat} />}
+          ? <AiFillMessage onClick={toggleChat} /> 
+          : <AiOutlineMessage onClick={toggleChat} />}
       </div>
 
       <div>
         {activeQuestion
-          ? <RiQuestionAnswerFill size="30" onClick={toggleActiveQuestion} /> 
-          : <RiQuestionAnswerLine size="30" onClick={toggleActiveQuestion} />}
+          ? <RiQuestionAnswerFill onClick={toggleActiveQuestion} /> 
+          : <RiQuestionAnswerLine onClick={toggleActiveQuestion} />}
       </div>
 
     </nav>

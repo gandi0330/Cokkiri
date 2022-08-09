@@ -1,13 +1,13 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { FaRegClock } from 'react-icons/fa';
-
-import { getTotalTime } from '../../store/studyTimeSlice';
 
 import classes from './Chart.module.css';
 
-const AccChart = () => {
-  const currentAccHour = Math.round(useSelector(getTotalTime) / 3600);
+const AccChart = ({
+  totalTime,
+}) => {
+  const currentAccHour = Math.round(totalTime / 3600);
   const totalTimes = new Array(11).fill(0).map((_, i) => 2 ** i);
 
   const calculatePercent = (currHour) => {
@@ -34,7 +34,7 @@ const AccChart = () => {
             <FaRegClock />
             <span>전체 누적 시간</span>
           </div>
-          <span>{`${percent}%`}</span>
+          <span>{`${Math.round(percent)}%`}</span>
         </div>
       </div>
       <div className={classes.accChart__progress}>
@@ -46,6 +46,10 @@ const AccChart = () => {
       <span className={classes.accChart__caption}>{`${currentAccHour}시간 / 총 ${total}시간`}</span>
     </div>
   );
+};
+
+AccChart.propTypes = {
+  totalTime: PropTypes.number.isRequired,
 };
 
 export default AccChart;

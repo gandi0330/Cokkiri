@@ -13,10 +13,15 @@ const initialState = {
 export const fetchStudyTime = createAsyncThunk(
   'studyTime/fetchStudyTime',
   async ({ 
-    email,
+    email, startDatetime, endDatetime,
   }, thunkAPI) => {
     try {
-      const res = await axios.get(`/studytime/${email}`);
+      const res = await axios.get(`/studytime/${email}`, {
+        params: {
+          startDatetime,
+          endDatetime,
+        },
+      });
       const { data } = res;
       return thunkAPI.fulfillWithValue(data);
     } catch (err) {
@@ -35,16 +40,16 @@ const studyTimeSlice = createSlice({
       state.success = false;
       state.error = false;
     });
-    builder.addCase(fetchStudyTime.fulfilled, (state, payload) => {
+    builder.addCase(fetchStudyTime.fulfilled, (state) => {
       state.loading = false;
       state.success = true;
       state.error = false;
-      state.totalTime = payload.payload.totalTime;
     });
     builder.addCase(fetchStudyTime.rejected, (state, payload) => {
       state.loading = false;
       state.success = false;
       state.error = true;
+      console.log(payload);
       if (payload.payload.statusCode === 404) {
         state.studytimes = [];
       }
