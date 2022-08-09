@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRoomList, resetRooms } from '../store/roomListSlice';
+import { 
+  fetchRoomList, resetRooms, incrementPageNumber, resetPageNumber,
+} from '../store/roomListSlice';
 
 // import useRoomSearch from '../hooks/useRoomSearch';
 import SearchBar from '../components/rooms/SearchBar';
@@ -15,11 +17,10 @@ import classes from './RoomsPage.module.css';
 const RoomsPage = () => {
   const dispatch = useDispatch();
   const { 
-    rooms, loading, error, hasMore,
+    rooms, loading, error, hasMore, pageNumber,
   } = useSelector((state) => state.roomList);
 
   const [query, setQuery] = useState('');
-  const [pageNumber, setPageNumber] = useState(0);
 
   // const {
   //   rooms,
@@ -30,24 +31,27 @@ const RoomsPage = () => {
 
   const onSearchHandler = (enteredQuery) => {
     setQuery(enteredQuery);
-    setPageNumber(0);
   };
 
   const pageHandler = () => {
-    setPageNumber((prevPageNumber) => prevPageNumber + 1);
+    dispatch(incrementPageNumber());
   };
 
   useEffect(() => {
-    dispatch(resetRooms);
-  }, []);
+    dispatch(resetRooms());
+    dispatch(resetPageNumber());
+  }, [query]);
 
   useEffect(() => {
-    const limit = 15;
+    const limit = 6;
     const offset = limit * pageNumber;
     const promise = dispatch(fetchRoomList({ 
       offset, limit, keyword: query,
     }));
-    return () => promise.abort();
+    return () => { 
+      console.log('aborted!');
+      promise.abort();
+    };
   }, [query, pageNumber]);
 
   return (

@@ -6,6 +6,7 @@ const initialState = {
   rooms: [],
   recentRooms: [],
   favoriteRooms: [],
+  pageNumber: 0,
 
   loading: false,
   success: false,
@@ -19,15 +20,12 @@ export const fetchRoomList = createAsyncThunk(
     offset, limit, keyword,
   }, thunkAPI) => {
     try {
-      // const source = axios.CancelToken.source();
-      // thunkAPI.signal.addEventListener('abort', () => source.cancel());
       const res = await axios.get('/room', {
         params: {
           offset, 
           limit,
           keyword,
         },
-        // cancelToken: source.token,
       });
       const { data } = res;
       return thunkAPI.fulfillWithValue(data);
@@ -117,10 +115,17 @@ const roomListSlice = createSlice({
     resetRooms(state) {
       state.rooms = [];
     },
+    resetPageNumber(state) {
+      state.pageNumber = 0;
+    },
+    incrementPageNumber(state) {
+      state.pageNumber += 1;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchRoomList.pending, (state) => {
       state.loading = true;
+      if (!state.hasMore) state.loading = false;
       state.success = false;
       state.error = false;
     });
@@ -129,29 +134,52 @@ const roomListSlice = createSlice({
       state.success = true;
       state.error = false;
       console.log('roomlist', payload);
-      state.rooms = [...new Set([...payload.payload.findRoomList])];
-      state.hasMore = payload.payload.findRoomList.length > 0;
+      if (payload.meta.keyword === '' && payload.payload.findRoomList?.length > 0) {
+        state.rooms = [...new Set([...state.rooms, ...payload.payload.findRoomList])];
+      } 
+      if (payload.meta.keyword !== '' && payload.payload.findRoomList?.length > 0) {
+        if (payload.meta.offset === 0) {
+          state.rooms = [...new Set([...payload.payload.findRoomList])];
+        } else {
+          state.rooms = [...new Set([...state.rooms, ...payload.payload.findRoomList])];
+        }
+      }
+
+      // if (payload.payload.findRoomList?.length > 0) {
+      //   state.rooms = [...new Set([...state.rooms, ...payload.payload.findRoomList])];
+      // }
+      state.hasMore = payload.payload.findRoomList?.length > 0;
     });
-    builder.addCase(fetchRoomList.rejected, (state) => {
-      state.loading = false;
-      state.success = false;
-      state.error = true;
+    builder.addCase(fetchRoomList.rejected, (state, payload) => {
+      if (payload.error?.message !== 'Aborted') {      
+        state.loading = false;
+        state.success = false;
+        state.error = true;
+      }
+      
+      if (payload.error?.message !== 'Aborted') {
+        state.loading = false;
+        state.success = false;
+        state.error = false;
+      }
     });
     builder.addCase(fetchRecentRooms.pending, (state) => {
       state.loading = true;
       state.success = false;
       state.error = false;
+      state.recentRooms = [];
     });
     builder.addCase(fetchRecentRooms.fulfilled, (state, payload) => {
       state.loading = false;
       state.success = true;
       state.error = false;
-      console.log(payload);
+      state.recentRooms = [...payload.payload.findRecentRoomList];
     });
     builder.addCase(fetchRecentRooms.rejected, (state) => {
       state.loading = false;
       state.success = false;
       state.error = true;
+      state.recentRooms = [];
     });
     builder.addCase(updateRecentRooms.pending, (state) => {
       state.loading = true;
@@ -174,11 +202,10 @@ const roomListSlice = createSlice({
       state.success = false;
       state.error = false;
     });
-    builder.addCase(addFavoriteRoom.fulfilled, (state, payload) => {
+    builder.addCase(addFavoriteRoom.fulfilled, (state) => {
       state.loading = false;
       state.success = true;
       state.error = false;
-      console.log(payload);
     });
     builder.addCase(addFavoriteRoom.rejected, (state) => {
       state.loading = false;
@@ -205,21 +232,27 @@ const roomListSlice = createSlice({
       state.loading = true;
       state.success = false;
       state.error = false;
+      state.favoriteRooms = [];
     });
     builder.addCase(fetchFavoriteRooms.fulfilled, (state, payload) => {
       state.loading = false;
       state.success = true;
       state.error = false;
-      console.log(payload);
+      state.favoriteRooms = [...payload.payload.userLikeRoomList];
     });
     builder.addCase(fetchFavoriteRooms.rejected, (state) => {
       state.loading = false;
       state.success = false;
       state.error = true;
+      state.favoriteRooms = [];
     });
   },
 });
 
-export const { resetRooms } = roomListSlice.actions;
+export const { resetRooms, incrementPageNumber, resetPageNumber } = roomListSlice.actions;
+
+export const getPageNumber = (state) => state.roomList.pageNumber;
+export const getRecentRooms = (state) => state.roomList.recentRooms;
+export const getFavoriteRooms = (state) => state.roomList.favoriteRooms;
 
 export default roomListSlice.reducer;

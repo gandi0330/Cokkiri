@@ -1,26 +1,53 @@
 import PropTypes from 'prop-types';
-
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaStar } from 'react-icons/fa';
-import { MdMoreVert } from 'react-icons/md';
+import { getUserEmail } from '../../store/authSlice';
+import { 
+  addFavoriteRoom, 
+  fetchFavoriteRooms,
+} from '../../store/roomListSlice';
 
 import classes from './VisitedListItem.module.css';
 
-const VisitedListItem = ({ title }) => {
+const VisitedListItem = ({ 
+  type, title, roomId, 
+}) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const email = useSelector(getUserEmail);
+
+  const favoriteHandler = () => {
+    if (!email) return;
+
+    if (type === 'recent') {
+      dispatch(addFavoriteRoom({ email, roomId }))
+        .unwrap()
+        .then(() => {
+          dispatch(fetchFavoriteRooms({ email }));
+        })
+        .catch((err) => console.error(err));
+    }
+  };
+
   return (
     <div className={classes.visitedStudyCard}>
       <div>
-        <i><FaStar /></i>
-        {/* FIX Link tag로 바꿔야 한다 */}
-        {/* TODO check 여부에 따라 별 색과 순위 바뀌는 것 */}
-        <span>{ title }</span>
+        <i>
+          <FaStar 
+            onClick={favoriteHandler}
+            className={(type === 'favorite') ? `${classes.gotoStudy}` : `${classes.notGotoStudy}`}
+          />
+        </i>
+        <span onClick={() => navigate(`/room/${roomId}`)}>{ title }</span>
       </div>
-      <button type="button" className={classes.btn}><MdMoreVert /></button>
     </div>
   );
 };
 
 VisitedListItem.propTypes = {
-  // id: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
+  roomId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
 };
 
