@@ -97,9 +97,9 @@ export const addFavoriteRoom = createAsyncThunk(
 
 export const removeFavoriteRoom = createAsyncThunk(
   'roomList/removeFavoriteRoom',
-  async (_, thunkAPI) => {
+  async ({ id }, thunkAPI) => {
     try {
-      const res = await axios.delete('/room/favorite');
+      const res = await axios.delete(`/room/favorite/${id}`);
       const { data } = res;
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
