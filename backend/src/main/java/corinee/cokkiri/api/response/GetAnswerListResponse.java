@@ -17,8 +17,8 @@ public class GetAnswerListResponse extends BaseResponse {
     private List<FindAnswer> findAnswerList;
 
     public static GetAnswerListResponse of(int statusCode, String message, List<Answer> answerList){
-        GetAnswerListResponse resList = new GetAnswerListResponse();
-        resList.findAnswerList = new ArrayList<>();
+        GetAnswerListResponse res = new GetAnswerListResponse();
+        res.findAnswerList = new ArrayList<>();
         for(Answer answer : answerList){
             FindAnswer findAnswer = FindAnswer.builder()
                     .questionId(answer.getQuestion().getQuestionId())
@@ -30,11 +30,11 @@ public class GetAnswerListResponse extends BaseResponse {
                     .code(answer.getCode())
                     .language(answer.getLanguage())
                     .build();
-            resList.findAnswerList.add(findAnswer);
+            res.findAnswerList.add(findAnswer);
         }
-        resList.setStatusCode(statusCode);
-        resList.setMessage(message);
-        return resList;
+        res.setStatusCode(statusCode);
+        res.setMessage(message);
+        return res;
     }
 }
 

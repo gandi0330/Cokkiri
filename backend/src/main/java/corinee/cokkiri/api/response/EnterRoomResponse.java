@@ -9,12 +9,11 @@ public class EnterRoomResponse extends BaseResponse {
 
     private Long id;
 
-
     public static EnterRoomResponse of (int statusCode, String message, Long id){
-        EnterRoomResponse response = new EnterRoomResponse();
-        response.setStatusCode(statusCode);
-        response.setMessage(message);
-        response.setId(id);
-        return response;
+        EnterRoomResponse res = new EnterRoomResponse();
+        res.setStatusCode(statusCode);
+        res.setMessage(message);
+        res.setId(id);
+        return res;
     }
 }

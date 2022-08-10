@@ -17,14 +17,14 @@ public class FindRoomResponse extends BaseResponse {
     private Long userCount;
 
     public static FindRoomResponse of (int statusCode, String message, Room room){
-        FindRoomResponse response = new FindRoomResponse();
-        response.setStatusCode(statusCode);
-        response.setMessage(message);
-        response.setRoomId(room.getRoomId());
-        response.setTitle(room.getTitle());
-        response.setCreateDatetime(room.getCreateDatetime());
-        response.setUserLimit(room.getUserLimit());
-        response.setUserCount(room.getUserCount());
-        return response;
+        FindRoomResponse res = new FindRoomResponse();
+        res.setStatusCode(statusCode);
+        res.setMessage(message);
+        res.setRoomId(room.getRoomId());
+        res.setTitle(room.getTitle());
+        res.setCreateDatetime(room.getCreateDatetime());
+        res.setUserLimit(room.getUserLimit());
+        res.setUserCount(room.getUserCount());
+        return res;
     }
 }

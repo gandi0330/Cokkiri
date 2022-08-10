@@ -18,8 +18,8 @@ public class GetQuestionListResponse extends BaseResponse {
     private List<FindQuestion> findQuestionList;
 
     public static GetQuestionListResponse of (int statusCode, String message, List<Question> questionList){
-        GetQuestionListResponse resList = new GetQuestionListResponse();
-        resList.findQuestionList = new ArrayList<>();
+        GetQuestionListResponse res = new GetQuestionListResponse();
+        res.findQuestionList = new ArrayList<>();
         for(Question question : questionList){
             FindQuestion findQuestion = FindQuestion.builder()
                     .questionId(question.getQuestionId())
@@ -31,11 +31,11 @@ public class GetQuestionListResponse extends BaseResponse {
                     .language(question.getLanguage())
                     .code(question.getCode())
                     .build();
-            resList.findQuestionList.add(findQuestion);
+            res.findQuestionList.add(findQuestion);
         }
-        resList.setStatusCode(statusCode);
-        resList.setMessage(message);
-        return resList;
+        res.setStatusCode(statusCode);
+        res.setMessage(message);
+        return res;
     }
 
 }
