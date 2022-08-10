@@ -1,13 +1,12 @@
 package corinee.cokkiri.response;
 
-import corinee.cokkiri.common.Result;
-import corinee.cokkiri.request.UserLoginRequest;
+import corinee.cokkiri.common.BaseResponse;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class UserLoginResponse extends Result {
+public class UserLoginResponse extends BaseResponse {
     private String accessToken;
     private String email;
 

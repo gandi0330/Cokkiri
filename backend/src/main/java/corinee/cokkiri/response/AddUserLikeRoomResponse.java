@@ -1,11 +1,11 @@
 package corinee.cokkiri.response;
 
-import corinee.cokkiri.common.Result;
+import corinee.cokkiri.common.BaseResponse;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class AddUserLikeRoomResponse extends Result {
+public class AddUserLikeRoomResponse extends BaseResponse {
     private Long id;
 
     public static AddUserLikeRoomResponse of(int statusCode, String message, Long id){

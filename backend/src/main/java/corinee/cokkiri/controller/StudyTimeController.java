@@ -1,6 +1,6 @@
 package corinee.cokkiri.controller;
 
-import corinee.cokkiri.common.Result;
+import corinee.cokkiri.common.BaseResponse;
 import corinee.cokkiri.domain.StudyTime;
 import corinee.cokkiri.response.FindStudyTimeResponse;
 import corinee.cokkiri.service.StudyTimeService;
@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,14 +27,14 @@ public class StudyTimeController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=404, message = "데이터가 존재하지 않습니다")
     })
-    public ResponseEntity<? extends Result> checkStudyTime(
+    public ResponseEntity<? extends BaseResponse> checkStudyTime(
             @PathVariable("email") String email,
             @RequestParam("startDatetime") String startDatetime,
             @RequestParam("endDatetime") String endDatetime) {
         List<StudyTime> studyTimeList = studyTimeService.findListByEmail(email, LocalDateTime.parse(startDatetime), LocalDateTime.parse(endDatetime));
 
         if(studyTimeList.isEmpty()) {
-            return  ResponseEntity.status(404).body(Result.of(404,"데이터가 존재하지 않습니다"));
+            return  ResponseEntity.status(404).body(BaseResponse.of(404,"데이터가 존재하지 않습니다"));
         }
 
         long time = studyTimeService.calStudyTime(studyTimeList);

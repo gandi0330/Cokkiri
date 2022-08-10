@@ -1,11 +1,11 @@
 package corinee.cokkiri.response;
 
-import corinee.cokkiri.common.Result;
+import corinee.cokkiri.common.BaseResponse;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class EnterRoomResponse extends Result {
+public class EnterRoomResponse extends BaseResponse {
 
     private Long index;
 

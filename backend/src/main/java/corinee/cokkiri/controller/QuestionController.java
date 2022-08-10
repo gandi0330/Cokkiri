@@ -1,6 +1,6 @@
 package corinee.cokkiri.controller;
 
-import corinee.cokkiri.common.Result;
+import corinee.cokkiri.common.BaseResponse;
 import corinee.cokkiri.domain.Question;
 import corinee.cokkiri.domain.Room;
 import corinee.cokkiri.request.QuestionAddRequest;
@@ -13,7 +13,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.models.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,13 +34,13 @@ public class QuestionController {
             @ApiResponse(code=404, message="방 없음"),
             @ApiResponse(code=500, message="서버 오류")
     })
-    public ResponseEntity<? extends Result> getQuestionList(@PathVariable("room_id") Long roomId){
+    public ResponseEntity<? extends BaseResponse> getQuestionList(@PathVariable("room_id") Long roomId){
 
 
         Room room = roomService.findById(roomId);
 
         if(room == null)
-            return ResponseEntity.status(404).body(Result.of(404,"방이 존재하지 않습니다"));
+            return ResponseEntity.status(404).body(BaseResponse.of(404,"방이 존재하지 않습니다"));
 
         List<Question> questionList = questionService.getQuestionList(roomId);
 
@@ -55,18 +54,18 @@ public class QuestionController {
             @ApiResponse(code=404, message="방 없음"),
             @ApiResponse(code=500, message="서버 오류")
     })
-    public ResponseEntity<Result> addQuestion(@RequestBody QuestionAddRequest request){
+    public ResponseEntity<BaseResponse> addQuestion(@RequestBody QuestionAddRequest request){
         Room room = roomService.findById(request.getRoomId());
 
         if(room == null)
-            return ResponseEntity.status(404).body(Result.of(404,"방이 존재하지 않습니다"));
+            return ResponseEntity.status(404).body(BaseResponse.of(404,"방이 존재하지 않습니다"));
 
         Long questionId = questionService.addQuestion(request);
 
         if(questionService.getQuestion(questionId) == null)
-            return ResponseEntity.status(500).body(Result.of(500, "질문생성 도중 오류가 발생했습니다"));
+            return ResponseEntity.status(500).body(BaseResponse.of(500, "질문생성 도중 오류가 발생했습니다"));
 
-        return ResponseEntity.status(200).body(Result.of(200,"success"));
+        return ResponseEntity.status(200).body(BaseResponse.of(200,"success"));
 
     }
 
@@ -78,21 +77,21 @@ public class QuestionController {
             @ApiResponse(code=404, message="질문이 존재하지 않음"),
             @ApiResponse(code=500, message="서버 오류")
     })
-    public ResponseEntity<Result> removeQuestion(@PathVariable("question_id") Long questionId, @PathVariable("email") String email){
+    public ResponseEntity<BaseResponse> removeQuestion(@PathVariable("question_id") Long questionId, @PathVariable("email") String email){
         Question question = questionService.getQuestion(questionId);
 
         if(question == null)
-            return ResponseEntity.status(404).body(Result.of(404,"존재하지 않는 질문입니다"));
+            return ResponseEntity.status(404).body(BaseResponse.of(404,"존재하지 않는 질문입니다"));
         if(!email.equals(question.getUser().getEmail()))
-            return ResponseEntity.status(403).body(Result.of(403, "삭제에 대한 권한이 없습니다"));
+            return ResponseEntity.status(403).body(BaseResponse.of(403, "삭제에 대한 권한이 없습니다"));
 
         questionService.removeQuestion(questionId);
 
         Question removedQuestion = questionService.getQuestion(questionId);
         if(removedQuestion != null)
-            return ResponseEntity.status(500).body(Result.of(500, "질문이 삭제되지 않았습니다"));
+            return ResponseEntity.status(500).body(BaseResponse.of(500, "질문이 삭제되지 않았습니다"));
 
-        return ResponseEntity.status(200).body(Result.of(200,"success"));
+        return ResponseEntity.status(200).body(BaseResponse.of(200,"success"));
     }
 
     @PutMapping("/question")
@@ -103,21 +102,21 @@ public class QuestionController {
             @ApiResponse(code=404, message="질문이 존재하지 않음"),
             @ApiResponse(code=500, message="서버 오류")
     })
-    public ResponseEntity<Result> updateQuestion(@RequestBody UpdateQuestionRequest request){
+    public ResponseEntity<BaseResponse> updateQuestion(@RequestBody UpdateQuestionRequest request){
         Question question = questionService.getQuestion(request.getQuestionId());
 
         if(question == null)
-            return ResponseEntity.status(404).body(Result.of(404,"질문이 존재하지 않습니다"));
+            return ResponseEntity.status(404).body(BaseResponse.of(404,"질문이 존재하지 않습니다"));
 
         if(!request.getEmail().equals(question.getUser().getEmail()))
-            return ResponseEntity.status(403).body(Result.of(403,"수정에 대한 권한이 없습니다"));
+            return ResponseEntity.status(403).body(BaseResponse.of(403,"수정에 대한 권한이 없습니다"));
 
         Question changedQuestion = questionService.updateQuestion(request);
 
         if (changedQuestion == null || !question.getContent().equals(changedQuestion.getContent()) || !question.getTitle().equals(changedQuestion.getTitle()))
-            return ResponseEntity.status(500).body(Result.of(500, "수정되지 않았습니다"));
+            return ResponseEntity.status(500).body(BaseResponse.of(500, "수정되지 않았습니다"));
 
-        return ResponseEntity.status(200).body(Result.of(200,"success"));
+        return ResponseEntity.status(200).body(BaseResponse.of(200,"success"));
     }
 
     @GetMapping("/question/detail/{question_id}")
@@ -127,11 +126,11 @@ public class QuestionController {
             @ApiResponse(code=404, message="질문이 존재하지 않음"),
             @ApiResponse(code=500, message="서버 오류")
     })
-    public ResponseEntity<? extends Result> getQuestion(@PathVariable("question_id") Long questionId){
+    public ResponseEntity<? extends BaseResponse> getQuestion(@PathVariable("question_id") Long questionId){
         Question question = questionService.getQuestion(questionId);
 
         if(question == null)
-            return ResponseEntity.status(404).body(Result.of(404, "질문이 존재하지 않습니다"));
+            return ResponseEntity.status(404).body(BaseResponse.of(404, "질문이 존재하지 않습니다"));
         return ResponseEntity.status(200).body(GetQuestionResponse.of(200,"success",question));
     }
 }
