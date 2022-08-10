@@ -98,7 +98,8 @@ export const changeNickname = createAsyncThunk(
     try {
       const res = await axios.patch('/user/nickname', {
         nickname,
-        userEmail: email,
+        email,
+        // userEmail: email,
       });
       const { data } = res;
       return thunkAPI.fulfillWithValue(data);
@@ -115,7 +116,8 @@ export const changePassword = createAsyncThunk(
     try {
       const res = await axios.patch('/user/pw', {
         password,
-        userEmail: email,
+        email,
+        // userEmail: email,
       });
       const { data } = res;
       return thunkAPI.fulfillWithValue(data);
