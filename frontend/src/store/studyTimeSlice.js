@@ -49,9 +49,10 @@ const studyTimeSlice = createSlice({
       state.loading = false;
       state.success = false;
       state.error = true;
-      console.log(payload);
+      // console.log(payload);
       if (payload.payload.statusCode === 404) {
         state.studytimes = [];
+        state.error = false;
       }
     });
   },
