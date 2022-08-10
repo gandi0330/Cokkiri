@@ -47,8 +47,8 @@ public class EmailAuthController {
             @ApiResponse(code=500, message = "인증이 정상적으로 이루어지지 않았습니다")
     })
     @ApiOperation(value = "이메일 인증", notes = "입력받은 인증번호를 DB와 비교하여 인증")
-    @GetMapping("/user/email/{userEmail}/{authNumber}")
-    public ResponseEntity<? extends Result> checkAuth(@PathVariable("userEmail") String email, @PathVariable("authNumber") String authNum) {
+    @GetMapping("/user/email/{email}/{authNumber}")
+    public ResponseEntity<? extends Result> checkAuth(@PathVariable("email") String email, @PathVariable("authNumber") String authNum) {
         Email findEmail = emailService.updateAuthState(email);
         User findUser = userService.findByEmail(email);
 

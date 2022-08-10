@@ -30,13 +30,13 @@ public class UserLikeRoomController {
 
     private final RoomService roomService;
 
-    @GetMapping("/room/favorite/{user_email}")
+    @GetMapping("/room/favorite/{email}")
     @ApiOperation(value = "스터디룸 즐겨찾기 목록 조회", notes = "로그인한 이메일의 스터디룸 즐겨찾기 목록 조회")
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=404, message = "즐겨찾기 목록이 존재하지 않습니다"),
     })
-    public ResponseEntity<? extends Result> findUserLikeRoom(@PathVariable("user_email") String email) {
+    public ResponseEntity<? extends Result> findUserLikeRoom(@PathVariable("email") String email) {
         List<UserLikeRoom> userLikeRoomList = userLikeRoomService.findListByEmail(email);
 
         if(userLikeRoomList.isEmpty()) {

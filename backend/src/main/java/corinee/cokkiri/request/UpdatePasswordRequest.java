@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 public class UpdatePasswordRequest {
 
     @NotEmpty
-    private String userEmail;
+    private String email;
     @NotEmpty
     private String password;
 }

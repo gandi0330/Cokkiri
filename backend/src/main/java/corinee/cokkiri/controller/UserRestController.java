@@ -79,13 +79,13 @@ public class UserRestController {
     }
 
     @ApiOperation(value = "로그아웃")
-    @GetMapping("/user/{user_email}")
+    @GetMapping("/user/{email}")
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=404, message = "유저가 존재하지 않습니다"),
             @ApiResponse(code=500, message = "리프레쉬 토큰 삭제중 오류 발생"),
     })
-    public ResponseEntity<Result> logout(@PathVariable("user_email") String email){
+    public ResponseEntity<Result> logout(@PathVariable("email") String email){
         User user = userService.removeRefreshToken(email);
 
         if(user == null)
@@ -97,12 +97,12 @@ public class UserRestController {
     }
 
     @ApiOperation(value = "회원정보 조회", notes = "이메일을 통해 회원정보 조회")
-    @GetMapping("/user/info/{user_email}")
+    @GetMapping("/user/info/{email}")
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=403, message = "비밀번호가 일치하지 않습니다"),
     })
-    public ResponseEntity<? extends Result> findUser(@PathVariable("user_email") String email) {
+    public ResponseEntity<? extends Result> findUser(@PathVariable("email") String email) {
         User findUser = userService.findByEmail(email);
         if (findUser == null)
             return ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
@@ -111,13 +111,13 @@ public class UserRestController {
     }
 
     @ApiOperation(value = "AccessToken 재발급", notes = "로그인유저의 AccessToken 재발급")
-    @GetMapping("/user/refreshtoken/{user_email}")
+    @GetMapping("/user/refreshtoken/{email}")
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=401, message = "일치하지 않는 토큰입니다"),
             @ApiResponse(code=404, message = "유저가 존재하지 않습니다"),
     })
-    public ResponseEntity<? extends Result> getToken(@PathVariable("user_email") String email, @CookieValue(value = "refresh-token", required = false) Cookie cookie){
+    public ResponseEntity<? extends Result> getToken(@PathVariable("email") String email, @CookieValue(value = "refresh-token", required = false) Cookie cookie){
 
         String refreshToken = cookie.getValue();
         User user = userService.findByEmail(email);
@@ -140,7 +140,7 @@ public class UserRestController {
     public ResponseEntity<? extends Result> updateNickname(
             @RequestBody @Valid UpdateNicknameRequest request) {
 
-        User findUser = userService.updateNickname(request.getUserEmail(), request.getNickname());
+        User findUser = userService.updateNickname(request.getEmail(), request.getNickname());
         if (findUser == null)
             return  ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
         else if (!findUser.getNickname().equals(request.getNickname())){
@@ -159,7 +159,7 @@ public class UserRestController {
     public ResponseEntity<? extends Result> updatePassword(
             @RequestBody @Valid UpdatePasswordRequest request) {
 
-        User findUser = userService.updatePassword(request.getUserEmail(), request.getPassword());
+        User findUser = userService.updatePassword(request.getEmail(), request.getPassword());
         if (findUser == null)
             return  ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
         else if (!findUser.getPassword().equals(request.getPassword()))
@@ -186,12 +186,12 @@ public class UserRestController {
     }
 
     @ApiOperation(value = "회원탈퇴")
-    @DeleteMapping("/user/secession/{user_email}")
+    @DeleteMapping("/user/secession/{email}")
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=500, message = "회원탈퇴가 정상적으로 이루어지지 않았습니다"),
     })
-    public ResponseEntity<? extends Result> deleteUser(@PathVariable("user_email") String email) {
+    public ResponseEntity<? extends Result> deleteUser(@PathVariable("email") String email) {
         userService.deleteUser(email);
         User user = userService.findByEmail(email);
         if (user != null)
