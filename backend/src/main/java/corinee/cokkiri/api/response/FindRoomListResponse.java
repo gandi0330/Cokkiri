@@ -17,10 +17,10 @@ public class FindRoomListResponse extends BaseResponse {
     private List<FindRoom> findRoomList;
 
     public static FindRoomListResponse of (int statusCode, String message, List<Room> roomList){
-        FindRoomListResponse response = new FindRoomListResponse();
-        response.findRoomList = new ArrayList<>();
-        response.setStatusCode(statusCode);
-        response.setMessage(message);
+        FindRoomListResponse res = new FindRoomListResponse();
+        res.findRoomList = new ArrayList<>();
+        res.setStatusCode(statusCode);
+        res.setMessage(message);
 
         for (Room room: roomList) {
             FindRoom findRoom = FindRoom.builder()
@@ -30,9 +30,9 @@ public class FindRoomListResponse extends BaseResponse {
                     .userLimit(room.getUserLimit())
                     .userCount(room.getUserCount())
                     .build();
-            response.findRoomList.add(findRoom);
+            res.findRoomList.add(findRoom);
         }
-        return response;
+        return res;
     }
 }
 
