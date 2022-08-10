@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import { useRef, useState } from 'react';
 import { FiSend } from 'react-icons/fi';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import styles from './ChatForm.module.css';
 
@@ -11,13 +12,14 @@ const ChatForm = ({ session }) => {
   const onChangeMsg = (e) => {
     setMyMsg(e.target.value);
   };
-
   const onSubmit = async (e) => {
     e.preventDefault();
     if (myMsg.trim() === '') {
       return;
     }
     try {
+      // const controller = new AbortController();
+      // const { signal } = controller;
       await session.signal({ data: myMsg });
       // console.log('Msg successfully sent');
       setMyMsg('');
@@ -33,15 +35,15 @@ const ChatForm = ({ session }) => {
     <form onSubmit={onSubmit} className={styles.form}>
       <input className={styles.chatInput} ref={input} value={myMsg} onChange={onChangeMsg} />
       <span className={styles.placeholder}>채팅을 입력해주세요.</span>
-      <button className={styles.chatBtn} type="submit">
+      <button className={styles.chatBtn} type="button">
         <FiSend size="20" />
       </button>
     </form>
   );
 };
 
-ChatForm.propTypes = {
-  session: PropTypes.objectOf.isRequired,
-};
+// ChatForm.propTypes = {
+//   session: PropTypes.objectOf.isRequired,
+// };
 
 export default ChatForm;

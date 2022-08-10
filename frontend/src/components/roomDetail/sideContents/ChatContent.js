@@ -1,4 +1,5 @@
-import PropTypes from 'prop-types';
+/* eslint-disable react/prop-types */
+// import PropTypes from 'prop-types';
 
 import styles from './ChatContent.module.css';
 
@@ -12,8 +13,8 @@ const ChatContent = ({ chat }) => {
   );
 };
 
-ChatContent.propTypes = {
-  chat: PropTypes.objectOf.isRequired,
-};
+// ChatContent.propTypes = {
+//   chat: PropTypes.objectOf.isRequired,
+// };
 
 export default ChatContent;

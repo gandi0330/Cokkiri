@@ -58,6 +58,7 @@ const TheTimer = () => {
 
   const onStart = () => {
     if (!hours && !minutes && !seconds) {
+      alert('시 분 초를 입력해주세요!');
       return;
     }
     setShow(true);
