@@ -1,9 +1,47 @@
-import classes from './RightSidePanel.module.css';
+import PropTypes from 'prop-types';
 
-const RightSidePanel = () => {
-  return (
-    <div className={classes.rightPanel}>RightSidePanel</div>
-  );
+import classes from './RightSidePanel.module.css';
+import Participants from './sideContents/Participants';
+import TheTimer from './sideContents/TheTimer';
+import Chat from './sideContents/Chat';
+import QuestionPage from '../../pages/questions/QuestionPage';
+
+const RightSidePanel = ({ type }) => {
+  if (type === 'part') {
+    return (
+      <div className={classes.rightPanel}>
+        <Participants />
+      </div>
+    );
+  }
+
+  if (type === 'watch') {
+    return (
+      <div className={classes.rightPanel}>
+        <TheTimer />
+      </div>
+    );
+  }
+
+  if (type === 'chat') {
+    return (
+      <div className={classes.rightPanel}>
+        <Chat />
+      </div>
+    );
+  }
+
+  if (type === 'question') {
+    return (
+      <div className={classes.rightPanel}>
+        <QuestionPage />
+      </div>
+    );
+  }
+};
+
+RightSidePanel.propTypes = {
+  type: PropTypes.string.isRequired,
 };
 
 export default RightSidePanel;

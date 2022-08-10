@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { OpenVidu } from 'openvidu-browser';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import UserVideoComponent from './UserVideoComponent';
 import VideoController from './VideoController';
-// import VideoList from './VideoList';
 import styles from './VideoSection.module.css';
+import { addPublisher, addSubscribers, removeSubscriber } from '../../store/roomSlice';
 
 const OPENVIDU_SERVER_URL = 'http://i7c107.p.ssafy.io:5443';
 const OPENVIDU_SERVER_SECRET = 'COKKIRI';
@@ -15,12 +15,12 @@ const OPENVIDU_SERVER_SECRET = 'COKKIRI';
 let OV;
 
 const VideoSection = ({ roomId }) => {
+  const dispatch = useDispatch();
   const [session, setSession] = useState(null);
   const [mainStreamManager, setMainStreamManager] = useState(null);
   const [publisher, setPublisher] = useState(null);
   const [subscribers, setSubscribers] = useState([]);
   const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
-  console.log(currentVideoDevice);
   const { email } = useSelector((state) => state.auth);
 
   const reqCameraAndAudio = async () => {
@@ -66,6 +66,21 @@ const VideoSection = ({ roomId }) => {
     setCurrentVideoDevice(null);
   };
 
+  const listener = (e) => {
+    e.preventDefault();
+    e.returnValue = '';
+  };
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', listener);
+    return () => window.removeEventListener('beforeunload', listener);
+  });
+
+  useEffect(() => {
+    window.addEventListener('unload', leaveSession);
+    return () => window.removeEventListener('unload', leaveSession);
+  });
+
   const joinSession = () => {
     OV = new OpenVidu();
     setSession(OV.initSession());
@@ -91,7 +106,7 @@ const VideoSection = ({ roomId }) => {
         },
       })
         .then((response) => {
-          console.log('CREATE SESSION', response);
+          // console.log('CREATE SESSION', response);
           resolve(response.data.id);
         })
         .catch((response) => {
@@ -133,7 +148,7 @@ const VideoSection = ({ roomId }) => {
         },
       )
         .then((response) => {
-          console.log('TOKEN', response);
+          // console.log('TOKEN', response);
           resolve(response.data.token);
         })
         .catch((error) => reject(error));
@@ -157,9 +172,12 @@ const VideoSection = ({ roomId }) => {
     });
     session.publish(tmpPublisher);
     setCurrentVideoDevice(videoDevices[0]);
-    console.log('tmpPublisher', tmpPublisher, typeof tmpPublisher);
+    // console.log('tmpPublisher', tmpPublisher, typeof tmpPublisher);
     setMainStreamManager(tmpPublisher);
     setPublisher(tmpPublisher);
+    if (tmpPublisher) {
+      dispatch(addPublisher(tmpPublisher));
+    }
   };
 
   useEffect(() => {
@@ -167,18 +185,18 @@ const VideoSection = ({ roomId }) => {
     session.on('streamCreated', (event) => {
       const subscriber = session.subscribe(event.stream, undefined);
       setSubscribers((prevSubscribers) => [...prevSubscribers, subscriber]);
+      dispatch(addSubscribers(subscriber));
     });
     session.on('streamDestroyed', (event) => {
       setSubscribers((prevSubscribers) => {
         return prevSubscribers.filter((stream) => stream !== event.stream.streamManager);
       });
+      dispatch(removeSubscriber(event.stream.streamManager));
     });
     session.on('exception', (exception) => {
       console.warn(exception);
     });
-    console.log('----------', session);
     getToken().then((token) => {
-      console.log('============', token);
       session.connect(token, { clientData: email })
         .then(() => {
           connectCamera();
@@ -193,32 +211,32 @@ const VideoSection = ({ roomId }) => {
     });
   }, [session]);
 
-  // const switchCamera = async () => {
-  //   try {
-  //     const devices = await OV.getDevices();
-  //     const videoDevices = devices.filter((device) => device.kind === 'videoinput');
-  //     if (videoDevices?.length > 1) {
-  //       const newVideoDevice = videoDevices.filter((device) => {
-  //         return device.deviceId !== currentVideoDevice.deviceId;
-  //       });
-  //       if (newVideoDevice.length) {
-  //         const newPublisher = OV.initPublisher(undefined, {
-  //           videoSource: newVideoDevice[0].deviceId,
-  //           publishAudio: true,
-  //           publishVideo: true,
-  //           mirror: true,
-  //         });
-  //         await session.unpublish(mainStreamManager);
-  //         await session.publish(newPublisher);
-  //         setCurrentVideoDevice(newVideoDevice);
-  //         setMainStreamManager(newPublisher);
-  //         setPublisher(newPublisher);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const switchCamera = async () => {
+    try {
+      const devices = await OV.getDevices();
+      const videoDevices = devices.filter((device) => device.kind === 'videoinput');
+      if (videoDevices?.length > 1) {
+        const newVideoDevice = videoDevices.filter((device) => {
+          return device.deviceId !== currentVideoDevice.deviceId;
+        });
+        if (newVideoDevice.length) {
+          const newPublisher = OV.initPublisher(undefined, {
+            videoSource: newVideoDevice[0].deviceId,
+            publishAudio: true,
+            publishVideo: true,
+            mirror: true,
+          });
+          await session.unpublish(mainStreamManager);
+          await session.publish(newPublisher);
+          setCurrentVideoDevice(newVideoDevice);
+          setMainStreamManager(newPublisher);
+          setPublisher(newPublisher);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="container">
       <h1>VideoSection</h1>
@@ -228,7 +246,7 @@ const VideoSection = ({ roomId }) => {
           <div className={styles.videoWrapper}>
             <div className={styles.videoContainer}>
               <UserVideoComponent streamManager={mainStreamManager} />
-              {/* <button onClick={switchCamera}>Switch Camera</button> */}
+              <button type="button" onClick={switchCamera}>Switch Camera</button>
             </div>
           </div>
         )}
@@ -255,7 +273,7 @@ const VideoSection = ({ roomId }) => {
               </div>
             </div>
           ))}
-        {!publisher
+        {publisher
           && (
           <VideoController
             publisher={publisher}

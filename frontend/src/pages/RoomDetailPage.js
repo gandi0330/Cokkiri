@@ -1,14 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import RightSideBar from '../components/roomDetail/RightSideBar';
 import RightSidePanel from '../components/roomDetail/RightSidePanel';
 import VideoSection from '../components/roomDetail/VideoSection';
 import classes from './RoomDetailPage.module.css';
+import { getRoom } from '../store/roomSlice';
 
 const RoomDetailPage = () => {
+  const dispatch = useDispatch();
   const { roomId } = useParams();
-  const [isActive, setIsActive] = useState(false);
+  const [type, setType] = useState('off');
+
+  useEffect(() => {
+    if (roomId) {
+      dispatch(getRoom({ roomId }));
+    }
+  });
+
+  const getType = (type) => {
+    setType(type);
+  };
   
   return (
     <div className={classes.container}>
@@ -17,11 +30,11 @@ const RoomDetailPage = () => {
           {roomId && <VideoSection roomId={roomId} />}
         </div>
         <div className={classes.contents__right}>
-          {isActive && <RightSidePanel />}
+          {type !== 'off' && <RightSidePanel type={type} />}
         </div>
       </div>
       <div className={classes.rightSideBar}>
-        <RightSideBar setIsActive={setIsActive} />
+        <RightSideBar getType={getType} />
       </div>
     </div>
   );

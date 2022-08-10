@@ -16,4 +16,14 @@ export default configureStore({
     roomList: roomListSlice,
     room: roomSlice,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: {
+      // Ignore these action types
+      // ignoredActions: ['your/action/type'],
+      // Ignore these field paths in all actions
+      ignoredActionPaths: ['payload', 'room', 'room.publisher', 'room.subscribers'],
+      // Ignore these paths in the state
+      ignoredPaths: ['payload', 'room', 'room.publisher', 'room.subscribers'],
+    },
+  }),
 });
