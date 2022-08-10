@@ -33,7 +33,7 @@ public class RecentRoomController {
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
     })
-    public ResponseEntity<? extends BaseResponse> findRecentRoom(@PathVariable("email") String email) {
+    public ResponseEntity<? extends BaseResponse> getRecentRoom(@PathVariable("email") String email) {
         List<RecentRoom> recentRoomList = recentRoomService.findListByEmail(email);
         if(recentRoomList == null)
             return ResponseEntity.status(204).body(BaseResponse.of(204, "최근 방문한 스터디룸이 존재하지 않습니다"));
