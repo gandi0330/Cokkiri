@@ -86,7 +86,8 @@ public class UserLikeRoomController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=404, message = "즐겨찾기 목록이 삭제되지 않았습니다"),
     })
-    public ResponseEntity<? extends BaseResponse> delUserLikeRoom(@RequestParam("id") Long id) {
+
+    public ResponseEntity<? extends BaseResponse> delUserLikeRoom(@PathVariable("id") Long id) {
         userLikeRoomService.removeUserLikeRoom(id);
         UserLikeRoom userLikeRoom = userLikeRoomService.checkUserLikeRoom(id);
 

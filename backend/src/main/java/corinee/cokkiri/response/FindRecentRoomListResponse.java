@@ -2,6 +2,7 @@ package corinee.cokkiri.response;
 
 import corinee.cokkiri.common.BaseResponse;
 import corinee.cokkiri.domain.RecentRoom;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,25 +16,27 @@ public class FindRecentRoomListResponse extends BaseResponse {
     private List<FindRecentRoom> findRecentRoomList;
 
     public static FindRecentRoomListResponse of (int statusCode, String message, List<RecentRoom> recentRoomList) {
-        FindRecentRoomListResponse response = new FindRecentRoomListResponse();
-        response.findRecentRoomList = new ArrayList<>();
+        FindRecentRoomListResponse res = new FindRecentRoomListResponse();
+        res.findRecentRoomList = new ArrayList<>();
 
         for(RecentRoom recentRoom : recentRoomList) {
-            FindRecentRoom findRecentRoom = new FindRecentRoom();
-            findRecentRoom.setEmail(recentRoom.getUser().getEmail());
-            findRecentRoom.setRoomId(recentRoom.getRoom().getRoomId());
-            findRecentRoom.setTitle(recentRoom.getRoom().getTitle());
-            response.findRecentRoomList.add(findRecentRoom);
+            FindRecentRoom findRecentRoom = FindRecentRoom.builder()
+                            .email(recentRoom.getUser().getEmail())
+                            .roomId(recentRoom.getRoom().getRoomId())
+                            .title(recentRoom.getRoom().getTitle())
+                            .build();
+            res.findRecentRoomList.add(findRecentRoom);
         }
 
-        response.setStatusCode(statusCode);
-        response.setMessage(message);
+        res.setStatusCode(statusCode);
+        res.setMessage(message);
 
-        return response;
+        return res;
     }
 }
 
 @Data
+@Builder
 class FindRecentRoom {
     private String email;
     private Long roomId;
