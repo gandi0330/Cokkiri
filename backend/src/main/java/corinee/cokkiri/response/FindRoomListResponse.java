@@ -2,6 +2,7 @@ package corinee.cokkiri.response;
 
 import corinee.cokkiri.common.BaseResponse;
 import corinee.cokkiri.domain.Room;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,12 +23,13 @@ public class FindRoomListResponse extends BaseResponse {
         response.setMessage(message);
 
         for (Room room: roomList) {
-            FindRoom findRoom = new FindRoom();
-            findRoom.setRoomId(room.getRoomId());
-            findRoom.setTitle(room.getTitle());
-            findRoom.setCreateDateTime(room.getCreateDatetime());
-            findRoom.setUserLimit(room.getUserLimit());
-            findRoom.setUserCount(room.getUserCount());
+            FindRoom findRoom = FindRoom.builder()
+                    .roomId(room.getRoomId())
+                    .title(room.getTitle())
+                    .createDateTime(room.getCreateDatetime())
+                    .userLimit(room.getUserLimit())
+                    .userCount(room.getUserCount())
+                    .build();
             response.findRoomList.add(findRoom);
         }
         return response;
@@ -35,6 +37,7 @@ public class FindRoomListResponse extends BaseResponse {
 }
 
 @Data
+@Builder
 class FindRoom {
     private Long roomId;
     private String title;

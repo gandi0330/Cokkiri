@@ -2,6 +2,7 @@ package corinee.cokkiri.response;
 
 import corinee.cokkiri.common.BaseResponse;
 import corinee.cokkiri.domain.UserLikeRoom;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,11 +21,12 @@ public class FindUserLikeRoomListResponse extends BaseResponse {
         response.userLikeRoomList = new ArrayList<>();
 
         for(UserLikeRoom userLikeRoom : userLikeRoomList) {
-            FindUserLikeRoom findUserLikeRoom = new FindUserLikeRoom();
-            findUserLikeRoom.setEmail(userLikeRoom.getUser().getEmail());
-            findUserLikeRoom.setRoomId(userLikeRoom.getRoom().getRoomId());
-            findUserLikeRoom.setTitle(userLikeRoom.getRoom().getTitle());
-            findUserLikeRoom.setId(userLikeRoom.getId());
+            FindUserLikeRoom findUserLikeRoom = FindUserLikeRoom.builder()
+                    .email(userLikeRoom.getUser().getEmail())
+                    .roomId(userLikeRoom.getRoom().getRoomId())
+                    .title(userLikeRoom.getRoom().getTitle())
+                    .id(userLikeRoom.getId())
+                    .build();
             response.userLikeRoomList.add(findUserLikeRoom);
         }
         response.setStatusCode(statusCode);
@@ -35,6 +37,7 @@ public class FindUserLikeRoomListResponse extends BaseResponse {
 }
 
 @Data
+@Builder
 class FindUserLikeRoom {
     private String email;
     private Long roomId;
