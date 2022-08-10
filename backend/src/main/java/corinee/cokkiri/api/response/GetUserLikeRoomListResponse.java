@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class FindUserLikeRoomListResponse extends BaseResponse {
+public class GetUserLikeRoomListResponse extends BaseResponse {
 
     private List<FindUserLikeRoom> userLikeRoomList;
 
 
-    public static FindUserLikeRoomListResponse of (int statusCode, String message, List<UserLikeRoom> userLikeRoomList) {
-        FindUserLikeRoomListResponse res = new FindUserLikeRoomListResponse();
+    public static GetUserLikeRoomListResponse of (int statusCode, String message, List<UserLikeRoom> userLikeRoomList) {
+        GetUserLikeRoomListResponse res = new GetUserLikeRoomListResponse();
         res.userLikeRoomList = new ArrayList<>();
 
         for(UserLikeRoom userLikeRoom : userLikeRoomList) {

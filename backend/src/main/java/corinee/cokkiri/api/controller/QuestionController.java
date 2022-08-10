@@ -3,7 +3,7 @@ package corinee.cokkiri.api.controller;
 import corinee.cokkiri.common.BaseResponse;
 import corinee.cokkiri.db.domain.Question;
 import corinee.cokkiri.db.domain.Room;
-import corinee.cokkiri.api.request.QuestionAddRequest;
+import corinee.cokkiri.api.request.AddQuestionRequest;
 import corinee.cokkiri.api.request.UpdateQuestionRequest;
 import corinee.cokkiri.api.response.GetQuestionListResponse;
 import corinee.cokkiri.api.response.GetQuestionResponse;
@@ -54,7 +54,7 @@ public class QuestionController {
             @ApiResponse(code=404, message="방 없음"),
             @ApiResponse(code=500, message="서버 오류")
     })
-    public ResponseEntity<BaseResponse> addQuestion(@RequestBody QuestionAddRequest request){
+    public ResponseEntity<BaseResponse> addQuestion(@RequestBody AddQuestionRequest request){
         Room room = roomService.findById(request.getRoomId());
 
         if(room == null)

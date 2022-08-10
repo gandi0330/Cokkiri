@@ -6,7 +6,7 @@ import corinee.cokkiri.db.domain.User;
 import corinee.cokkiri.db.domain.UserLikeRoom;
 import corinee.cokkiri.api.request.UserLikeRoomRequest;
 import corinee.cokkiri.api.response.AddUserLikeRoomResponse;
-import corinee.cokkiri.api.response.FindUserLikeRoomListResponse;
+import corinee.cokkiri.api.response.GetUserLikeRoomListResponse;
 import corinee.cokkiri.api.service.RoomService;
 import corinee.cokkiri.api.service.UserLikeRoomService;
 import corinee.cokkiri.api.service.UserService;
@@ -44,7 +44,7 @@ public class UserLikeRoomController {
             return ResponseEntity.status(404).body(BaseResponse.of(404, "즐겨찾기 목록이 존재하지 않습니다"));
         }
 
-        return ResponseEntity.status(200).body(FindUserLikeRoomListResponse.of(200, "성공", userLikeRoomList));
+        return ResponseEntity.status(200).body(GetUserLikeRoomListResponse.of(200, "성공", userLikeRoomList));
     }
 
     @PostMapping("/room/favorite")

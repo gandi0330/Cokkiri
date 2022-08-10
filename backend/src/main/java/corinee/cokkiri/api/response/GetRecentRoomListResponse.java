@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class FindRecentRoomListResponse extends BaseResponse {
+public class GetRecentRoomListResponse extends BaseResponse {
 
     private List<FindRecentRoom> findRecentRoomList;
 
-    public static FindRecentRoomListResponse of (int statusCode, String message, List<RecentRoom> recentRoomList) {
-        FindRecentRoomListResponse res = new FindRecentRoomListResponse();
+    public static GetRecentRoomListResponse of (int statusCode, String message, List<RecentRoom> recentRoomList) {
+        GetRecentRoomListResponse res = new GetRecentRoomListResponse();
         res.findRecentRoomList = new ArrayList<>();
 
         for(RecentRoom recentRoom : recentRoomList) {

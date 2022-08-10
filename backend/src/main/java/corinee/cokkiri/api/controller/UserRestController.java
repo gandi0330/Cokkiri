@@ -5,8 +5,8 @@ import corinee.cokkiri.db.domain.User;
 import corinee.cokkiri.api.request.UpdateNicknameRequest;
 import corinee.cokkiri.api.request.UpdatePasswordRequest;
 import corinee.cokkiri.api.request.UserLoginRequest;
-import corinee.cokkiri.api.request.UserSignupRequest;
-import corinee.cokkiri.api.response.FindUserResponse;
+import corinee.cokkiri.api.request.AddUserRequest;
+import corinee.cokkiri.api.response.GetUserResponse;
 import corinee.cokkiri.api.response.GetTokenResponse;
 import corinee.cokkiri.api.response.UserLoginResponse;
 import corinee.cokkiri.api.service.UserService;
@@ -101,7 +101,7 @@ public class UserRestController {
         if (findUser == null)
             return ResponseEntity.status(404).body(BaseResponse.of(404,"유저가 존재하지 않습니다"));
         else
-            return ResponseEntity.status(200).body(FindUserResponse.of(200,"success",findUser));
+            return ResponseEntity.status(200).body(GetUserResponse.of(200,"success",findUser));
     }
 
     @ApiOperation(value = "AccessToken 재발급", notes = "로그인유저의 AccessToken 재발급")
@@ -167,14 +167,14 @@ public class UserRestController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=409, message = "이미 존재하는 이메일"),
     })
-    public ResponseEntity<? extends BaseResponse> addUser(@RequestBody UserSignupRequest userSignupRequest) {
-        User user = userService.findByEmail(userSignupRequest.getEmail());
+    public ResponseEntity<? extends BaseResponse> addUser(@RequestBody AddUserRequest addUserRequest) {
+        User user = userService.findByEmail(addUserRequest.getEmail());
 
         if(user != null) {
             return ResponseEntity.status(409).body(BaseResponse.of(409, "이미 존재하는 이메일"));
         }
 
-        userService.addUser(userSignupRequest);
+        userService.addUser(addUserRequest);
         return ResponseEntity.status(200).body(BaseResponse.of(200, "회원가입 성공"));
 
     }
