@@ -4,8 +4,8 @@ import axios from '../api/axios';
 
 const initialState = {
   room: {},
-  token: null,
-
+  publisher: {},
+  subscribers: [],
   loading: false,
   success: false,
   error: false,
@@ -53,11 +53,17 @@ export const entranceRoom = createAsyncThunk(
 const roomSlice = createSlice({
   name: 'room',
   initialState,
-  // reducers: {
-  // addErrMsg(state, { payload }) {
-  //   state.errMsg = payload.errMsg;
-  // },
-  // },
+  reducers: {
+    addPublisher(state, { payload }) {
+      state.publisher = payload;
+    },
+    addSubscribers(state, { payload }) {
+      state.subscribers.push(payload);
+    },
+    removeSubscriber(state, { payload }) {
+      state.subscribers = state.subscribers.filter((sub) => sub !== payload);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(makeRoom.pending, (state) => {
       state.loading = true;
@@ -108,6 +114,6 @@ const roomSlice = createSlice({
   },
 });
 
-// export const { addUser, addUserEmail } = roomSlice.actions;
+export const { addPublisher, addSubscribers, removeSubscriber } = roomSlice.actions;
 
 export default roomSlice.reducer;

@@ -3,70 +3,78 @@ import {
 } from 'react-icons/bs';
 import { AiFillMessage, AiOutlineMessage } from 'react-icons/ai';
 import { RiQuestionAnswerFill, RiQuestionAnswerLine } from 'react-icons/ri';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './RightSideBar.module.css';
-import useToggle from '../../hooks/useToggle';
 
-const RightSideBar = ({ setIsActive }) => {
-  const [activeParticipants, setActiveParticipants] = useToggle(false);
-  const [activeStopWatch, setActiveStopWatch] = useToggle(false);
-  const [activeChat, setActiveChat] = useToggle(false);
-  const [activeQuestion, setActiveActiveQuestion] = useToggle(false);
+const RightSideBar = ({ getType }) => {
+  const [state, setState] = useState('off');
 
   const toggleParticipants = () => {
-    setActiveParticipants((prev) => !prev);
-    setActiveStopWatch(false);
-    setActiveChat(false);
-    setActiveActiveQuestion(false);
-    setIsActive((prev) => !prev);
+    if (state === 'part') {
+      setState('off');
+      getType('off');
+    } else {
+      setState('part');
+      getType('part');
+    }
   };
+
   const toggleStopWatch = () => {
-    setActiveParticipants(false);
-    setActiveStopWatch((prev) => !prev);
-    setActiveChat(false);
-    setActiveActiveQuestion(false);
-    setIsActive((prev) => !prev);
+    if (state === 'watch') {
+      setState('off');
+      getType('off');
+    } else {
+      setState('watch');
+      getType('watch');
+    }
   };
+
   const toggleChat = () => {
-    setActiveParticipants(false);
-    setActiveStopWatch(false);
-    setActiveChat((prev) => !prev);
-    setActiveActiveQuestion(false);
-    setIsActive((prev) => !prev);
+    if (state === 'chat') {
+      setState('off');
+      getType('off');
+    } else {
+      setState('chat');
+      getType('chat');
+    }
   };
-  const toggleActiveQuestion = () => {
-    setActiveParticipants(false);
-    setActiveStopWatch(false);
-    setActiveChat(false);
-    setActiveActiveQuestion((prev) => !prev);
-    setIsActive((prev) => !prev);
+
+  const toggleQuestion = () => {
+    if (state === 'question') {
+      setState('off');
+      getType('off');
+    } else {
+      setState('question');
+      getType('question');
+    }
   };
 
   return (
     <nav className={styles.nav}>
       <div>
-        {activeParticipants
+        {state === 'part'
           ? <BsPeopleFill onClick={toggleParticipants} /> 
           : <BsPeople onClick={toggleParticipants} />}
       </div>
 
       <div>
-        {activeStopWatch
+        {state === 'watch'
           ? <BsStopwatchFill onClick={toggleStopWatch} /> 
           : <BsStopwatch onClick={toggleStopWatch} />}
       </div>
 
       <div>
-        {activeChat
+        {state === 'chat'
           ? <AiFillMessage onClick={toggleChat} /> 
           : <AiOutlineMessage onClick={toggleChat} />}
       </div>
 
       <div>
-        {activeQuestion
-          ? <RiQuestionAnswerFill onClick={toggleActiveQuestion} /> 
-          : <RiQuestionAnswerLine onClick={toggleActiveQuestion} />}
+        {state === 'question'
+          ? <RiQuestionAnswerFill onClick={toggleQuestion} /> 
+          : <RiQuestionAnswerLine onClick={toggleQuestion} />}
       </div>
 
     </nav>
@@ -74,7 +82,7 @@ const RightSideBar = ({ setIsActive }) => {
 };
 
 RightSideBar.propTypes = {
-  setIsActive: PropTypes.func.isRequired,
+  getType: PropTypes.func.isRequired,
 };
 
 export default RightSideBar;
