@@ -15,9 +15,7 @@ const OpenViduVideoComponent = ({ streamManager }) => {
   
   // eslint-disable-next-line jsx-a11y/media-has-caption
   return (
-    <div>
-      <video className={styles.video} ref={videoRef} autoPlay />
-    </div>
+    <video className={styles.video} ref={videoRef} autoPlay />
   );
 };
 

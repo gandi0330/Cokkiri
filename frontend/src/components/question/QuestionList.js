@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getQuestions, fetchQuestionList } from '../../store/questionSlice';
 
@@ -9,9 +10,11 @@ import SadElephant from '../../images/SadElephant.png';
 
 import classes from './QuestionList.module.css';
 
-const QuestionList = () => {
+const QuestionList = ({
+  setQuestionId, setQuestionRoute,
+}) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const questions = useSelector(getQuestions);
   const loading = useSelector((state) => state.question.loading);
   const { roomId } = useParams();
@@ -22,7 +25,8 @@ const QuestionList = () => {
       .then()
       .catch((err) => {
         if (err.statusCode === 404) {
-          navigate('/rooms');
+          // navigate('/rooms');
+          setQuestionRoute('main');
         }
         console.error(err);
       });
@@ -47,6 +51,8 @@ const QuestionList = () => {
               writer={question.questionWriterEmail}
               content={question.content}
               createdAt={question.createDateTime}
+              setQuestionRoute={setQuestionRoute}
+              setQuestionId={setQuestionId}
             />
           ))}
         </div>
@@ -60,6 +66,11 @@ const QuestionList = () => {
       )}
     </>
   );
+};
+
+QuestionList.propTypes = {
+  setQuestionRoute: PropTypes.func.isRequired,
+  setQuestionId: PropTypes.func.isRequired,
 };
 
 export default QuestionList;

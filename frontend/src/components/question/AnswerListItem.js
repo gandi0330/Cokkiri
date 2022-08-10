@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -14,11 +14,11 @@ import SadElephant from '../icons/SadElephant';
 import classes from './QuestionList.module.css';
 
 const AnswerListItem = ({
-  answerId, writer, content, review, originalCode, language,
+  answerId, writer, content, review, originalCode, language, questionId,
 }) => {
   const dispatch = useDispatch();
   const email = useSelector(getUserEmail);
-  const { questionId } = useParams();
+  // const { questionId } = useParams();
   const [removeModalOpen, setRemoveModalOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
 
@@ -79,6 +79,7 @@ const AnswerListItem = ({
             prevReview={review} 
             code={originalCode} 
             language={language} 
+            questionId={questionId}
           />
         )}
       </div>
@@ -87,6 +88,7 @@ const AnswerListItem = ({
 };
 
 AnswerListItem.propTypes = {
+  questionId: PropTypes.number.isRequired,
   answerId: PropTypes.number.isRequired,
   writer: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
+// import { useNavigator, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdKeyboardArrowLeft as Back } from 'react-icons/md';
 
@@ -11,14 +12,17 @@ import QuestionLoader from '../../components/question/QuestionLoader';
 import Markdown from '../../components/question/Markdown';
 import YesNoModal from '../../components/layout/YesNoModal';
 import SadElephant from '../../components/icons/SadElephant';
-import Footer from '../../components/layout/Footer';
+// import Footer from '../../components/layout/Footer';
 
 import classes from './QuestionPage.module.css';
 
-const QuestionDetailPage = () => {
-  const navigate = useNavigate();
+const QuestionDetailPage = ({
+  questionId, setQuestionRoute,
+}) => {
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { roomId, questionId } = useParams();
+  // const { roomId } = useParams();
+  // const { roomId, questionId } = useParams();
   const question = useSelector(getQuestion);
   const email = useSelector(getUserEmail);
   const loading = useSelector((state) => state.question.loading);
@@ -32,7 +36,9 @@ const QuestionDetailPage = () => {
       .then()
       .catch((err) => {
         if (err.statusCode === 404) {
-          navigate('*');
+          // navigate('*');
+          // TODO 나중에 처리 필요
+          return;
         }
 
         console.error(err);
@@ -40,7 +46,8 @@ const QuestionDetailPage = () => {
   }, []);
 
   const toUpdatePage = () => {
-    navigate(`/room/${roomId}/question/${questionId}/update`);
+    // navigate(`/room/${roomId}/question/${questionId}/update`);
+    setQuestionRoute('update');
   };
 
   const removeHandler = () => {
@@ -49,7 +56,8 @@ const QuestionDetailPage = () => {
       .unwrap()
       .then()
       .catch((err) => console.error(err));
-    navigate(`/room/${roomId}/questions`);
+    // navigate(`/room/${roomId}/questions`);
+    setQuestionRoute('main');
   };
 
   return (
@@ -70,7 +78,10 @@ const QuestionDetailPage = () => {
         <div className={classes.detail}>
           <header>
             <h3>{`Q. ${question.title}`}</h3>
-            <button type="button" onClick={() => navigate(`/room/${roomId}/questions`)}><Back /></button>
+            {/* <button type="button" onClick={() => navigate(`/room/${roomId}/questions`)}>
+              <Back /></button> */}
+            <button type="button" onClick={() => setQuestionRoute('main')}><Back /></button>
+            
             <span>
               {`${question.questionWriterEmail} | ${question?.create_dateTime?.slice(0, question?.create_dateTime?.indexOf('T'))}`}
             </span>
@@ -93,15 +104,20 @@ const QuestionDetailPage = () => {
               prevReview=""
               answerId={-1}
               code={question.code || ''} 
-              language={question.language || ''} 
+              language={question.language || ''}
+              questionId={questionId}
             />
-            <AnswerList originalCode={question.code || ''} />
+            <AnswerList originalCode={question.code || ''} questionId={questionId} />
           </section>
         </div>
       )}
-      <Footer />
     </>
   );
+};
+
+QuestionDetailPage.propTypes = {
+  questionId: PropTypes.number.isRequired,
+  setQuestionRoute: PropTypes.func.isRequired,
 };
 
 export default QuestionDetailPage;

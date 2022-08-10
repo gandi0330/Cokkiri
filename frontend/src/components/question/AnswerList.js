@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -7,10 +7,10 @@ import { fetchAnswerList, getAnswers } from '../../store/answerSlice';
 import AnswerListItem from './AnswerListItem';
 import classes from './QuestionList.module.css';
 
-const AnswerList = ({ originalCode }) => {
+const AnswerList = ({ originalCode, questionId }) => {
   const dispatch = useDispatch();
   const answers = useSelector(getAnswers);
-  const { questionId } = useParams();
+  // const { questionId } = useParams();
 
   useEffect(() => {
     dispatch(fetchAnswerList({ questionId }));
@@ -38,6 +38,7 @@ const AnswerList = ({ originalCode }) => {
 
 AnswerList.propTypes = {
   originalCode: PropTypes.string.isRequired,
+  questionId: PropTypes.number.isRequired,
 };
 
 export default AnswerList;
