@@ -24,6 +24,7 @@ public class FindUserLikeRoomListResponse extends Result {
             findUserLikeRoom.setEmail(userLikeRoom.getUser().getEmail());
             findUserLikeRoom.setRoomId(userLikeRoom.getRoom().getRoomId());
             findUserLikeRoom.setTitle(userLikeRoom.getRoom().getTitle());
+            findUserLikeRoom.setId(userLikeRoom.getId());
             response.userLikeRoomList.add(findUserLikeRoom);
         }
         response.setStatusCode(statusCode);
@@ -38,4 +39,5 @@ class FindUserLikeRoom {
     private String email;
     private Long roomId;
     private String title;
+    private Long id;
 }
