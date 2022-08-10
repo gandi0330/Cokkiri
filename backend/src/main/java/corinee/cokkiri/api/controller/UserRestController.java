@@ -79,7 +79,7 @@ public class UserRestController {
             @ApiResponse(code=404, message = "유저가 존재하지 않습니다"),
             @ApiResponse(code=500, message = "리프레쉬 토큰 삭제중 오류 발생"),
     })
-    public ResponseEntity<BaseResponse> logout(@PathVariable("email") String email){
+    public ResponseEntity<BaseResponse> logoutUser(@PathVariable("email") String email){
         User user = userService.removeRefreshToken(email);
 
         if(user == null)
@@ -96,7 +96,7 @@ public class UserRestController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=403, message = "비밀번호가 일치하지 않습니다"),
     })
-    public ResponseEntity<? extends BaseResponse> findUser(@PathVariable("email") String email) {
+    public ResponseEntity<? extends BaseResponse> getUser(@PathVariable("email") String email) {
         User findUser = userService.findByEmail(email);
         if (findUser == null)
             return ResponseEntity.status(404).body(BaseResponse.of(404,"유저가 존재하지 않습니다"));
@@ -167,7 +167,7 @@ public class UserRestController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=409, message = "이미 존재하는 이메일"),
     })
-    public ResponseEntity<? extends BaseResponse> signUp(@RequestBody UserSignupRequest userSignupRequest) {
+    public ResponseEntity<? extends BaseResponse> addUser(@RequestBody UserSignupRequest userSignupRequest) {
         User user = userService.findByEmail(userSignupRequest.getEmail());
 
         if(user != null) {
@@ -185,7 +185,7 @@ public class UserRestController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=500, message = "회원탈퇴가 정상적으로 이루어지지 않았습니다"),
     })
-    public ResponseEntity<? extends BaseResponse> deleteUser(@PathVariable("email") String email) {
+    public ResponseEntity<? extends BaseResponse> delUser(@PathVariable("email") String email) {
         userService.deleteUser(email);
         User user = userService.findByEmail(email);
         if (user != null)

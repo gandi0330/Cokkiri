@@ -37,7 +37,7 @@ public class UserLikeRoomController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=404, message = "즐겨찾기 목록이 존재하지 않습니다"),
     })
-    public ResponseEntity<? extends BaseResponse> findUserLikeRoom(@PathVariable("email") String email) {
+    public ResponseEntity<? extends BaseResponse> getUserLikeRoom(@PathVariable("email") String email) {
         List<UserLikeRoom> userLikeRoomList = userLikeRoomService.findListByEmail(email);
 
         if(userLikeRoomList.isEmpty()) {

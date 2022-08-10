@@ -27,7 +27,7 @@ public class StudyTimeController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=404, message = "데이터가 존재하지 않습니다")
     })
-    public ResponseEntity<? extends BaseResponse> checkStudyTime(
+    public ResponseEntity<? extends BaseResponse> getStudyTime(
             @PathVariable("email") String email,
             @RequestParam("startDatetime") String startDatetime,
             @RequestParam("endDatetime") String endDatetime) {

@@ -77,7 +77,7 @@ public class QuestionController {
             @ApiResponse(code=404, message="질문이 존재하지 않음"),
             @ApiResponse(code=500, message="서버 오류")
     })
-    public ResponseEntity<BaseResponse> removeQuestion(@PathVariable("question_id") Long questionId, @PathVariable("email") String email){
+    public ResponseEntity<BaseResponse> delQuestion(@PathVariable("question_id") Long questionId, @PathVariable("email") String email){
         Question question = questionService.getQuestion(questionId);
 
         if(question == null)

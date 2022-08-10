@@ -37,7 +37,6 @@ public class AnswerController {
             @ApiResponse(code=500, message="서버 오류")
     })
     public ResponseEntity<? extends BaseResponse> getAnswerList(@PathVariable("question_id") Long questionId){
-        System.out.println(questionId);
         Question question = questionService.getQuestion(questionId);
 
         if(question == null)
@@ -118,7 +117,7 @@ public class AnswerController {
             @ApiResponse(code=404, message="답변이 존재하지 않음"),
             @ApiResponse(code=500, message="서버 오류")
     })
-    public ResponseEntity<BaseResponse> removeAnswer(@PathVariable("answer_id") Long answerId, @PathVariable("email") String email){
+    public ResponseEntity<BaseResponse> delAnswer(@PathVariable("answer_id") Long answerId, @PathVariable("email") String email){
 
         Answer answer = answerService.getAnswer(answerId);
 
