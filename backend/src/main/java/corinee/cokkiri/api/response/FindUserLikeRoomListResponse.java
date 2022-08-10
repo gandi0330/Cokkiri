@@ -17,8 +17,8 @@ public class FindUserLikeRoomListResponse extends BaseResponse {
 
 
     public static FindUserLikeRoomListResponse of (int statusCode, String message, List<UserLikeRoom> userLikeRoomList) {
-        FindUserLikeRoomListResponse response = new FindUserLikeRoomListResponse();
-        response.userLikeRoomList = new ArrayList<>();
+        FindUserLikeRoomListResponse res = new FindUserLikeRoomListResponse();
+        res.userLikeRoomList = new ArrayList<>();
 
         for(UserLikeRoom userLikeRoom : userLikeRoomList) {
             FindUserLikeRoom findUserLikeRoom = FindUserLikeRoom.builder()
@@ -27,12 +27,12 @@ public class FindUserLikeRoomListResponse extends BaseResponse {
                     .title(userLikeRoom.getRoom().getTitle())
                     .id(userLikeRoom.getId())
                     .build();
-            response.userLikeRoomList.add(findUserLikeRoom);
+            res.userLikeRoomList.add(findUserLikeRoom);
         }
-        response.setStatusCode(statusCode);
-        response.setMessage(message);
+        res.setStatusCode(statusCode);
+        res.setMessage(message);
 
-        return response;
+        return res;
     }
 }
 

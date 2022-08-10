@@ -10,12 +10,12 @@ public class FindStudyTimeResponse extends BaseResponse {
     private Long totalTime;
 
     public static FindStudyTimeResponse of (int statusCode, String message, Long time) {
-        FindStudyTimeResponse response = new FindStudyTimeResponse();
+        FindStudyTimeResponse res = new FindStudyTimeResponse();
 
-        response.setStatusCode(statusCode);
-        response.setMessage(message);
-        response.setTotalTime(time);
+        res.setStatusCode(statusCode);
+        res.setMessage(message);
+        res.setTotalTime(time);
 
-        return response;
+        return res;
     }
 }
