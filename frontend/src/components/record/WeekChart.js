@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { MdAutoGraph } from 'react-icons/md';
 import { Line } from 'react-chartjs-2';
@@ -29,7 +30,14 @@ Chart.register(
   Tooltip,
 );
 
-const WeekChart = () => {
+const WeekChart = ({
+  thisWeek, lastWeek,
+}) => {
+  const dayOfWeek = (num) => {
+    return new Date(Date.now() - 86400000 * num).toLocaleString('default', { weekday: 'short' });
+  };
+  const labels = new Array(7).fill('').map((_, i) => dayOfWeek(6 - i));
+
   const options = {
     elements: {
       point: {
@@ -62,13 +70,13 @@ const WeekChart = () => {
         datasetIdKey="id"
         options={options}
         data={{
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          labels,
           datasets: [
             {
               id: 1,
               label: '이번주',
               fill: true,
-              data: [5, 6, 7, 3, 4, 5, 1],
+              data: thisWeek,
               backgroundColor: 'rgba(244, 97, 151, .3)',
               borderColor: 'rgba(244, 97, 151, .8)',
               tension: 0.3,
@@ -76,7 +84,7 @@ const WeekChart = () => {
             {
               id: 2,
               label: '저번주',
-              data: [1, 2, 1, 2, 5, 6, 1],
+              data: lastWeek,
               fill: true,
               backgroundColor: 'rgba(245, 145, 51, .3)',
               borderColor: 'rgba(245, 145, 51, .8)',
@@ -87,6 +95,11 @@ const WeekChart = () => {
       />
     </div>
   );
+};
+
+WeekChart.propTypes = {
+  thisWeek: PropTypes.arrayOf(Number).isRequired,
+  lastWeek: PropTypes.arrayOf(Number).isRequired,
 };
 
 export default WeekChart;

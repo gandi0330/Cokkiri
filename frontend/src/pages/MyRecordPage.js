@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaFeatherAlt } from 'react-icons/fa';
 import { getUserEmail, getNickname } from '../store/authSlice';
@@ -14,95 +14,111 @@ const MyRecordPage = () => {
   const email = useSelector(getUserEmail);
   const nickname = useSelector(getNickname);
 
-  const [todayHistory, setTodayHistory] = useState(0); // s
-  const [totalTime, setTotalTime] = useState(0);
+  const [todayTime, setTodayTime] = useState(0);
+  const [yesterdayTime, setYesterdayTime] = useState(0);
+  const [thisWeek, setThisWeek] = useState(new Array(7).fill(0));
+  const [lastWeek, setLastWeek] = useState(new Array(7).fill(0));
+
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0); 
   const [seconds, setSeconds] = useState(0); 
-  const [yesterdayHistory, setYesterdayHistory] = useState(0);
   const [timeDiff, setTimeDiff] = useState(0);
+  const [totalTime, setTotalTime] = useState(0);
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const currentTimeStamp = today.getTime() - today.getTimezoneOffset() * 60000;
+  const dayCalculator = (offset) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const currentTimeStamp = today.getTime() - today.getTimezoneOffset() * 60000;
+    return new Date(currentTimeStamp - 24 * 60 * 60 * 1000 * offset).toISOString().slice(0, -1);
+  };
 
-  const todayStart = new Date(currentTimeStamp).toISOString().slice(0, -1);
-  const tomorrow = new Date(currentTimeStamp + 24 * 60 * 60 * 1000).toISOString().slice(0, -1);
-  const yesterday = new Date(currentTimeStamp - 24 * 60 * 60 * 1000).toISOString().slice(0, -1);
-  // const beforeThree = new Date(currentTimeStamp - 24 * 60 * 60 * 1000 * 2)
-  //   .toISOString().slice(0, -1);
-
-  // const thisWeek = new Date(currentTimeStamp - 24 * 60 * 60 * 1000 * 7).toISOString();
-  // const lastWeekStart = new Date(currentTimeStamp - 24 * 60 * 60 * 1000 * 8).toISOString();
-  // const lastWeek = new Date(currentTimeStamp - 24 * 60 * 60 * 1000 * 14).toISOString();
-
-  console.log(tomorrow, todayStart, yesterday);
   useEffect(() => {
     if (!email) return;
 
-    // 전체 누적 시간
-    dispatch(fetchStudyTime({ email, startDatetime: '2020-01-01T00:00:00.000', endDatetime: tomorrow }))
-      .unwrap()
-      .then((totalRes) => {
-        setTotalTime(totalRes.totalTime);
-      })
-      .catch((err) => {
-        if (err.statusCode === 404) return;
-      }); 
-
-    // 오늘 누적 시간
-    dispatch(fetchStudyTime({ email, startDatetime: todayStart, endDatetime: tomorrow }))
-      .unwrap()
-      .then((todayRes) => setTodayHistory(todayRes.totalTime))
-      .catch((err) => {
-        if (err.statusCode === 404) return;
-      }); 
-
-    // 어제 누적 시간
-    dispatch(fetchStudyTime({ email, startDatetime: yesterday, endDatetime: todayStart }))
-      .unwrap()
-      .then((yesterdayRes) => setYesterdayHistory(yesterdayRes.totalTime))
-      .catch((err) => {
-        if (err.statusCode === 404) return;
-      }); 
-
-    const func = async () => {
+    const getThisWeek = async () => {
       const results = await Promise.all([
-        dispatch(fetchStudyTime({ email, startDatetime: '2020-01-01T00:00:00.000', endDatetime: tomorrow })),
-        dispatch(fetchStudyTime({ email, startDatetime: todayStart, endDatetime: tomorrow })),
-        dispatch(fetchStudyTime({ email, startDatetime: yesterday, endDatetime: todayStart })),
-        dispatch(fetchStudyTime({ email, startDatetime: yesterday, endDatetime: yesterday })),
+        dispatch(fetchStudyTime({ email, startDatetime: '2020-01-01T00:00:00.000', endDatetime: dayCalculator(-1) })),
+        
+        dispatch(fetchStudyTime(
+          { email, startDatetime: dayCalculator(0), endDatetime: dayCalculator(-1) },
+        )),
+        dispatch(fetchStudyTime(
+          { email, startDatetime: dayCalculator(1), endDatetime: dayCalculator(0) },
+        )),
+        dispatch(fetchStudyTime(
+          { email, startDatetime: dayCalculator(2), endDatetime: dayCalculator(1) },
+        )),
+        dispatch(fetchStudyTime(
+          { email, startDatetime: dayCalculator(3), endDatetime: dayCalculator(2) },
+        )),
+        dispatch(fetchStudyTime(
+          { email, startDatetime: dayCalculator(4), endDatetime: dayCalculator(3) },
+        )),
+        dispatch(fetchStudyTime(
+          { email, startDatetime: dayCalculator(5), endDatetime: dayCalculator(4) },
+        )),
+        dispatch(fetchStudyTime(
+          { email, startDatetime: dayCalculator(6), endDatetime: dayCalculator(5) },
+        )),
       ]);
-      console.log('results', results);
+      
+      const thisWeekTimes = results.map((result) => {
+        if (result.payload.statusCode === 404) return 0;
+        return result.payload.totalTime;
+      });
+
+      return thisWeekTimes;
     };
 
-    func();
-    // dispatch(fetchStudyTime({ email, startDatetime: tomorrow, endDatetime: yes }))
-    //   .unwrap()
-    //   .then()
-    //   .catch((err) => {
-    //     if (err.statusCode === 404) return;
-    //   }); 
-    // dispatch(fetchStudyTime({ email }))
-    //   .unwrap()
-    //   .then()
-    //   .catch((err) => {
-    //     if (err.statusCode === 404) return;
-    //   });
-    // dispatch(fetchStudyTime({ email }))
-    //   .unwrap()
-    //   .then()
-    //   .catch((err) => {
-    //     if (err.statusCode === 404) return;
-    //   });  
+    const getLastWeek = async () => {
+      const results = await Promise.all([
+        dispatch(fetchStudyTime(
+          { email, startDatetime: dayCalculator(7), endDatetime: dayCalculator(6) },
+        )),
+        dispatch(fetchStudyTime(
+          { email, startDatetime: dayCalculator(8), endDatetime: dayCalculator(7) },
+        )),
+        dispatch(fetchStudyTime(
+          { email, startDatetime: dayCalculator(9), endDatetime: dayCalculator(8) },
+        )),
+        dispatch(fetchStudyTime(
+          { email, startDatetime: dayCalculator(10), endDatetime: dayCalculator(9) },
+        )),
+        dispatch(fetchStudyTime(
+          { email, startDatetime: dayCalculator(11), endDatetime: dayCalculator(10) },
+        )),
+        dispatch(fetchStudyTime(
+          { email, startDatetime: dayCalculator(12), endDatetime: dayCalculator(11) },
+        )),
+        dispatch(fetchStudyTime(
+          { email, startDatetime: dayCalculator(13), endDatetime: dayCalculator(12) },
+        )),
+      ]);
+      const lastWeekTimes = results.map((result) => {
+        if (result.payload.statusCode === 404) return 0;
+        return result.payload.totalTime;
+      });
+      return lastWeekTimes;
+    };
+
+    (async () => {
+      const thisWeek = await getThisWeek();
+      const lastWeek = await getLastWeek();
+      
+      setTotalTime(thisWeek[0]);
+      setTodayTime(thisWeek[1]);
+      setYesterdayTime(thisWeek[2]);
+      setThisWeek(thisWeek.slice(1).map((seconds) => seconds / 3600));
+      setLastWeek(lastWeek.map((seconds) => seconds / 3600));
+    })(); 
   }, [email]);
 
   useEffect(() => {
-    setHours(Math.round(todayHistory / 3600));
-    setMinutes(Math.round((todayHistory % 3600) / 60));
-    setSeconds(todayHistory % 3600);
-    setTimeDiff(todayHistory - yesterdayHistory);
-  }, [todayHistory, yesterdayHistory]);
+    setHours(Math.round(todayTime / 3600));
+    setMinutes(Math.round((todayTime % 3600) / 60));
+    setSeconds(todayTime % 3600);
+    setTimeDiff(todayTime - yesterdayTime);
+  }, [yesterdayTime, yesterdayTime]);
 
   return (
     <div className={classes.myRecord}>
@@ -131,7 +147,7 @@ const MyRecordPage = () => {
           <AccChart totalTime={totalTime} />
         </div>
         <div className={classes.myRecord__right__chart}>
-          <WeekChart />
+          <WeekChart thisWeek={useMemo(() => thisWeek)} lastWeek={useMemo(() => lastWeek)} />
         </div>
       </div>
     </div>
