@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Getter @Setter
-public class FindRoomResponse extends BaseResponse {
+public class GetRoomResponse extends BaseResponse {
 
     private Long roomId;
     private String title;
@@ -16,8 +16,8 @@ public class FindRoomResponse extends BaseResponse {
     private Long userLimit;
     private Long userCount;
 
-    public static FindRoomResponse of (int statusCode, String message, Room room){
-        FindRoomResponse res = new FindRoomResponse();
+    public static GetRoomResponse of (int statusCode, String message, Room room){
+        GetRoomResponse res = new GetRoomResponse();
         res.setStatusCode(statusCode);
         res.setMessage(message);
         res.setRoomId(room.getRoomId());

@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class FindRoomListResponse extends BaseResponse {
+public class GetRoomListResponse extends BaseResponse {
 
     private List<FindRoom> findRoomList;
 
-    public static FindRoomListResponse of (int statusCode, String message, List<Room> roomList){
-        FindRoomListResponse res = new FindRoomListResponse();
+    public static GetRoomListResponse of (int statusCode, String message, List<Room> roomList){
+        GetRoomListResponse res = new GetRoomListResponse();
         res.findRoomList = new ArrayList<>();
         res.setStatusCode(statusCode);
         res.setMessage(message);

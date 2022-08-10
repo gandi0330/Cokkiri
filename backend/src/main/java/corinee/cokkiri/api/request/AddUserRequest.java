@@ -3,7 +3,7 @@ package corinee.cokkiri.api.request;
 import lombok.Data;
 
 @Data
-public class UserSignupRequest {
+public class AddUserRequest {
     private String email;
 
     private String password;

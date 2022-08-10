@@ -5,12 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class FindStudyTimeResponse extends BaseResponse {
+public class GetStudyTimeResponse extends BaseResponse {
 
     private Long totalTime;
 
-    public static FindStudyTimeResponse of (int statusCode, String message, Long time) {
-        FindStudyTimeResponse res = new FindStudyTimeResponse();
+    public static GetStudyTimeResponse of (int statusCode, String message, Long time) {
+        GetStudyTimeResponse res = new GetStudyTimeResponse();
 
         res.setStatusCode(statusCode);
         res.setMessage(message);

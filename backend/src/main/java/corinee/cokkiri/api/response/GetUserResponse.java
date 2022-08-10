@@ -7,12 +7,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FindUserResponse extends BaseResponse {
+public class GetUserResponse extends BaseResponse {
     private String email;
     private String nickname;
 
-    public static FindUserResponse of (int statusCode , String message, User user){
-        FindUserResponse res = new FindUserResponse();
+    public static GetUserResponse of (int statusCode , String message, User user){
+        GetUserResponse res = new GetUserResponse();
         res.setStatusCode(statusCode);
         res.setMessage(message);
         res.setEmail(user.getEmail());

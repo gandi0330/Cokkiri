@@ -2,7 +2,7 @@ package corinee.cokkiri.api.controller;
 
 import corinee.cokkiri.common.BaseResponse;
 import corinee.cokkiri.db.domain.StudyTime;
-import corinee.cokkiri.api.response.FindStudyTimeResponse;
+import corinee.cokkiri.api.response.GetStudyTimeResponse;
 import corinee.cokkiri.api.service.StudyTimeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,6 +39,6 @@ public class StudyTimeController {
 
         long time = studyTimeService.calStudyTime(studyTimeList);
 
-        return ResponseEntity.status(200).body(FindStudyTimeResponse.of(200, "성공", time));
+        return ResponseEntity.status(200).body(GetStudyTimeResponse.of(200, "성공", time));
     }
 }

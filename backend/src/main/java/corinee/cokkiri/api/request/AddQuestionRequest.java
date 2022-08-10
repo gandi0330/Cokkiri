@@ -3,7 +3,7 @@ package corinee.cokkiri.api.request;
 import lombok.Data;
 
 @Data
-public class QuestionAddRequest {
+public class AddQuestionRequest {
     private String email;
     private Long roomId;
     private String title;

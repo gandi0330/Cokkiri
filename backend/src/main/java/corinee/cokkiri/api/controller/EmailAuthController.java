@@ -30,9 +30,9 @@ public class EmailAuthController {
     public ResponseEntity<? extends BaseResponse> sendEmail(@RequestBody EmailAuthRequest emailAuthRequest) {
         Email email = emailService.findByEmail(emailAuthRequest.getEmail());
         if(email != null) {
-            emailService.deleteEmail(emailAuthRequest.getEmail());
+            emailService.delEmail(emailAuthRequest.getEmail());
         }
-        emailService.addEmailEntity(emailAuthRequest.getEmail());
+        emailService.addEmail(emailAuthRequest.getEmail());
 
         Email findEmail = emailService.sendMessage(emailAuthRequest.getEmail());
         if(findEmail == null) {
@@ -47,14 +47,14 @@ public class EmailAuthController {
             @ApiResponse(code=500, message = "인증이 정상적으로 이루어지지 않았습니다")
     })
     @ApiOperation(value = "이메일 인증", notes = "입력받은 인증번호를 DB와 비교하여 인증")
-    @GetMapping("/user/email/{email}/{authNumber}")
-    public ResponseEntity<? extends BaseResponse> checkAuth(@PathVariable("email") String email, @PathVariable("authNumber") String authNum) {
+    @GetMapping("/user/email/{email}/{auth_token}")
+    public ResponseEntity<? extends BaseResponse> checkAuth(@PathVariable("email") String email, @PathVariable("auth_token") String authToken) {
         Email findEmail = emailService.updateAuthState(email);
         User findUser = userService.findByEmail(email);
 
         if(findEmail == null)
             return ResponseEntity.status(404).body(BaseResponse.of(404, "Email이 존재하지 않습니다"));
-        else if(!findUser.isAuthState() || !findEmail.getAuthToken().equals(authNum))
+        else if(!findUser.isAuthState() || !findEmail.getAuthToken().equals(authToken))
             return ResponseEntity.status(500).body(BaseResponse.of(500, "인증이 정상적으로 이루어지지 않았습니다"));
 
         return ResponseEntity.status(200).body(BaseResponse.of(200, "이메일 인증 성공"));

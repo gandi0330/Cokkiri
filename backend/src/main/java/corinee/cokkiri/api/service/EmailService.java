@@ -34,7 +34,7 @@ public class EmailService {
         return emailObj;
     }
 
-    public void deleteEmail(String email) {
+    public void delEmail(String email) {
         Optional<Email> optFindEmail = emailRepository.findByEmail(email);
         Email emailObj = null;
 
@@ -55,7 +55,7 @@ public class EmailService {
         return key.toString();
     }
 
-    public void addEmailEntity(String email) {
+    public void addEmail(String email) {
         Optional<User> optFindUser = userRepository.findByEmail(email);
 
         if(optFindUser.isPresent()) {
@@ -66,12 +66,9 @@ public class EmailService {
 
             emailRepository.save(emailObj);
         }
-
-
     }
 
     public Email sendMessage(String email) {
-
         Optional<Email> optFindEmail = emailRepository.findByEmail(email);
         Email emailObj = null;
 

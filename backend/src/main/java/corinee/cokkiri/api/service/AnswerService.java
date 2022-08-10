@@ -5,7 +5,7 @@ import corinee.cokkiri.db.repository.AnswerRepository;
 import corinee.cokkiri.db.repository.QuestionRepository;
 import corinee.cokkiri.db.repository.RoomRepository;
 import corinee.cokkiri.db.repository.UserRepository;
-import corinee.cokkiri.api.request.AnswerAddRequest;
+import corinee.cokkiri.api.request.AddAnswerRequest;
 import corinee.cokkiri.api.request.UpdateAnswerRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,14 +26,14 @@ public class AnswerService {
     public List<Answer> getAnswerList(Long questionId){
         return answerRepository.getAnswerList(questionId);
     }
-    public Long addAnswer(AnswerAddRequest answerAddRequest){
+    public Long addAnswer(AddAnswerRequest addAnswerRequest){
         Answer answer = new Answer();
-        answer.setContent(answerAddRequest.getContent());
-        answer.setQuestion(questionRepository.getQuestion(answerAddRequest.getQuestionId()));
-        answer.setRoom(roomRepository.findById(answerAddRequest.getRoomId()));
-        answer.setUser(userRepository.findByEmail(answerAddRequest.getAnswerWriterEmail()).get());
-        answer.setCode(answerAddRequest.getCode());
-        answer.setLanguage(answerAddRequest.getLanguage());
+        answer.setContent(addAnswerRequest.getContent());
+        answer.setQuestion(questionRepository.getQuestion(addAnswerRequest.getQuestionId()));
+        answer.setRoom(roomRepository.findById(addAnswerRequest.getRoomId()));
+        answer.setUser(userRepository.findByEmail(addAnswerRequest.getAnswerWriterEmail()).get());
+        answer.setCode(addAnswerRequest.getCode());
+        answer.setLanguage(addAnswerRequest.getLanguage());
         return answerRepository.save(answer);
     }
 

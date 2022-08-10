@@ -5,7 +5,7 @@ import corinee.cokkiri.db.domain.RecentRoom;
 import corinee.cokkiri.db.domain.Room;
 import corinee.cokkiri.db.domain.User;
 import corinee.cokkiri.api.request.RecentRoomRequest;
-import corinee.cokkiri.api.response.FindRecentRoomListResponse;
+import corinee.cokkiri.api.response.GetRecentRoomListResponse;
 import corinee.cokkiri.api.service.RecentRoomService;
 import corinee.cokkiri.api.service.RoomService;
 import corinee.cokkiri.api.service.UserService;
@@ -37,7 +37,7 @@ public class RecentRoomController {
         List<RecentRoom> recentRoomList = recentRoomService.findListByEmail(email);
         if(recentRoomList == null)
             return ResponseEntity.status(204).body(BaseResponse.of(204, "최근 방문한 스터디룸이 존재하지 않습니다"));
-        return ResponseEntity.status(200).body(FindRecentRoomListResponse.of(200, "성공", recentRoomList));
+        return ResponseEntity.status(200).body(GetRecentRoomListResponse.of(200, "성공", recentRoomList));
     }
 
     @PostMapping("/room/recent")

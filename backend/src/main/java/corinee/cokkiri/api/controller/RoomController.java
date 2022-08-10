@@ -5,10 +5,10 @@ import corinee.cokkiri.db.domain.Room;
 import corinee.cokkiri.api.request.CreateRoomRequest;
 import corinee.cokkiri.api.request.EnterRoomRequest;
 import corinee.cokkiri.api.request.ExitRoomRequest;
-import corinee.cokkiri.api.response.CreateRoomResponse;
+import corinee.cokkiri.api.response.AddRoomResponse;
 import corinee.cokkiri.api.response.EnterRoomResponse;
-import corinee.cokkiri.api.response.FindRoomListResponse;
-import corinee.cokkiri.api.response.FindRoomResponse;
+import corinee.cokkiri.api.response.GetRoomListResponse;
+import corinee.cokkiri.api.response.GetRoomResponse;
 import corinee.cokkiri.api.service.RoomService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,7 +41,7 @@ public class RoomController {
             return ResponseEntity.status(500).body(BaseResponse.of(500, "스터디룸 생성에 실패했습니다"));
         if (roomId == -1)
             return ResponseEntity.status(409).body(BaseResponse.of(409, "이미 사용중인 방 제목 입니다"));
-        return ResponseEntity.status(200).body(CreateRoomResponse.of(200, "스터디룸 생성에 성공했습니다", roomId));
+        return ResponseEntity.status(200).body(AddRoomResponse.of(200, "스터디룸 생성에 성공했습니다", roomId));
     }
 
     @ApiOperation(value = "스터디룸 목록 조회", notes = "[offset : 페이지 시작점]    [limit : 1페이당 정보 개수]")
@@ -57,7 +57,7 @@ public class RoomController {
         List<Room> roomList = roomService.findRoomList(offset, limit, keyword);
         if (roomList == null || roomList.size() == 0)
             return ResponseEntity.status(204).body(BaseResponse.of(204, "스터디룸이 존재하지 않습니다"));
-        return ResponseEntity.status(200).body(FindRoomListResponse.of(200, "스터디룸 목록 조회 성공", roomList));
+        return ResponseEntity.status(200).body(GetRoomListResponse.of(200, "스터디룸 목록 조회 성공", roomList));
     }
 
     @ApiOperation(value = "스터디룸 상세 조회", notes = "스터디룸 상세 조회")
@@ -70,7 +70,7 @@ public class RoomController {
         Room room =  roomService.findById(roomId);
         if (room == null)
             return ResponseEntity.status(404).body(BaseResponse.of(404, "스터디룸이 존재하지 않습니다"));
-        return ResponseEntity.status(200).body(FindRoomResponse.of(200, "스터디룸 목록 조회 성공",
+        return ResponseEntity.status(200).body(GetRoomResponse.of(200, "스터디룸 목록 조회 성공",
                 room));
     }
 
