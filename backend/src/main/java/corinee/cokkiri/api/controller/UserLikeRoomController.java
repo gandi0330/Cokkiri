@@ -73,7 +73,7 @@ public class UserLikeRoomController {
 
         Long id = userLikeRoomService.addUserLikeRoom(user, room);
 
-        if(userLikeRoomService.checkUserLikeRoom(id) == null) {
+        if(userLikeRoomService.findById(id) == null) {
             return ResponseEntity.status(500).body(BaseResponse.of(500, "즐겨찾기 등록에 실패했습니다"));
         }
 
@@ -89,7 +89,7 @@ public class UserLikeRoomController {
 
     public ResponseEntity<? extends BaseResponse> delUserLikeRoom(@PathVariable("id") Long id) {
         userLikeRoomService.removeUserLikeRoom(id);
-        UserLikeRoom userLikeRoom = userLikeRoomService.checkUserLikeRoom(id);
+        UserLikeRoom userLikeRoom = userLikeRoomService.findById(id);
 
         if(userLikeRoom != null) {
             return ResponseEntity.status(500).body(BaseResponse.of(500, "즐겨찾기 목록이 삭제되지 않았습니다"));

@@ -7,14 +7,13 @@ import lombok.Setter;
 @Getter @Setter
 public class EnterRoomResponse extends BaseResponse {
 
-    private Long index;
+    private Long id;
 
-
-    public static EnterRoomResponse of (int statusCode, String message, Long index){
+    public static EnterRoomResponse of (int statusCode, String message, Long id){
         EnterRoomResponse res = new EnterRoomResponse();
         res.setStatusCode(statusCode);
         res.setMessage(message);
-        res.setIndex(index);
+        res.setId(id);
         return res;
     }
 }
