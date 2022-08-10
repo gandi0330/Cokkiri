@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import styles from './Chat.module.css';
 import ChatContent from './ChatContent';
@@ -7,15 +8,8 @@ import ChatForm from './ChatForm';
 
 const Chat = ({ session }) => {
   const [chats, setChats] = useState([]);
-
   useEffect(() => {
-    if (!session) {
-      return;
-    }
     session.on('signal', (event) => {
-      // console.log(event.data); // Message
-      // console.log(event.from); // Connection object of the sender
-      // console.log(event.type); // The type of message ("my-chat")
       setChats((prev) => [...prev, {
         from: event.from.connectionId,
         content: event.data,
@@ -26,7 +20,7 @@ const Chat = ({ session }) => {
         })}`,
       }]);
     });
-  }, [session]);
+  });
 
   return (
     <div className={styles.wrapper}>
@@ -35,7 +29,7 @@ const Chat = ({ session }) => {
         <hr />
       </div>
       <div>
-        {session && session.connection && session.connection.connectionId
+        {session.connection && session.connection.connectionId
         && chats.length > 0 && chats.map((chat, idx) => {
           if (chat.from === session.connection.connectionId) {
             return (
@@ -56,8 +50,8 @@ const Chat = ({ session }) => {
   );
 };
 
-Chat.propTypes = {
-  session: PropTypes.objectOf.isRequired,
-};
+// Chat.propTypes = {
+//   session: PropTypes.objectOf.isRequired,
+// };
 
 export default Chat;

@@ -1,16 +1,17 @@
-import PropTypes from 'prop-types';
-
+/* eslint-disable react/prop-types */
 import classes from './RightSidePanel.module.css';
 import Participants from './sideContents/Participants';
 import TheTimer from './sideContents/TheTimer';
 import Chat from './sideContents/Chat';
 import QuestionPage from '../../pages/questions/QuestionPage';
 
-const RightSidePanel = ({ type }) => {
+const RightSidePanel = ({
+  type, session, publisher, subscribers,
+}) => {
   if (type === 'part') {
     return (
       <div className={classes.rightPanel}>
-        <Participants />
+        <Participants session={session} publisher={publisher} subscribers={subscribers} />
       </div>
     );
   }
@@ -26,7 +27,7 @@ const RightSidePanel = ({ type }) => {
   if (type === 'chat') {
     return (
       <div className={classes.rightPanel}>
-        <Chat />
+        <Chat session={session} />
       </div>
     );
   }
@@ -38,10 +39,6 @@ const RightSidePanel = ({ type }) => {
       </div>
     );
   }
-};
-
-RightSidePanel.propTypes = {
-  type: PropTypes.string.isRequired,
 };
 
 export default RightSidePanel;

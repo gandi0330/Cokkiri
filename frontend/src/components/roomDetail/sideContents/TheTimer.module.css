@@ -9,6 +9,10 @@
   align-items: center;
 }
 
+.content input {
+  border-radius: 8px;
+}
+
 .text {
   margin-right: 12px;
 }

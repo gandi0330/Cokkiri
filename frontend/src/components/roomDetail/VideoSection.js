@@ -14,7 +14,9 @@ const OPENVIDU_SERVER_SECRET = 'COKKIRI';
 
 let OV;
 
-const VideoSection = ({ roomId }) => {
+const VideoSection = ({
+  roomId, getSession, getPublisher, getSubscribers,
+}) => {
   const dispatch = useDispatch();
   const [session, setSession] = useState(null);
   const [mainStreamManager, setMainStreamManager] = useState(null);
@@ -36,20 +38,6 @@ const VideoSection = ({ roomId }) => {
   useEffect(() => {
     reqCameraAndAudio();
   }, []);
-
-  if (publisher) {
-    publisher.on('streamPropertyChanged', () => {
-      setEmpty((prev) => prev + 1);
-    });
-  }
-
-  if (subscribers.length > 0) {
-    subscribers.forEach((sub) => {
-      sub.on('streamPropertyChanged', () => {
-        setEmpty((prev) => prev + 1);
-      });
-    });
-  }
 
   const handleMainVideoStream = (stream) => {
     if (mainStreamManager === stream) return;
@@ -237,6 +225,19 @@ const VideoSection = ({ roomId }) => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    getSession(session);
+  }, [session]);
+
+  useEffect(() => {
+    getPublisher(publisher);
+  }, [publisher]);
+
+  useEffect(() => {
+    getSubscribers(subscribers);
+  }, [subscribers]);
+  
   return (
     <div className="container">
       <h1>VideoSection</h1>
@@ -262,9 +263,8 @@ const VideoSection = ({ roomId }) => {
 
         {subscribers.length > 0
           && subscribers.map((sub, idx) => (
-            <div className={styles.videoWrapper}>
+            <div key={`subscriber${idx * 1}`} className={styles.videoWrapper}>
               <div
-                key={`subscriber ${idx * 1}`}
                 className={styles.videoContainer}
                 onClick={() => handleMainVideoStream(sub)}
               >
@@ -290,9 +290,9 @@ const VideoSection = ({ roomId }) => {
 
 VideoSection.propTypes = {
   roomId: PropTypes.string.isRequired,
-  // OV: PropTypes.string.isRequired,
-  // token: PropTypes.string.isRequired,
-  // session: PropTypes.object.isRequired,
+  getSession: PropTypes.func.isRequired,
+  getPublisher: PropTypes.func.isRequired,
+  getSubscribers: PropTypes.func.isRequired,
 };
 
 export default VideoSection;

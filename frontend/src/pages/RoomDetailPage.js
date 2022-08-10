@@ -12,6 +12,9 @@ const RoomDetailPage = () => {
   const dispatch = useDispatch();
   const { roomId } = useParams();
   const [type, setType] = useState('off');
+  const [session, setSession] = useState(null);
+  const [publisher, setPublisher] = useState({});
+  const [subscribers, setSubscribers] = useState([]);
 
   useEffect(() => {
     if (roomId) {
@@ -19,18 +22,39 @@ const RoomDetailPage = () => {
     }
   });
 
-  const getType = (type) => {
-    setType(type);
+  const getType = (t) => {
+    setType(t);
+  };
+
+  const getSession = (s) => {
+    setSession(s);
+  };
+
+  const getPublisher = (p) => {
+    setPublisher(p);
+  };
+  const getSubscribers = (s) => {
+    setSubscribers(s);
   };
   
   return (
     <div className={classes.container}>
       <div className={classes.contents}>
         <div className={classes.contents__left}>
-          {roomId && <VideoSection roomId={roomId} />}
+          {
+            roomId
+            && (
+            <VideoSection
+              roomId={roomId}
+              getSession={getSession}
+              getPublisher={getPublisher}
+              getSubscribers={getSubscribers}
+            />
+            )
+          }
         </div>
         <div className={classes.contents__right}>
-          {type !== 'off' && <RightSidePanel type={type} />}
+          {type !== 'off' && <RightSidePanel type={type} session={session} publisher={publisher} subscribers={subscribers} />}
         </div>
       </div>
       <div className={classes.rightSideBar}>
