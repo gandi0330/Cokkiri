@@ -5,6 +5,7 @@ import corinee.cokkiri.domain.Room;
 import corinee.cokkiri.domain.User;
 import corinee.cokkiri.domain.UserLikeRoom;
 import corinee.cokkiri.request.UserLikeRoomRequest;
+import corinee.cokkiri.response.AddUserLikeRoomResponse;
 import corinee.cokkiri.response.FindUserLikeRoomListResponse;
 import corinee.cokkiri.service.RoomService;
 import corinee.cokkiri.service.UserLikeRoomService;
@@ -70,24 +71,24 @@ public class UserLikeRoomController {
             return ResponseEntity.status(409).body(Result.of(409,"이미 즐겨찾기에 등록된 방입니다"));             /////////////// 에러코드 확인
         }
 
-        Long userLikeRoomId = userLikeRoomService.addUserLikeRoom(user, room);
+        Long id = userLikeRoomService.addUserLikeRoom(user, room);
 
-        if(userLikeRoomService.checkUserLikeRoom(userLikeRoomId) == null) {
+        if(userLikeRoomService.checkUserLikeRoom(id) == null) {
             return ResponseEntity.status(500).body(Result.of(500, "즐겨찾기 등록에 실패했습니다"));
         }
 
-        return ResponseEntity.status(200).body(Result.of(200,"성공"));
+        return ResponseEntity.status(200).body(AddUserLikeRoomResponse.of(200,"성공", id));
     }
 
-    @DeleteMapping("/room/favorite/{room_id}")
+    @DeleteMapping("/room/favorite/{id}")
     @ApiOperation(value = "스터디룸 즐겨찾기 삭제", notes = "로그인한 이메일의 스터디룸 즐겨찾기 삭제")
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=404, message = "즐겨찾기 목록이 삭제되지 않았습니다"),
     })
-    public ResponseEntity<? extends Result> delUserLikeRoom(@RequestParam("room_id") Long roomId) {
-        userLikeRoomService.removeUserLikeRoom(roomId);
-        UserLikeRoom userLikeRoom = userLikeRoomService.checkUserLikeRoom(roomId);
+    public ResponseEntity<? extends Result> delUserLikeRoom(@RequestParam("id") Long id) {
+        userLikeRoomService.removeUserLikeRoom(id);
+        UserLikeRoom userLikeRoom = userLikeRoomService.checkUserLikeRoom(id);
 
         if(userLikeRoom != null) {
             return ResponseEntity.status(500).body(Result.of(500, "즐겨찾기 목록이 삭제되지 않았습니다"));

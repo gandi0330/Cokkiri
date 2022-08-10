@@ -42,12 +42,12 @@ public class UserLikeRoomService {
         return userLikeRoomRepository.save(userLikeRoom);
     }
 
-    public UserLikeRoom checkUserLikeRoom(Long userLikeRoomId) {
-        return userLikeRoomRepository.getUserLikeRoom(userLikeRoomId);
+    public UserLikeRoom checkUserLikeRoom(Long id) {
+        return userLikeRoomRepository.findById(id);
     }
 
-    public void removeUserLikeRoom(Long userLikeRoomId) {
-        UserLikeRoom userLikeRoom = userLikeRoomRepository.getUserLikeRoom(userLikeRoomId);
+    public void removeUserLikeRoom(Long id) {
+        UserLikeRoom userLikeRoom = userLikeRoomRepository.findById(id);
 
         userLikeRoomRepository.removeUserLikeRoom(userLikeRoom);
     }

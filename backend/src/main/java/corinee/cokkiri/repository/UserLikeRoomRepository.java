@@ -23,11 +23,11 @@ public class UserLikeRoomRepository {
     public Long save(UserLikeRoom userLikeRoom) {
         em.persist(userLikeRoom);
 
-        return userLikeRoom.getUserLikeRoomId();
+        return userLikeRoom.getId();
     }
 
-    public UserLikeRoom getUserLikeRoom(Long userLikeRoomId) {
-        return em.find(UserLikeRoom.class, userLikeRoomId);
+    public UserLikeRoom findById(Long id) {
+        return em.find(UserLikeRoom.class, id);
     }
 
     public void removeUserLikeRoom(UserLikeRoom userLikeRoom) {

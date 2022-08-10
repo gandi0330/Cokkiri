@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public class UserLikeRoom {
     @Id @GeneratedValue
     @Column(name = "id")
-    private Long userLikeRoomId;
+    private Long id;
 
     @ManyToOne
     @NotNull
