@@ -29,6 +29,9 @@ const MyRecordPage = () => {
   const todayStart = new Date(currentTimeStamp).toISOString().slice(0, -1);
   const tomorrow = new Date(currentTimeStamp + 24 * 60 * 60 * 1000).toISOString().slice(0, -1);
   const yesterday = new Date(currentTimeStamp - 24 * 60 * 60 * 1000).toISOString().slice(0, -1);
+  // const beforeThree = new Date(currentTimeStamp - 24 * 60 * 60 * 1000 * 2)
+  //   .toISOString().slice(0, -1);
+
   // const thisWeek = new Date(currentTimeStamp - 24 * 60 * 60 * 1000 * 7).toISOString();
   // const lastWeekStart = new Date(currentTimeStamp - 24 * 60 * 60 * 1000 * 8).toISOString();
   // const lastWeek = new Date(currentTimeStamp - 24 * 60 * 60 * 1000 * 14).toISOString();
@@ -62,6 +65,18 @@ const MyRecordPage = () => {
       .catch((err) => {
         if (err.statusCode === 404) return;
       }); 
+
+    const func = async () => {
+      const results = await Promise.all([
+        dispatch(fetchStudyTime({ email, startDatetime: '2020-01-01T00:00:00.000', endDatetime: tomorrow })),
+        dispatch(fetchStudyTime({ email, startDatetime: todayStart, endDatetime: tomorrow })),
+        dispatch(fetchStudyTime({ email, startDatetime: yesterday, endDatetime: todayStart })),
+        dispatch(fetchStudyTime({ email, startDatetime: yesterday, endDatetime: yesterday })),
+      ]);
+      console.log('results', results);
+    };
+
+    func();
     // dispatch(fetchStudyTime({ email, startDatetime: tomorrow, endDatetime: yes }))
     //   .unwrap()
     //   .then()
@@ -107,7 +122,8 @@ const MyRecordPage = () => {
             <div className={classes.myRecord__today__diff}>
               어제보다 
               <span>
-                {Math.trunc(Math.abs(timeDiff / 3600))}시간 {Math.trunc((timeDiff % 3600) / 60)}분
+                {Math.trunc(Math.abs(timeDiff / 3600))}시간  
+                {` ${Math.trunc(Math.abs((timeDiff % 3600) / 60))}`}분
               </span> 
               {timeDiff >= 0 ? ' 더 공부하셨습니다.' : ' 덜 공부했습니다'}
             </div>

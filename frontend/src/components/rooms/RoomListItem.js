@@ -1,7 +1,11 @@
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux/';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { MdPersonOutline } from 'react-icons/md';
-import { useDispatch, useSelector } from 'react-redux/es/exports';
+import { updateRecentRooms } from '../../store/roomListSlice';
+import { getUserEmail } from '../../store/authSlice';
+import Modal from '../layout/Modal';
 
 import classes from './RoomListItem.module.css';
 
@@ -21,25 +25,35 @@ const RoomListItem = forwardRef(({
   roomId, title, userCount, userLimit,
 }, ref) => {
   const dispatch = useDispatch();
-  const { email } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const email = useSelector(getUserEmail);
   const tnIdx = Math.floor(Math.random() * 4);
+  const [noRoomIn, setNoRoomIn] = useState(false);
 
-  const onClick = async () => {
-    try {
-      dispatch(entranceRoom({ roomNumber: roomId, email }));
-    } catch (error) {
-      console.error(error);
+  const onClick = () => {
+    if (userLimit <= userCount) {
+      setNoRoomIn(true);
+      return;
     }
+    navigate(`/room/${roomId}`);
+    dispatch(updateRecentRooms({ email, roomId }));
   };
 
   return (
-    <div onClick={onClick} className={classes.card} ref={ref}>
-      <img src={THUMBNAILS[tnIdx].thumbnailSrc} alt="스터디룸 이미지" />
-      <div>
-        <span>{ title }</span>
-        <span><i><MdPersonOutline /></i>{userCount}/{userLimit}</span>
+    <>
+      <Modal open={noRoomIn} onClose={() => setNoRoomIn(false)}>
+        <p />
+        <p>인원이 가득찬 방입니다!</p>
+        <p />
+      </Modal>    
+      <div onClick={onClick} className={classes.card} ref={ref}>
+        <img src={THUMBNAILS[tnIdx].thumbnailSrc} alt="스터디룸 이미지" />
+        <div>
+          <span>{ title }</span>
+          <span><i><MdPersonOutline /></i>{userCount}/{userLimit}</span>
+        </div>
       </div>
-    </div>
+    </>
   );
 });
 
