@@ -1,6 +1,6 @@
 package corinee.cokkiri.response;
 
-import corinee.cokkiri.common.Result;
+import corinee.cokkiri.common.BaseResponse;
 import corinee.cokkiri.domain.Room;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Getter @Setter
-public class FindRoomResponse extends Result {
+public class FindRoomResponse extends BaseResponse {
 
     private Long roomId;
     private String title;

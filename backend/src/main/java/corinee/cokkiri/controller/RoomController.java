@@ -1,6 +1,6 @@
 package corinee.cokkiri.controller;
 
-import corinee.cokkiri.common.Result;
+import corinee.cokkiri.common.BaseResponse;
 import corinee.cokkiri.domain.Room;
 import corinee.cokkiri.request.CreateRoomRequest;
 import corinee.cokkiri.request.EnterRoomRequest;
@@ -35,12 +35,12 @@ public class RoomController {
             @ApiResponse(code=409, message = "이미 사용중인 방 제목 입니다"),
             @ApiResponse(code=500, message = "스터디룸 생성에 실패했습니다"),
     })
-    public ResponseEntity<? extends Result> createRoom(@RequestBody CreateRoomRequest request) {
+    public ResponseEntity<? extends BaseResponse> createRoom(@RequestBody CreateRoomRequest request) {
         Long roomId = roomService.createRoom(request);
         if (roomId == null)
-            return ResponseEntity.status(500).body(Result.of(500, "스터디룸 생성에 실패했습니다"));
+            return ResponseEntity.status(500).body(BaseResponse.of(500, "스터디룸 생성에 실패했습니다"));
         if (roomId == -1)
-            return ResponseEntity.status(409).body(Result.of(409, "이미 사용중인 방 제목 입니다"));
+            return ResponseEntity.status(409).body(BaseResponse.of(409, "이미 사용중인 방 제목 입니다"));
         return ResponseEntity.status(200).body(CreateRoomResponse.of(200, "스터디룸 생성에 성공했습니다", roomId));
     }
 
@@ -50,13 +50,13 @@ public class RoomController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=204, message = "스터디룸이 존재하지 않습니다"),
     })
-    public ResponseEntity<? extends Result> findRoomList(@RequestParam("offset") int offset,
-                                                         @RequestParam("limit") int limit,
-                                                         @RequestParam(required = false, value = "keyword") String keyword) {
+    public ResponseEntity<? extends BaseResponse> findRoomList(@RequestParam("offset") int offset,
+                                                               @RequestParam("limit") int limit,
+                                                               @RequestParam(required = false, value = "keyword") String keyword) {
 
         List<Room> roomList = roomService.findRoomList(offset, limit, keyword);
         if (roomList == null || roomList.size() == 0)
-            return ResponseEntity.status(204).body(Result.of(204, "스터디룸이 존재하지 않습니다"));
+            return ResponseEntity.status(204).body(BaseResponse.of(204, "스터디룸이 존재하지 않습니다"));
         return ResponseEntity.status(200).body(FindRoomListResponse.of(200, "스터디룸 목록 조회 성공", roomList));
     }
 
@@ -66,10 +66,10 @@ public class RoomController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=404, message = "스터디룸이 존재하지 않습니다"),
     })
-    public ResponseEntity<? extends Result> findRoom(@PathVariable("room_id") Long roomId) {
+    public ResponseEntity<? extends BaseResponse> findRoom(@PathVariable("room_id") Long roomId) {
         Room room =  roomService.findById(roomId);
         if (room == null)
-            return ResponseEntity.status(404).body(Result.of(404, "스터디룸이 존재하지 않습니다"));
+            return ResponseEntity.status(404).body(BaseResponse.of(404, "스터디룸이 존재하지 않습니다"));
         return ResponseEntity.status(200).body(FindRoomResponse.of(200, "스터디룸 목록 조회 성공",
                 room));
     }
@@ -80,15 +80,15 @@ public class RoomController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=500, message = "스터디룸 입장 실패"),
     })
-    public ResponseEntity<? extends Result> enterRoom(@RequestBody @Valid EnterRoomRequest request) {
+    public ResponseEntity<? extends BaseResponse> enterRoom(@RequestBody @Valid EnterRoomRequest request) {
 
         Long index = roomService.enterRoom(request);
         if (index == -1L)
-            return ResponseEntity.status(404).body(Result.of(404, "유저가 존재하지 않습니다"));
+            return ResponseEntity.status(404).body(BaseResponse.of(404, "유저가 존재하지 않습니다"));
         if (index == -2L)
-            return ResponseEntity.status(404).body(Result.of(404, "방이 존재하지 않습니다"));
+            return ResponseEntity.status(404).body(BaseResponse.of(404, "방이 존재하지 않습니다"));
         if (index == -3L)
-            return ResponseEntity.status(405).body(Result.of(405, "방이 가득찼습니다"));
+            return ResponseEntity.status(405).body(BaseResponse.of(405, "방이 가득찼습니다"));
 
         return ResponseEntity.status(200).body(EnterRoomResponse.of(200, "스터디룸 입장 성공", index));
     }
@@ -99,11 +99,11 @@ public class RoomController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=500, message = "스터디룸 입장 실패"),
     })
-    public ResponseEntity<? extends Result> exitRoom(@RequestBody @Valid ExitRoomRequest request) {
+    public ResponseEntity<? extends BaseResponse> exitRoom(@RequestBody @Valid ExitRoomRequest request) {
         if (roomService.exitRoom(request))
-            return ResponseEntity.status(200).body(Result.of(200, "스터디룸 퇴장 성공"));
+            return ResponseEntity.status(200).body(BaseResponse.of(200, "스터디룸 퇴장 성공"));
         else
-            return ResponseEntity.status(500).body(Result.of(500, "스터디룸 퇴장 실패"));
+            return ResponseEntity.status(500).body(BaseResponse.of(500, "스터디룸 퇴장 실패"));
     }
 
 }

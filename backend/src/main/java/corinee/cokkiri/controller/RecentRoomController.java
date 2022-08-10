@@ -1,6 +1,6 @@
 package corinee.cokkiri.controller;
 
-import corinee.cokkiri.common.Result;
+import corinee.cokkiri.common.BaseResponse;
 import corinee.cokkiri.domain.RecentRoom;
 import corinee.cokkiri.domain.Room;
 import corinee.cokkiri.domain.User;
@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -34,10 +33,10 @@ public class RecentRoomController {
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
     })
-    public ResponseEntity<? extends Result> findRecentRoom(@PathVariable("email") String email) {
+    public ResponseEntity<? extends BaseResponse> findRecentRoom(@PathVariable("email") String email) {
         List<RecentRoom> recentRoomList = recentRoomService.findListByEmail(email);
         if(recentRoomList == null)
-            return ResponseEntity.status(204).body(Result.of(204, "최근 방문한 스터디룸이 존재하지 않습니다"));
+            return ResponseEntity.status(204).body(BaseResponse.of(204, "최근 방문한 스터디룸이 존재하지 않습니다"));
         return ResponseEntity.status(200).body(FindRecentRoomListResponse.of(200, "성공", recentRoomList));
     }
 
@@ -48,15 +47,15 @@ public class RecentRoomController {
             @ApiResponse(code=404, message = "유저가 존재하지 않습니다"),
             @ApiResponse(code=404, message = "방이 존재하지 않습니다"),
     })
-    public ResponseEntity<? extends Result> updateRecentRoom(@RequestBody RecentRoomRequest request) {
+    public ResponseEntity<? extends BaseResponse> updateRecentRoom(@RequestBody RecentRoomRequest request) {
         User user = userService.findByEmail(request.getEmail());
         if(user == null) {
-            return ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
+            return ResponseEntity.status(404).body(BaseResponse.of(404,"유저가 존재하지 않습니다"));
         }
 
         Room room = roomService.findById(request.getRoomId());
         if(room == null) {
-            return ResponseEntity.status(404).body(Result.of(404,"방이 존재하지 않습니다"));
+            return ResponseEntity.status(404).body(BaseResponse.of(404,"방이 존재하지 않습니다"));
         }
 
         if(!recentRoomService.duplicatedRoomId(request)) {
@@ -70,7 +69,7 @@ public class RecentRoomController {
 
 
 
-        return ResponseEntity.status(200).body(Result.of(200, "성공"));
+        return ResponseEntity.status(200).body(BaseResponse.of(200, "성공"));
     }
 
 }

@@ -1,6 +1,6 @@
 package corinee.cokkiri.response;
 
-import corinee.cokkiri.common.Result;
+import corinee.cokkiri.common.BaseResponse;
 import corinee.cokkiri.domain.Answer;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class GetAnswerListResponse extends Result {
+public class GetAnswerListResponse extends BaseResponse {
     private List<FindAnswer> findAnswerList;
 
     public static GetAnswerListResponse of(int statusCode, String message, List<Answer> answerList){

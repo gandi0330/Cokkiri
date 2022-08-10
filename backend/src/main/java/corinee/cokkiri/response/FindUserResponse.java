@@ -1,15 +1,13 @@
 package corinee.cokkiri.response;
 
-import corinee.cokkiri.common.Result;
+import corinee.cokkiri.common.BaseResponse;
 import corinee.cokkiri.domain.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class FindUserResponse extends Result {
+public class FindUserResponse extends BaseResponse {
     private String email;
     private String nickname;
 

@@ -1,6 +1,6 @@
 package corinee.cokkiri.controller;
 
-import corinee.cokkiri.common.Result;
+import corinee.cokkiri.common.BaseResponse;
 import corinee.cokkiri.domain.Room;
 import corinee.cokkiri.domain.User;
 import corinee.cokkiri.domain.UserLikeRoom;
@@ -37,11 +37,11 @@ public class UserLikeRoomController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=404, message = "즐겨찾기 목록이 존재하지 않습니다"),
     })
-    public ResponseEntity<? extends Result> findUserLikeRoom(@PathVariable("email") String email) {
+    public ResponseEntity<? extends BaseResponse> findUserLikeRoom(@PathVariable("email") String email) {
         List<UserLikeRoom> userLikeRoomList = userLikeRoomService.findListByEmail(email);
 
         if(userLikeRoomList.isEmpty()) {
-            return ResponseEntity.status(404).body(Result.of(404, "즐겨찾기 목록이 존재하지 않습니다"));
+            return ResponseEntity.status(404).body(BaseResponse.of(404, "즐겨찾기 목록이 존재하지 않습니다"));
         }
 
         return ResponseEntity.status(200).body(FindUserLikeRoomListResponse.of(200, "성공", userLikeRoomList));
@@ -56,25 +56,25 @@ public class UserLikeRoomController {
             @ApiResponse(code=409, message = "이미 즐겨찾기에 등록된 방입니다"),
             @ApiResponse(code=500, message = "즐겨찾기 등록에 실패했습니다"),
     })
-    public ResponseEntity<? extends Result> addUserLikeRoom(@RequestBody UserLikeRoomRequest request) {
+    public ResponseEntity<? extends BaseResponse> addUserLikeRoom(@RequestBody UserLikeRoomRequest request) {
         User user = userService.findByEmail(request.getEmail());
         if(user == null) {
-            return ResponseEntity.status(404).body(Result.of(404,"유저가 존재하지 않습니다"));
+            return ResponseEntity.status(404).body(BaseResponse.of(404,"유저가 존재하지 않습니다"));
         }
 
         Room room = roomService.findById(request.getRoomId());
         if(room == null) {
-            return ResponseEntity.status(404).body(Result.of(404,"방이 존재하지 않습니다"));
+            return ResponseEntity.status(404).body(BaseResponse.of(404,"방이 존재하지 않습니다"));
         }
 
         if(userLikeRoomService.duplicatedRoomId(request)) {
-            return ResponseEntity.status(409).body(Result.of(409,"이미 즐겨찾기에 등록된 방입니다"));             /////////////// 에러코드 확인
+            return ResponseEntity.status(409).body(BaseResponse.of(409,"이미 즐겨찾기에 등록된 방입니다"));             /////////////// 에러코드 확인
         }
 
         Long id = userLikeRoomService.addUserLikeRoom(user, room);
 
         if(userLikeRoomService.checkUserLikeRoom(id) == null) {
-            return ResponseEntity.status(500).body(Result.of(500, "즐겨찾기 등록에 실패했습니다"));
+            return ResponseEntity.status(500).body(BaseResponse.of(500, "즐겨찾기 등록에 실패했습니다"));
         }
 
         return ResponseEntity.status(200).body(AddUserLikeRoomResponse.of(200,"성공", id));
@@ -86,13 +86,13 @@ public class UserLikeRoomController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=404, message = "즐겨찾기 목록이 삭제되지 않았습니다"),
     })
-    public ResponseEntity<? extends Result> delUserLikeRoom(@RequestParam("id") Long id) {
+    public ResponseEntity<? extends BaseResponse> delUserLikeRoom(@RequestParam("id") Long id) {
         userLikeRoomService.removeUserLikeRoom(id);
         UserLikeRoom userLikeRoom = userLikeRoomService.checkUserLikeRoom(id);
 
         if(userLikeRoom != null) {
-            return ResponseEntity.status(500).body(Result.of(500, "즐겨찾기 목록이 삭제되지 않았습니다"));
+            return ResponseEntity.status(500).body(BaseResponse.of(500, "즐겨찾기 목록이 삭제되지 않았습니다"));
         }
-        return ResponseEntity.status(200).body(Result.of(200,"성공"));
+        return ResponseEntity.status(200).body(BaseResponse.of(200,"성공"));
     }
 }

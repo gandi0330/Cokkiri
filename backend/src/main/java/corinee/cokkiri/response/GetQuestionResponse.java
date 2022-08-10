@@ -1,14 +1,13 @@
 package corinee.cokkiri.response;
 
-import corinee.cokkiri.common.Result;
+import corinee.cokkiri.common.BaseResponse;
 import corinee.cokkiri.domain.Question;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
-public class GetQuestionResponse extends Result {
+public class GetQuestionResponse extends BaseResponse {
     private Long questionId;
     private String title;
     private String content;

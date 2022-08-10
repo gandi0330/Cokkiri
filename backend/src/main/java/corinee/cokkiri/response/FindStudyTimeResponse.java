@@ -1,11 +1,11 @@
 package corinee.cokkiri.response;
 
-import corinee.cokkiri.common.Result;
+import corinee.cokkiri.common.BaseResponse;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class FindStudyTimeResponse extends Result {
+public class FindStudyTimeResponse extends BaseResponse {
 
     private Long totalTime;
 

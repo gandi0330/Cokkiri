@@ -1,6 +1,6 @@
 package corinee.cokkiri.response;
 
-import corinee.cokkiri.common.Result;
+import corinee.cokkiri.common.BaseResponse;
 import corinee.cokkiri.domain.Room;
 import lombok.Data;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class FindRoomListResponse extends Result {
+public class FindRoomListResponse extends BaseResponse {
 
     private List<FindRoom> findRoomList;
 
