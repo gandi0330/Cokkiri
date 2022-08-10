@@ -9,7 +9,7 @@ import VideoController from './VideoController';
 import styles from './VideoSection.module.css';
 import { addPublisher, addSubscribers, removeSubscriber } from '../../store/roomSlice';
 
-const OPENVIDU_SERVER_URL = 'http://i7c107.p.ssafy.io:5443';
+const OPENVIDU_SERVER_URL = 'https://i7c107.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'COKKIRI';
 
 let OV;
