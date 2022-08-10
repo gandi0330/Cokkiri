@@ -82,15 +82,15 @@ public class RoomController {
     })
     public ResponseEntity<? extends BaseResponse> enterRoom(@RequestBody @Valid EnterRoomRequest request) {
 
-        Long index = roomService.enterRoom(request);
-        if (index == -1L)
+        Long id = roomService.enterRoom(request);
+        if (id == -1L)
             return ResponseEntity.status(404).body(BaseResponse.of(404, "유저가 존재하지 않습니다"));
-        if (index == -2L)
+        if (id == -2L)
             return ResponseEntity.status(404).body(BaseResponse.of(404, "방이 존재하지 않습니다"));
-        if (index == -3L)
+        if (id == -3L)
             return ResponseEntity.status(405).body(BaseResponse.of(405, "방이 가득찼습니다"));
 
-        return ResponseEntity.status(200).body(EnterRoomResponse.of(200, "스터디룸 입장 성공", index));
+        return ResponseEntity.status(200).body(EnterRoomResponse.of(200, "스터디룸 입장 성공", id));
     }
 
     @ApiOperation(value = "스터디룸 퇴장", notes = "enterRoom 에서 받은 [정수 index] 전달해주세요")

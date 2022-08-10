@@ -44,8 +44,8 @@ public class RoomService {
 
         Room room = new Room(user, request.getTitle(), request.getUserLimit());
         room.setUserCount(0L);
-        Long id = roomRepository.createRoom(room);
-        return id;
+        Long roomId = roomRepository.createRoom(room);
+        return roomId;
     }
 
     public boolean duplicatedTitle(String title) {
@@ -74,9 +74,9 @@ public class RoomService {
 
 
         studyTime.setStartDatetime(LocalDateTime.now());
-        Long index = studyTimeRepository.save(studyTime);
+        Long id = studyTimeRepository.save(studyTime);
 
-        return index;
+        return id;
 
     }
 

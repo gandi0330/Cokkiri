@@ -42,7 +42,7 @@ public class UserLikeRoomService {
         return userLikeRoomRepository.save(userLikeRoom);
     }
 
-    public UserLikeRoom checkUserLikeRoom(Long id) {
+    public UserLikeRoom findById(Long id) {
         return userLikeRoomRepository.findById(id);
     }
 
