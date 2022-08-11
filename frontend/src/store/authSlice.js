@@ -6,17 +6,22 @@ const initialState = {
   email: null,
   nickname: null,
   isLoggedIn: false,
+  isEmailSend: false,
   
   loading: false,
   success: false,
   error: false,
 };
 
-export const signupDetail = createAsyncThunk(
-  'auth/singupDetail',
-  async ({ email, nickname, password }, thunkAPI) => {
+export const signup = createAsyncThunk(
+  'auth/signup',
+  async ({ 
+    email, nickname, password, authToken,
+  }, thunkAPI) => {
     try {
-      const res = await axios.post('/user/new', { email, nickname, password });
+      const res = await axios.post('/user/new', { 
+        email, nickname, password, authToken, 
+      });
       const { data } = res;
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
@@ -25,8 +30,8 @@ export const signupDetail = createAsyncThunk(
   },
 );
 
-export const signupEmail = createAsyncThunk(
-  'auth/singupEmail',
+export const fetchAuthToken = createAsyncThunk(
+  'auth/fetchAuthToken',
   async ({ email }, thunkAPI) => {
     try {
       const res = await axios.post('/user/email', { email });
@@ -38,18 +43,18 @@ export const signupEmail = createAsyncThunk(
   },
 );
 
-export const signupCertification = createAsyncThunk(
-  'auth/singupCertification',
-  async ({ email, number }, thunkAPI) => {
-    try {
-      const res = await axios.get(`/user/email/${email}/${number}`);
-      const { data } = res;
-      return thunkAPI.fulfillWithValue(data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
-    }
-  },
-);
+// export const signupCertification = createAsyncThunk(
+//   'auth/singupCertification',
+//   async ({ email, number }, thunkAPI) => {
+//     try {
+//       const res = await axios.get(`/user/email/${email}/${number}`);
+//       const { data } = res;
+//       return thunkAPI.fulfillWithValue(data);
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error.response.data);
+//     }
+//   },
+// );
 
 export const login = createAsyncThunk(
   'auth/login',
@@ -142,55 +147,66 @@ const authSlice = createSlice({
     addErrMsg(state, { payload }) {
       state.errMsg = payload.errMsg;
     },
+    addUserForSignup(state, { payload }) {
+      state.email = payload.email;
+      state.nickname = payload.nickname;
+      state.pwd = payload.pwd;
+    },
+    addAuthToken(state, { paylaod }) {
+      state.authToken = paylaod.authToken;
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(signupDetail.pending, (state) => {
+    builder.addCase(signup.pending, (state) => {
       state.loading = true;
       state.success = false;
       state.error = false;
     });
-    builder.addCase(signupDetail.fulfilled, (state) => {
+    builder.addCase(signup.fulfilled, (state, payload) => {
       state.loading = false;
       state.success = true;
       state.error = false;
-      // payload에 email 미존재
+      console.log(payload);
     });
-    builder.addCase(signupDetail.rejected, (state) => {
+    builder.addCase(signup.rejected, (state) => {
       state.loading = false;
       state.success = false;
       state.error = true;
       state.email = null;
     });
-    builder.addCase(signupEmail.pending, (state) => {
+    builder.addCase(fetchAuthToken.pending, (state) => {
       state.loading = true;
       state.success = false;
       state.error = false;
+      state.isEmailSend = false;
     });
-    builder.addCase(signupEmail.fulfilled, (state) => {
+    builder.addCase(fetchAuthToken.fulfilled, (state) => {
       state.loading = false;
       state.success = true;
       state.error = false;
+      state.isEmailSend = true;
     });
-    builder.addCase(signupEmail.rejected, (state) => {
+    builder.addCase(fetchAuthToken.rejected, (state) => {
       state.loading = false;
       state.success = false;
       state.error = true;
+      state.isEmailSend = false;
     });
-    builder.addCase(signupCertification.pending, (state) => {
-      state.loading = true;
-      state.success = false;
-      state.error = false;
-    });
-    builder.addCase(signupCertification.fulfilled, (state) => {
-      state.loading = false;
-      state.success = true;
-      state.error = false;
-    });
-    builder.addCase(signupCertification.rejected, (state) => {
-      state.loading = false;
-      state.success = false;
-      state.error = true;
-    });
+    // builder.addCase(signupCertification.pending, (state) => {
+    //   state.loading = true;
+    //   state.success = false;
+    //   state.error = false;
+    // });
+    // builder.addCase(signupCertification.fulfilled, (state) => {
+    //   state.loading = false;
+    //   state.success = true;
+    //   state.error = false;
+    // });
+    // builder.addCase(signupCertification.rejected, (state) => {
+    //   state.loading = false;
+    //   state.success = false;
+    //   state.error = true;
+    // });
     builder.addCase(login.pending, (state) => {
       state.loading = true;
       state.success = false;
@@ -287,9 +303,12 @@ const authSlice = createSlice({
 export const getNickname = (state) => state.auth.nickname;
 export const getUserEmail = (state) => state.auth.email;
 export const getAllUserState = (state) => state.auth;
+export const getIsEmailSend = (state) => state.auth.isEmailSend;
 export const getLoggedIn = (state) => state.auth.isLoggedIn;
 export const getLoadding = (state) => state.auth.loading;
 
-export const { addUser, addUserEmail } = authSlice.actions;
+export const { 
+  addUser, addUserEmail, addAuthToken, addUserForSignup,
+} = authSlice.actions;
 
 export default authSlice.reducer;

@@ -71,14 +71,14 @@ const LoginForm = () => {
     <div className={styles.main}>
       <h2>로그인</h2>
       <form onSubmit={onSubmit}>
+        { (emailHasError || loginError)
+            && (
+              <div className={styles.errorMsg}>
+                <AiFillWarning className={styles.icon} />
+                { emailErrorMsg || loginError }
+              </div>
+            )}
         <div className={`${styles.inputBox} ${emailHasError && styles.invalid}`}>
-          { (emailHasError || loginError)
-              && (
-                <div className={styles.errorMsg}>
-                  <AiFillWarning className={styles.icon} />
-                  { emailErrorMsg || loginError }
-                </div>
-              )}
           <label htmlFor="email">이메일</label>
           <input
             placeholder="이메일을 입력해 주세요."
@@ -89,15 +89,14 @@ const LoginForm = () => {
             onBlur={emailBlurHandler}
           />
         </div>
-        <br />
+        { passwordHasError
+            && (
+              <div className={styles.errorMsg}>
+                <AiFillWarning className={styles.icon} />
+                { passwordErrorMsg }
+              </div>
+            )}
         <div className={`${styles.inputBox} ${passwordHasError && styles.invalid}`}>
-          { passwordHasError
-              && (
-                <div className={styles.errorMsg}>
-                  <AiFillWarning className={styles.icon} />
-                  { passwordErrorMsg }
-                </div>
-              )}
           <label htmlFor="password">비밀번호</label>
           <input
             type="password"
