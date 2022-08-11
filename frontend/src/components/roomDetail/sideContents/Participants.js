@@ -1,11 +1,16 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+
 import ParticipantList from './ParticipantList';
 import ParticipantListItem from './ParticipantListItem';
 
 const Participants = ({ publisher, subscribers, session }) => {
   const [empty, setEmpty] = useState(0);
   console.log(empty);
+  const { roomInfo } = useSelector((state) => state.room);
+  console.log(roomInfo);
+
   if (publisher) {
     publisher.on('streamPropertyChanged', () => {
       setEmpty((prev) => prev + 1);

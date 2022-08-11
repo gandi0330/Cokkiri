@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../api/axios';
 
 const initialState = {
-  room: {},
+  roomInfo: {},
   publisher: {},
   subscribers: [],
   loading: false,
@@ -28,6 +28,7 @@ export const getRoom = createAsyncThunk(
   'room/getRoom',
   async ({ roomId }, thunkAPI) => {
     try {
+      console.log(roomId);
       const res = await axios.get(`/room/${roomId}`);
       const { data } = res;
       return thunkAPI.fulfillWithValue(data);
@@ -86,7 +87,7 @@ const roomSlice = createSlice({
       state.error = false;
     });
     builder.addCase(getRoom.fulfilled, (state, { payload }) => {
-      state.room = payload;
+      state.roomInfo = payload;
       state.loading = false;
       state.success = true;
       state.error = false;
