@@ -26,6 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/question")
                 .addPathPatterns("/question/**")
                 .addPathPatterns("/room/**")
+                .excludePathPatterns("/room/list/**")
                 .addPathPatterns("/studytime/*");
     }
 
