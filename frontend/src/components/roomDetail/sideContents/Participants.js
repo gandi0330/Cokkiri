@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import ParticipantList from './ParticipantList';
 import ParticipantListItem from './ParticipantListItem';

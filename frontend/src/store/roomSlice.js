@@ -3,7 +3,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../api/axios';
 
 const initialState = {
-  roomInfo: {},
+  room: {},
+  nicknameObj: {},
   publisher: {},
   subscribers: [],
   loading: false,
@@ -64,6 +65,9 @@ const roomSlice = createSlice({
     removeSubscriber(state, { payload }) {
       state.subscribers = state.subscribers.filter((sub) => sub !== payload);
     },
+    addNickname(state, { payload }) {
+      state.nicknameObj = { ...state.nicknameObj, ...payload };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(makeRoom.pending, (state) => {
@@ -115,6 +119,8 @@ const roomSlice = createSlice({
   },
 });
 
-export const { addPublisher, addSubscribers, removeSubscriber } = roomSlice.actions;
+export const {
+  addPublisher, addSubscribers, removeSubscriber, addNickname,
+} = roomSlice.actions;
 
 export default roomSlice.reducer;
