@@ -26,14 +26,14 @@ public class AnswerService {
     public List<Answer> getAnswerList(Long questionId){
         return answerRepository.getAnswerList(questionId);
     }
-    public Long addAnswer(AddAnswerRequest addAnswerRequest){
+    public Long addAnswer(AddAnswerRequest request){
         Answer answer = new Answer();
-        answer.setContent(addAnswerRequest.getContent());
-        answer.setQuestion(questionRepository.getQuestion(addAnswerRequest.getQuestionId()));
-        answer.setRoom(roomRepository.findById(addAnswerRequest.getRoomId()));
-        answer.setUser(userRepository.findByEmail(addAnswerRequest.getAnswerWriterEmail()).get());
-        answer.setCode(addAnswerRequest.getCode());
-        answer.setLanguage(addAnswerRequest.getLanguage());
+        answer.setContent(request.getContent());
+        answer.setQuestion(questionRepository.getQuestion(request.getQuestionId()));
+        answer.setRoom(roomRepository.findById(request.getRoomId()));
+        answer.setUser(userRepository.findByEmail(request.getAnswerWriterEmail()).get());
+        answer.setCode(request.getCode());
+        answer.setLanguage(request.getLanguage());
         return answerRepository.save(answer);
     }
 

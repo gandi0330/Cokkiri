@@ -26,14 +26,14 @@ public class QuestionService {
         return questionRepository.getQuestionList(roomId);
     }
 
-    public Long addQuestion(AddQuestionRequest addQuestionRequest){
+    public Long addQuestion(AddQuestionRequest request){
         Question question = new Question();
-        question.setRoom(roomRepository.findById(addQuestionRequest.getRoomId()));
-        question.setContent(addQuestionRequest.getContent());
-        question.setTitle(addQuestionRequest.getTitle());
-        question.setUser(userRepository.findByEmail(addQuestionRequest.getEmail()).get());
-        question.setCode(addQuestionRequest.getCode());
-        question.setLanguage(addQuestionRequest.getLanguage());
+        question.setRoom(roomRepository.findById(request.getRoomId()));
+        question.setContent(request.getContent());
+        question.setTitle(request.getTitle());
+        question.setUser(userRepository.findByEmail(request.getEmail()).get());
+        question.setCode(request.getCode());
+        question.setLanguage(request.getLanguage());
 
         return questionRepository.save(question);
     }
