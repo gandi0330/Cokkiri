@@ -39,8 +39,8 @@ const RoomDetailPage = () => {
   
   return (
     <div className={classes.container}>
-      <div className={classes.contents}>
-        <div className={classes.contents__left}>
+      <div className={`${classes.contents} ${type !== 'off' && classes.open}`}>
+        <div className={`${classes.contents__left} ${type !== 'off' && classes.open}`}>
           {
             roomId
             && (
@@ -53,7 +53,7 @@ const RoomDetailPage = () => {
             )
           }
         </div>
-        <div className={classes.contents__right}>
+        <div className={type !== 'off' ? `${classes.contents__right}` : ''}>
           {type !== 'off' && <RightSidePanel type={type} session={session} publisher={publisher} subscribers={subscribers} />}
         </div>
       </div>

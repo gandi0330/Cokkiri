@@ -133,7 +133,6 @@ const roomListSlice = createSlice({
       state.loading = false;
       state.success = true;
       state.error = false;
-      // console.log('roomlist', payload);
       if (payload.meta.keyword === '' && payload.payload.findRoomList?.length > 0) {
         state.rooms = [...new Set([...state.rooms, ...payload.payload.findRoomList])];
       } 
@@ -171,10 +170,14 @@ const roomListSlice = createSlice({
       state.error = false;
       state.recentRooms = [...payload.payload.findRecentRoomList];
     });
-    builder.addCase(fetchRecentRooms.rejected, (state) => {
+    builder.addCase(fetchRecentRooms.rejected, (state, payload) => {
       state.loading = false;
       state.success = false;
-      state.error = true;
+      if (payload.payload.statusCode === 404) {
+        state.error = false;
+      } else {
+        state.error = true;
+      }
       state.recentRooms = [];
     });
     builder.addCase(updateRecentRooms.pending, (state) => {
@@ -182,16 +185,38 @@ const roomListSlice = createSlice({
       state.success = false;
       state.error = false;
     });
-    builder.addCase(updateRecentRooms.fulfilled, (state, payload) => {
+    builder.addCase(updateRecentRooms.fulfilled, (state) => {
       state.loading = false;
       state.success = true;
       state.error = false;
-      console.log(payload);
     });
     builder.addCase(updateRecentRooms.rejected, (state) => {
       state.loading = false;
       state.success = false;
       state.error = true;
+    });
+    builder.addCase(fetchFavoriteRooms.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = false;
+      state.favoriteRooms = [];
+    });
+    builder.addCase(fetchFavoriteRooms.fulfilled, (state, payload) => {
+      state.loading = false;
+      state.success = true;
+      state.error = false;
+      state.favoriteRooms = [...payload.payload.userLikeRoomList];
+    });
+    builder.addCase(fetchFavoriteRooms.rejected, (state, payload) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
+      state.favoriteRooms = [];
+      if (payload.payload.statusCode === 404) {
+        state.error = false;
+      } else {
+        state.error = true;
+      }
     });
     builder.addCase(addFavoriteRoom.pending, (state) => {
       state.loading = true;
@@ -213,34 +238,15 @@ const roomListSlice = createSlice({
       state.success = false;
       state.error = false;
     });
-    builder.addCase(removeFavoriteRoom.fulfilled, (state, payload) => {
+    builder.addCase(removeFavoriteRoom.fulfilled, (state) => {
       state.loading = false;
       state.success = true;
       state.error = false;
-      console.log(payload);
     });
     builder.addCase(removeFavoriteRoom.rejected, (state) => {
       state.loading = false;
       state.success = false;
       state.error = true;
-    });
-    builder.addCase(fetchFavoriteRooms.pending, (state) => {
-      state.loading = true;
-      state.success = false;
-      state.error = false;
-      state.favoriteRooms = [];
-    });
-    builder.addCase(fetchFavoriteRooms.fulfilled, (state, payload) => {
-      state.loading = false;
-      state.success = true;
-      state.error = false;
-      state.favoriteRooms = [...payload.payload.userLikeRoomList];
-    });
-    builder.addCase(fetchFavoriteRooms.rejected, (state) => {
-      state.loading = false;
-      state.success = false;
-      state.error = true;
-      state.favoriteRooms = [];
     });
   },
 });

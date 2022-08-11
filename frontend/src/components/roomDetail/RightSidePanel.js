@@ -3,7 +3,8 @@ import classes from './RightSidePanel.module.css';
 import Participants from './sideContents/Participants';
 import TheTimer from './sideContents/TheTimer';
 import Chat from './sideContents/Chat';
-import QuestionPage from '../../pages/questions/QuestionPage';
+import Questions from '../../pages/questions/Questions';
+// import QuestionPage from '../../pages/questions/QuestionPage';
 
 const RightSidePanel = ({
   type, session, publisher, subscribers,
@@ -35,7 +36,7 @@ const RightSidePanel = ({
   if (type === 'question') {
     return (
       <div className={classes.rightPanel}>
-        <QuestionPage />
+        <Questions />
       </div>
     );
   }

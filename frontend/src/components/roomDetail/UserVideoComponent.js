@@ -6,16 +6,17 @@ const UserVideoComponent = ({ streamManager }) => {
   //   // eslint-disable-next-line react/prop-types
   //   return JSON.parse(streamManager.stream.connection.data).clientData; 
   // };
-  return (
-    <div>
-      {streamManager && (
-        <div>
-          <OvVideo streamManager={streamManager} />
-          {/* <p>{getNicknameTag()}</p> */}
-        </div>
-      )}
-    </div>
-  );
+  // return (
+  //   <div>
+  //     {streamManager && (
+  //       <div>
+  //         <OvVideo streamManager={streamManager} />
+  //         {/* <p>{getNicknameTag()}</p> */}
+  //       </div>
+  //     )}
+  //   </div>
+  // );
+  return <OvVideo streamManager={streamManager} />;
 };
 
 export default UserVideoComponent;

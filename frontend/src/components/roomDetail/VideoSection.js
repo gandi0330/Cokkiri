@@ -239,40 +239,40 @@ const VideoSection = ({
   }, [subscribers]);
   
   return (
-    <div className="container">
-      <h1>VideoSection</h1>
-      {session && (
-      <div className={styles.wrapper}>
-        {mainStreamManager && (
-          <div className={styles.videoWrapper}>
-            <div className={styles.videoContainer}>
-              <UserVideoComponent streamManager={mainStreamManager} />
-              <button type="button" onClick={switchCamera}>Switch Camera</button>
-            </div>
-          </div>
-        )}
+    <div className={`container ${styles.container}`}>
+      <div className={styles.smallVideoSection}>
         {publisher && (
-          <div
-            className="stream-container"
-            onClick={() => handleMainVideoStream(publisher)}
-          >
-            Publisher
-            <UserVideoComponent streamManager={publisher} />
-          </div>
+          // <div
+          //   // className="stream-container"
+          //   onClick={() => handleMainVideoStream(publisher)}
+          // >
+          <UserVideoComponent 
+            onClick={() => handleMainVideoStream(publisher)} 
+            streamManager={publisher} 
+          />
+          // </div>
         )}
 
         {subscribers.length > 0
           && subscribers.map((sub, idx) => (
-            <div key={`subscriber${idx * 1}`} className={styles.videoWrapper}>
-              <div
-                className={styles.videoContainer}
-                onClick={() => handleMainVideoStream(sub)}
-              >
-                Remote
-                <UserVideoComponent streamManager={sub} />
-              </div>
-            </div>
+            // <div
+            //   key={`subscriber ${idx * 1}`}
+            //   className={styles.videoContainer}
+            //   onClick={() => handleMainVideoStream(sub)}
+            // >
+            // Remote
+            <UserVideoComponent key={`subscriber ${idx * 1}`} onClick={() => handleMainVideoStream(sub)} streamManager={sub} />
+            // </div>
           ))}
+      </div>
+      {session && (
+      <div className={styles.wrapper}>
+        {mainStreamManager && (
+          <div className={styles.videoWrapper}>
+            <UserVideoComponent streamManager={mainStreamManager} />
+            <button className={styles.switchCamera} type="button" onClick={switchCamera}>Switch Camera</button>
+          </div>
+        )}
         {publisher
           && (
           <VideoController

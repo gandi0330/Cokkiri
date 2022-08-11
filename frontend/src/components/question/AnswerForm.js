@@ -10,10 +10,10 @@ import YesNoModal from '../layout/YesNoModal';
 import classes from './QuestionList.module.css';
 
 const AnswerForm = ({ 
-  type, prevAnswer, prevReview, code, language, answerId,
+  type, prevAnswer, prevReview, code, language, answerId, questionId,
 }) => {
   const dispatch = useDispatch();
-  const { roomId, questionId } = useParams();
+  const { roomId } = useParams();
   const email = useSelector(getUserEmail);
   const [reviewOpen, setReviewOpen] = useState(false);
   const [answer, setAnswer] = useState('');
@@ -136,6 +136,7 @@ AnswerForm.propTypes = {
   code: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
   answerId: PropTypes.number.isRequired,
+  questionId: PropTypes.number.isRequired,
 };
 
 export default AnswerForm;

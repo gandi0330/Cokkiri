@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux/es/exports';
+// import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { fetchQuestionDetail, getQuestion } from '../../store/questionSlice';
 
 import QuestionForm from '../../components/question/QuestionForm';
 import QuestionHeader from '../../components/question/QuestionHeader';
 import classes from './QuestionPage.module.css';
 
-const QuestionUpdatePage = () => {
+const QuestionUpdatePage = ({
+  questionId, setQuestionRoute,
+}) => {
   const dispatch = useDispatch();
-  const { questionId } = useParams(); 
+  // const { questionId } = useParams(); 
   const question = useSelector(getQuestion);
 
   useEffect(() => {
@@ -27,9 +30,16 @@ const QuestionUpdatePage = () => {
         qTitle={question.title || ''} 
         qContent={question.content || ''} 
         qCode={question.code || ''}
+        setQuestionRoute={setQuestionRoute}
+        questionId={questionId}
       />
     </div>
   );
+};
+
+QuestionUpdatePage.propTypes = {
+  questionId: PropTypes.number.isRequired,
+  setQuestionRoute: PropTypes.func.isRequired,
 };
 
 export default QuestionUpdatePage;

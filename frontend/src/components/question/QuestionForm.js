@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { MdWarning } from 'react-icons/md';
@@ -15,17 +15,17 @@ import ExcitingElephant from '../icons/ExcitingElephant';
 import classes from './QuestionList.module.css';
 
 const QuestionForm = ({ 
-  type, qTitle, qContent, qCode,
+  type, qTitle, qContent, qCode, setQuestionRoute, questionId,
 }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const email = useSelector(getUserEmail);
   const question = useSelector(getQuestion);
   const { roomId } = useParams();
-  let questionId;
-  if (type === '수정') {
-    questionId = useParams().questionId;
-  }
+  // let questionId;
+  // if (type === '수정') {
+  //   questionId = useParams().questionId;
+  // }
   const [codeEditorOpen, setCodeEditorOpen] = useState(false);
   const [cancelModalOpen, setCancelModalOpen] = useState(false);
   const [code, setCode] = useState(qCode);
@@ -81,7 +81,8 @@ const QuestionForm = ({
           setCode('');
           setLanguage('java');
           setCodeEditorOpen(false);
-          navigate(`/room/${roomId}/questions`);
+          setQuestionRoute('main');
+          // navigate(`/room/${roomId}/questions`);
         })
         .catch((error) => console.error(error));
     }
@@ -97,7 +98,8 @@ const QuestionForm = ({
           setCode('');
           setLanguage('java');
           setCodeEditorOpen(false);
-          navigate(`/room/${roomId}/question/${questionId}`);
+          setQuestionRoute('main');
+          // navigate(`/room/${roomId}/question/${questionId}`);
         })
         .catch((error) => console.error(error));
     }
@@ -114,7 +116,8 @@ const QuestionForm = ({
         open={cancelModalOpen}
         yes="머무르기"
         no="나가기"
-        onNoClick={() => navigate(-1)}
+        // onNoClick={() =>navigate(-1) }
+        onNoClick={() => setQuestionRoute('main')}
         onYesClick={() => setCancelModalOpen(false)}
         onClose={() => setCancelModalOpen(false)}
       >
@@ -196,6 +199,8 @@ QuestionForm.propTypes = {
   qTitle: PropTypes.string.isRequired,
   qContent: PropTypes.string.isRequired,
   qCode: PropTypes.string.isRequired,
+  setQuestionRoute: PropTypes.func.isRequired,
+  questionId: PropTypes.number.isRequired,
 };
 
 export default QuestionForm;
