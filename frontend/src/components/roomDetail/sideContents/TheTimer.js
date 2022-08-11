@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import music from '../../../audios/voice-elephant.mp3';
 import useAudio from '../../../hooks/useAudio';
 import styles from './TheTimer.module.css';
+import ExcitingElephant from '../../icons/ExcitingElephant';
 
 let countDown;
 
@@ -98,7 +99,10 @@ const TheTimer = () => {
   
   return (
     <div className={styles.wrapper}>
-      <h4>타이머</h4>
+      <div className={styles.timer__header}>
+        <ExcitingElephant />
+        <h4>타이머</h4>
+      </div>
       <div className={styles.content}>
         {!start && (
           <div>

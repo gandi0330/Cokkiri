@@ -6,7 +6,13 @@
 .wrapper h4 {
   color: var(--blueShade1);
   font-size: var(--headingFontSize4);
-  padding-left: .3rem;
+}
+
+.timer__header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: .5rem;
   margin-bottom: 1rem;
 }
 
@@ -42,7 +48,7 @@
 .content input {
   border: none;
   outline: none;
-  border-bottom: 1px solid var(--blueShade1);
+  /* border-bottom: 1px solid var(--blueShade1); */
   color: var(--blackShade1);
   font-weight: bold;
   font-size: var(--baseFontSize);

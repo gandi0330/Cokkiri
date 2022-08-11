@@ -36,10 +36,18 @@
   display: none;
 }
 
+.share__btn {
+  display: none;
+}
+
 @media screen and (min-width: 750px) {
   .buttonGroup {
     width: min(25rem, 50%);
     left: 50%;
     transform: translate(-50%);
+  }
+
+  .share__btn {
+    display: block;
   }
 }
