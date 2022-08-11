@@ -9,7 +9,7 @@ import UserVideoComponent from './UserVideoComponent';
 import VideoController from './VideoController';
 import styles from './VideoSection.module.css';
 import {
-  addPublisher, addSubscribers, removeSubscriber, addNickname,
+  addPublisher, addSubscribers, removeSubscriber,
 } from '../../store/roomSlice';
 
 const OPENVIDU_SERVER_URL = 'https://i7c107.p.ssafy.io:8443';
@@ -27,7 +27,7 @@ const VideoSection = ({
   const [publisher, setPublisher] = useState(null);
   const [subscribers, setSubscribers] = useState([]);
   const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
-  const { email, nickname } = useSelector((state) => state.auth);
+  const { nickname } = useSelector((state) => state.auth);
 
   const reqCameraAndAudio = async () => {
     try {
@@ -190,13 +190,9 @@ const VideoSection = ({
       console.warn(exception);
     });
     getToken().then((token) => {
-      session.connect(token, { clientData: email })
+      session.connect(token, { clientData: nickname })
         .then(() => {
           connectCamera();
-          const { connectionId } = session.connection;
-          const obj = {};
-          obj[connectionId] = nickname;
-          dispatch(addNickname(obj));
         })
         .catch((error) => {
           console.log(

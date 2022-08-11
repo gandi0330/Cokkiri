@@ -4,7 +4,6 @@ import axios from '../api/axios';
 
 const initialState = {
   room: {},
-  nicknameObj: {},
   publisher: {},
   subscribers: [],
   loading: false,
@@ -64,9 +63,6 @@ const roomSlice = createSlice({
     },
     removeSubscriber(state, { payload }) {
       state.subscribers = state.subscribers.filter((sub) => sub !== payload);
-    },
-    addNickname(state, { payload }) {
-      state.nicknameObj = { ...state.nicknameObj, ...payload };
     },
   },
   extraReducers: (builder) => {
