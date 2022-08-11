@@ -109,9 +109,10 @@ const TheTimer = () => {
               max={24}
               min={0}
               placeholder="시"
+              required
             /><span className={styles.text}>시</span>
-            <input type="number" value={minutes} onChange={onChangeMinutes} max={59} min={0} placeholder="분" /><span>분</span>
-            <input type="number" value={seconds} onChange={onChangeSeconds} max={59} min={0} placeholder="초" /><span>초</span>
+            <input type="number" value={minutes} onChange={onChangeMinutes} max={59} min={0} placeholder="분" required /><span>분</span>
+            <input type="number" value={seconds} onChange={onChangeSeconds} max={59} min={0} placeholder="초" required /><span>초</span>
           </div>
         )}
         {show && <div className={styles.circle}>{hours > 0 ? <span>{hours} : </span> : null} {minutes < 10 ? `0${minutes}` : minutes} : {seconds < 10 ? `0${seconds}` : seconds}</div>}
