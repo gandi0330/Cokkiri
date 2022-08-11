@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
@@ -165,6 +166,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=401, message = "인증번호 불일치"),
+            @ApiResponse(code=403, message = "인증번호 만료"),
             @ApiResponse(code=409, message = "이미 존재하는 이메일"),
     })
     public ResponseEntity<? extends BaseResponse> addUser(@RequestBody AddUserRequest request) {
@@ -172,6 +174,10 @@ public class UserController {
 
         if(!findEmail.getAuthToken().equals(request.getAuthToken())){
             return ResponseEntity.status(401).body(BaseResponse.of(401, "인증번호가 일치하지 않습니다"));
+        }
+
+        if(LocalDateTime.now().compareTo(findEmail.getGenerateTime().plusMinutes(3)) > 0) {
+            return ResponseEntity.status(403).body(BaseResponse.of(403,"인증번호가 만료되었습니다"));
         }
         User user = userService.findByEmail(request.getEmail());
 
