@@ -14,10 +14,10 @@ public class EmailRepository {
 
     private final EntityManager em;
 
-    public Optional<Email> findByEmail(String email) {
+    public Email findByEmail(String email) {
         Email emailObj = em.find(Email.class, email);
 
-        return Optional.ofNullable(emailObj);
+        return emailObj;
     }
 
     public void add(Email email) {

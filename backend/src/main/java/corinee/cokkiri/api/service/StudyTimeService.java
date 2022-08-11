@@ -19,19 +19,14 @@ public class StudyTimeService {
     private final StudyTimeRepository studyTimeRepository;
 
     public List<StudyTime> findListByEmail(String email, LocalDateTime startDatetime, LocalDateTime endDatetime) {
-        Optional<List<StudyTime>> optStudyTimeList = studyTimeRepository.findByEmail(email, startDatetime, endDatetime);
-        List<StudyTime> studyTimeList = null;
-
-        if(optStudyTimeList.isPresent()) {
-            studyTimeList = optStudyTimeList.get();
-        }
+        List<StudyTime> studyTimeList = studyTimeRepository.findListByEmail(email, startDatetime, endDatetime);
 
         return studyTimeList;
     }
 
-    public Long calStudyTime(List<StudyTime> studyTimes) {
+    public Long calStudyTime(List<StudyTime> studyTimeList) {
         Long res = 0L;
-        for(StudyTime studyTime : studyTimes) {
+        for(StudyTime studyTime : studyTimeList) {
             LocalDateTime startDateTime = studyTime.getStartDatetime();
             LocalDateTime endDateTime = studyTime.getEndDatetime();
 

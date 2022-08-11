@@ -31,7 +31,7 @@ public class QuestionService {
         question.setRoom(roomRepository.findById(request.getRoomId()));
         question.setContent(request.getContent());
         question.setTitle(request.getTitle());
-        question.setUser(userRepository.findByEmail(request.getEmail()).get());
+        question.setUser(userRepository.findByEmail(request.getEmail()));
         question.setCode(request.getCode());
         question.setLanguage(request.getLanguage());
 

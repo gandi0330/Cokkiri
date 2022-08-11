@@ -24,23 +24,14 @@ public class EmailService {
     private final JavaMailSender javaMailSender;
 
     public Email findByEmail(String email) {
-        Optional<Email> optFindEmail = emailRepository.findByEmail(email);
-        Email emailObj = null;
-
-        if(optFindEmail.isPresent()) {
-            emailObj = optFindEmail.get();
-        }
-
-        return emailObj;
+        return emailRepository.findByEmail(email);
     }
 
     public void delEmail(String email) {
-        Optional<Email> optFindEmail = emailRepository.findByEmail(email);
-        Email emailObj = null;
+        Email findEmail = emailRepository.findByEmail(email);
 
-        if(optFindEmail.isPresent()) {
-            emailObj = optFindEmail.get();
-            emailRepository.del(emailObj);
+        if(findEmail != null) {
+            emailRepository.del(findEmail);
         }
     }
 
@@ -56,11 +47,11 @@ public class EmailService {
     }
 
     public void addEmail(String email) {
-        Optional<User> optFindUser = userRepository.findByEmail(email);
+        User findUser = userRepository.findByEmail(email);
 
-        if(optFindUser.isPresent()) {
+        if(findUser != null) {
             Email emailObj = new Email();
-            emailObj.setUser(optFindUser.get());
+            emailObj.setUser(findUser);
             emailObj.setAuthToken(makeAuthToken());
             emailObj.setGenerateTime(LocalDateTime.now());
 
@@ -69,49 +60,42 @@ public class EmailService {
     }
 
     public Email sendMessage(String email) {
-        Optional<Email> optFindEmail = emailRepository.findByEmail(email);
-        Email emailObj = null;
+        Email findEmail = emailRepository.findByEmail(email);
 
-        if(optFindEmail.isPresent()) {
-            emailObj = optFindEmail.get();
-
+        if(findEmail != null) {
             SimpleMailMessage message = new SimpleMailMessage();
 
             message.setFrom("noreply@cokkiri");
-            message.setTo(emailObj.getUser().getEmail());
+            message.setTo(findEmail.getUser().getEmail());
             message.setSubject("Cokkiri 회원 인증 번호");
-            message.setText("Cokkiri 인증번호 : " + emailObj.getAuthToken());
+            message.setText("Cokkiri 인증번호 : " + findEmail.getAuthToken());
 
             javaMailSender.send(message);
         }
 
-        return emailObj;
+        return findEmail;
     }
 
     public void changeAuthState(String email) {
 
-        Optional<User> optFindUser = userRepository.findByEmail(email);
-        User user = null;
+        User findUser = userRepository.findByEmail(email);
 
-        if(optFindUser.isPresent()) {
-            user = optFindUser.get();
-            user.setAuthState(true);
+        if(findUser != null) {
+            findUser.setAuthState(true);
         }
     }
 
     public Email updateAuthState(String email) {
-        Optional<Email> optFindEmail = emailRepository.findByEmail(email);
-        Email emailObj = null;
+        Email findEmail = emailRepository.findByEmail(email);
 
-        if(optFindEmail.isPresent()) {
-            emailObj = optFindEmail.get();
+        if(findEmail != null) {
             LocalDateTime currentTime = LocalDateTime.now();
 
-            if(currentTime.compareTo(emailObj.getGenerateTime().plusMinutes(3)) <= 0) {
+            if(currentTime.compareTo(findEmail.getGenerateTime().plusMinutes(3)) <= 0) {
                 changeAuthState(email);
             }
         }
 
-        return emailObj;
+        return findEmail;
     }
 }

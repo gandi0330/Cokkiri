@@ -25,7 +25,7 @@ public class RoomRepository {
         return findRoom.getRoomId();
     }
 
-    public List<Room> findByTitle(String title) {
+    public List<Room> findListByTitle(String title) {
         return em.createQuery("select r from Room r where r.title = :title", Room.class)
                 .setParameter("title", title)
                 .getResultList();

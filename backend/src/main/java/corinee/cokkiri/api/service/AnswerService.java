@@ -31,7 +31,7 @@ public class AnswerService {
         answer.setContent(request.getContent());
         answer.setQuestion(questionRepository.findById(request.getQuestionId()));
         answer.setRoom(roomRepository.findById(request.getRoomId()));
-        answer.setUser(userRepository.findByEmail(request.getAnswerWriterEmail()).get());
+        answer.setUser(userRepository.findByEmail(request.getAnswerWriterEmail()));
         answer.setCode(request.getCode());
         answer.setLanguage(request.getLanguage());
         return answerRepository.add(answer);
