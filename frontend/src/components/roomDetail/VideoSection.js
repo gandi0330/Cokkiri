@@ -22,7 +22,7 @@ const VideoSection = ({
   const [mainStreamManager, setMainStreamManager] = useState(null);
   const [publisher, setPublisher] = useState(null);
   const [subscribers, setSubscribers] = useState([]);
-  const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
+  // const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
   const { nickname } = useSelector((state) => state.auth);
 
   const reqCameraAndAudio = async () => {
@@ -52,7 +52,7 @@ const VideoSection = ({
     setSubscribers([]);
     setMainStreamManager(null);
     setPublisher(null);
-    setCurrentVideoDevice(null);
+    // setCurrentVideoDevice(null);
   };
 
   const listener = (e) => {
@@ -160,7 +160,7 @@ const VideoSection = ({
       mirror: false, 
     });
     session.publish(tmpPublisher);
-    setCurrentVideoDevice(videoDevices[0]);
+    // setCurrentVideoDevice(videoDevices[0]);
     // console.log('tmpPublisher', tmpPublisher, typeof tmpPublisher);
     setMainStreamManager(tmpPublisher);
     setPublisher(tmpPublisher);
@@ -195,32 +195,32 @@ const VideoSection = ({
     });
   }, [session]);
 
-  const switchCamera = async () => {
-    try {
-      const devices = await OV.getDevices();
-      const videoDevices = devices.filter((device) => device.kind === 'videoinput');
-      if (videoDevices?.length > 1) {
-        const newVideoDevice = videoDevices.filter((device) => {
-          return device.deviceId !== currentVideoDevice.deviceId;
-        });
-        if (newVideoDevice.length) {
-          const newPublisher = OV.initPublisher(undefined, {
-            videoSource: newVideoDevice[0].deviceId,
-            publishAudio: true,
-            publishVideo: true,
-            mirror: true,
-          });
-          await session.unpublish(mainStreamManager);
-          await session.publish(newPublisher);
-          setCurrentVideoDevice(newVideoDevice);
-          setMainStreamManager(newPublisher);
-          setPublisher(newPublisher);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const switchCamera = async () => {
+  //   try {
+  //     const devices = await OV.getDevices();
+  //     const videoDevices = devices.filter((device) => device.kind === 'videoinput');
+  //     if (videoDevices?.length > 1) {
+  //       const newVideoDevice = videoDevices.filter((device) => {
+  //         return device.deviceId !== currentVideoDevice.deviceId;
+  //       });
+  //       if (newVideoDevice.length) {
+  //         const newPublisher = OV.initPublisher(undefined, {
+  //           videoSource: newVideoDevice[0].deviceId,
+  //           publishAudio: true,
+  //           publishVideo: true,
+  //           mirror: true,
+  //         });
+  //         await session.unpublish(mainStreamManager);
+  //         await session.publish(newPublisher);
+  //         setCurrentVideoDevice(newVideoDevice);
+  //         setMainStreamManager(newPublisher);
+  //         setPublisher(newPublisher);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   useEffect(() => {
     getSession(session);
@@ -269,7 +269,8 @@ const VideoSection = ({
         {mainStreamManager && (
           <div className={styles.videoWrapper}>
             <UserVideoComponent streamManager={mainStreamManager} />
-            <button className={styles.switchCamera} type="button" onClick={switchCamera}>Switch Camera</button>
+            {/* <button className={styles.switchCamera} 
+            type="button" onClick={switchCamera}>Switch Camera</button> */}
           </div>
         )}
         {publisher
