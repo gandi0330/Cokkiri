@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "메일 인증 API", tags = {"EmailAuth"})
 public class EmailAuthController {
     private final EmailService emailService;
-    private final UserService userService;
 
     @ApiOperation(value = "인증번호 전송", notes = "입력받은 이메일로 인증번호를 전송")
     @PostMapping("/user/email")
@@ -28,35 +27,17 @@ public class EmailAuthController {
             @ApiResponse(code=404, message = "Email이 존재하지 않습니다")
     })
     public ResponseEntity<? extends BaseResponse> sendEmail(@RequestBody EmailAuthRequest request) {
-        Email email = emailService.findByEmail(request.getEmail());
-        if(email != null) {
+        Email findEmail = emailService.findByEmail(request.getEmail());
+        if(findEmail != null) {
             emailService.delEmail(request.getEmail());
         }
         emailService.addEmail(request.getEmail());
 
-        Email findEmail = emailService.sendMessage(request.getEmail());
-        if(findEmail == null) {
+        Email sendEmail = emailService.sendMessage(request.getEmail());
+        if(sendEmail == null) {
             return ResponseEntity.status(404).body(BaseResponse.of(404, "Email이 존재하지 않습니다"));
         }
         return ResponseEntity.status(200).body(BaseResponse.of(200, "이메일 전송 성공"));
     }
 
-    @ApiResponses({
-            @ApiResponse(code=200, message = "성공"),
-            @ApiResponse(code=404, message = "Email이 존재하지 않습니다"),
-            @ApiResponse(code=500, message = "인증이 정상적으로 이루어지지 않았습니다")
-    })
-    @ApiOperation(value = "이메일 인증", notes = "입력받은 인증번호를 DB와 비교하여 인증")
-    @GetMapping("/user/email/{email}/{auth_token}")
-    public ResponseEntity<? extends BaseResponse> checkAuth(@PathVariable("email") String email, @PathVariable("auth_token") String authToken) {
-        Email findEmail = emailService.updateAuthState(email);
-        User findUser = userService.findByEmail(email);
-
-        if(findEmail == null)
-            return ResponseEntity.status(404).body(BaseResponse.of(404, "Email이 존재하지 않습니다"));
-        else if(!findUser.isAuthState() || !findEmail.getAuthToken().equals(authToken))
-            return ResponseEntity.status(500).body(BaseResponse.of(500, "인증이 정상적으로 이루어지지 않았습니다"));
-
-        return ResponseEntity.status(200).body(BaseResponse.of(200, "이메일 인증 성공"));
-    }
 }

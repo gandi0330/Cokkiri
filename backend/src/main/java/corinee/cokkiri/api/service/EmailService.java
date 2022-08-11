@@ -20,7 +20,6 @@ import java.util.Random;
 public class EmailService {
 
     private final EmailRepository emailRepository;
-    private final UserRepository userRepository;
     private final JavaMailSender javaMailSender;
 
     public Email findByEmail(String email) {
@@ -47,16 +46,14 @@ public class EmailService {
     }
 
     public void addEmail(String email) {
-        User findUser = userRepository.findByEmail(email);
 
-        if(findUser != null) {
-            Email emailObj = new Email();
-            emailObj.setUser(findUser);
-            emailObj.setAuthToken(makeAuthToken());
-            emailObj.setGenerateTime(LocalDateTime.now());
+        Email emailObj = new Email();
+        emailObj.setEmail(email);
+        emailObj.setAuthToken(makeAuthToken());
+        emailObj.setGenerateTime(LocalDateTime.now());
 
-            emailRepository.add(emailObj);
-        }
+        emailRepository.add(emailObj);
+
     }
 
     public Email sendMessage(String email) {
@@ -66,7 +63,7 @@ public class EmailService {
             SimpleMailMessage message = new SimpleMailMessage();
 
             message.setFrom("noreply@cokkiri");
-            message.setTo(findEmail.getUser().getEmail());
+            message.setTo(findEmail.getEmail());
             message.setSubject("Cokkiri 회원 인증 번호");
             message.setText("Cokkiri 인증번호 : " + findEmail.getAuthToken());
 
@@ -76,26 +73,4 @@ public class EmailService {
         return findEmail;
     }
 
-    public void changeAuthState(String email) {
-
-        User findUser = userRepository.findByEmail(email);
-
-        if(findUser != null) {
-            findUser.setAuthState(true);
-        }
-    }
-
-    public Email updateAuthState(String email) {
-        Email findEmail = emailRepository.findByEmail(email);
-
-        if(findEmail != null) {
-            LocalDateTime currentTime = LocalDateTime.now();
-
-            if(currentTime.compareTo(findEmail.getGenerateTime().plusMinutes(3)) <= 0) {
-                changeAuthState(email);
-            }
-        }
-
-        return findEmail;
-    }
 }

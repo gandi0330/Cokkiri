@@ -1,6 +1,8 @@
 package corinee.cokkiri.api.controller;
 
+import corinee.cokkiri.api.service.EmailService;
 import corinee.cokkiri.common.BaseResponse;
+import corinee.cokkiri.db.domain.Email;
 import corinee.cokkiri.db.domain.User;
 import corinee.cokkiri.api.request.UpdateNicknameRequest;
 import corinee.cokkiri.api.request.UpdatePasswordRequest;
@@ -30,13 +32,12 @@ public class UserController {
 
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
-
+    private final EmailService emailService;
 
     @ApiOperation(value = "로그인", notes = "이메일과 비밀번호를 통해 로그인")
     @PostMapping("/user")
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
-            @ApiResponse(code=401, message = "인증되지 않은 이메일입니다"),
             @ApiResponse(code=403, message = "비밀번호가 일치하지 않습니다"),
             @ApiResponse(code=404, message = "유저가 존재하지 않습니다"),
             @ApiResponse(code=500, message = "토큰 넣는 도중 오류 발생"),
@@ -51,8 +52,6 @@ public class UserController {
             return ResponseEntity.status(404).body(BaseResponse.of(404,"유저가 존재하지 않습니다"));
         else if (!password.equals(user.getPassword()))
             return ResponseEntity.status(403).body(BaseResponse.of(403,"비밀번호가 일치하지 않습니다"));
-        else if (!user.isAuthState())
-            return ResponseEntity.status(401).body(BaseResponse.of(401,"인증되지 않은 이메일입니다"));
 
         String accessToken = jwtTokenUtil.createAccessToken("email",user.getEmail());
         String refreshToken = jwtTokenUtil.createRefreshToken("email",user.getEmail());
@@ -165,9 +164,15 @@ public class UserController {
     @PostMapping("/user/new")
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
+            @ApiResponse(code=401, message = "인증번호 불일치"),
             @ApiResponse(code=409, message = "이미 존재하는 이메일"),
     })
     public ResponseEntity<? extends BaseResponse> addUser(@RequestBody AddUserRequest request) {
+        Email findEmail = emailService.findByEmail(request.getEmail());
+
+        if(!findEmail.getAuthToken().equals(request.getAuthToken())){
+            return ResponseEntity.status(401).body(BaseResponse.of(401, "인증번호가 일치하지 않습니다"));
+        }
         User user = userService.findByEmail(request.getEmail());
 
         if(user != null) {
