@@ -25,8 +25,10 @@ const Participants = ({ publisher, subscribers, session }) => {
   return (
     <div className={styles.wrapper}>
       <h3>참가자</h3>
-      {publisher && <ParticipantListItem session={session} publisher={publisher} />}
-      {subscribers.length > 0 && <ParticipantList session={session} subscribers={subscribers} />}
+      <ParticipantListItem session={session} publisher={publisher} />
+      {subscribers.length > 0 && (
+        <ParticipantList session={session} subscribers={subscribers} />
+      )}
     </div>
   );
 };

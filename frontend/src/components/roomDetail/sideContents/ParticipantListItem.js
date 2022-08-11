@@ -6,7 +6,7 @@ import { BiBell } from 'react-icons/bi';
 
 import styles from './ParticipantListItem.module.css';
 
-const ParticipantListItem = ({ publisher, subscriber }) => {
+const ParticipantListItem = ({ publisher, subscriber, session }) => {
   const onClickBell = (target) => {
     session.signal({
       to: [target],
