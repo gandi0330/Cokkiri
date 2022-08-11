@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 // import { Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -8,14 +8,18 @@ const QuestionListItem = ({
   questionId, title, writer, content, createdAt, setQuestionId, setQuestionRoute,
 }) => {
   // const { roomId } = useParams();
-
-  useEffect(() => {
+  // console.log('questionID ========', questionId);
+  // useEffect(() => {
+  //   setQuestionId(questionId);
+  // }, []);
+  const clickHanlder = () => {
+    setQuestionRoute('detail');
     setQuestionId(questionId);
-  }, [questionId]);
+  };
 
   return (
     // <div to={`/room/${roomId}/question/${questionId}`} className={classes.questions__item}>
-    <div onClick={() => setQuestionRoute('detail')} className={classes.questions__item}>
+    <div onClick={clickHanlder} className={classes.questions__item}>
       <h4>{title}</h4>
       <p>{content.length < 50 ? content : `${content.slice(0, 50)}...`}</p>
       <div className={classes.questions__extra}>
