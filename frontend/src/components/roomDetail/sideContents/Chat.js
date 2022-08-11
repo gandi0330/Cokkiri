@@ -1,25 +1,31 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 // import PropTypes from 'prop-types';
+import { updateChats } from '../../../store/roomSlice';
 
 import styles from './Chat.module.css';
 import ChatContent from './ChatContent';
 import ChatForm from './ChatForm';
 
 const Chat = ({ session }) => {
-  const [chats, setChats] = useState([]);
+  const dispatch = useDispatch();
+  const { chats } = useSelector((state) => state.room);
   useEffect(() => {
-    session.on('signal', (event) => {
-      setChats((prev) => [...prev, {
-        from: event.from.connectionId,
+    session.on('signal:chat', (event) => {
+      dispatch(updateChats({
+        from: event.from.data.split('"')[3],
         content: event.data,
         createdAt: `${new Date(event.from.creationTime).toLocaleTimeString('ko-KR', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true,
         })}`,
-      }]);
+      }));
     });
+    return () => {
+      session.off('signal:chat', () => {});
+    };
   });
 
   return (
@@ -31,7 +37,7 @@ const Chat = ({ session }) => {
       <div>
         {session.connection && session.connection.connectionId
         && chats.length > 0 && chats.map((chat, idx) => {
-          if (chat.from === session.connection.connectionId) {
+          if (chat.from === session.connection.data.split('"')[3]) {
             return (
               <div key={`${idx * 1}`} className={styles.me}>
                 <ChatContent chat={chat} />

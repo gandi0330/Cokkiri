@@ -20,7 +20,7 @@ const ChatForm = ({ session }) => {
     try {
       // const controller = new AbortController();
       // const { signal } = controller;
-      await session.signal({ data: myMsg });
+      await session.signal({ data: myMsg, type: 'chat' });
       // console.log('Msg successfully sent');
       setMyMsg('');
       if (input && input.current) {
