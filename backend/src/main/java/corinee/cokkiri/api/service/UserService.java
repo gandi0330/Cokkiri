@@ -17,59 +17,49 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User findByEmail(String email) {
-        Optional<User> optFindUser = userRepository.findByEmail(email);
-        User findUser = null;
-        if(optFindUser.isPresent()) {
-            findUser = optFindUser.get();
-        }
+        User findUser = userRepository.findByEmail(email);
 
         return findUser;
     }
 
     public User setRefreshToken(String email, String refreshToken) {
-        Optional<User> optFindUser = userRepository.findByEmail(email);
-        User user = null;
-        if (optFindUser.isPresent()) {
-            user = optFindUser.get();
-            user.setRefreshToken(refreshToken);
+        User findUser = userRepository.findByEmail(email);
+
+        if (findUser != null) {
+            findUser.setRefreshToken(refreshToken);
         }
 
-        return user;
+        return findUser;
     }
 
     public User delRefreshToken(String email){
-        Optional<User> optFindUser = userRepository.findByEmail(email);
-        User user = null;
-        if(optFindUser.isPresent()){
-            user = optFindUser.get();
-            user.setRefreshToken("");
+        User findUser = userRepository.findByEmail(email);
+
+        if(findUser != null){
+            findUser.setRefreshToken("");
         }
 
-        return user;
+        return findUser;
     }
 
     public User updateNickname(String email, String nickname) {
-        Optional<User> optUser = userRepository.findByEmail(email);
-        User user = null;
+        User findUser = userRepository.findByEmail(email);
 
-        if(optUser.isPresent()) {
-            user = optUser.get();
-            user.setNickname(nickname);
+        if(findUser != null) {
+            findUser.setNickname(nickname);
         }
 
-        return user;
+        return findUser;
     }
 
     public User updatePassword(String email, String password) {
-        Optional<User> optUser = userRepository.findByEmail(email);
-        User user = null;
+        User findUser = userRepository.findByEmail(email);
 
-        if(optUser.isPresent()) {
-            user = optUser.get();
-            user.setPassword(password);
+        if(findUser != null) {
+            findUser.setPassword(password);
         }
 
-        return user;
+        return findUser;
     }
 
     public void addUser(AddUserRequest request) {
@@ -83,10 +73,9 @@ public class UserService {
     }
 
     public void delUser(String email) {
-        Optional<User> findUser = userRepository.findByEmail(email);
-        if (findUser.isPresent()) {
-            User user = findUser.get();
-            userRepository.del(user);
+        User findUser = userRepository.findByEmail(email);
+        if (findUser != null) {
+            userRepository.del(findUser);
         }
     }
 }

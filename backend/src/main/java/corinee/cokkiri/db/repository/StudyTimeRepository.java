@@ -15,29 +15,25 @@ public class StudyTimeRepository {
 
     private final EntityManager em;
 
-    public Optional<List<StudyTime>> findByEmail(String email, LocalDateTime startDatetime, LocalDateTime endDatetime) {
-        return Optional.ofNullable(em.createQuery(
-                " SELECT s FROM StudyTime s " +
-                        " WHERE s.user.email = :email " +
-                        " and s.endDatetime is not null " +
-                        " and s.startDatetime > :startDatetime " +
-                        " and s.endDatetime < :endDatetime ", StudyTime.class)
-                        .setParameter("email", email)
-                        .setParameter("startDatetime", startDatetime)
-                        .setParameter("endDatetime", endDatetime)
-                        .getResultList());
+    public List<StudyTime> findListByEmail(String email, LocalDateTime startDatetime, LocalDateTime endDatetime) {
+        return em.createQuery(" SELECT s FROM StudyTime s WHERE s.user.email = :email "
+                        + "and s.endDatetime is not null "
+                        + "and s.startDatetime > :startDatetime "
+                        + "and s.endDatetime < :endDatetime ", StudyTime.class)
+                .setParameter("email", email)
+                .setParameter("startDatetime", startDatetime)
+                .setParameter("endDatetime", endDatetime)
+                .getResultList();
     }
 
-    public Optional<StudyTime> findById(Long id) {
-        StudyTime studyTime = em.find(StudyTime.class, id);
-
-        return Optional.ofNullable(studyTime);
+    public StudyTime findById(Long id) {
+        return em.find(StudyTime.class, id);
     }
 
     public Long add(StudyTime studyTime) {
         em.persist(studyTime);
-        StudyTime findStudyTime = em.find(StudyTime.class, studyTime.getId());
-        return findStudyTime.getId();
+
+        return studyTime.getId();
     }
 
 }

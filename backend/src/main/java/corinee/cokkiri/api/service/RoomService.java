@@ -31,25 +31,22 @@ public class RoomService {
     }
 
     public Long addRoom(CreateRoomRequest request) {
-        Optional<User> optUser = userRepository.findByEmail(request.getEmail());
-        User user = null;
+        User findUser = userRepository.findByEmail(request.getEmail());
 
-        if (optUser.isPresent())
-            user = optUser.get();
-        else
+        if (findUser == null)
             return null;
 
         if (duplicatedTitle(request.getTitle()))
             return -1L;
 
-        Room room = new Room(user, request.getTitle(), request.getUserLimit());
+        Room room = new Room(findUser, request.getTitle(), request.getUserLimit());
         room.setUserCount(0L);
         Long roomId = roomRepository.add(room);
         return roomId;
     }
 
     public boolean duplicatedTitle(String title) {
-        List<Room> result = roomRepository.findByTitle(title);
+        List<Room> result = roomRepository.findListByTitle(title);
         return result.size() > 0;
     }
 
@@ -59,11 +56,12 @@ public class RoomService {
 
     public Long enterRoom(EnterRoomRequest request) {
         StudyTime studyTime = new StudyTime();
-        Optional<User> optUser = userRepository.findByEmail(request.getEmail());
-        if (optUser.isPresent())
-            studyTime.setUser(optUser.get());
-        else
+        User findUser = userRepository.findByEmail(request.getEmail());
+        if (findUser == null)
             return -1L;
+        else
+            studyTime.setUser(findUser);
+
         Room room = roomRepository.findById(request.getRoomId());
         if (room == null) {
             return -2L;
@@ -71,7 +69,6 @@ public class RoomService {
         if (room.getUserCount() >= room.getUserLimit()) {
             return -3L;
         }
-
 
         studyTime.setStartDatetime(LocalDateTime.now());
         Long id = studyTimeRepository.add(studyTime);
@@ -81,11 +78,11 @@ public class RoomService {
     }
 
     public boolean exitRoom(ExitRoomRequest request) {
-        Optional<StudyTime> optStudyTime = studyTimeRepository.findById(request.getIndex());
-        if (optStudyTime.isPresent()) {
-            StudyTime studyTime = optStudyTime.get();
-            studyTime.setEndDatetime(LocalDateTime.now());
-        } else {
+        StudyTime findStudyTime = studyTimeRepository.findById(request.getIndex());
+        if (findStudyTime != null) {
+            findStudyTime.setEndDatetime(LocalDateTime.now());
+        }
+        else {
             return false;
         }
 
@@ -97,6 +94,5 @@ public class RoomService {
 
         return true;
     }
-
 }
 

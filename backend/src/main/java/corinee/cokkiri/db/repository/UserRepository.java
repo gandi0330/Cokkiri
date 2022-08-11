@@ -13,9 +13,10 @@ public class UserRepository {
 
     private final EntityManager em;
 
-    public Optional<User> findByEmail(String email) {
+    public User findByEmail(String email) {
         User user = em.find(User.class, email);
-        return Optional.ofNullable(user);
+
+        return user;
     }
 
     public void add(User info) {
