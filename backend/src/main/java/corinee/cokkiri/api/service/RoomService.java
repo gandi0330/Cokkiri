@@ -72,13 +72,14 @@ public class RoomService {
 
         studyTime.setStartDatetime(LocalDateTime.now());
         Long id = studyTimeRepository.add(studyTime);
+        room.setUserCount(room.getUserCount()+1);
 
         return id;
 
     }
 
     public boolean exitRoom(ExitRoomRequest request) {
-        StudyTime findStudyTime = studyTimeRepository.findById(request.getIndex());
+        StudyTime findStudyTime = studyTimeRepository.findById(request.getId());
         if (findStudyTime != null) {
             findStudyTime.setEndDatetime(LocalDateTime.now());
         }
@@ -91,6 +92,8 @@ public class RoomService {
         if(room == null) {
             return false;
         }
+
+        room.setUserCount(room.getUserCount()-1);
 
         return true;
     }

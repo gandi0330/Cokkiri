@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ExitRoomRequest {
-    private Long index;
+    private Long id;
     private Long roomId;
     private String email;
 }
