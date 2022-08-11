@@ -80,7 +80,7 @@ public class UserController {
             @ApiResponse(code=500, message = "리프레쉬 토큰 삭제중 오류 발생"),
     })
     public ResponseEntity<BaseResponse> logoutUser(@PathVariable("email") String email){
-        User user = userService.removeRefreshToken(email);
+        User user = userService.delRefreshToken(email);
 
         if(user == null)
             return ResponseEntity.status(404).body(BaseResponse.of(404,"유저가 존재하지 않습니다"));
@@ -186,7 +186,7 @@ public class UserController {
             @ApiResponse(code=500, message = "회원탈퇴가 정상적으로 이루어지지 않았습니다"),
     })
     public ResponseEntity<? extends BaseResponse> delUser(@PathVariable("email") String email) {
-        userService.deleteUser(email);
+        userService.delUser(email);
         User user = userService.findByEmail(email);
         if (user != null)
             return ResponseEntity.status(500).body(BaseResponse.of(

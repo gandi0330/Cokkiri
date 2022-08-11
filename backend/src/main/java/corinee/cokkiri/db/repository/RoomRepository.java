@@ -18,7 +18,7 @@ public class RoomRepository {
         return room;
     }
 
-    public Long createRoom(Room room) {
+    public Long add(Room room) {
         em.persist(room);
         Room findRoom = em.find(Room.class, room.getRoomId());
 
@@ -31,7 +31,7 @@ public class RoomRepository {
                 .getResultList();
     }
 
-    public List<Room> findRoomList(int offset, int limit, String keyword) {
+    public List<Room> findListByKeyword(int offset, int limit, String keyword) {
         if(keyword == null) return em.createQuery("select r from Room r", Room.class)
                 .setFirstResult(offset)
                 .setMaxResults(limit)

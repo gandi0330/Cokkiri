@@ -20,11 +20,11 @@ public class EmailRepository {
         return Optional.ofNullable(emailObj);
     }
 
-    public void save(Email email) {
+    public void add(Email email) {
         em.persist(email);
     }
 
-    public void delete(Email email) {
+    public void del(Email email) {
         em.remove(email);
     }
 }

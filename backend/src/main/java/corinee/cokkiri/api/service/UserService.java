@@ -37,7 +37,7 @@ public class UserService {
         return user;
     }
 
-    public User removeRefreshToken(String email){
+    public User delRefreshToken(String email){
         Optional<User> optFindUser = userRepository.findByEmail(email);
         User user = null;
         if(optFindUser.isPresent()){
@@ -79,14 +79,14 @@ public class UserService {
         user.setNickname(request.getNickname());
         user.setAuthState(false);
 
-        userRepository.save(user);
+        userRepository.add(user);
     }
 
-    public void deleteUser(String email) {
+    public void delUser(String email) {
         Optional<User> findUser = userRepository.findByEmail(email);
         if (findUser.isPresent()) {
             User user = findUser.get();
-            userRepository.deleteUser(user);
+            userRepository.del(user);
         }
     }
 }

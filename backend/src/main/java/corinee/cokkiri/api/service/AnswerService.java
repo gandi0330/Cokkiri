@@ -23,24 +23,24 @@ public class AnswerService {
     private final UserRepository userRepository;
 
 
-    public List<Answer> getAnswerList(Long questionId){
-        return answerRepository.getAnswerList(questionId);
+    public List<Answer> findListById(Long questionId){
+        return answerRepository.findListById(questionId);
     }
     public Long addAnswer(AddAnswerRequest request){
         Answer answer = new Answer();
         answer.setContent(request.getContent());
-        answer.setQuestion(questionRepository.getQuestion(request.getQuestionId()));
+        answer.setQuestion(questionRepository.findById(request.getQuestionId()));
         answer.setRoom(roomRepository.findById(request.getRoomId()));
         answer.setUser(userRepository.findByEmail(request.getAnswerWriterEmail()).get());
         answer.setCode(request.getCode());
         answer.setLanguage(request.getLanguage());
-        return answerRepository.save(answer);
+        return answerRepository.add(answer);
     }
 
-    public Answer getAnswer(Long answerId){return answerRepository.getAnswer(answerId);}
+    public Answer findById(Long answerId){return answerRepository.findById(answerId);}
 
     public Answer updateAnswer(UpdateAnswerRequest request){
-        Answer answer = answerRepository.getAnswer(request.getAnswerId());
+        Answer answer = answerRepository.findById(request.getAnswerId());
 
         if(answer == null) return null;
 
@@ -51,9 +51,9 @@ public class AnswerService {
         return answer;
     }
 
-    public void removeAnswer(Long answerId){
-        Answer answer = answerRepository.getAnswer(answerId);
-        answerRepository.removeAnswer(answer);
+    public void delAnswer(Long answerId){
+        Answer answer = answerRepository.findById(answerId);
+        answerRepository.del(answer);
     }
 
 }

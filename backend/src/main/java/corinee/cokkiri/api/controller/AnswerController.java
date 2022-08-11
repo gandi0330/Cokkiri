@@ -37,12 +37,12 @@ public class AnswerController {
             @ApiResponse(code=500, message="서버 오류")
     })
     public ResponseEntity<? extends BaseResponse> getAnswerList(@PathVariable("question_id") Long questionId){
-        Question question = questionService.getQuestion(questionId);
+        Question question = questionService.findById(questionId);
 
         if(question == null)
             return ResponseEntity.status(404).body(BaseResponse.of(404,"질문이 존재하지 않습니다"));
 
-        List<Answer> answerList = answerService.getAnswerList(questionId);
+        List<Answer> answerList = answerService.findListById(questionId);
 
         return ResponseEntity.status(200).body(GetAnswerListResponse.of(200,"success", answerList));
     }
@@ -55,14 +55,14 @@ public class AnswerController {
             @ApiResponse(code=500, message="서버 오류")
     })
     public ResponseEntity<BaseResponse> addAnswer(@RequestBody AddAnswerRequest request){
-        Question question = questionService.getQuestion(request.getQuestionId());
+        Question question = questionService.findById(request.getQuestionId());
 
         if(question == null)
             return ResponseEntity.status(404).body(BaseResponse.of(404,"질문이 존재하지 않습니다"));
 
         Long answerId = answerService.addAnswer(request);
 
-        if(answerService.getAnswer(answerId) == null)
+        if(answerService.findById(answerId) == null)
             return ResponseEntity.status(500).body(BaseResponse.of(500, "답변생성 도중 오류가 발생했습니다"));
 
         return ResponseEntity.status(200).body(BaseResponse.of(200,"success"));
@@ -77,7 +77,7 @@ public class AnswerController {
             @ApiResponse(code=500, message="서버 오류")
     })
     public ResponseEntity<? extends BaseResponse> getAnswer(@PathVariable("answer_id") Long answerId){
-        Answer answer = answerService.getAnswer(answerId);
+        Answer answer = answerService.findById(answerId);
 
         if(answer == null)
             return ResponseEntity.status(404).body(BaseResponse.of(404, "답변이 존재하지 않습니다"));
@@ -93,7 +93,7 @@ public class AnswerController {
             @ApiResponse(code=500, message="서버 오류")
     })
     public ResponseEntity<BaseResponse> updateAnswer(@RequestBody UpdateAnswerRequest request){
-        Answer answer = answerService.getAnswer(request.getAnswerId());
+        Answer answer = answerService.findById(request.getAnswerId());
 
         if(answer == null)
             return ResponseEntity.status(404).body(BaseResponse.of(404,"질문이 존재하지 않습니다"));
@@ -119,7 +119,7 @@ public class AnswerController {
     })
     public ResponseEntity<BaseResponse> delAnswer(@PathVariable("answer_id") Long answerId, @PathVariable("email") String email){
 
-        Answer answer = answerService.getAnswer(answerId);
+        Answer answer = answerService.findById(answerId);
 
         if(answer == null)
             return ResponseEntity.status(404).body(BaseResponse.of(404,"존재하지 않는 답변입니다"));
@@ -127,9 +127,9 @@ public class AnswerController {
         if(!email.equals(answer.getUser().getEmail()))
             return ResponseEntity.status(403).body(BaseResponse.of(403,"삭제에 대한 권한이 없습니다"));
 
-        answerService.removeAnswer(answerId);
+        answerService.delAnswer(answerId);
 
-        Answer removedAnswer = answerService.getAnswer(answerId);
+        Answer removedAnswer = answerService.findById(answerId);
         if(removedAnswer != null)
             return ResponseEntity.status(500).body(BaseResponse.of(500, "답변이 삭제되지 않았습니다"));
 

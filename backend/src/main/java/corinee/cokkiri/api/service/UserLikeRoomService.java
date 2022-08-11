@@ -39,16 +39,16 @@ public class UserLikeRoomService {
         userLikeRoom.setUser(user);
         userLikeRoom.setRoom(room);
 
-        return userLikeRoomRepository.save(userLikeRoom);
+        return userLikeRoomRepository.add(userLikeRoom);
     }
 
     public UserLikeRoom findById(Long id) {
         return userLikeRoomRepository.findById(id);
     }
 
-    public void removeUserLikeRoom(Long id) {
+    public void delUserLikeRoom(Long id) {
         UserLikeRoom userLikeRoom = userLikeRoomRepository.findById(id);
 
-        userLikeRoomRepository.removeUserLikeRoom(userLikeRoom);
+        userLikeRoomRepository.del(userLikeRoom);
     }
 }
