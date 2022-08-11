@@ -30,7 +30,7 @@ public class RoomService {
         return room;
     }
 
-    public Long createRoom(CreateRoomRequest request) {
+    public Long addRoom(CreateRoomRequest request) {
         Optional<User> optUser = userRepository.findByEmail(request.getEmail());
         User user = null;
 
@@ -44,7 +44,7 @@ public class RoomService {
 
         Room room = new Room(user, request.getTitle(), request.getUserLimit());
         room.setUserCount(0L);
-        Long roomId = roomRepository.createRoom(room);
+        Long roomId = roomRepository.add(room);
         return roomId;
     }
 
@@ -53,8 +53,8 @@ public class RoomService {
         return result.size() > 0;
     }
 
-    public List<Room> findRoomList(int offset, int limit, String keyword) {
-        return roomRepository.findRoomList(offset, limit, keyword);
+    public List<Room> findListByKeyword(int offset, int limit, String keyword) {
+        return roomRepository.findListByKeyword(offset, limit, keyword);
     }
 
     public Long enterRoom(EnterRoomRequest request) {
@@ -74,7 +74,7 @@ public class RoomService {
 
 
         studyTime.setStartDatetime(LocalDateTime.now());
-        Long id = studyTimeRepository.save(studyTime);
+        Long id = studyTimeRepository.add(studyTime);
 
         return id;
 

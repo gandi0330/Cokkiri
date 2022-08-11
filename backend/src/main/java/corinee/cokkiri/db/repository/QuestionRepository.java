@@ -13,21 +13,21 @@ public class QuestionRepository {
 
     private final EntityManager em;
 
-    public List<Question> getQuestionList(Long roomId){
+    public List<Question> findListById(Long roomId){
         return em.createQuery("select q from Question q where q.room.roomId=:roomId", Question.class)
                 .setParameter("roomId",roomId)
                 .getResultList();
     }
 
-    public Long save(Question question){
+    public Long add(Question question){
         em.persist(question);
 
         return question.getQuestionId();
     }
 
-    public Question getQuestion(Long questionId){
+    public Question findById(Long questionId){
         return em.find(Question.class, questionId);
     }
 
-    public void removeQuestion(Question question){em.remove(question);}
+    public void del(Question question){em.remove(question);}
 }

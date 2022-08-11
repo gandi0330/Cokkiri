@@ -36,7 +36,7 @@ public class RoomController {
             @ApiResponse(code=500, message = "스터디룸 생성에 실패했습니다"),
     })
     public ResponseEntity<? extends BaseResponse> addRoom(@RequestBody CreateRoomRequest request) {
-        Long roomId = roomService.createRoom(request);
+        Long roomId = roomService.addRoom(request);
         if (roomId == null)
             return ResponseEntity.status(500).body(BaseResponse.of(500, "스터디룸 생성에 실패했습니다"));
         if (roomId == -1)
@@ -54,7 +54,7 @@ public class RoomController {
                                                                @RequestParam("limit") int limit,
                                                                @RequestParam(required = false, value = "keyword") String keyword) {
 
-        List<Room> roomList = roomService.findRoomList(offset, limit, keyword);
+        List<Room> roomList = roomService.findListByKeyword(offset, limit, keyword);
         if (roomList == null || roomList.size() == 0)
             return ResponseEntity.status(204).body(BaseResponse.of(204, "스터디룸이 존재하지 않습니다"));
         return ResponseEntity.status(200).body(GetRoomListResponse.of(200, "스터디룸 목록 조회 성공", roomList));

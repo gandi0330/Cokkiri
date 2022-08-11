@@ -19,7 +19,7 @@ public class UserLikeRoomRepository {
                 .getResultList();
     }
 
-    public Long save(UserLikeRoom userLikeRoom) {
+    public Long add(UserLikeRoom userLikeRoom) {
         em.persist(userLikeRoom);
 
         return userLikeRoom.getId();
@@ -29,7 +29,7 @@ public class UserLikeRoomRepository {
         return em.find(UserLikeRoom.class, id);
     }
 
-    public void removeUserLikeRoom(UserLikeRoom userLikeRoom) {
+    public void del(UserLikeRoom userLikeRoom) {
         em.remove(userLikeRoom);
     }
 }

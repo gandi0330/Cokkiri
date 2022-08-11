@@ -49,15 +49,15 @@ public class RecentRoomService {
         recentRoom.setRoom(room);
         recentRoom.setVisitedTime(LocalDateTime.now());
 
-        return recentRoomRepository.save(recentRoom);
+        return recentRoomRepository.add(recentRoom);
     }
 
-    public void removeRecentRoom(RecentRoom recentRoom) {
-        recentRoomRepository.removeRecentRoom(recentRoom);
+    public void delRecentRoom(RecentRoom recentRoom) {
+        recentRoomRepository.del(recentRoom);
     }
 
     public RecentRoom checkRecentRoom(Long recentRoomId) {
-        return recentRoomRepository.getRecentRoom(recentRoomId);
+        return recentRoomRepository.findById(recentRoomId);
     }
 }
 

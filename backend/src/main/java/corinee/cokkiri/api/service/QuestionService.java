@@ -22,8 +22,8 @@ public class QuestionService {
 
     private final UserRepository userRepository;
 
-    public List<Question> getQuestionList(Long roomId){
-        return questionRepository.getQuestionList(roomId);
+    public List<Question> findListById(Long roomId){
+        return questionRepository.findListById(roomId);
     }
 
     public Long addQuestion(AddQuestionRequest request){
@@ -35,21 +35,21 @@ public class QuestionService {
         question.setCode(request.getCode());
         question.setLanguage(request.getLanguage());
 
-        return questionRepository.save(question);
+        return questionRepository.add(question);
     }
 
-    public Question getQuestion(Long questionId){
-        return questionRepository.getQuestion(questionId);
+    public Question findById(Long questionId){
+        return questionRepository.findById(questionId);
     }
 
-    public void removeQuestion(Long questionId){
-        Question question= questionRepository.getQuestion(questionId);
+    public void delQuestion(Long questionId){
+        Question question= questionRepository.findById(questionId);
 
-        questionRepository.removeQuestion(question);
+        questionRepository.del(question);
     }
 
     public Question updateQuestion(UpdateQuestionRequest request){
-        Question question = questionRepository.getQuestion(request.getQuestionId());
+        Question question = questionRepository.findById(request.getQuestionId());
 
         if(question == null) return null;
 

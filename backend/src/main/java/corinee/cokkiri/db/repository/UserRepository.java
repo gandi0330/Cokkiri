@@ -18,11 +18,11 @@ public class UserRepository {
         return Optional.ofNullable(user);
     }
 
-    public void save(User info) {
+    public void add(User info) {
         em.persist(info);
     }
 
-    public void deleteUser(User user) {
+    public void del(User user) {
         em.remove(user);
     }
 }

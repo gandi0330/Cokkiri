@@ -88,7 +88,7 @@ public class UserLikeRoomController {
     })
 
     public ResponseEntity<? extends BaseResponse> delUserLikeRoom(@PathVariable("id") Long id) {
-        userLikeRoomService.removeUserLikeRoom(id);
+        userLikeRoomService.delUserLikeRoom(id);
         UserLikeRoom userLikeRoom = userLikeRoomService.findById(id);
 
         if(userLikeRoom != null) {

@@ -19,7 +19,7 @@ public class RecentRoomRepository {
                 .getResultList();
     }
 
-    public Long save(RecentRoom recentRoom) {
+    public Long add(RecentRoom recentRoom) {
         em.persist(recentRoom);
 
         return recentRoom.getRecentRoomId();
@@ -33,11 +33,11 @@ public class RecentRoomRepository {
         return recentRoom.getVisitedTime();
     }
 
-    public RecentRoom getRecentRoom(Long recentRoomId) {
+    public RecentRoom findById(Long recentRoomId) {
         return em.find(RecentRoom.class, recentRoomId);
     }
 
-    public void removeRecentRoom(RecentRoom recentRoom) {
+    public void del(RecentRoom recentRoom) {
         em.remove(recentRoom);
     }
 }

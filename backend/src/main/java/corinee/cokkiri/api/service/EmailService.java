@@ -40,7 +40,7 @@ public class EmailService {
 
         if(optFindEmail.isPresent()) {
             emailObj = optFindEmail.get();
-            emailRepository.delete(emailObj);
+            emailRepository.del(emailObj);
         }
     }
 
@@ -64,7 +64,7 @@ public class EmailService {
             emailObj.setAuthToken(makeAuthToken());
             emailObj.setGenerateTime(LocalDateTime.now());
 
-            emailRepository.save(emailObj);
+            emailRepository.add(emailObj);
         }
     }
 

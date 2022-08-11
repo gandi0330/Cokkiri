@@ -63,7 +63,7 @@ public class RecentRoomController {
             List<RecentRoom> recentRoomList = recentRoomService.findListByEmail(request.getEmail());
 
             if(recentRoomList.size() > 3) {
-                recentRoomService.removeRecentRoom(recentRoomList.get(0));
+                recentRoomService.delRecentRoom(recentRoomList.get(0));
             }
         }
 
