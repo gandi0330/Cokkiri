@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import { OpenVidu } from 'openvidu-browser';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import UserVideoComponent from './UserVideoComponent';
 import VideoController from './VideoController';
 import styles from './VideoSection.module.css';
-import { addPublisher, addSubscribers, removeSubscriber } from '../../store/roomSlice';
+import {
+  addPublisher, addSubscribers, removeSubscriber, addNickname,
+} from '../../store/roomSlice';
 
 const OPENVIDU_SERVER_URL = 'https://i7c107.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'COKKIRI';
@@ -18,12 +21,13 @@ const VideoSection = ({
   roomId, getSession, getPublisher, getSubscribers,
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [session, setSession] = useState(null);
   const [mainStreamManager, setMainStreamManager] = useState(null);
   const [publisher, setPublisher] = useState(null);
   const [subscribers, setSubscribers] = useState([]);
   const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
-  const { email } = useSelector((state) => state.auth);
+  const { email, nickname } = useSelector((state) => state.auth);
 
   const reqCameraAndAudio = async () => {
     try {
@@ -46,6 +50,7 @@ const VideoSection = ({
 
   const leaveSession = () => {
     if (session) session.disconnect();
+    navigate('/rooms', { place: true });
     OV = null;
     setSession(null); 
     setSubscribers([]);
@@ -188,6 +193,10 @@ const VideoSection = ({
       session.connect(token, { clientData: email })
         .then(() => {
           connectCamera();
+          const { connectionId } = session.connection;
+          const obj = {};
+          obj[connectionId] = nickname;
+          dispatch(addNickname(obj));
         })
         .catch((error) => {
           console.log(

@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useSelector } from 'react-redux';
 import { AiOutlineAudioMuted, AiOutlineAudio } from 'react-icons/ai';
 // import { BiBell } from 'react-icons/bi';
 import { FiVideo, FiVideoOff } from 'react-icons/fi';
@@ -7,6 +8,7 @@ import { BiBell } from 'react-icons/bi';
 import styles from './ParticipantListItem.module.css';
 
 const ParticipantListItem = ({ publisher, subscriber }) => {
+  const { nicknameObj } = useSelector((state) => state.room);  
   const onClickBell = (target) => {
     session.signal({
       to: [target],
@@ -21,7 +23,9 @@ const ParticipantListItem = ({ publisher, subscriber }) => {
   if (publisher?.session?.connection) {
     return (
       <div className={styles.wrapper}>
-        <div className={styles.nickname}>{publisher.session.connection.connectionId}</div>
+        <div className={styles.nickname}>
+          {nicknameObj[publisher.session.connection.connectionId]}
+        </div>
         <div className={styles.buttons}>
           {publisher.session.connection.stream && publisher.session.connection.stream.audioActive
             ? (
@@ -43,7 +47,11 @@ const ParticipantListItem = ({ publisher, subscriber }) => {
     return (
       <div className={styles.wrapper}>
         {subscriber.stream.connection
-        && <div className={styles.nickname}>{subscriber.stream.connection.connectionId}</div>}
+        && (
+          <div className={styles.nickname}>
+            {nicknameObj[subscriber.stream.connection.connectionId]}
+          </div>
+        )}
         <div className={styles.buttons}>
           {subscriber.stream.audioActive
             ? (
