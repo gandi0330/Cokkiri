@@ -1,20 +1,27 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import RightSideBar from '../components/roomDetail/RightSideBar';
 import RightSidePanel from '../components/roomDetail/RightSidePanel';
 import VideoSection from '../components/roomDetail/VideoSection';
 import classes from './RoomDetailPage.module.css';
-import { getRoom, updateChats } from '../store/roomSlice';
+import { entranceRoom, getRoom, updateChats } from '../store/roomSlice';
 
 const RoomDetailPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { roomId } = useParams();
+  const { email, isLoggedIn } = useSelector((state) => state.auth);
   const [type, setType] = useState('off');
   const [session, setSession] = useState(null);
   const [publisher, setPublisher] = useState({});
   const [subscribers, setSubscribers] = useState([]);
+
+  if (!isLoggedIn) {
+    navigate('/login', { replace: true });
+    return;
+  }
 
   useEffect(() => {
     if (!session) {
@@ -39,6 +46,10 @@ const RoomDetailPage = () => {
   useEffect(() => {
     if (roomId) {
       dispatch(getRoom({ roomId }));
+    }
+
+    if (roomId && email) {
+      dispatch(entranceRoom({ roomId, email }));
     }
   });
 

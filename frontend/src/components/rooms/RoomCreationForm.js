@@ -14,7 +14,7 @@ import { makeRoom } from '../../store/roomSlice';
 const RoomCreationForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { email } = useSelector((state) => state.auth);
+  const { email, isLoggedIn } = useSelector((state) => state.auth);
 
   const titleValidationObj = [
     {
@@ -97,6 +97,10 @@ const RoomCreationForm = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
     // console.log(isAlarm, isTimer, isRoomPublic, selected);
+    if (!isLoggedIn) {
+      navigate('/login', { replace: true });
+      return;
+    }
 
     if (!titleIsValid || !descriptionIsValid || !pwdIsValid) {
       return;
