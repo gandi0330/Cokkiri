@@ -6,6 +6,7 @@ const initialState = {
   room: {},
   publisher: {},
   subscribers: [],
+  chats: [],
   loading: false,
   success: false,
   error: false,
@@ -64,6 +65,9 @@ const roomSlice = createSlice({
     removeSubscriber(state, { payload }) {
       state.subscribers = state.subscribers.filter((sub) => sub !== payload);
     },
+    updateChats(state, { payload }) {
+      state.chats.push(payload);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(makeRoom.pending, (state) => {
@@ -116,7 +120,7 @@ const roomSlice = createSlice({
 });
 
 export const {
-  addPublisher, addSubscribers, removeSubscriber, addNickname,
+  addPublisher, addSubscribers, removeSubscriber, addNickname, updateChats,
 } = roomSlice.actions;
 
 export default roomSlice.reducer;
