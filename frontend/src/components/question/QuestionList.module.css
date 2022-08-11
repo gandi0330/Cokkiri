@@ -17,6 +17,7 @@
 
 .questions__item {
   padding: 0 .5rem;
+  cursor: pointer;
 }
 
 .questions__item:first-child {
