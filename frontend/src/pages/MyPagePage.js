@@ -33,7 +33,7 @@ const MyPagePage = () => {
     inputBlurHandler: nicknameBlurHandler,
   } = useValidation([{ 
     fn: validateNickname, 
-    msg: '닉네임은 6글자 이상 영어 대소문자, 숫자, _만 가능합니다.',
+    msg: '닉네임은 5글자 이상 영어 대소문자, 숫자, _만 가능합니다.',
   }]);
 
   const {

@@ -10,10 +10,10 @@ import MyPagePage from './pages/MyPagePage';
 import MyRecordPage from './pages/MyRecordPage';
 import RoomsPage from './pages/RoomsPage';
 import RoomDetailPage from './pages/RoomDetailPage';
-import QuestionPage from './pages/questions/QuestionPage';
-import QuestionNewPage from './pages/questions/QuestionNewPage';
-import QuestionUpdatePage from './pages/questions/QuestionUpdatePage';
-import QuestionDetailPage from './pages/questions/QuestionDetailPage';
+// import QuestionPage from './pages/questions/QuestionPage';
+// import QuestionNewPage from './pages/questions/QuestionNewPage';
+// import QuestionUpdatePage from './pages/questions/QuestionUpdatePage';
+// import QuestionDetailPage from './pages/questions/QuestionDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
 import Loader from './components/layout/Loader';
 
@@ -42,7 +42,7 @@ const App = () => {
           <Route path="/my-page/:email" element={<MyPagePage />} />
           <Route path="/login" element={<AccountPage header="login" />} />
           <Route path="/logout" element={<AccountPage header="logout" />} />
-          <Route path="/signupEmail" element={<AccountPage header="signupEmail" />} />
+          {/* <Route path="/signupEmail" element={<AccountPage header="signupEmail" />} /> */}
           <Route path="/signupCertification" element={<AccountPage header="signupCertification" />} />
           <Route path="/signupDetail" element={<AccountPage header="signupDetail" />} />
           <Route path="*" element={<NotFoundPage />} />
@@ -50,10 +50,11 @@ const App = () => {
         {/* TODO 나중에 room 기능 완성되면 navigation guard 붙이기 */}
         {/* <Route path="/room/:roomName" element={<RoomDetailPage />} /> */}
         <Route path="/room/:roomId" element={<RoomDetailPage />} />
-        <Route path="/room/:roomId/questions" element={<QuestionPage />} />
+        {/* <Route path="/room/:roomId/questions" element={<QuestionPage />} />
         <Route path="/room/:roomId/questions/new" element={<QuestionNewPage />} />
         <Route path="/room/:roomId/question/:questionId" element={<QuestionDetailPage />} />
-        <Route path="/room/:roomId/question/:questionId/update" element={<QuestionUpdatePage />} />
+        <Route path="/room/:roomId/question/:questionId/update" 
+          element={<QuestionUpdatePage />} /> */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
