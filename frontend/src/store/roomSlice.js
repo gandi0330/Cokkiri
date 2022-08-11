@@ -4,7 +4,7 @@ import axios from '../api/axios';
 
 const initialState = {
   room: {},
-
+  id: null,
   chats: [],
   loading: false,
   success: false,
@@ -29,7 +29,7 @@ export const getRoom = createAsyncThunk(
   async ({ roomId }, thunkAPI) => {
     try {
       console.log(roomId);
-      const res = await axios.get(`/detail/${roomId}`);
+      const res = await axios.get(`/room/detail/${roomId}`);
       const { data } = res;
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
@@ -43,6 +43,19 @@ export const entranceRoom = createAsyncThunk(
   async ({ email, roomId }, thunkAPI) => {
     try {
       const res = await axios.post('/room/entrance', { email, roomId });
+      const { data } = res;
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const exitRoom = createAsyncThunk(
+  'room/exitRoom',
+  async ({ email, roomId, id }, thunkAPI) => {
+    try {
+      const res = await axios.post('/room/exit', { email, roomId, id });
       const { data } = res;
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
@@ -96,12 +109,28 @@ const roomSlice = createSlice({
       state.success = false;
       state.error = false;
     });
-    builder.addCase(entranceRoom.fulfilled, (state) => {
+    builder.addCase(entranceRoom.fulfilled, (state, { payload }) => {
+      state.id = payload.id;
       state.loading = false;
       state.success = true;
       state.error = false;
     });
     builder.addCase(entranceRoom.rejected, (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
+    });
+    builder.addCase(exitRoom.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = false;
+    });
+    builder.addCase(exitRoom.fulfilled, (state) => {
+      state.loading = false;
+      state.success = true;
+      state.error = false;
+    });
+    builder.addCase(exitRoom.rejected, (state) => {
       state.loading = false;
       state.success = false;
       state.error = true;

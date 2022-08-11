@@ -33,7 +33,7 @@ const SearchBar = (
     onSearchHandler(enteredInput);
   }, [enteredInput, rooms]);
 
-  const onClick = () => {
+  const handleMakeRoomBtn = () => {
     if (!isLoggedIn) {
       navigate('/login', { replace: true });
       return;
@@ -50,7 +50,7 @@ const SearchBar = (
         value={enteredInput}
         onChange={searchHandler}
       />
-      <button type="button" onClick={onClick}>
+      <button type="button" onClick={handleMakeRoomBtn}>
         방 만들기
       </button>
       <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
