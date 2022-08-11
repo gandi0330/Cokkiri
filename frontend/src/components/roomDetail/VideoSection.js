@@ -246,10 +246,11 @@ const VideoSection = ({
           //   // className="stream-container"
           //   onClick={() => handleMainVideoStream(publisher)}
           // >
-          <UserVideoComponent 
-            onClick={() => handleMainVideoStream(publisher)} 
-            streamManager={publisher} 
-          />
+          <div onClick={() => handleMainVideoStream(publisher)}>
+            <UserVideoComponent 
+              streamManager={publisher} 
+            />
+          </div>
           // </div>
         )}
 
@@ -261,7 +262,9 @@ const VideoSection = ({
             //   onClick={() => handleMainVideoStream(sub)}
             // >
             // Remote
-            <UserVideoComponent key={`subscriber ${idx * 1}`} onClick={() => handleMainVideoStream(sub)} streamManager={sub} />
+            <div key={`subscriber ${idx * 1}`} onClick={() => handleMainVideoStream(sub)}>
+              <UserVideoComponent streamManager={sub} />
+            </div>
             // </div>
           ))}
       </div>
