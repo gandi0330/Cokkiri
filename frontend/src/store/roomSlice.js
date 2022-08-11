@@ -4,8 +4,7 @@ import axios from '../api/axios';
 
 const initialState = {
   room: {},
-  publisher: {},
-  subscribers: [],
+
   chats: [],
   loading: false,
   success: false,
@@ -56,15 +55,6 @@ const roomSlice = createSlice({
   name: 'room',
   initialState,
   reducers: {
-    addPublisher(state, { payload }) {
-      state.publisher = payload;
-    },
-    addSubscribers(state, { payload }) {
-      state.subscribers.push(payload);
-    },
-    removeSubscriber(state, { payload }) {
-      state.subscribers = state.subscribers.filter((sub) => sub !== payload);
-    },
     updateChats(state, { payload }) {
       state.chats.push(payload);
     },
@@ -120,7 +110,7 @@ const roomSlice = createSlice({
 });
 
 export const {
-  addPublisher, addSubscribers, removeSubscriber, addNickname, updateChats,
+  updateChats,
 } = roomSlice.actions;
 
 export default roomSlice.reducer;

@@ -1,32 +1,13 @@
 /* eslint-disable react/prop-types */
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 // import PropTypes from 'prop-types';
-import { updateChats } from '../../../store/roomSlice';
+import { useSelector } from 'react-redux';
 
 import styles from './Chat.module.css';
 import ChatContent from './ChatContent';
 import ChatForm from './ChatForm';
 
 const Chat = ({ session }) => {
-  const dispatch = useDispatch();
   const { chats } = useSelector((state) => state.room);
-  useEffect(() => {
-    session.on('signal:chat', (event) => {
-      dispatch(updateChats({
-        from: event.from.data.split('"')[3],
-        content: event.data,
-        createdAt: `${new Date(event.from.creationTime).toLocaleTimeString('ko-KR', {
-          hour: 'numeric',
-          minute: 'numeric',
-          hour12: true,
-        })}`,
-      }));
-    });
-    return () => {
-      session.off('signal:chat', () => {});
-    };
-  }, [session]);
 
   return (
     <div className={styles.wrapper}>

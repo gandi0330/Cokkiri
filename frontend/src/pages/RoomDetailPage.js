@@ -6,7 +6,7 @@ import RightSideBar from '../components/roomDetail/RightSideBar';
 import RightSidePanel from '../components/roomDetail/RightSidePanel';
 import VideoSection from '../components/roomDetail/VideoSection';
 import classes from './RoomDetailPage.module.css';
-import { getRoom } from '../store/roomSlice';
+import { getRoom, updateChats } from '../store/roomSlice';
 
 const RoomDetailPage = () => {
   const dispatch = useDispatch();
@@ -15,6 +15,26 @@ const RoomDetailPage = () => {
   const [session, setSession] = useState(null);
   const [publisher, setPublisher] = useState({});
   const [subscribers, setSubscribers] = useState([]);
+
+  useEffect(() => {
+    if (!session) {
+      return;
+    }
+    session.on('signal:chat', (event) => {
+      dispatch(updateChats({
+        from: event.from.data.split('"')[3],
+        content: event.data,
+        createdAt: `${new Date(event.from.creationTime).toLocaleTimeString('ko-KR', {
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+        })}`,
+      }));
+    });
+    return () => {
+      session.off('signal:chat', () => {});
+    };
+  }, [session]);
 
   useEffect(() => {
     if (roomId) {
@@ -54,7 +74,7 @@ const RoomDetailPage = () => {
           }
         </div>
         <div className={type !== 'off' ? `${classes.contents__right}` : ''}>
-          {type !== 'off' && <RightSidePanel type={type} session={session} publisher={publisher} subscribers={subscribers} />}
+          {type !== 'off' && session && <RightSidePanel type={type} session={session} publisher={publisher} subscribers={subscribers} />}
         </div>
       </div>
       <div className={classes.rightSideBar}>

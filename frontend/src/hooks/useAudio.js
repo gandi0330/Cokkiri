@@ -9,8 +9,6 @@ const useAudio = (url) => {
   useEffect(() => {
     if (playing) {
       audio.play();
-    } else {
-      audio.pause();
     }
   }, [playing]);
 

@@ -2,15 +2,12 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { OpenVidu } from 'openvidu-browser';
 import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import UserVideoComponent from './UserVideoComponent';
 import VideoController from './VideoController';
 import styles from './VideoSection.module.css';
-import {
-  addPublisher, addSubscribers, removeSubscriber,
-} from '../../store/roomSlice';
 
 const OPENVIDU_SERVER_URL = 'https://i7c107.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'COKKIRI';
@@ -20,7 +17,6 @@ let OV;
 const VideoSection = ({
   roomId, getSession, getPublisher, getSubscribers,
 }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [session, setSession] = useState(null);
   const [mainStreamManager, setMainStreamManager] = useState(null);
@@ -168,9 +164,6 @@ const VideoSection = ({
     // console.log('tmpPublisher', tmpPublisher, typeof tmpPublisher);
     setMainStreamManager(tmpPublisher);
     setPublisher(tmpPublisher);
-    if (tmpPublisher) {
-      dispatch(addPublisher(tmpPublisher));
-    }
   };
 
   useEffect(() => {
@@ -178,13 +171,11 @@ const VideoSection = ({
     session.on('streamCreated', (event) => {
       const subscriber = session.subscribe(event.stream, undefined);
       setSubscribers((prevSubscribers) => [...prevSubscribers, subscriber]);
-      dispatch(addSubscribers(subscriber));
     });
     session.on('streamDestroyed', (event) => {
       setSubscribers((prevSubscribers) => {
         return prevSubscribers.filter((stream) => stream !== event.stream.streamManager);
       });
-      dispatch(removeSubscriber(event.stream.streamManager));
     });
     session.on('exception', (exception) => {
       console.warn(exception);

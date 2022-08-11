@@ -25,9 +25,15 @@ const Controller = ({
     if (!session) {
       return;
     }
-    session.on('signal:bell', () => {
-      audioBtn.current.click();
-    });
+    if (bellActive) {
+      session.on('signal:bell', () => {
+        if (bellActive) {
+          audioBtn.current.click();
+        }
+      });
+    } else {
+      session.off('signal:bell', () => {});
+    }
     return () => {
       session.off('signal:bell', () => {});
     };

@@ -1,22 +1,18 @@
-import PropTypes from 'prop-types';
+/* eslint-disable react/prop-types */
 import ParticipantListItem from './ParticipantListItem';
 
-const ParticipantList = ({ subscribers }) => {
+const ParticipantList = ({ subscribers, session }) => {
   return (
     <div>
-      {subscribers && subscribers.map((subscriber, idx) => {
+      {subscribers.map((subscriber, idx) => {
         return (
           <div key={`${idx * 1}`}>
-            <ParticipantListItem subscriber={subscriber} />
+            <ParticipantListItem subscriber={subscriber} session={session} />
           </div>
         );
       })}
     </div>
   );
-};
-
-ParticipantList.propTypes = {
-  subscribers: PropTypes.objectOf.isRequired,
 };
 
 export default ParticipantList;
