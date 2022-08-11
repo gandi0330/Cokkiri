@@ -10,12 +10,13 @@
   border-radius: 12px;
   padding-left: 12px;
   padding-bottom: 60px;
+  width: 100%;
 }
 
 .placeholder {
   position: absolute;
   top: 12px;
-  left: 260px;
+  left: 30px;
 }
 
 .chatInput:focus ~ .placeholder {
@@ -25,7 +26,7 @@
 .chatBtn {
   position: absolute;
   top: 12px;
-  left: 508px;
+  left: 250px;
   background: none;
   border: none;
   color: var(--grayShade1);
