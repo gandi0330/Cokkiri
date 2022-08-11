@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 import RoomCreationForm from './RoomCreationForm';
 import Modal from '../layout/Modal';
@@ -11,6 +13,8 @@ const SearchBar = (
   { rooms, onSearchHandler },
 ) => {
   const searchRef = useRef();
+  const navigate = useNavigate();
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const [enteredInput, setEnteredInput] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -29,6 +33,14 @@ const SearchBar = (
     onSearchHandler(enteredInput);
   }, [enteredInput, rooms]);
 
+  const onClick = () => {
+    if (!isLoggedIn) {
+      navigate('/login', { replace: true });
+      return;
+    }
+    setIsModalOpen(true);
+  };
+
   return (
     <div className={classes.searchBar}>
       <input
@@ -38,7 +50,7 @@ const SearchBar = (
         value={enteredInput}
         onChange={searchHandler}
       />
-      <button type="button" onClick={() => setIsModalOpen(true)}>
+      <button type="button" onClick={onClick}>
         방 만들기
       </button>
       <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>

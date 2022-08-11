@@ -29,7 +29,7 @@ export const getRoom = createAsyncThunk(
   async ({ roomId }, thunkAPI) => {
     try {
       console.log(roomId);
-      const res = await axios.get(`/room/${roomId}`);
+      const res = await axios.get(`/detail/${roomId}`);
       const { data } = res;
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
