@@ -79,34 +79,6 @@ const RoomCreationForm = () => {
     inputBlurHandler: pwdBlurHandler,
   } = useValidation(pwdValidationObj);
 
-  // const {
-  //   value: title,
-  //   valueIsValid: titleIsValid,
-  //   hasError: titleHasError,
-  //   // reset: resetTitle,
-  //   errorMsg: titleErrorMsg,
-  //   valueChangeHandler: titleChangeHandler,
-  //   inputBlurHandler: titleBlurHandler,
-  // } = useValidation((value) => value.trim() !== '');
-
-  // const {
-  //   value: description,
-  //   valueIsValid: descriptionIsValid,
-  //   hasError: descriptionHasError,
-  //   // reset: resetdescription,
-  //   valueChangeHandler: descriptionChangeHandler,
-  //   inputBlurHandler: descriptionBlurHandler,
-  // } = useValidation((value) => value.trim() !== '');
-
-  // const {
-  //   value: pwd,
-  //   valueIsValid: pwdIsValid,
-  //   hasError: pwdHasError,
-  //   // reset: resetpwd,
-  //   valueChangeHandler: pwdChangeHandler,
-  //   inputBlurHandler: pwdBlurHandler,
-  // } = useValidation((value) => value.trim() !== '');
-
   const [selected, setSelected] = useState(2);
 
   // const [isAlarm, setIsAlarm] = useToggle(false);
@@ -132,7 +104,7 @@ const RoomCreationForm = () => {
 
     try {
       const res = await dispatch(makeRoom({ email, title, userLimit: 4 }));
-      navigate(`/room/${res.payload.roomId}`, { replace: true });
+      navigate(`/room/${res.payload.roomId}`, { replace: true, isLeader: true });
     } catch (error) {
       console.error(error);
     }
