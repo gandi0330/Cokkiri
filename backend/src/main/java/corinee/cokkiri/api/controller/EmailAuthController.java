@@ -27,14 +27,14 @@ public class EmailAuthController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=404, message = "Email이 존재하지 않습니다")
     })
-    public ResponseEntity<? extends BaseResponse> sendEmail(@RequestBody EmailAuthRequest emailAuthRequest) {
-        Email email = emailService.findByEmail(emailAuthRequest.getEmail());
+    public ResponseEntity<? extends BaseResponse> sendEmail(@RequestBody EmailAuthRequest request) {
+        Email email = emailService.findByEmail(request.getEmail());
         if(email != null) {
-            emailService.delEmail(emailAuthRequest.getEmail());
+            emailService.delEmail(request.getEmail());
         }
-        emailService.addEmail(emailAuthRequest.getEmail());
+        emailService.addEmail(request.getEmail());
 
-        Email findEmail = emailService.sendMessage(emailAuthRequest.getEmail());
+        Email findEmail = emailService.sendMessage(request.getEmail());
         if(findEmail == null) {
             return ResponseEntity.status(404).body(BaseResponse.of(404, "Email이 존재하지 않습니다"));
         }

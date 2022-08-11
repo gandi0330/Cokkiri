@@ -26,7 +26,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @Api(value = "유저 API", tags = {"User"})
-public class UserRestController {
+public class UserController {
 
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
@@ -41,9 +41,9 @@ public class UserRestController {
             @ApiResponse(code=404, message = "유저가 존재하지 않습니다"),
             @ApiResponse(code=500, message = "토큰 넣는 도중 오류 발생"),
     })
-    public ResponseEntity<? extends BaseResponse> loginUser(@RequestBody @Valid UserLoginRequest userLoginRequest, HttpServletResponse response){
-        String email = userLoginRequest.getEmail();
-        String password = userLoginRequest.getPassword();
+    public ResponseEntity<? extends BaseResponse> loginUser(@RequestBody @Valid UserLoginRequest request, HttpServletResponse response){
+        String email = request.getEmail();
+        String password = request.getPassword();
 
         User user =userService.findByEmail(email);
 
@@ -167,14 +167,14 @@ public class UserRestController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=409, message = "이미 존재하는 이메일"),
     })
-    public ResponseEntity<? extends BaseResponse> addUser(@RequestBody AddUserRequest addUserRequest) {
-        User user = userService.findByEmail(addUserRequest.getEmail());
+    public ResponseEntity<? extends BaseResponse> addUser(@RequestBody AddUserRequest request) {
+        User user = userService.findByEmail(request.getEmail());
 
         if(user != null) {
             return ResponseEntity.status(409).body(BaseResponse.of(409, "이미 존재하는 이메일"));
         }
 
-        userService.addUser(addUserRequest);
+        userService.addUser(request);
         return ResponseEntity.status(200).body(BaseResponse.of(200, "회원가입 성공"));
 
     }

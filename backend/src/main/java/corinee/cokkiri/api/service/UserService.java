@@ -72,11 +72,11 @@ public class UserService {
         return user;
     }
 
-    public void addUser(AddUserRequest addUserRequest) {
+    public void addUser(AddUserRequest request) {
         User user = new User();
-        user.setEmail(addUserRequest.getEmail());
-        user.setPassword(addUserRequest.getPassword());
-        user.setNickname(addUserRequest.getNickname());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setNickname(request.getNickname());
         user.setAuthState(false);
 
         userRepository.save(user);
