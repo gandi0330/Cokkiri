@@ -20,7 +20,7 @@ export const fetchRoomList = createAsyncThunk(
     offset, limit, keyword,
   }, thunkAPI) => {
     try {
-      const res = await axios.get('/room', {
+      const res = await axios.get('/room/list', {
         params: {
           offset, 
           limit,
@@ -159,7 +159,8 @@ const roomListSlice = createSlice({
       }
     });
     builder.addCase(fetchRecentRooms.pending, (state) => {
-      state.loading = true;
+      // state.loading = true;
+      state.loading = false;
       state.success = false;
       state.error = false;
       state.recentRooms = [];
@@ -181,7 +182,8 @@ const roomListSlice = createSlice({
       state.recentRooms = [];
     });
     builder.addCase(updateRecentRooms.pending, (state) => {
-      state.loading = true;
+      state.loading = false;
+      // state.loading = true;
       state.success = false;
       state.error = false;
     });
@@ -196,7 +198,8 @@ const roomListSlice = createSlice({
       state.error = true;
     });
     builder.addCase(fetchFavoriteRooms.pending, (state) => {
-      state.loading = true;
+      state.loading = false;
+      // state.loading = true;
       state.success = false;
       state.error = false;
       state.favoriteRooms = [];
@@ -219,7 +222,8 @@ const roomListSlice = createSlice({
       }
     });
     builder.addCase(addFavoriteRoom.pending, (state) => {
-      state.loading = true;
+      state.loading = false;
+      // state.loading = true;
       state.success = false;
       state.error = false;
     });
@@ -234,7 +238,8 @@ const roomListSlice = createSlice({
       state.error = true;
     });
     builder.addCase(removeFavoriteRoom.pending, (state) => {
-      state.loading = true;
+      state.loading = false;
+      // state.loading = true;
       state.success = false;
       state.error = false;
     });
