@@ -26,14 +26,11 @@ const Chat = ({ session }) => {
     return () => {
       session.off('signal:chat', () => {});
     };
-  });
+  }, [session]);
 
   return (
     <div className={styles.wrapper}>
-      <div>
-        <h4>채팅</h4>
-        <hr />
-      </div>
+      <h3>채팅</h3>
       <div>
         {session.connection && session.connection.connectionId
         && chats.length > 0 && chats.map((chat, idx) => {
