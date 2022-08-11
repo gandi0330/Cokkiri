@@ -4,15 +4,17 @@ import corinee.cokkiri.db.domain.User;
 import corinee.cokkiri.db.repository.UserRepository;
 import corinee.cokkiri.api.request.AddUserRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class UserService {
+
+    private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
 
@@ -63,9 +65,11 @@ public class UserService {
     }
 
     public void addUser(AddUserRequest request) {
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
         User user = new User();
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        user.setPassword(encodedPassword);
         user.setNickname(request.getNickname());
 
         userRepository.add(user);
@@ -76,5 +80,9 @@ public class UserService {
         if (findUser != null) {
             userRepository.del(findUser);
         }
+    }
+
+    public boolean checkPassword(User user, String password) {
+        return passwordEncoder.matches(password, user.getPassword());
     }
 }
