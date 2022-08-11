@@ -17,11 +17,7 @@ import java.time.LocalDateTime;
 public class Email implements Serializable {
 
     @Id
-    @OneToOne
-    @JoinColumn(name = "email")
-    @OnDelete(action= OnDeleteAction.CASCADE)
-    private User user;
-
+    private String email;
     private String authToken;
     private LocalDateTime generateTime;
 }

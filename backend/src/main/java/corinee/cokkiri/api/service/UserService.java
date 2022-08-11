@@ -67,7 +67,6 @@ public class UserService {
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
         user.setNickname(request.getNickname());
-        user.setAuthState(false);
 
         userRepository.add(user);
     }
