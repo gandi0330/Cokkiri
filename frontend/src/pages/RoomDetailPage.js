@@ -6,13 +6,13 @@ import RightSideBar from '../components/roomDetail/RightSideBar';
 import RightSidePanel from '../components/roomDetail/RightSidePanel';
 import VideoSection from '../components/roomDetail/VideoSection';
 import classes from './RoomDetailPage.module.css';
-import { entranceRoom, getRoom, updateChats } from '../store/roomSlice';
+import { getRoom, updateChats } from '../store/roomSlice';
 
 const RoomDetailPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { roomId } = useParams();
-  const { email, isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const [type, setType] = useState('off');
   const [session, setSession] = useState(null);
   const [publisher, setPublisher] = useState({});
@@ -46,10 +46,6 @@ const RoomDetailPage = () => {
   useEffect(() => {
     if (roomId) {
       dispatch(getRoom({ roomId }));
-    }
-
-    if (roomId && email) {
-      dispatch(entranceRoom({ roomId, email }));
     }
   });
 
