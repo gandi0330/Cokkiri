@@ -3,18 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import { MdWarning } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Toggle from '../layout/Toggle';
+// import Toggle from '../layout/Toggle';
 import Dropdown from '../layout/Dropdown';
 
 import classes from './RoomCreationForm.module.css';
 import useValidation from '../../hooks/useValidation';
-import useToggle from '../../hooks/useToggle';
+// import useToggle from '../../hooks/useToggle';
 import { makeRoom } from '../../store/roomSlice';
 
 const RoomCreationForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { email, isLoggedIn } = useSelector((state) => state.auth);
+  const [selected, setSelected] = useState('2');
+  const [isTitleDuplicate, setIsTitleDuplicate] = useState(null);
 
   const titleValidationObj = [
     {
@@ -38,16 +40,16 @@ const RoomCreationForm = () => {
     },
   ];
   
-  const pwdValidationObj = [
-    {
-      fn: (value) => value.trim() === '',
-      msg: '비밀번호를 작성해 주세요.',
-    },
-    {
-      fn: (value) => value.trim().length > 10,
-      msg: '비밀번호는 10글자 미만이어야 합니다.',
-    },
-  ];
+  // const pwdValidationObj = [
+  //   {
+  //     fn: (value) => value.trim() === '',
+  //     msg: '비밀번호를 작성해 주세요.',
+  //   },
+  //   {
+  //     fn: (value) => value.trim().length > 10,
+  //     msg: '비밀번호는 10글자 미만이어야 합니다.',
+  //   },
+  // ];
 
   const {
     value: title,
@@ -69,66 +71,77 @@ const RoomCreationForm = () => {
     inputBlurHandler: descriptionBlurHandler,
   } = useValidation(descriptionValidationObj);
 
-  const {
-    value: pwd,
-    valueIsValid: pwdIsValid,
-    hasError: pwdHasError,
-    // reset: resetpwd,
-    errorMsg: pwdErrorMsg,
-    valueChangeHandler: pwdChangeHandler,
-    inputBlurHandler: pwdBlurHandler,
-  } = useValidation(pwdValidationObj);
+  const onTitleChange = (event) => {
+    titleChangeHandler(event);
+    setIsTitleDuplicate(null);
+  };
 
-  const [selected, setSelected] = useState('2');
+  // const {
+  //   value: pwd,
+  //   valueIsValid: pwdIsValid,
+  //   hasError: pwdHasError,
+  //   // reset: resetpwd,
+  //   errorMsg: pwdErrorMsg,
+  //   valueChangeHandler: pwdChangeHandler,
+  //   inputBlurHandler: pwdBlurHandler,
+  // } = useValidation(pwdValidationObj);
 
-  // const [isAlarm, setIsAlarm] = useToggle(false);
-  // const [isTimer, setIsTimer] = useToggle(false);
-  const [isRoomPublic, setIsRoomPublic] = useToggle(false);
+  // const [isRoomPublic, setIsRoomPublic] = useToggle(false);
 
   const dropdownOptions = ['2', '4', '6', '8', '10', '12', '14', '16'];
 
   let formIsValid = false;
 
   if (titleIsValid && descriptionIsValid) {
-    if (isRoomPublic && !pwdIsValid) formIsValid = false;
-    if (!isRoomPublic) formIsValid = true;
+    // if (isRoomPublic && !pwdIsValid) formIsValid = false;
+    // if (!isRoomPublic) formIsValid = true;
+    formIsValid = true;
   }
 
-  const submitHandler = async (event) => {
+  const submitHandler = (event) => {
     event.preventDefault();
-    // console.log(isAlarm, isTimer, isRoomPublic, selected);
     if (!isLoggedIn) {
       navigate('/login', { replace: true });
       return;
     }
+    
+    setIsTitleDuplicate(null);
 
-    if (!titleIsValid || !descriptionIsValid || !pwdIsValid) {
+    if (!titleIsValid || !descriptionIsValid || !title || !description) {
       return;
     }
+    // if (!titleIsValid || !descriptionIsValid || !pwdIsValid || !title || !description) {
+    //   return;
+    // }
 
-    try {
-      const res = await dispatch(makeRoom({ email, title, userLimit: 4 }));
-      navigate(`/room/${res.payload.roomId}`, { replace: true, isLeader: true });
-    } catch (error) {
-      console.error(error);
-    }
+    dispatch(makeRoom({ email, title, userLimit: 4 }))
+      .unwrap()
+      .then((res) => {
+        navigate(`/room/${res.payload.roomId}`, { replace: true, isLeader: true });
+      })
+      .catch((err) => {
+        if (err.statusCode === 409) {
+          setIsTitleDuplicate('이미 사용 중인 방 제목입니다.');
+        }
+        console.error(err);
+      });
 
     formIsValid = false;
   };
 
   const titleInputClasses = titleHasError ? classes.invalid : '';
   const descriptionInputClasses = descriptionHasError ? classes.invalid : '';
-  const pwdInputClasses = (isRoomPublic && pwdHasError) ? classes.invalid : '';
+  // const pwdInputClasses = (isRoomPublic && pwdHasError) ? classes.invalid : '';
 
   return (
     <form className={classes.form} onSubmit={submitHandler}>
       <div>
         <div className={classes.title}>
           <h6>방 제목</h6>
-          {titleHasError && (
+          {(titleHasError || isTitleDuplicate) && (
             <span className={classes.titleError}>
               <MdWarning />
-              {titleErrorMsg}
+              {titleErrorMsg || isTitleDuplicate}
             </span>
           )}
           <input
@@ -137,7 +150,7 @@ const RoomCreationForm = () => {
             id="roomName"
             name="roomName"
             value={title}
-            onChange={titleChangeHandler}
+            onChange={onTitleChange}
             onBlur={titleBlurHandler}
             className={titleInputClasses}
             autoComplete="off"
@@ -163,6 +176,7 @@ const RoomCreationForm = () => {
             className={descriptionInputClasses}
             rows="4"
             autoomplete="off"
+            required
           />
         </div>
         <div className={classes.options}>
@@ -175,23 +189,7 @@ const RoomCreationForm = () => {
               options={dropdownOptions}
             />
           </div>
-          {/* <div className={classes.optionAlarm}>
-            <span>알람</span>
-            <Toggle
-              tgId="alarm-toggle"
-              tgHtmlFor="alarm-toggle"
-              onToggle={() => setIsAlarm((event) => event.target.checked)}
-            />
-          </div>
-          <div className={classes.optionTimer}>
-            <span>타이머</span>
-            <Toggle
-              tgId="timer-toggle"
-              tgHtmlFor="timer-toggle"
-              onToggle={() => setIsTimer((event) => event.target.checked)}
-            />
-          </div> */}
-          <div className={classes.optionPublic}>
+          {/* <div className={classes.optionPublic}>
             <div>
               <span>공개 여부</span>
               <Toggle
@@ -216,7 +214,7 @@ const RoomCreationForm = () => {
                 {pwdErrorMsg}
               </span>
             )}
-          </div>
+          </div> */}
         </div>
         <div className={classes.btn}>
           <button type="submit" className={classes.btnDetail} disabled={!formIsValid}>방 만들기</button>
