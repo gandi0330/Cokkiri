@@ -133,6 +133,20 @@ export const changePassword = createAsyncThunk(
   },
 );
 
+export const deleteUser = createAsyncThunk(
+  'auth/deleteUser',
+  async ({ email }, thunkAPI) => {
+    try {
+      const res = await axios.delete(`/user/secession/${email}`);
+      const { data } = res;
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      console.error(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -293,6 +307,22 @@ const authSlice = createSlice({
       state.error = false;
     });
     builder.addCase(changePassword.rejected, (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
+    });
+    builder.addCase(deleteUser.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = false;
+    });
+    builder.addCase(deleteUser.fulfilled, (state, payload) => {
+      state.loading = false;
+      state.success = true;
+      state.error = false;
+      console.log(payload);
+    });
+    builder.addCase(deleteUser.rejected, (state) => {
       state.loading = false;
       state.success = false;
       state.error = true;
