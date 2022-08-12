@@ -114,11 +114,11 @@ const MyRecordPage = () => {
   }, [email]);
 
   useEffect(() => {
-    setHours(Math.round(todayTime / 3600));
-    setMinutes(Math.round((todayTime % 3600) / 60));
+    setHours(Math.trunc(todayTime / 3600));
+    setMinutes(Math.trunc((todayTime % 3600) / 60));
     setSeconds((todayTime % 3600) % 60);
     setTimeDiff(todayTime - yesterdayTime);
-  }, [yesterdayTime, yesterdayTime]);
+  }, [yesterdayTime, yesterdayTime, thisWeek, lastWeek]);
 
   return (
     <div className={classes.myRecord}>

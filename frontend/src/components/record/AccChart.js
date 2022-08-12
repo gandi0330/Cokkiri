@@ -7,7 +7,7 @@ import classes from './Chart.module.css';
 const AccChart = ({
   totalTime,
 }) => {
-  const currentAccHour = Math.round(totalTime / 3600);
+  const currentAccHour = (totalTime / 3600).toFixed(1);
   const totalTimes = new Array(11).fill(0).map((_, i) => 2 ** i);
 
   const calculatePercent = (currHour) => {
