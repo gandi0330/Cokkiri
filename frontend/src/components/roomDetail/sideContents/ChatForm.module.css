@@ -28,6 +28,7 @@
   font-size: var(--headingFontSize4);
   top: 30%;
   right: 10%;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 750px) {

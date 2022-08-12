@@ -62,7 +62,7 @@ const RoomListItem = forwardRef(({
       <YesNoModal
         open={canEnterRoom}
         yes="들어가기"
-        no="나가기"
+        no="취소"
         onNoClick={() => setCanEnterRoom(false)}
         onYesClick={onClickModalYes}
         onClose={() => setCanEnterRoom(false)}
