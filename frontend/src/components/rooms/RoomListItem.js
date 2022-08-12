@@ -26,11 +26,15 @@ const RoomListItem = forwardRef(({
 }, ref) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const email = useSelector(getUserEmail);
   const tnIdx = Math.floor(Math.random() * 4);
   const [noRoomIn, setNoRoomIn] = useState(false);
 
-  const onClick = () => {
+  const onEnterRoom = () => {
+    if (!isLoggedIn) {
+      return;
+    }
     if (userLimit <= userCount) {
       setNoRoomIn(true);
       return;
@@ -46,7 +50,7 @@ const RoomListItem = forwardRef(({
         <p>인원이 가득찬 방입니다!</p>
         <p />
       </Modal>    
-      <div onClick={onClick} className={classes.card} ref={ref}>
+      <div onClick={onEnterRoom} className={classes.card} ref={ref}>
         <img src={THUMBNAILS[tnIdx].thumbnailSrc} alt="스터디룸 이미지" />
         <div>
           <span>{ title }</span>

@@ -7,8 +7,8 @@ import styles from './Chat.module.css';
 import ExcitingElephant from '../../icons/ExcitingElephant';
 
 const Participants = ({ publisher, subscribers, session }) => {
+  // eslint-disable-next-line no-unused-vars
   const [empty, setEmpty] = useState(0);
-  console.log(empty);
 
   if (publisher) {
     publisher.on('streamPropertyChanged', () => {
