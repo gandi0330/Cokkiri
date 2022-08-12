@@ -51,7 +51,7 @@ public class UserController {
 
         if(user == null)
             return ResponseEntity.status(404).body(BaseResponse.of(404,"유저가 존재하지 않습니다"));
-        else if (!password.equals(user.getPassword()))
+        else if (!userService.checkPassword(user, password))
             return ResponseEntity.status(403).body(BaseResponse.of(403,"비밀번호가 일치하지 않습니다"));
 
         String accessToken = jwtTokenUtil.createAccessToken("email",user.getEmail());
