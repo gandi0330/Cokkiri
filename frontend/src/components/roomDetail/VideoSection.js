@@ -51,7 +51,6 @@ const VideoSection = ({
   };
 
   const leaveSession = () => {
-    console.log('=================leaveSession=============');
     const res = window.confirm('정말로 나가시겠습니까?');
     if (!res) {
       return;
@@ -305,6 +304,7 @@ const VideoSection = ({
             && (
               <VideoController
                 publisher={publisher}
+                subscribers={subscribers}
                 leaveSession={leaveSession}
                 getToken={getToken}
                 session={session}

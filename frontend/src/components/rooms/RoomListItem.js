@@ -43,6 +43,7 @@ const RoomListItem = forwardRef(({
   };
 
   const onClickModalYes = () => {
+    setCanEnterRoom(false);
     if (userLimit <= userCount) {
       setNoRoomIn(true);
       return;
