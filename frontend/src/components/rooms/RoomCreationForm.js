@@ -17,6 +17,7 @@ const RoomCreationForm = () => {
   const { email, isLoggedIn } = useSelector((state) => state.auth);
   const [selected, setSelected] = useState('2');
   const [isTitleDuplicate, setIsTitleDuplicate] = useState(null);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const titleValidationObj = [
     {
@@ -104,7 +105,11 @@ const RoomCreationForm = () => {
       navigate('/login', { replace: true });
       return;
     }
-    
+
+    setButtonDisabled(true);
+    setTimeout(() => {
+      setButtonDisabled(false);
+    }, 2000);    
     setIsTitleDuplicate(null);
 
     if (!titleIsValid || !descriptionIsValid || !title || !description) {
@@ -217,7 +222,7 @@ const RoomCreationForm = () => {
           </div> */}
         </div>
         <div className={classes.btn}>
-          <button type="submit" className={classes.btnDetail} disabled={!formIsValid}>방 만들기</button>
+          <button type="submit" className={classes.btnDetail} disabled={!formIsValid || !buttonDisabled}>방 만들기</button>
         </div>
       </div>
     </form>
