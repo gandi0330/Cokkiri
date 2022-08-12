@@ -1,8 +1,9 @@
 /* eslint-disable react/forbid-prop-types */
 import { useEffect, useState, useRef } from 'react';
 import { AiOutlineAudioMuted, AiOutlineAudio } from 'react-icons/ai';
-import { BiExit, BiBell, BiBellOff } from 'react-icons/bi';
+import { BiExit } from 'react-icons/bi';
 import { FiShare, FiVideo, FiVideoOff } from 'react-icons/fi';
+import { GiSoundOn, GiSoundOff } from 'react-icons/gi';
 import PropTypes from 'prop-types';
 import { OpenVidu } from 'openvidu-browser';
 
@@ -15,32 +16,26 @@ import ExcitingElephant from '../icons/ExcitingElephant';
 let OV;
 
 const Controller = ({
-  publisher, leaveSession, getToken, session, setMainStreamManager,
+  publisher, leaveSession, getToken, session, setMainStreamManager, subscribers,
 }) => {
   const audioBtn = useRef();
   const [toggle] = useAudio(music);
   const [audioActive, setAudioActive] = useState(true);
   const [videoActive, setVideoActive] = useState(true);
-  const [bellActive, setBellActice] = useState(true);
+  const [soundActive, setSoundActive] = useState(true);
   const [canExitRoom, setCanExitRoom] = useState(false);
 
   useEffect(() => {
     if (!session) {
       return;
     }
-    if (bellActive) {
-      session.on('signal:bell', () => {
-        if (bellActive) {
-          audioBtn.current.click();
-        }
-      });
-    } else {
-      session.off('signal:bell', () => {});
-    }
+    session.on('signal:bell', () => {
+      audioBtn.current.click();
+    });
     return () => {
       session.off('signal:bell', () => {});
     };
-  }, [session, bellActive]);
+  }, [session]);
 
   const handleMuteClick = () => {
     const state = !publisher.stream.audioActive;
@@ -77,8 +72,12 @@ const Controller = ({
     });
   };
 
-  const handleBellClick = () => {
-    setBellActice((prev) => !prev);
+  const handleSoundClick = () => {
+    setSoundActive((prev) => !prev);
+    subscribers.forEach((sub) => {
+      const audioEnabled = !sub.stream.audioActive;
+      sub.subscribeToAudio(audioEnabled);
+    });
   };
 
   return (
@@ -106,11 +105,11 @@ const Controller = ({
         <div className={styles.button} onClick={handelCameraClick}>
           {videoActive ? <FiVideo /> : <div className={styles.colorRed}><FiVideoOff /></div>}
         </div>
-        <div className={styles.button} onClick={handleBellClick}>
-          {bellActive ? <BiBell /> : <div className={styles.colorRed}><BiBellOff /></div>}
+        <div className={styles.button} onClick={handleSoundClick}>
+          {soundActive ? <GiSoundOn /> : <div className={styles.colorRed}><GiSoundOff /></div>}
         </div>
         <div className={`${styles.button} ${styles.share__btn}`} onClick={handleShareClick}><FiShare /></div>
-        <div className={`${styles.button} ${styles.exitButton}`} onClick={() => setCanEnterRoom(true)}><BiExit /></div>
+        <div className={`${styles.button} ${styles.exitButton}`} onClick={() => setCanExitRoom(true)}><BiExit /></div>
       </div>
     </>
   );
@@ -118,6 +117,7 @@ const Controller = ({
 
 Controller.propTypes = {
   publisher: PropTypes.object.isRequired,
+  subscribers: PropTypes.arrayOf.isRequired,
   leaveSession: PropTypes.func.isRequired,
   getToken: PropTypes.func.isRequired,
   session: PropTypes.object.isRequired,
