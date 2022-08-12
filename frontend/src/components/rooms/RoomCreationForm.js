@@ -117,7 +117,7 @@ const RoomCreationForm = () => {
     dispatch(makeRoom({ email, title, userLimit: 4 }))
       .unwrap()
       .then((res) => {
-        navigate(`/room/${res.payload.roomId}`, { replace: true, isLeader: true });
+        navigate(`/room/${res.roomId}`, { replace: true });
       })
       .catch((err) => {
         if (err.statusCode === 409) {
