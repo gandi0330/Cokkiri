@@ -64,15 +64,15 @@ const VideoSection = ({
     // setCurrentVideoDevice(null);
   };
 
-  const listener = (e) => {
-    e.preventDefault();
-    e.returnValue = '';
-  };
+  // const listener = (e) => {
+  //   e.preventDefault();
+  //   e.returnValue = '';
+  // };
 
-  useEffect(() => {
-    window.addEventListener('beforeunload', listener);
-    return () => window.removeEventListener('beforeunload', listener);
-  });
+  // useEffect(() => {
+  //   window.addEventListener('beforeunload', listener);
+  //   return () => window.removeEventListener('beforeunload', listener);
+  // });
 
   const joinSession = () => {
     OV = new OpenVidu();
@@ -83,10 +83,10 @@ const VideoSection = ({
     joinSession();
   }, []);
 
-  // useEffect(() => {
-  //   window.addEventListener('beforeunload', leaveSession);
-  //   return () => window.removeEventListener('beforeunload', leaveSession);
-  // });
+  useEffect(() => {
+    window.addEventListener('beforeunload', leaveSession);
+    return () => window.removeEventListener('beforeunload', leaveSession);
+  });
 
   const createSession = (sessionId) => {
     return new Promise((resolve) => {
