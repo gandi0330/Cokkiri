@@ -15,8 +15,12 @@ const Timer = ({
         setSeconds(parseInt(seconds, 10) - 1);
       }
       if (parseInt(seconds, 10) === 0) {
-        setMinutes(parseInt(minutes, 10) - 1);
-        setSeconds(59);
+        if (parseInt(minutes, 10) === 0) {
+          clearInterval(countDown);
+        } else {
+          setMinutes(parseInt(minutes, 10) - 1);
+          setSeconds(59);
+        }
       }
     }, 1000);
     return () => clearInterval(countDown);
