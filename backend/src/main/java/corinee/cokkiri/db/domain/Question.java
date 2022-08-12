@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,8 +26,11 @@ public class Question {
     User user;
 
     private String title;
+    @Size(max = 3000)
     private String content;
     private String language;
+
+    @Size(max = 3000)
     private String code;
     private LocalDateTime createDatetime;
 
