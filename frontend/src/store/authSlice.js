@@ -316,11 +316,13 @@ const authSlice = createSlice({
       state.success = false;
       state.error = false;
     });
-    builder.addCase(deleteUser.fulfilled, (state, payload) => {
+    builder.addCase(deleteUser.fulfilled, (state) => {
       state.loading = false;
       state.success = true;
       state.error = false;
-      console.log(payload);
+      state.isLoggedIn = false;
+      state.email = null;
+      state.nickname = null;
     });
     builder.addCase(deleteUser.rejected, (state) => {
       state.loading = false;

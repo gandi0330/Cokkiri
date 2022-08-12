@@ -13,6 +13,11 @@ const ParticipantListItem = ({ publisher, subscriber, session }) => {
     if (!canBell) {
       return;
     }
+    setCanBell(false);
+    setTimeout(() => {
+      setCanBell(true);
+    }, 15000);
+
     session.signal({
       to: [target],
       type: 'bell',
@@ -21,11 +26,6 @@ const ParticipantListItem = ({ publisher, subscriber, session }) => {
     }).catch((error) => {
       console.error(error);
     });
-    setCanBell(false);
-    const bellInterval = setInterval(() => {
-      setCanBell(true);
-      clearInterval(bellInterval);
-    }, 1500);
   };
 
   if (publisher?.session?.connection) {
@@ -76,7 +76,7 @@ const ParticipantListItem = ({ publisher, subscriber, session }) => {
             ) : (
               <div className={styles.no}><FiVideoOff /></div>
             )}
-          <div className={`${styles.yes} ${styles.bell}`} onClick={() => onClickBell(subscriber.stream.connection)}>
+          <div disabled={!canBell} className={`${styles.yes} ${styles.bell}`} onClick={() => onClickBell(subscriber.stream.connection)}>
             <BiBell />
           </div>
         </div>
