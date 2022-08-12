@@ -95,6 +95,19 @@
   color: var(--grayShade1);
 }
 
+.link__btn {
+  margin-top: 1rem;
+  width: 100%;
+  background-color: var(--redShade1);
+  border: none;
+  outline: none;
+}
+
+.link__btn a {
+  font-family: 'Nanum Brush Script', cursive;
+  font-size: var(--headingFontSize3) !important;
+}
+
 
 @media only screen and (min-width: 750px) {
   .header {
@@ -125,9 +138,14 @@
     max-width: 25rem;
   }
 
-  .section:last-child {
+  .section:nth-child(2) {
     flex-direction: row-reverse;
   }
+
+  .link__btn a {
+    font-size: var(--headingFontSize2) !important;
+  }
+
 
   /* .footer div {
     justify-content: flex-start;
