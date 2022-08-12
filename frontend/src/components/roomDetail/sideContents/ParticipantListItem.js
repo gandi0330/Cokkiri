@@ -8,6 +8,9 @@ import styles from './ParticipantListItem.module.css';
 
 const ParticipantListItem = ({ publisher, subscriber, session }) => {
   const onClickBell = (target) => {
+    if (!canBell) {
+      return;
+    }
     session.signal({
       to: [target],
       type: 'bell',
@@ -16,9 +19,17 @@ const ParticipantListItem = ({ publisher, subscriber, session }) => {
     }).catch((error) => {
       console.error(error);
     });
+    setCanBell(false);
+    const bellInterval = setInterval(() => {
+      setCanBell(true);
+      clearInterval(bellInterval);
+    }, 300);
   };
 
   if (publisher?.session?.connection) {
+    if (subscriber.stream.typeOfVideo === 'SCREEN') {
+      return null;
+    }
     return (
       <div className={styles.wrapper}>
         <div className={styles.nickname}>

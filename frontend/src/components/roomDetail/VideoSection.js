@@ -261,7 +261,7 @@ const VideoSection = ({
         )}
 
         {subscribers.length > 0
-          && subscribers.map((sub, idx) => (
+          && subscribers.reverse().map((sub, idx) => (
             // <div
             //   key={`subscriber ${idx * 1}`}
             //   className={styles.videoContainer}
