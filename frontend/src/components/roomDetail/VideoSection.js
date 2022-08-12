@@ -29,7 +29,7 @@ const VideoSection = ({
   const [sessionScreen, setSessionScreen] = useState(null);
   // const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
   const { email, nickname } = useSelector((state) => state.auth);
-  const { id } = useSelector((state) => state.room);
+  const { id, loading } = useSelector((state) => state.room);
 
   const reqCameraAndAudio = async () => {
     try {
@@ -61,6 +61,7 @@ const VideoSection = ({
     setSubscribers([]);
     setMainStreamManager(null);
     setPublisher(null);
+    window.close();
     // setCurrentVideoDevice(null);
   };
 
@@ -272,6 +273,10 @@ const VideoSection = ({
       setMainStreamManager(publisher);
     }
   }, [subscribers, publisher]);
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <div className={`container ${styles.container}`}>
