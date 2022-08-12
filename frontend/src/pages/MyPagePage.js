@@ -10,8 +10,10 @@ import {
   deleteUser,
 } from '../store/authSlice';
 import YesNoModal from '../components/layout/YesNoModal';
+import Modal from '../components/layout/Modal';
 import useValidation from '../hooks/useValidation';
 import { validateNickname, validatePassword } from '../components/account/validationCheck';
+import ExcitingElephant from '../components/icons/ExcitingElephant';
 
 import classes from './MyPagePage.module.css';
 
@@ -25,6 +27,8 @@ const MyPagePage = () => {
   const [isPwdModalOpen, setIsPwdModalOpen] = useState(false);
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [isDeletionModalOpen, setIsDeletionModalOpen] = useState(false);
+  const [nameSuccessModalOpen, setNameSuccessModalOpen] = useState(false);
+  const [pwdSuccessModalOpen, setPwdSuccessModalOpen] = useState(false);
 
   const {
     value: nickname,
@@ -95,6 +99,7 @@ const MyPagePage = () => {
       .finally(() => setIsNameModalOpen(false));
     
     setIsNameModalOpen(false);
+    setNameSuccessModalOpen(true);
   };
 
   const pwdSubmitHandler = (event) => {
@@ -122,6 +127,7 @@ const MyPagePage = () => {
       .finally(() => setIsPwdModalOpen(false));
 
     setIsPwdModalOpen(false);
+    setPwdSuccessModalOpen(true);
   };
 
   const userDeletionSubmitHandler = (event) => {
@@ -148,6 +154,20 @@ const MyPagePage = () => {
 
   return (
     <>
+      <Modal 
+        open={nameSuccessModalOpen}
+        onClose={() => setNameSuccessModalOpen(false)}
+      >
+        <ExcitingElephant />
+        <p style={{ marginTop: '1rem' }}>닉네임이 성공적으로 변경되었습니다!</p>
+      </Modal>
+      <Modal 
+        open={pwdSuccessModalOpen}
+        onClose={() => setPwdSuccessModalOpen(false)}
+      >
+        <ExcitingElephant />
+        <p style={{ marginTop: '1rem' }}>비밀번호가 성공적으로 변경되었습니다!</p>
+      </Modal>
       <YesNoModal 
         open={isPwdModalOpen} 
         onClose={() => setIsPwdModalOpen(false)} 
