@@ -9,6 +9,7 @@ import UserVideoComponent from './UserVideoComponent';
 import VideoController from './VideoController';
 import styles from './VideoSection.module.css';
 import { entranceRoom, exitRoom } from '../../store/roomSlice';
+import { updateRecentRooms } from '../../store/roomListSlice';
 // import ExcitingElephant from '../icons/ExcitingElephant';
 // import YesNoModal from '../layout/YesNoModal';
 
@@ -51,10 +52,6 @@ const VideoSection = ({
   };
 
   const leaveSession = () => {
-    const res = window.confirm('정말로 나가시겠습니까?');
-    if (!res) {
-      return;
-    }
     dispatch(exitRoom({ roomId, email, id }));
     if (session) session.disconnect();
     navigate('/rooms', { place: true });
@@ -199,7 +196,11 @@ const VideoSection = ({
       session.connect(token, { clientData: nickname })
         .then(() => {
           connectCamera();
-          dispatch(entranceRoom({ roomId, email }));
+          dispatch(entranceRoom({ roomId, email }))
+            .unwrap()
+            .then(() => {
+              dispatch(updateRecentRooms({ email, roomId }));
+            });
         })
         .catch((error) => {
           console.log(

@@ -79,13 +79,13 @@ const RoomCreationForm = () => {
     inputBlurHandler: pwdBlurHandler,
   } = useValidation(pwdValidationObj);
 
-  const [selected, setSelected] = useState(2);
+  const [selected, setSelected] = useState('2');
 
   // const [isAlarm, setIsAlarm] = useToggle(false);
   // const [isTimer, setIsTimer] = useToggle(false);
   const [isRoomPublic, setIsRoomPublic] = useToggle(false);
 
-  const dropdownOptions = [2, 4, 6];
+  const dropdownOptions = ['2', '4', '6', '8', '10', '12', '14', '16'];
 
   let formIsValid = false;
 

@@ -117,7 +117,7 @@ const Controller = ({
 
 Controller.propTypes = {
   publisher: PropTypes.object.isRequired,
-  subscribers: PropTypes.arrayOf.isRequired,
+  subscribers: PropTypes.array.isRequired,
   leaveSession: PropTypes.func.isRequired,
   getToken: PropTypes.func.isRequired,
   session: PropTypes.object.isRequired,
