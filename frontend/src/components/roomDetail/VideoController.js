@@ -56,7 +56,6 @@ const Controller = ({
     if (doneShare) {
       return;
     }
-    setDoneShare(true);
     OV = new OpenVidu();
     const sessionScreen = OV.initSession();
     getSessionScreen(sessionScreen);
@@ -85,9 +84,11 @@ const Controller = ({
             // sessionScreen.disconnect();
             // setMainStreamManager(null);
             sessionScreen.unpublish(newPublisher);
+            setDoneShare(false);
             // setMainStreamManager(publisher);
           });
           sessionScreen.publish(newPublisher);
+          setDoneShare(true);
           setMainStreamManager(newPublisher);
         });
         newPublisher.once('accessDenied', () => {
