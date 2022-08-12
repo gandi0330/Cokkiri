@@ -6,6 +6,7 @@ import { MdPersonOutline } from 'react-icons/md';
 import { updateRecentRooms } from '../../store/roomListSlice';
 import { getUserEmail } from '../../store/authSlice';
 import Modal from '../layout/Modal';
+import YesNoModal from '../layout/YesNoModal';
 
 import classes from './RoomListItem.module.css';
 
@@ -13,6 +14,7 @@ import RoomThumbnail1 from '../../images/RoomThumbnail1.jpg';
 import RoomThumbnail2 from '../../images/RoomThumbnail2.jpg';
 import RoomThumbnail3 from '../../images/RoomThumbnail3.jpg';
 import RoomThumbnail4 from '../../images/RoomThumbnail4.jpg';
+import ExcitingElephant from '../icons/ExcitingElephant';
 
 const THUMBNAILS = [
   { id: 0, thumbnailSrc: RoomThumbnail1 },
@@ -30,11 +32,17 @@ const RoomListItem = forwardRef(({
   const email = useSelector(getUserEmail);
   const tnIdx = Math.floor(Math.random() * 4);
   const [noRoomIn, setNoRoomIn] = useState(false);
+  const [canEnterRoom, setCanEnterRoom] = useState(false);
 
   const onEnterRoom = () => {
     if (!isLoggedIn) {
+      navigate('/login', { replace: true });
       return;
     }
+    setCanEnterRoom(true);
+  };
+
+  const onClickModalYes = () => {
     if (userLimit <= userCount) {
       setNoRoomIn(true);
       return;
@@ -49,7 +57,18 @@ const RoomListItem = forwardRef(({
         <p />
         <p>인원이 가득찬 방입니다!</p>
         <p />
-      </Modal>    
+      </Modal>
+      <YesNoModal
+        open={canEnterRoom}
+        yes="들어가기"
+        no="나가기"
+        onNoClick={() => setCanEnterRoom(false)}
+        onYesClick={onClickModalYes}
+        onClose={() => setCanEnterRoom(false)}
+      >
+        <ExcitingElephant />
+        <p>스터디룸에 들어가시겠습니까?</p>
+      </YesNoModal>
       <div onClick={onEnterRoom} className={classes.card} ref={ref}>
         <img src={THUMBNAILS[tnIdx].thumbnailSrc} alt="스터디룸 이미지" />
         <div>

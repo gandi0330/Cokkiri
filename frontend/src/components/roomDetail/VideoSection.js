@@ -9,6 +9,8 @@ import UserVideoComponent from './UserVideoComponent';
 import VideoController from './VideoController';
 import styles from './VideoSection.module.css';
 import { entranceRoom, exitRoom } from '../../store/roomSlice';
+// import ExcitingElephant from '../icons/ExcitingElephant';
+// import YesNoModal from '../layout/YesNoModal';
 
 const OPENVIDU_SERVER_URL = 'https://i7c107.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'COKKIRI';
@@ -24,6 +26,7 @@ const VideoSection = ({
   const [mainStreamManager, setMainStreamManager] = useState(null);
   const [publisher, setPublisher] = useState(null);
   const [subscribers, setSubscribers] = useState([]);
+  // const [canRefresh, setCanRefresh] = useState(false);
   // const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
   const { email, nickname } = useSelector((state) => state.auth);
   const { id } = useSelector((state) => state.room);
@@ -74,10 +77,14 @@ const VideoSection = ({
     return () => window.removeEventListener('beforeunload', listener);
   });
 
-  useEffect(() => {
-    window.addEventListener('unload', leaveSession);
-    return () => window.removeEventListener('unload', leaveSession);
-  });
+  // useEffect(() => {
+  //   window.addEventListener('unload', () => {
+  //     setCanRefresh(true);
+  //   });
+  //   return () => window.removeEventListener('unload', () => {
+  //     setCanRefresh(true);
+  //   });
+  // });
 
   const joinSession = () => {
     OV = new OpenVidu();
@@ -245,57 +252,69 @@ const VideoSection = ({
   }, [subscribers]);
 
   return (
-    <div className={`container ${styles.container}`}>
-      <div className={styles.smallVideoSection}>
-        {publisher && (
-          // <div
-          //   // className="stream-container"
-          //   onClick={() => handleMainVideoStream(publisher)}
-          // >
-          <div onClick={() => handleMainVideoStream(publisher)}>
-            <UserVideoComponent 
-              streamManager={publisher} 
-            />
-          </div>
-          // </div>
-        )}
-
-        {subscribers.length > 0
-          && subscribers.reverse().map((sub, idx) => (
+    <>
+      {/* <YesNoModal
+        open={canRefresh}
+        yes="새로고침"
+        no="취소"
+        onNoClick={() => setCanRefresh(false)}
+        onYesClick={leaveSession}
+        onClose={() => setCanRefresh(false)}
+      >
+        <ExcitingElephant />
+        <p>정말로 나가시겠습니까?</p>
+      </YesNoModal> */}
+      <div className={`container ${styles.container}`}>
+        <div className={styles.smallVideoSection}>
+          {publisher && (
             // <div
-            //   key={`subscriber ${idx * 1}`}
-            //   className={styles.videoContainer}
-            //   onClick={() => handleMainVideoStream(sub)}
+            //   // className="stream-container"
+            //   onClick={() => handleMainVideoStream(publisher)}
             // >
-            // Remote
-            <div key={`subscriber ${idx * 1}`} onClick={() => handleMainVideoStream(sub)}>
-              <UserVideoComponent streamManager={sub} />
+            <div onClick={() => handleMainVideoStream(publisher)}>
+              <UserVideoComponent 
+                streamManager={publisher} 
+              />
             </div>
             // </div>
-          ))}
-      </div>
-      {session && (
-      <div className={styles.wrapper}>
-        {mainStreamManager && (
-          <div className={styles.videoWrapper}>
-            <UserVideoComponent streamManager={mainStreamManager} />
-            {/* <button className={styles.switchCamera} 
-            type="button" onClick={switchCamera}>Switch Camera</button> */}
+          )}
+          {subscribers.length > 0
+            && subscribers.reverse().map((sub, idx) => (
+              // <div
+              //   key={`subscriber ${idx * 1}`}
+              //   className={styles.videoContainer}
+              //   onClick={() => handleMainVideoStream(sub)}
+              // >
+              // Remote
+              <div key={`subscriber ${idx * 1}`} onClick={() => handleMainVideoStream(sub)}>
+                <UserVideoComponent streamManager={sub} />
+              </div>
+              // </div>
+            ))}
+        </div>
+        {session && (
+          <div className={styles.wrapper}>
+            {mainStreamManager && (
+            <div className={styles.videoWrapper}>
+              <UserVideoComponent streamManager={mainStreamManager} />
+              {/* <button className={styles.switchCamera} 
+              type="button" onClick={switchCamera}>Switch Camera</button> */}
+            </div>
+            )}
+            {publisher
+            && (
+              <VideoController
+                publisher={publisher}
+                leaveSession={leaveSession}
+                getToken={getToken}
+                session={session}
+                setMainStreamManager={setMainStreamManager}
+              />
+            )}
           </div>
         )}
-        {publisher
-          && (
-          <VideoController
-            publisher={publisher}
-            leaveSession={leaveSession}
-            getToken={getToken}
-            session={session}
-            setMainStreamManager={setMainStreamManager}
-          />
-          )}
       </div>
-      )}
-    </div>
+    </>
   );
 };
 

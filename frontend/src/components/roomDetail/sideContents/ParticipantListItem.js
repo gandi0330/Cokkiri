@@ -3,10 +3,12 @@ import { AiOutlineAudioMuted, AiOutlineAudio } from 'react-icons/ai';
 // import { BiBell } from 'react-icons/bi';
 import { FiVideo, FiVideoOff } from 'react-icons/fi';
 import { BiBell } from 'react-icons/bi';
+import { useState } from 'react';
 
 import styles from './ParticipantListItem.module.css';
 
 const ParticipantListItem = ({ publisher, subscriber, session }) => {
+  const [canBell, setCanBell] = useState(true);
   const onClickBell = (target) => {
     if (!canBell) {
       return;
@@ -23,13 +25,10 @@ const ParticipantListItem = ({ publisher, subscriber, session }) => {
     const bellInterval = setInterval(() => {
       setCanBell(true);
       clearInterval(bellInterval);
-    }, 300);
+    }, 1500);
   };
 
   if (publisher?.session?.connection) {
-    if (subscriber.stream.typeOfVideo === 'SCREEN') {
-      return null;
-    }
     return (
       <div className={styles.wrapper}>
         <div className={styles.nickname}>
@@ -53,6 +52,9 @@ const ParticipantListItem = ({ publisher, subscriber, session }) => {
     );
   }
   if (subscriber?.stream) {
+    if (subscriber.stream.typeOfVideo === 'SCREEN') {
+      return null;
+    }
     return (
       <div className={styles.wrapper}>
         {subscriber.stream.connection
