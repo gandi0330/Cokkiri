@@ -6,7 +6,8 @@ const initialState = {
   rooms: [],
   recentRooms: [],
   favoriteRooms: [],
-  pageNumber: 0,
+  // pageNumber: 0,
+  pageNumber: -1,
 
   loading: false,
   success: false,
@@ -17,12 +18,14 @@ const initialState = {
 export const fetchRoomList = createAsyncThunk(
   'roomList/fetchRoomList',
   async ({ 
-    offset, limit, keyword,
+    // offset, limit, keyword,
+    cursor, limit, keyword,
   }, thunkAPI) => {
     try {
       const res = await axios.get('/room/list', {
         params: {
-          offset, 
+          cursor,
+          // offset, 
           limit,
           keyword,
         },
@@ -116,10 +119,11 @@ const roomListSlice = createSlice({
       state.rooms = [];
     },
     resetPageNumber(state) {
-      state.pageNumber = 0;
+      // state.pageNumber = 0;
+      state.pageNumber = -1;
     },
-    incrementPageNumber(state) {
-      state.pageNumber += 1;
+    incrementPageNumber(state, action) {
+      state.pageNumber += action.payload.lastItemIdx;
     },
   },
   extraReducers: (builder) => {
@@ -143,7 +147,7 @@ const roomListSlice = createSlice({
           state.rooms = [...new Set([...state.rooms, ...payload.payload.findRoomList])];
         }
       }
-      state.hasMore = payload.payload.findRoomList?.length > 0;
+      state.hasMore = payload === '';
     });
     builder.addCase(fetchRoomList.rejected, (state, payload) => {
       if (payload.error?.message !== 'Aborted') {      

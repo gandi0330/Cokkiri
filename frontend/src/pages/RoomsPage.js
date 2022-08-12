@@ -21,6 +21,7 @@ const RoomsPage = () => {
   } = useSelector((state) => state.roomList);
 
   const [query, setQuery] = useState('');
+  const [lastItemIdx, setLastItemIdx] = useState(-1);
 
   // const {
   //   rooms,
@@ -34,7 +35,7 @@ const RoomsPage = () => {
   };
 
   const pageHandler = () => {
-    dispatch(incrementPageNumber());
+    dispatch(incrementPageNumber({ lastItemIdx }));
   };
 
   useEffect(() => {
@@ -44,9 +45,10 @@ const RoomsPage = () => {
 
   useEffect(() => {
     const limit = 12;
-    const offset = limit * pageNumber;
+    // const offset = limit * pageNumber;
     const promise = dispatch(fetchRoomList({ 
-      offset, limit, keyword: query,
+      // offset, limit, keyword: query,
+      cursor: pageNumber, limit, keyword: query,
     }));
     return () => { 
       // console.log('aborted!');
@@ -66,6 +68,7 @@ const RoomsPage = () => {
               hasMore={hasMore}
               rooms={rooms || []}
               pageHandler={pageHandler}
+              setLastItemIdx={setLastItemIdx}
             />
           )}
           {!error && !loading && rooms.length === 0 && (
