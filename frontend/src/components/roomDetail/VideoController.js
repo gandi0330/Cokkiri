@@ -9,6 +9,8 @@ import { OpenVidu } from 'openvidu-browser';
 import useAudio from '../../hooks/useAudio';
 import styles from './VideoController.module.css';
 import music from '../../audios/voice-elephant.mp3';
+import YesNoModal from '../layout/YesNoModal';
+import ExcitingElephant from '../icons/ExcitingElephant';
 
 let OV;
 
@@ -16,10 +18,11 @@ const Controller = ({
   publisher, leaveSession, getToken, session, setMainStreamManager,
 }) => {
   const audioBtn = useRef();
+  const [toggle] = useAudio(music);
   const [audioActive, setAudioActive] = useState(true);
   const [videoActive, setVideoActive] = useState(true);
   const [bellActive, setBellActice] = useState(true);
-  const [toggle] = useAudio(music);
+  const [canExitRoom, setCanExitRoom] = useState(false);
 
   useEffect(() => {
     if (!session) {
@@ -79,24 +82,37 @@ const Controller = ({
   };
 
   return (
-    <div className={styles.buttonGroup}>
-      <div className={styles.hidden}>
-        <button ref={audioBtn} onClick={toggle} type="button" />
+    <>
+      <YesNoModal
+        open={canExitRoom}
+        yes="나가기"
+        no="취소"
+        onNoClick={() => setCanExitRoom(false)}
+        onYesClick={leaveSession}
+        onClose={() => setCanExitRoom(false)}
+      >
+        <ExcitingElephant />
+        <p>정말로 나가시겠습니까?</p>
+      </YesNoModal>
+      <div className={styles.buttonGroup}>
+        <div className={styles.hidden}>
+          <button ref={audioBtn} onClick={toggle} type="button" />
+        </div>
+        <div className={styles.button} onClick={handleMuteClick}>
+          {audioActive ? <AiOutlineAudio /> : ( 
+            <div className={styles.colorRed}><AiOutlineAudioMuted /></div>
+          )}
+        </div>
+        <div className={styles.button} onClick={handelCameraClick}>
+          {videoActive ? <FiVideo /> : <div className={styles.colorRed}><FiVideoOff /></div>}
+        </div>
+        <div className={styles.button} onClick={handleBellClick}>
+          {bellActive ? <BiBell /> : <div className={styles.colorRed}><BiBellOff /></div>}
+        </div>
+        <div className={`${styles.button} ${styles.share__btn}`} onClick={handleShareClick}><FiShare /></div>
+        <div className={`${styles.button} ${styles.exitButton}`} onClick={() => setCanEnterRoom(true)}><BiExit /></div>
       </div>
-      <div className={styles.button} onClick={handleMuteClick}>
-        {audioActive ? <AiOutlineAudio /> : ( 
-          <div className={styles.colorRed}><AiOutlineAudioMuted /></div>
-        )}
-      </div>
-      <div className={styles.button} onClick={handelCameraClick}>
-        {videoActive ? <FiVideo /> : <div className={styles.colorRed}><FiVideoOff /></div>}
-      </div>
-      <div className={styles.button} onClick={handleBellClick}>
-        {bellActive ? <BiBell /> : <div className={styles.colorRed}><BiBellOff /></div>}
-      </div>
-      <div className={`${styles.button} ${styles.share__btn}`} onClick={handleShareClick}><FiShare /></div>
-      <div className={`${styles.button} ${styles.exitButton}`} onClick={leaveSession}><BiExit /></div>
-    </div>
+    </>
   );
 };
 
