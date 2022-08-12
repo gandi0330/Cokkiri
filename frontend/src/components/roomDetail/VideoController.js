@@ -13,7 +13,7 @@ import music from '../../audios/voice-elephant.mp3';
 let OV;
 
 const Controller = ({
-  publisher, leaveSession, getToken, session,
+  publisher, leaveSession, getToken, session, setMainStreamManager,
 }) => {
   const audioBtn = useRef();
   const [audioActive, setAudioActive] = useState(true);
@@ -63,6 +63,7 @@ const Controller = ({
             sessionScreen.disconnect();
           });
           sessionScreen.publish(newPublisher);
+          setMainStreamManager(newPublisher);
         });
         newPublisher.once('accessDenied', () => {
           console.warn('ScreenShare: Access Denied');
@@ -104,6 +105,7 @@ Controller.propTypes = {
   leaveSession: PropTypes.func.isRequired,
   getToken: PropTypes.func.isRequired,
   session: PropTypes.object.isRequired,
+  setMainStreamManager: PropTypes.func.isRequired,
 };
 
 export default Controller;
