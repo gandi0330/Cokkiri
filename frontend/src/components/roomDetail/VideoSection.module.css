@@ -32,6 +32,34 @@
   overflow-x: auto;
 }
 
+.video {
+  position: relative;
+}
+
+.nickname {
+  font-size: 10px;
+  position: absolute;
+  top: 4;
+  left: 4;
+  background-color: white;
+  opacity: 50%;
+  color: black;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+/* .mainNickname {
+  display: block;
+  position: absolute;
+  top: 4;
+  left: 4;
+  background-color: white;
+  opacity: 50%;
+  color: black;
+  padding: 8px;
+  border-radius: 4px;
+} */
+
 @media only screen and (min-width: 750px) {
   .smallVideoSection {
     padding: 1rem 2rem;

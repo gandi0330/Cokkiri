@@ -26,6 +26,7 @@ const VideoSection = ({
   const [mainStreamManager, setMainStreamManager] = useState(null);
   const [publisher, setPublisher] = useState(null);
   const [subscribers, setSubscribers] = useState([]);
+  const [sessionScreen, setSessionScreen] = useState(null);
   // const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
   const { email, nickname } = useSelector((state) => state.auth);
   const { id } = useSelector((state) => state.room);
@@ -52,9 +53,11 @@ const VideoSection = ({
   const leaveSession = () => {
     dispatch(exitRoom({ roomId, email, id }));
     if (session) session.disconnect();
+    if (sessionScreen) sessionScreen.disconnect();
     navigate('/rooms', { place: true });
     OV = null;
     setSession(null);
+    setSessionScreen(null);
     setSubscribers([]);
     setMainStreamManager(null);
     setPublisher(null);
@@ -240,6 +243,18 @@ const VideoSection = ({
     getSubscribers(subscribers);
   }, [subscribers]);
 
+  const getSessionScreen = (s) => {
+    setSessionScreen(s);
+  };
+
+  useEffect(() => {
+    if (subscribers.length > 0) {
+      setMainStreamManager(subscribers.reverse()[0]);
+    } else {
+      setMainStreamManager(publisher);
+    }
+  }, [subscribers, publisher]);
+
   return (
     <div className={`container ${styles.container}`}>
       <div className={styles.smallVideoSection}>
@@ -248,7 +263,8 @@ const VideoSection = ({
           //   // className="stream-container"
           //   onClick={() => handleMainVideoStream(publisher)}
           // >
-          <div onClick={() => handleMainVideoStream(publisher)}>
+          <div className={styles.video} onClick={() => handleMainVideoStream(publisher)}>
+            <span className={styles.nickname}>{publisher.stream.connection.data.split('"')[3]}</span>
             <UserVideoComponent 
               streamManager={publisher} 
             />
@@ -263,7 +279,8 @@ const VideoSection = ({
             //   onClick={() => handleMainVideoStream(sub)}
             // >
             // Remote
-            <div key={`subscriber ${idx * 1}`} onClick={() => handleMainVideoStream(sub)}>
+            <div className={styles.video} key={`subscriber ${idx * 1}`} onClick={() => handleMainVideoStream(sub)}>
+              <span className={styles.nickname}>{sub.stream.connection.data.split('"')[3]}</span>
               <UserVideoComponent streamManager={sub} />
             </div>
             // </div>
@@ -272,11 +289,14 @@ const VideoSection = ({
       {session && (
         <div className={styles.wrapper}>
           {mainStreamManager && (
-          <div className={styles.videoWrapper}>
-            <UserVideoComponent streamManager={mainStreamManager} />
-            {/* <button className={styles.switchCamera} 
-            type="button" onClick={switchCamera}>Switch Camera</button> */}
-          </div>
+            <div className={styles.videoWrapper}>
+              {/* <span className={styles.mainNickname}>
+              {mainStreamManager.stream.connection.data.split('"')[3]}
+              </span> */}
+              <UserVideoComponent streamManager={mainStreamManager} />
+              {/* <button className={styles.switchCamera} 
+              type="button" onClick={switchCamera}>Switch Camera</button> */}
+            </div>
           )}
           {publisher
           && (
@@ -287,6 +307,7 @@ const VideoSection = ({
               getToken={getToken}
               session={session}
               setMainStreamManager={setMainStreamManager}
+              getSessionScreen={getSessionScreen}
             />
           )}
         </div>

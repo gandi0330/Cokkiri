@@ -6,6 +6,7 @@ import { FiShare, FiVideo, FiVideoOff } from 'react-icons/fi';
 import { GiSoundOn, GiSoundOff } from 'react-icons/gi';
 import PropTypes from 'prop-types';
 import { OpenVidu } from 'openvidu-browser';
+import { useSelector } from 'react-redux';
 
 import useAudio from '../../hooks/useAudio';
 import styles from './VideoController.module.css';
@@ -16,7 +17,7 @@ import ExcitingElephant from '../icons/ExcitingElephant';
 let OV;
 
 const Controller = ({
-  publisher, leaveSession, getToken, session, setMainStreamManager, subscribers,
+  publisher, leaveSession, getToken, session, setMainStreamManager, subscribers, getSessionScreen,
 }) => {
   const audioBtn = useRef();
   const [toggle] = useAudio(music);
@@ -24,6 +25,7 @@ const Controller = ({
   const [videoActive, setVideoActive] = useState(true);
   const [soundActive, setSoundActive] = useState(true);
   const [canExitRoom, setCanExitRoom] = useState(false);
+  const { nickname } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (!session) {
@@ -52,13 +54,33 @@ const Controller = ({
   const handleShareClick = () => {
     OV = new OpenVidu();
     const sessionScreen = OV.initSession();
+    getSessionScreen(sessionScreen);
+
+    sessionScreen.on('streamCreated', (event) => {
+      if (event.stream.typeOfVideo === 'SCREEN') {
+        sessionScreen.subscribe(event.stream, 'container-screens');
+      }
+    });
+
     getToken().then((token) => {
-      sessionScreen.connect(token).then(() => {
-        const newPublisher = OV.initPublisher('html-element-id', { videoSource: 'screen' });
+      sessionScreen.connect(token, { clientData: nickname }).then(() => {
+        const newPublisher = OV.initPublisher('container-screens', {
+          videoSource: 'screen',
+          audioSource: undefined, 
+          publishAudio: false, 
+          publishVideo: true, 
+          resolution: '640x480', 
+          frameRate: 30, 
+          insertMode: 'APPEND', 
+          mirror: false, 
+        });
         newPublisher.once('accessAllowed', () => {
           newPublisher.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
             console.log('User pressed the "Stop sharing" button');
-            sessionScreen.disconnect();
+            // sessionScreen.disconnect();
+            // setMainStreamManager(null);
+            sessionScreen.unpublish(newPublisher);
+            // setMainStreamManager(publisher);
           });
           sessionScreen.publish(newPublisher);
           setMainStreamManager(newPublisher);
@@ -122,6 +144,7 @@ Controller.propTypes = {
   getToken: PropTypes.func.isRequired,
   session: PropTypes.object.isRequired,
   setMainStreamManager: PropTypes.func.isRequired,
+  getSessionScreen: PropTypes.func.isRequired,
 };
 
 export default Controller;
