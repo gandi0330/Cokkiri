@@ -31,7 +31,7 @@ const RoomDetailPage = () => {
       dispatch(updateChats({
         from: event.from.data.split('"')[3],
         content: event.data,
-        createdAt: `${new Date(event.from.creationTime).toLocaleTimeString('ko-KR', {
+        createdAt: `${new Date().toLocaleTimeString('ko-KR', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true,
