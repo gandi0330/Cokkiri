@@ -55,6 +55,7 @@
 .detail__main p {
   color: var(--blackShade1);
   font-size: var(--baseFontSize);
+  overflow-wrap: break-word;
 }
 
 .detail_btn {
