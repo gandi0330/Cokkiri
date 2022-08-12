@@ -193,7 +193,7 @@ const VideoSection = ({
     if (!session) return;
     session.on('streamCreated', (event) => {
       const subscriber = session.subscribe(event.stream, undefined);
-      setSubscribers((prevSubscribers) => [...prevSubscribers, subscriber]);
+      setSubscribers((prevSubscribers) => [subscriber, ...prevSubscribers]);
     });
     session.on('streamDestroyed', (event) => {
       setSubscribers((prevSubscribers) => {
@@ -268,7 +268,7 @@ const VideoSection = ({
 
   useEffect(() => {
     if (subscribers.length > 0) {
-      setMainStreamManager(subscribers.reverse()[0]);
+      setMainStreamManager(subscribers[0]);
     } else {
       setMainStreamManager(publisher);
     }
@@ -295,7 +295,7 @@ const VideoSection = ({
           // </div>
         )}
         {subscribers.length > 0
-          && subscribers.reverse().map((sub, idx) => (
+          && subscribers.map((sub, idx) => (
             // <div
             //   key={`subscriber ${idx * 1}`}
             //   className={styles.videoContainer}
