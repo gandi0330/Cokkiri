@@ -64,6 +64,20 @@ const VideoSection = ({
     // setCurrentVideoDevice(null);
   };
 
+  const leaveSession2 = () => {
+    dispatch(exitRoom({ roomId, email, id }));
+    if (session) session.disconnect();
+    if (sessionScreen) sessionScreen.disconnect();
+    navigate('/rooms', { place: true });
+    OV = null;
+    setSession(null);
+    setSessionScreen(null);
+    setSubscribers([]);
+    setMainStreamManager(null);
+    setPublisher(null);
+    // setCurrentVideoDevice(null);
+  };
+
   // const listener = (e) => {
   //   e.preventDefault();
   //   e.returnValue = '';
