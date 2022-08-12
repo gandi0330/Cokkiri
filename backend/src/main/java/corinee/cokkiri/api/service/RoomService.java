@@ -46,8 +46,8 @@ public class RoomService {
     }
 
     public boolean duplicatedTitle(String title) {
-        List<Room> roomList = roomRepository.findListByTitle(title);
-        return roomList.size() > 0;
+        List<Room> result = roomRepository.findListByTitle(title);
+        return result.size() > 0;
     }
 
     public List<Room> findListByKeyword(int offset, int limit, String keyword) {
