@@ -1,5 +1,6 @@
 .video {
   height: 100%;
+  max-width: 70rem;
   border-radius: var(--borderRadius1);
   /* padding: 1rem; */
   /* width: 320px;
