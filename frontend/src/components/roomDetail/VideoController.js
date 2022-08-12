@@ -1,32 +1,37 @@
 /* eslint-disable react/forbid-prop-types */
-import { useEffect, useState, useRef } from 'react';
+import {
+  useEffect, useRef, useState,
+} from 'react';
 import { AiOutlineAudioMuted, AiOutlineAudio } from 'react-icons/ai';
 import { BiExit } from 'react-icons/bi';
 import { FiShare, FiVideo, FiVideoOff } from 'react-icons/fi';
 import { GiSoundOn, GiSoundOff } from 'react-icons/gi';
 import PropTypes from 'prop-types';
 import { OpenVidu } from 'openvidu-browser';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import useAudio from '../../hooks/useAudio';
 import styles from './VideoController.module.css';
 import music from '../../audios/voice-elephant.mp3';
 import YesNoModal from '../layout/YesNoModal';
 import ExcitingElephant from '../icons/ExcitingElephant';
+import { clickAuido, clickCamera, clickSound } from '../../store/roomSlice';
 
 let OV;
 
 const Controller = ({
   publisher, leaveSession, getToken, session, setMainStreamManager, subscribers, getSessionScreen,
 }) => {
+  const dispatch = useDispatch();
   const audioBtn = useRef();
   const [toggle] = useAudio(music);
-  const [audioActive, setAudioActive] = useState(true);
-  const [videoActive, setVideoActive] = useState(true);
-  const [soundActive, setSoundActive] = useState(true);
+  // const [audioActive, setAudioActive] = useState(true);
+  // const [videoActive, setVideoActive] = useState(true);
+  // const [soundActive, setSoundActive] = useState(true);
   const [canExitRoom, setCanExitRoom] = useState(false);
   const [doneShare, setDoneShare] = useState(false);
   const { nickname } = useSelector((state) => state.auth);
+  const { audioActive, cameraActive, soundActive } = useSelector((state) => state.room);
 
   useEffect(() => {
     if (!session) {
@@ -43,13 +48,14 @@ const Controller = ({
   const handleMuteClick = () => {
     const state = !publisher.stream.audioActive;
     publisher.publishAudio(state);
-    setAudioActive(state);
+    dispatch(clickAuido(state));
   };
 
   const handelCameraClick = () => {
     const state = !publisher.stream.videoActive;
     publisher.publishVideo(state);
-    setVideoActive(state);
+    // setVideoActive(state);
+    dispatch(clickCamera(state));
   };
 
   const handleShareClick = () => {
@@ -101,11 +107,11 @@ const Controller = ({
   };
 
   const handleSoundClick = () => {
-    setSoundActive((prev) => !prev);
     subscribers.forEach((sub) => {
       const audioEnabled = !sub.stream.audioActive;
       sub.subscribeToAudio(audioEnabled);
     });
+    dispatch(clickSound(!soundActive));
   };
 
   return (
@@ -131,7 +137,7 @@ const Controller = ({
           )}
         </div>
         <div className={styles.button} onClick={handelCameraClick}>
-          {videoActive ? <FiVideo /> : <div className={styles.colorRed}><FiVideoOff /></div>}
+          {cameraActive ? <FiVideo /> : <div className={styles.colorRed}><FiVideoOff /></div>}
         </div>
         <div className={styles.button} onClick={handleSoundClick}>
           {soundActive ? <GiSoundOn /> : <div className={styles.colorRed}><GiSoundOff /></div>}

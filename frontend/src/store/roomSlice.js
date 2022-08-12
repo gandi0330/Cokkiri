@@ -6,6 +6,11 @@ const initialState = {
   room: {},
   id: null,
   chats: [],
+
+  audioActive: true,
+  cameraActive: true,
+  soundActive: true,
+
   loading: false,
   success: false,
   error: false,
@@ -69,6 +74,15 @@ const roomSlice = createSlice({
   reducers: {
     updateChats(state, { payload }) {
       state.chats.push(payload);
+    },
+    clickAuido(state, { payload }) {
+      state.audioActive = payload;
+    },
+    clickCamera(state, { payload }) {
+      state.cameraActive = payload;
+    },
+    clickSound(state, { payload }) {
+      state.soundActive = payload;
     },
   },
   extraReducers: (builder) => {
@@ -138,7 +152,7 @@ const roomSlice = createSlice({
 });
 
 export const {
-  updateChats,
+  updateChats, clickAuido, clickCamera, clickSound,
 } = roomSlice.actions;
 
 export default roomSlice.reducer;
