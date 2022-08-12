@@ -75,3 +75,18 @@
 .myPage__pwd button:hover {
   background-color: var(--blueShade3);
 }
+
+.myPage__deletion {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.myPage__deletion button {
+  background: none;
+  outline: none;
+  border: none;
+  font-size: var(--smallFontSize1);
+  color: var(--grayShade1);
+  cursor: pointer;
+}

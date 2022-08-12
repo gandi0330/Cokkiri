@@ -7,6 +7,7 @@ import {
   getNickname,
   changeNickname,
   changePassword,
+  deleteUser,
 } from '../store/authSlice';
 import YesNoModal from '../components/layout/YesNoModal';
 import useValidation from '../hooks/useValidation';
@@ -23,6 +24,7 @@ const MyPagePage = () => {
   const [pwdBtnDisabled, setPwdBtnDisabled] = useState(false);
   const [isPwdModalOpen, setIsPwdModalOpen] = useState(false);
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
+  const [isDeletionModalOpen, setIsDeletionModalOpen] = useState(false);
 
   const {
     value: nickname,
@@ -122,6 +124,28 @@ const MyPagePage = () => {
     setIsPwdModalOpen(false);
   };
 
+  const userDeletionSubmitHandler = (event) => {
+    event.preventDefault();
+
+    if (!email || email !== localStorage.getItem('email')) return;
+
+    setIsDeletionModalOpen(true);
+  };
+
+  const userDeleteHandler = () => {
+    dispatch(deleteUser({ email }))
+      .unwrap()
+      .then(() => {
+        localStorage.removeItem('email');
+        localStorage.removeItem('token');
+      })
+      .catch((err) => console.error(err))
+      .finally(() => {
+        setIsDeletionModalOpen(false);
+        navigate('/');
+      });
+  };
+
   return (
     <>
       <YesNoModal 
@@ -143,6 +167,16 @@ const MyPagePage = () => {
         onNoClick={() => setIsNameModalOpen(false)} 
       >
         <p>정말 닉네임을 변경하시겠습니까?</p>
+      </YesNoModal>
+      <YesNoModal 
+        open={isDeletionModalOpen} 
+        onClose={() => setIsDeletionModalOpen(false)} 
+        yes="탈퇴하기"
+        no="취소하기"
+        onYesClick={() => userDeleteHandler()}
+        onNoClick={() => setIsDeletionModalOpen(false)} 
+      >
+        <p>정말 탈퇴하시겠습니까?</p>
       </YesNoModal>
       <div className={classes.myPage}>
         <h3>마이 페이지</h3>
@@ -171,6 +205,9 @@ const MyPagePage = () => {
             onBlur={pwdBlurHandler}
           />
           <button type="submit" disabled={pwdBtnDisabled}>비밀번호 변경</button>
+        </form>
+        <form id="deletion-form" className={classes.myPage__deletion} onSubmit={userDeletionSubmitHandler}>
+          <button type="submit">회원 탈퇴</button>
         </form>
       </div>
     </>

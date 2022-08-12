@@ -105,9 +105,9 @@ const MyRecordPage = () => {
       const thisWeek = await getThisWeek();
       const lastWeek = await getLastWeek();
       
-      setTotalTime(thisWeek[0]);
-      setTodayTime(thisWeek[1]);
-      setYesterdayTime(thisWeek[2]);
+      setTotalTime(thisWeek[0] || 0);
+      setTodayTime(thisWeek[1] || 0);
+      setYesterdayTime(thisWeek[2] || 0);
       setThisWeek(thisWeek.slice(1).reverse().map((seconds) => +(seconds / 3600).toFixed(1)));
       setLastWeek(lastWeek.reverse().map((seconds) => +(seconds / 3600).toFixed(1)));
     })(); 
@@ -116,7 +116,7 @@ const MyRecordPage = () => {
   useEffect(() => {
     setHours(Math.round(todayTime / 3600));
     setMinutes(Math.round((todayTime % 3600) / 60));
-    setSeconds(todayTime % 3600);
+    setSeconds((todayTime % 3600) % 60);
     setTimeDiff(todayTime - yesterdayTime);
   }, [yesterdayTime, yesterdayTime]);
 
