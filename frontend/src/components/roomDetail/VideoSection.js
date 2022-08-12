@@ -85,7 +85,11 @@ const VideoSection = ({
 
   useEffect(() => {
     window.addEventListener('beforeunload', leaveSession);
-    return () => window.removeEventListener('beforeunload', leaveSession);
+    window.addEventListener('beforeunload', leaveSession2);
+    return () => {
+      window.removeEventListener('beforeunload', leaveSession);
+      window.removeEventListener('beforeunload', leaveSession2);
+    };
   });
 
   const createSession = (sessionId) => {
