@@ -1,4 +1,3 @@
-import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,39 +13,17 @@ import {
 import classes from './VisitedListItem.module.css';
 
 const VisitedListItem = ({ 
-  type, title, roomId, id,
+  type, title, roomId, id, fav,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const email = useSelector(getUserEmail);
-  const favoriteRooms = useSelector(getFavoriteRooms);
-  const isFav = useRef();
-  isFav.current = type === 'favorite';
-  // const [isFav, setIsFav] = useState(type === 'favorite');
+  const favRooms = useSelector(getFavoriteRooms);
 
-  useEffect(() => {
-    if (type === 'recent') {
-      for (const favRoom of favoriteRooms) {
-        if (favRoom.roomId === roomId) {
-          // setIsFav(true);
-          isFav.current = true;
-        }
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-  }, [isFav.current]);
-
-  const favoriteHandler = (fav) => {
+  const favoriteHandler = () => {
     if (!email) return;
 
     if (type === 'recent' && !fav) {
-      for (const favRoom of favoriteRooms) {
-        if (favRoom.roomId === roomId) {
-          return;
-        }
-      }
       dispatch(addFavoriteRoom({ email, roomId }))
         .unwrap()
         .then(() => {
@@ -56,8 +33,18 @@ const VisitedListItem = ({
     }
 
     if (type === 'favorite' || fav) {
-      if (id === -1) return;
-      dispatch(removeFavoriteRoom({ id }))
+      let tmpId;
+      if (type === 'recent') {
+        for (const froom of favRooms) {
+          if (froom.roomId === roomId) {
+            tmpId = froom.id;
+            break;
+          }
+        }
+      }
+
+      if (type === 'recent' && !tmpId) return;
+      dispatch(removeFavoriteRoom({ id: type === 'favorite' ? id : tmpId }))
         .unwrap()
         .then(() => {
           dispatch(fetchFavoriteRooms({ email }));
@@ -66,14 +53,14 @@ const VisitedListItem = ({
     }
   };
 
-  const gotoClass = !isFav.current ? classes.notGotoStudy : classes.gotoStudy;
+  const gotoClass = !fav ? classes.notGotoStudy : classes.gotoStudy;
 
   return (
     <div className={classes.visitedStudyCard}>
       <div>
         <i>
           <FaStar 
-            onClick={() => favoriteHandler(isFav.current)}
+            onClick={() => favoriteHandler()}
             className={gotoClass}
           />
         </i>
@@ -88,6 +75,7 @@ VisitedListItem.propTypes = {
   roomId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
+  fav: PropTypes.bool.isRequired,
 };
 
 export default VisitedListItem;

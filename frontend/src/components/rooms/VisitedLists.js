@@ -41,22 +41,37 @@ const VisitedList = () => {
             <p className={classes.dropdownMsg}>방문하신 스터디가 없습니다.</p>
           )}
           {recentRooms.length > 0 && (
-            recentRooms.map((room) => (
-              <VisitiedListItem
-                type="recent"
-                key={room.roomId}
-                id={room?.id || -1}
-                roomId={room.roomId}
-                title={room.title}
-              />
-            )))}
-          {favoriteRooms.length > 0 && (
-            <>
-              <span className={classes.studyList__partition} />
-              <span className={classes.studyList__subtitle}>
-                즐겨 찾는 스터디
-              </span>
-            </>
+            recentRooms.map((room) => {
+              if (favoriteRooms.some((froom) => froom.roomId === room.roomId)) {
+                return (
+                  <VisitiedListItem
+                    type="recent"
+                    key={room.roomId}
+                    id={room?.id || -1}
+                    roomId={room.roomId}
+                    title={room.title}
+                    fav={!!true}
+                  />
+                );
+              } 
+              return (
+                <VisitiedListItem
+                  type="recent"
+                  key={room.roomId}
+                  id={room?.id || -1}
+                  roomId={room.roomId}
+                  title={room.title}
+                  fav={false}
+                />
+              );
+            })
+          )}
+          <span className={classes.studyList__partition} />
+          <span className={classes.studyList__subtitle}>
+            즐겨 찾는 스터디
+          </span>
+          {favoriteRooms.length === 0 && (
+            <p className={classes.dropdownMsg}>즐겨 찾기가 없습니다.</p>
           )}
           {favoriteRooms.length > 0
             && favoriteRooms.map((room) => (
@@ -66,6 +81,7 @@ const VisitedList = () => {
                 id={room.id}
                 roomId={room.roomId}
                 title={room.title || ''}
+                fav={!!true}
               />
             ))}
         </div>
