@@ -50,8 +50,8 @@ public class RoomService {
         return result.size() > 0;
     }
 
-    public List<Room> findListByKeyword(int offset, int limit, String keyword) {
-        return roomRepository.findListByKeyword(offset, limit, keyword);
+    public List<Room> findListByKeyword(Long cursor, int limit, String keyword) {
+        return roomRepository.findListByKeyword(cursor, limit, keyword);
     }
 
     public Long enterRoom(EnterRoomRequest request) {

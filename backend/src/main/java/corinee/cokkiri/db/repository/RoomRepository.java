@@ -31,14 +31,14 @@ public class RoomRepository {
                 .getResultList();
     }
 
-    public List<Room> findListByKeyword(int offset, int limit, String keyword) {
-        if(keyword == null) return em.createQuery("select r from Room r", Room.class)
-                .setFirstResult(offset)
+    public List<Room> findListByKeyword(Long cursor, int limit, String keyword) {
+        if(keyword == null) return em.createQuery("select r from Room r where r.roomId < :cursor order by r.roomId DESC ", Room.class)
+                .setParameter("cursor", cursor)
                 .setMaxResults(limit)
                 .getResultList();
-        return em.createQuery("select r from Room r where r.title like :keyword", Room.class)
+        return em.createQuery("select r from Room r where r.title like :keyword and r.roomId < :cursor order by  r.roomId DESC ", Room.class)
                 .setParameter("keyword", "%" + keyword + "%")
-                .setFirstResult(offset)
+                .setParameter("cursor", cursor)
                 .setMaxResults(limit)
                 .getResultList();
     }

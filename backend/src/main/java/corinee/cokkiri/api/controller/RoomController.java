@@ -44,17 +44,17 @@ public class RoomController {
         return ResponseEntity.status(200).body(AddRoomResponse.of(200, "스터디룸 생성에 성공했습니다", roomId));
     }
 
-    @ApiOperation(value = "스터디룸 목록 조회", notes = "[offset : 페이지 시작점]    [limit : 1페이당 정보 개수]")
+    @ApiOperation(value = "스터디룸 목록 조회", notes = "[cursor : 가장 이전에 조회한 스터디룸 id (처음이면 -1)]    [limit : 1페이당 정보 개수]")
     @GetMapping("/room/list")
     @ApiResponses({
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=204, message = "스터디룸이 존재하지 않습니다"),
     })
-    public ResponseEntity<? extends BaseResponse> getRoomList(@RequestParam("offset") int offset,
+    public ResponseEntity<? extends BaseResponse> getRoomList(@RequestParam("cursor") Long cursor,
                                                                @RequestParam("limit") int limit,
                                                                @RequestParam(required = false, value = "keyword") String keyword) {
-
-        List<Room> roomList = roomService.findListByKeyword(offset, limit, keyword);
+        if(cursor == -1) cursor = Long.MAX_VALUE;
+        List<Room> roomList = roomService.findListByKeyword(cursor, limit, keyword);
         if (roomList == null || roomList.size() == 0)
             return ResponseEntity.status(204).body(BaseResponse.of(204, "스터디룸이 존재하지 않습니다"));
         return ResponseEntity.status(200).body(GetRoomListResponse.of(200, "스터디룸 목록 조회 성공", roomList));
