@@ -35,9 +35,9 @@ const Dropdown = ({ selected, setSelected, options }) => {
 };
 
 Dropdown.propTypes = {
-  selected: PropTypes.string.isRequired,
+  selected: PropTypes.number.isRequired,
   setSelected: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  options: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
 export default Dropdown;
