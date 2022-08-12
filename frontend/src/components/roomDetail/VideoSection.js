@@ -48,6 +48,11 @@ const VideoSection = ({
   };
 
   const leaveSession = () => {
+    console.log('=================leaveSession=============');
+    const res = window.confirm('정말로 나가시겠습니까?');
+    if (!res) {
+      return;
+    }
     dispatch(exitRoom({ roomId, email, id }));
     if (session) session.disconnect();
     navigate('/rooms', { place: true });
@@ -83,10 +88,10 @@ const VideoSection = ({
     joinSession();
   }, []);
 
-  useEffect(() => {
-    window.addEventListener('beforeunload', leaveSession);
-    return () => window.removeEventListener('beforeunload', leaveSession);
-  });
+  // useEffect(() => {
+  //   window.addEventListener('beforeunload', leaveSession);
+  //   return () => window.removeEventListener('beforeunload', leaveSession);
+  // });
 
   const createSession = (sessionId) => {
     return new Promise((resolve) => {
@@ -238,7 +243,7 @@ const VideoSection = ({
   useEffect(() => {
     getSubscribers(subscribers);
   }, [subscribers]);
-  
+
   return (
     <div className={`container ${styles.container}`}>
       <div className={styles.smallVideoSection}>
@@ -285,6 +290,7 @@ const VideoSection = ({
             leaveSession={leaveSession}
             getToken={getToken}
             session={session}
+            setMainStreamManager={setMainStreamManager}
           />
           )}
       </div>

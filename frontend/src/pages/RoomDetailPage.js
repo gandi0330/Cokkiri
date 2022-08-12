@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import RightSideBar from '../components/roomDetail/RightSideBar';
 import RightSidePanel from '../components/roomDetail/RightSidePanel';
@@ -10,18 +10,18 @@ import { getRoom, updateChats } from '../store/roomSlice';
 
 const RoomDetailPage = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { roomId } = useParams();
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  // const { isLoggedIn } = useSelector((state) => state.auth);
   const [type, setType] = useState('off');
   const [session, setSession] = useState(null);
   const [publisher, setPublisher] = useState({});
   const [subscribers, setSubscribers] = useState([]);
 
-  if (!isLoggedIn) {
-    navigate('/login', { replace: true });
-    return;
-  }
+  // if (!isLoggedIn) {
+  //   navigate('/login', { replace: true });
+  //   return;
+  // }
 
   useEffect(() => {
     if (!session) {
@@ -63,7 +63,7 @@ const RoomDetailPage = () => {
   const getSubscribers = (s) => {
     setSubscribers(s);
   };
-  
+
   return (
     <div className={classes.container}>
       <div className={`${classes.contents} ${type !== 'off' && classes.open}`}>
