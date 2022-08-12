@@ -290,10 +290,15 @@ const VideoSection = ({
         <div className={styles.wrapper}>
           {mainStreamManager && (
             <div className={styles.videoWrapper}>
-              {/* <span className={styles.mainNickname}>
-              {mainStreamManager.stream.connection.data.split('"')[3]}
-              </span> */}
-              <UserVideoComponent streamManager={mainStreamManager} />
+              <div className={styles.video__mainstream}>
+                <span className={styles.mainNickname}>
+                  {mainStreamManager.stream.connection.data.split('"')[3]}
+                </span>
+                <UserVideoComponent 
+                  className={styles.mainNickname} 
+                  streamManager={mainStreamManager} 
+                />
+              </div>
               {/* <button className={styles.switchCamera} 
               type="button" onClick={switchCamera}>Switch Camera</button> */}
             </div>
