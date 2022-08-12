@@ -6,7 +6,7 @@ const initialState = {
   email: null,
   nickname: null,
   isLoggedIn: false,
-  isEmailSend: false,
+  // isEmailSend: false,
   
   loading: false,
   success: false,
@@ -192,19 +192,19 @@ const authSlice = createSlice({
       state.loading = true;
       state.success = false;
       state.error = false;
-      state.isEmailSend = false;
+      // state.isEmailSend = false;
     });
     builder.addCase(fetchAuthToken.fulfilled, (state) => {
       state.loading = false;
       state.success = true;
       state.error = false;
-      state.isEmailSend = true;
+      // state.isEmailSend = true;
     });
     builder.addCase(fetchAuthToken.rejected, (state) => {
       state.loading = false;
       state.success = false;
       state.error = true;
-      state.isEmailSend = false;
+      // state.isEmailSend = false;
     });
     // builder.addCase(signupCertification.pending, (state) => {
     //   state.loading = true;
@@ -335,7 +335,7 @@ const authSlice = createSlice({
 export const getNickname = (state) => state.auth.nickname;
 export const getUserEmail = (state) => state.auth.email;
 export const getAllUserState = (state) => state.auth;
-export const getIsEmailSend = (state) => state.auth.isEmailSend;
+// export const getIsEmailSend = (state) => state.auth.isEmailSend;
 export const getLoggedIn = (state) => state.auth.isLoggedIn;
 export const getLoadding = (state) => state.auth.loading;
 
