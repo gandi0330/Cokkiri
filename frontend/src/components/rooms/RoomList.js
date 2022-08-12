@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import RoomListItem from './RoomListItem';
@@ -6,7 +6,7 @@ import RoomListItem from './RoomListItem';
 import classes from './RoomList.module.css';
 
 const RoomList = ({
-  rooms, loading, hasMore, pageHandler,
+  rooms, loading, hasMore, pageHandler, setLastItemIdx,
 }) => {
   const observer = useRef();
   const lastRoomElementRef = useCallback((node) => {
@@ -20,6 +20,10 @@ const RoomList = ({
     });
     if (node) observer.current.observe(node);
   }, [loading, hasMore]);
+
+  useEffect(() => {
+    setLastItemIdx(rooms[rooms.length - 1]?.roomId);
+  }, [rooms]);
 
   return (
     <section className={classes.roomList}>
@@ -61,6 +65,7 @@ RoomList.propTypes = {
   loading: PropTypes.bool.isRequired,
   hasMore: PropTypes.bool.isRequired,
   pageHandler: PropTypes.func.isRequired,
+  setLastItemIdx: PropTypes.func.isRequired,
 };
 
 export default RoomList;
