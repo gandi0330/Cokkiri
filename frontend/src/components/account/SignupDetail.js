@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { AiFillWarning } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,16 +8,17 @@ import useValidation from '../../hooks/useValidation';
 import { 
   validateEmail, validateNickname, validatePassword, validateNumber,
 } from './validationCheck';
-import { fetchAuthToken, getIsEmailSend, signup } from '../../store/authSlice';
+import { fetchAuthToken, signup } from '../../store/authSlice';
 import styles from './Account.module.css';
 
 const SignupDetail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [signupError, setSignupError] = useState(null);
-  const isEmailSend = useSelector(getIsEmailSend);
+  // const isEmailSend = useSelector(getIsEmailSend);
   const [sendAuthFailMsg, setSendAuthFailMsg] = useState(null);
   const [failMsg, setFailMsg] = useState(null);
+  const [isEmailSend, setIsEmailSend] = useState(false);
 
   const alertUser = (event) => {
     event.preventDefault();
@@ -80,6 +81,7 @@ const SignupDetail = () => {
   const requestAuthToken = () => {
     setSendAuthFailMsg(null);
     resetCertificateNumber();
+    setIsEmailSend(true);
 
     if (emailHasError) {
       setSendAuthFailMsg('이메일을 다시 확인해주세요.');
