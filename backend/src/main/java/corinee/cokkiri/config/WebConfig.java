@@ -19,6 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/user/new")
                 .excludePathPatterns("/user/email")
                 .excludePathPatterns("/user/email/*/*")
+                .excludePathPatterns("/user/refreshtoken/**")
                 .addPathPatterns("/user/info/*")
                 .addPathPatterns("/user/secession/*")
                 .addPathPatterns("/answer")
