@@ -25,6 +25,7 @@ const Controller = ({
   const [videoActive, setVideoActive] = useState(true);
   const [soundActive, setSoundActive] = useState(true);
   const [canExitRoom, setCanExitRoom] = useState(false);
+  const [doneShare, setDoneShare] = useState(false);
   const { nickname } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -52,6 +53,10 @@ const Controller = ({
   };
 
   const handleShareClick = () => {
+    if (doneShare) {
+      return;
+    }
+    setDoneShare(true);
     OV = new OpenVidu();
     const sessionScreen = OV.initSession();
     getSessionScreen(sessionScreen);
