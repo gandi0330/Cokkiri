@@ -15,7 +15,7 @@ const RoomCreationForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { email, isLoggedIn } = useSelector((state) => state.auth);
-  const [selected, setSelected] = useState('2');
+  const [selected, setSelected] = useState(2);
   const [isTitleDuplicate, setIsTitleDuplicate] = useState(null);
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
@@ -89,7 +89,7 @@ const RoomCreationForm = () => {
 
   // const [isRoomPublic, setIsRoomPublic] = useToggle(false);
 
-  const dropdownOptions = ['2', '4', '6', '8', '10', '12', '14', '16'];
+  const dropdownOptions = [2, 4, 6, 8, 16, 30];
 
   let formIsValid = false;
 
@@ -105,11 +105,11 @@ const RoomCreationForm = () => {
       navigate('/login', { replace: true });
       return;
     }
-
+    
     setButtonDisabled(true);
     setTimeout(() => {
       setButtonDisabled(false);
-    }, 2000);    
+    }, 2000);
     setIsTitleDuplicate(null);
 
     if (!titleIsValid || !descriptionIsValid || !title || !description) {
@@ -118,8 +118,8 @@ const RoomCreationForm = () => {
     // if (!titleIsValid || !descriptionIsValid || !pwdIsValid || !title || !description) {
     //   return;
     // }
-
-    dispatch(makeRoom({ email, title, userLimit: 4 }))
+    
+    dispatch(makeRoom({ email, title, userLimit: parseInt(selected, 10) }))
       .unwrap()
       .then((res) => {
         navigate(`/room/${res.roomId}`, { replace: true });
@@ -130,7 +130,6 @@ const RoomCreationForm = () => {
         }
         console.error(err);
       });
-
     formIsValid = false;
   };
 
@@ -222,7 +221,7 @@ const RoomCreationForm = () => {
           </div> */}
         </div>
         <div className={classes.btn}>
-          <button type="submit" className={classes.btnDetail} disabled={!formIsValid || !buttonDisabled}>방 만들기</button>
+          <button type="submit" className={classes.btnDetail} disabled={!formIsValid || buttonDisabled}>방 만들기</button>
         </div>
       </div>
     </form>
