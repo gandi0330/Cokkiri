@@ -33,10 +33,16 @@ const ChatForm = ({ session }) => {
 
   return (
     <form onSubmit={onSubmit} className={styles.form}>
-      <input className={styles.chatInput} ref={input} value={myMsg} onChange={onChangeMsg} />
-      <span className={styles.placeholder}>채팅을 입력해주세요.</span>
+      <input 
+        className={styles.chatInput} 
+        ref={input} 
+        value={myMsg} 
+        onChange={onChangeMsg}
+        placeholder="채팅을 입력해주세요." 
+      />
+      {/* <span className={styles.placeholder}>채팅을 입력해주세요.</span> */}
       <button className={styles.chatBtn} type="button">
-        <FiSend size="20" />
+        <FiSend />
       </button>
     </form>
   );

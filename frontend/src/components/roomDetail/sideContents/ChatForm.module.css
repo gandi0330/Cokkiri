@@ -1,33 +1,37 @@
 .form {
-  position: relative;
-  text-align: center;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  bottom: 10%;
+  width: 100%;
+  padding: 0 1rem;
 }
 
 .chatInput {
-  height: 100px;
-  width: 300px;
-  border: 1px solid var(--blueShade1);
-  border-radius: 12px;
-  padding-left: 12px;
-  padding-bottom: 60px;
   width: 100%;
-}
-
-.placeholder {
-  position: absolute;
-  top: 12px;
-  left: 30px;
-}
-
-.chatInput:focus ~ .placeholder {
-  display: none;
+  resize: none;
+  border-radius: var(--borderRadius2);
+  padding: 1rem 2.5rem 1rem 1rem;
+  color: var(--blackShade1);
+  font-size: var(--smallFontSize1);
+  outline: none;
+  border: 1px solid var(--blueShade2);
 }
 
 .chatBtn {
   position: absolute;
-  top: 12px;
-  left: 250px;
   background: none;
   border: none;
+  outline: none;
   color: var(--grayShade1);
+  font-size: var(--headingFontSize4);
+  top: 30%;
+  right: 10%;
+}
+
+@media screen and (min-width: 750px) {
+  .form {
+    bottom: 5%;
+  }
 }

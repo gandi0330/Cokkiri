@@ -1,14 +1,34 @@
 .chat {
   display: flex;
   flex-direction: column;
+  gap: .3rem;
+  font-size: var(--baseFontSize);
+}
+
+.chat__info__me {
+  text-align: right;
+}
+
+.chat__info__other {
+  text-align: left;
+}
+
+.createdAt {
+  color: var(--grayShade1);
+  font-size: var(--smallFontSize2);
 }
 
 .nickname {
-  color: var(--blueShade1);
+  color: var(--grayShade1);
 }
 
 .content {
-  margin-top: 4px;
+  font-weight: bold;
   color: var(--blackShade1);
-  font-size: var(--headingFontSize4);
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.other__msg {
+  text-align: left;
 }

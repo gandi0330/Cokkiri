@@ -3,12 +3,24 @@
 
 import styles from './ChatContent.module.css';
 
-const ChatContent = ({ chat }) => {
+const ChatContent = ({ chat, type }) => {
   return (
     <div className={styles.chat}>
-      <div><span className={styles.nickname}>{chat.from}</span>{' '}<span className={styles.createdAt}>{chat.createdAt}</span></div>
-      <div className={styles.content}>{chat.content}</div>
-      <br />
+      <div
+        className={
+          type === 'me' ? styles.chat__info__me : styles.chat__info__other
+        }
+      >
+        <span className={styles.nickname}>{chat.from}</span>{' '}
+        <span className={styles.createdAt}>{chat.createdAt}</span>
+      </div>
+      <div
+        className={`${styles.content} ${
+          type === 'other' && styles.other__msg
+        }`}
+      >
+        {chat.content}
+      </div>
     </div>
   );
 };

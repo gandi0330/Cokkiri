@@ -108,8 +108,8 @@ const MyRecordPage = () => {
       setTotalTime(thisWeek[0]);
       setTodayTime(thisWeek[1]);
       setYesterdayTime(thisWeek[2]);
-      setThisWeek(thisWeek.slice(1).map((seconds) => seconds / 3600));
-      setLastWeek(lastWeek.map((seconds) => seconds / 3600));
+      setThisWeek(thisWeek.slice(1).reverse().map((seconds) => +(seconds / 3600).toFixed(1)));
+      setLastWeek(lastWeek.reverse().map((seconds) => +(seconds / 3600).toFixed(1)));
     })(); 
   }, [email]);
 
@@ -138,7 +138,7 @@ const MyRecordPage = () => {
             <div className={classes.myRecord__today__diff}>
               어제보다 
               <span>
-                {Math.trunc(Math.abs(timeDiff / 3600))}시간  
+                {` ${Math.trunc(Math.abs(timeDiff / 3600))}`}시간  
                 {` ${Math.trunc(Math.abs((timeDiff % 3600) / 60))}`}분
               </span> 
               {timeDiff >= 0 ? ' 더 공부하셨습니다.' : ' 덜 공부했습니다'}

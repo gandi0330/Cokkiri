@@ -93,7 +93,7 @@ const Controller = ({
       <div className={styles.button} onClick={handleBellClick}>
         {bellActive ? <BiBell /> : <div className={styles.colorRed}><BiBellOff /></div>}
       </div>
-      <div className={styles.button} onClick={handleShareClick}><FiShare /></div>
+      <div className={`${styles.button} ${styles.share__btn}`} onClick={handleShareClick}><FiShare /></div>
       <div className={`${styles.button} ${styles.exitButton}`} onClick={leaveSession}><BiExit /></div>
     </div>
   );

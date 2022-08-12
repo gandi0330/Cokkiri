@@ -1,14 +1,18 @@
 .wrapper {
+  width: 100%;
+  padding: 0 .5rem;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .nickname {
   color: var(--blueShade1);
+  font-size: var(--headingFontSize4);
 }
 
 .buttons {
   color: var(--blueShade1);
+  font-size: var(--headingFontSize4);
   display: flex;
 }
 
