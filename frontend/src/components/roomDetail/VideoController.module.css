@@ -1,7 +1,7 @@
 .buttonGroup {
-  position: absolute;
+  position: fixed;
   left: 0;
-  bottom: 4%;
+  bottom: 10%;
   width: 100%;
   padding: 0 1rem;
   display: flex;
@@ -42,6 +42,8 @@
 
 @media screen and (min-width: 750px) {
   .buttonGroup {
+    position: absolute;
+    bottom: 4%;
     width: min(25rem, 50%);
     left: 50%;
     transform: translate(-50%);

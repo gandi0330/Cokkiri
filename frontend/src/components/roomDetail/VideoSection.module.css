@@ -1,11 +1,12 @@
 .container {
   width: 100%;
-  height: 95vh;
+  height: 94vh;
 }
 
 .wrapper {
   width: 100%;
   height: 80%;
+  padding-bottom: 4.5rem;
   position: relative;
 }
 
@@ -19,14 +20,25 @@
   height: 100%;
 }
 
+.video__mainstream {
+  position: relative;
+}
+
 .video__mainstream > span {
   position: absolute;
   top: 0;
-  left: 25%;
+  left: 0;
   padding: .5rem;
   background-color: rgba(255, 255, 255, .5);
-  border-radius: 2px;
+  border-radius: 0 0 5px 0;
   color: var(--blackShade1);
+  z-index: 3;
+}
+
+.video__mainstream video {
+  position: relative;
+  border-radius: var(--borderRadius1);
+  width: 100vw;
 }
 
 .switchCamera {
@@ -56,17 +68,24 @@
   border-radius: 2px;
 }
 
-.video__mainstream {
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  justify-content: center;
-}
 
 @media only screen and (min-width: 750px) {
   .smallVideoSection {
     padding: 1rem 2rem;
     justify-content: center;
+  }
+
+  .wrapper {
+    padding-bottom: 0rem;
+  }
+
+  .video__mainstream {
+    height: 100%;
+    max-height: 600px;
+  }
+
+  .video__mainstream video {
+    width: auto;
   }
 
   .video__mainstream > span {

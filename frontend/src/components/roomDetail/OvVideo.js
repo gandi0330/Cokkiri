@@ -5,7 +5,7 @@ import styles from './OvVideo.module.css';
 // eslint-disable-next-line react/prop-types
 const OpenViduVideoComponent = ({ streamManager }) => {
   const videoRef = useRef();
-
+  console.log(streamManager);
   useEffect(() => {
     if (videoRef) {
       // eslint-disable-next-line react/prop-types
