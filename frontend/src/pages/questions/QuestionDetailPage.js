@@ -78,9 +78,7 @@ const QuestionDetailPage = ({
         <div className={classes.detail}>
           <header>
             <h3>{`Q. ${question.title}`}</h3>
-            {/* <button type="button" onClick={() => navigate(`/room/${roomId}/questions`)}>
-              <Back /></button> */}
-            <button type="button" onClick={() => setQuestionRoute('main')}><Back /></button>
+            {/* <button type="button" onClick={() => setQuestionRoute('main')}><Back /></button> */}
             
             <span>
               {`${question.questionWriterEmail} | ${question?.create_dateTime?.slice(0, question?.create_dateTime?.indexOf('T'))}`}
@@ -109,6 +107,9 @@ const QuestionDetailPage = ({
             />
             <AnswerList originalCode={question.code || ''} questionId={questionId} />
           </section>
+          <button type="button" className={classes.detail__backBtn} onClick={() => setQuestionRoute('main')}>
+            <Back />
+          </button>
         </div>
       )}
     </>

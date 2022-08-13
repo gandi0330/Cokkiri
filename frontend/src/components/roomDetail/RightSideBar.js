@@ -2,7 +2,7 @@ import {
   BsPeopleFill, BsPeople, BsStopwatch, BsStopwatchFill,
 } from 'react-icons/bs';
 import { AiFillMessage, AiOutlineMessage } from 'react-icons/ai';
-import { RiQuestionAnswerFill, RiQuestionAnswerLine } from 'react-icons/ri';
+import { RiQuestionAnswerFill, RiQuestionAnswerLine, RiVideoLine } from 'react-icons/ri';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -51,6 +51,11 @@ const RightSideBar = ({ getType }) => {
     }
   };
 
+  const toggleVideo = () => {
+    setState('off');
+    getType('off');
+  };
+
   return (
     <nav className={styles.nav}>
       <div>
@@ -76,6 +81,12 @@ const RightSideBar = ({ getType }) => {
           ? <RiQuestionAnswerFill onClick={toggleQuestion} /> 
           : <RiQuestionAnswerLine onClick={toggleQuestion} />}
       </div>
+
+      {state !== 'off' && (
+        <div>
+          {state !== 'video' && <RiVideoLine className={styles.video__home} onClick={toggleVideo} />} 
+        </div>
+      )}
 
     </nav>
   );
