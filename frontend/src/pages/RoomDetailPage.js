@@ -18,6 +18,29 @@ const RoomDetailPage = () => {
   const [publisher, setPublisher] = useState({});
   const [subscribers, setSubscribers] = useState([]);
 
+  // 나가기 전에 체크 ===========================
+
+  const [closeSession, setCloseSession] = useState(false);
+
+  const closeQuickView = () => {
+    // onCloseQuickViews();
+    setCloseSession(true);
+  };
+
+  useEffect(() => {
+    window.history.pushState('fake-route', document.title, window.location.href);
+
+    window.addEventListener('popstate', closeQuickView);
+    
+    return () => {
+      window.removeEventListener('popstate', closeQuickView);
+      if (window.history.state === 'fake-route') {
+        window.history.back();
+      }
+    };
+  }, []);
+  // ===========================================
+
   // if (!isLoggedIn) {
   //   navigate('/login', { replace: true });
   //   return;
@@ -80,6 +103,7 @@ const RoomDetailPage = () => {
               getSession={getSession}
               getPublisher={getPublisher}
               getSubscribers={getSubscribers}
+              closeSession={closeSession}
             />
             )
           }

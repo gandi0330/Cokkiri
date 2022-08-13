@@ -48,13 +48,13 @@ const RoomListItem = forwardRef(({
       setNoRoomIn(true);
       return;
     }
-    // navigate(`/room/${roomId}`);
-    const isMobile = navigator.userAgentData.mobile;
-    if (isMobile) {
-      window.location.assign(`/room/${roomId}`);
-    } else {
-      window.open(`/room/${roomId}`, '_blank');
-    }
+    navigate(`/room/${roomId}`);
+    // const isMobile = navigator.userAgentData.mobile;
+    // if (isMobile) {
+    //   window.location.assign(`/room/${roomId}`);
+    // } else {
+    //   window.open(`/room/${roomId}`, '_blank');
+    // }
     dispatch(updateRecentRooms({ email, roomId }));
   };
 
