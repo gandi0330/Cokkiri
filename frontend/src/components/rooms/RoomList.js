@@ -1,4 +1,6 @@
-import { useCallback, useRef, useEffect } from 'react';
+import { 
+  useCallback, useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 
 import RoomListItem from './RoomListItem';
@@ -6,7 +8,7 @@ import RoomListItem from './RoomListItem';
 import classes from './RoomList.module.css';
 
 const RoomList = ({
-  rooms, loading, hasMore, pageHandler, setLastItemIdx,
+  rooms, loading, hasMore, setLastItemIdx,
 }) => {
   const observer = useRef();
   const lastRoomElementRef = useCallback((node) => {
@@ -15,15 +17,11 @@ const RoomList = ({
     observer.current = new IntersectionObserver((entries) => {
       const lastRoom = entries[0];
       if (lastRoom.isIntersecting && hasMore) {
-        pageHandler(); 
+        setLastItemIdx(rooms.length > 0 ? rooms[rooms.length - 1].roomId : -1);
       }
     });
     if (node) observer.current.observe(node);
   }, [loading, hasMore]);
-
-  useEffect(() => {
-    setLastItemIdx(rooms[rooms.length - 1]?.roomId);
-  }, [rooms]);
 
   return (
     <section className={classes.roomList}>
@@ -55,16 +53,20 @@ const RoomList = ({
 };
 
 RoomList.propTypes = {
-  rooms: PropTypes.arrayOf(PropTypes.shape({
-    roomId: PropTypes.number,
-    title: PropTypes.string,
-    createDateTime: PropTypes.string,
-    userCount: PropTypes.number,
-    userLimit: PropTypes.number,
-  })).isRequired,
+  // rooms: PropTypes.arrayOf(
+  //   // PropTypes.shape({
+  //   //   roomId: PropTypes.number,
+  //   //   title: PropTypes.string,
+  //   //   createDateTime: PropTypes.string,
+  //   //   userCount: PropTypes.number,
+  //   //   userLimit: PropTypes.number,
+  //   // }),
+  //   PropTypes.object,
+  // ).isRequired,
+  rooms: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
   hasMore: PropTypes.bool.isRequired,
-  pageHandler: PropTypes.func.isRequired,
+  // pageHandler: PropTypes.func.isRequired,
   setLastItemIdx: PropTypes.func.isRequired,
 };
 
