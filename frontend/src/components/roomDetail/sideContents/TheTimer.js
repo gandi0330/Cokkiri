@@ -17,8 +17,6 @@ const TheTimer = () => {
   const [stop, setStop] = useState(false);
   const [toggle] = useAudio(music);
 
-  console.log(hours, minutes, seconds);
-
   useEffect(() => {
     if (!start) {
       return;
