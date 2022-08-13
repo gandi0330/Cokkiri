@@ -24,14 +24,14 @@
 
 .me {
   width: 100%;
-  padding-right: 1rem;
+  padding-right: .5rem;
   display: flex;
   justify-content: flex-end;
 }
 
 .others {
   width: 100%;
-  padding-left: 1rem;
+  padding-left: .3rem;
   display: flex;
   justify-content: flex-start;
 }

@@ -41,7 +41,7 @@ const ChatForm = ({ session }) => {
         placeholder="채팅을 입력해주세요." 
       />
       {/* <span className={styles.placeholder}>채팅을 입력해주세요.</span> */}
-      <button className={styles.chatBtn} type="button">
+      <button className={styles.chatBtn} type="submit">
         <FiSend />
       </button>
     </form>

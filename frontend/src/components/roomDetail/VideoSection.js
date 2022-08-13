@@ -282,31 +282,19 @@ const VideoSection = ({
     <div className={`container ${styles.container}`}>
       <div className={styles.smallVideoSection}>
         {publisher && (
-          // <div
-          //   // className="stream-container"
-          //   onClick={() => handleMainVideoStream(publisher)}
-          // >
           <div className={styles.video} onClick={() => handleMainVideoStream(publisher)}>
             <span className={styles.nickname}>{publisher.stream.connection.data.split('"')[3]}</span>
             <UserVideoComponent 
               streamManager={publisher} 
             />
           </div>
-          // </div>
         )}
         {subscribers.length > 0
           && subscribers.map((sub, idx) => (
-            // <div
-            //   key={`subscriber ${idx * 1}`}
-            //   className={styles.videoContainer}
-            //   onClick={() => handleMainVideoStream(sub)}
-            // >
-            // Remote
             <div className={styles.video} key={`subscriber ${idx * 1}`} onClick={() => handleMainVideoStream(sub)}>
               <span className={styles.nickname}>{sub.stream.connection.data.split('"')[3]}</span>
               <UserVideoComponent streamManager={sub} />
             </div>
-            // </div>
           ))}
       </div>
       {session && (
