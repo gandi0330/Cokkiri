@@ -20,7 +20,8 @@ const useRoomSearch = (query, lastItemIdx) => {
 
     axios({
       method: 'GET',
-      url: '/room/list',
+      url: 'https://i7c107.p.ssafy.io/api/room/list',
+      // url: '/room/list',
       params: { cursor: lastItemIdx, limit: 15, keyword: query },
       signal: controller.signal,
 

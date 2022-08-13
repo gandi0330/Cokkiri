@@ -198,7 +198,7 @@ const SignupDetail = () => {
 
         {isPwdOnFocus && (
           <span className={styles.pwdMsg}>
-            * 비밀번호는 영어 대문자, 소문자, 숫자, 특수문자(!@#$%^&*) 포함 8글자 이상입니다.
+            * 비밀번호는 영어 대문자, 소문자, 숫자, 특수문자(!@#$%^&*) 각각 하나씩 포함해 8글자 이상입니다.
           </span>
         )}
 

@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 import {
-  useEffect, useRef, useState,
+  useEffect, useState,
 } from 'react';
 import { AiOutlineAudioMuted, AiOutlineAudio } from 'react-icons/ai';
 import { BiExit } from 'react-icons/bi';
@@ -23,7 +23,7 @@ const Controller = ({
   publisher, leaveSession, getToken, session, setMainStreamManager, subscribers, getSessionScreen,
 }) => {
   const dispatch = useDispatch();
-  const audioBtn = useRef();
+  // const audioBtn = useRef();
   const [toggle] = useAudio(music);
   // const [audioActive, setAudioActive] = useState(true);
   // const [videoActive, setVideoActive] = useState(true);
@@ -38,12 +38,14 @@ const Controller = ({
       return;
     }
     session.on('signal:bell', () => {
-      audioBtn.current.click();
+      toggle();
+      // audioBtn.current.onClick();
     });
     return () => {
       session.off('signal:bell', () => {});
     };
-  }, [session]);
+  // eslint-disable-next-line no-underscore-dangle
+  }, [session.ee._events['signal:bell']]);
 
   const handleMuteClick = () => {
     const state = !publisher.stream.audioActive;
@@ -128,9 +130,9 @@ const Controller = ({
         <p>정말로 나가시겠습니까?</p>
       </YesNoModal>
       <div className={styles.buttonGroup}>
-        <div className={styles.hidden}>
-          <button ref={audioBtn} onClick={toggle} type="button" />
-        </div>
+        {/* <div className={styles.hidden}>
+          <button onClick={() => toggle()} type="button" />
+        </div> */}
         <div className={styles.button} onClick={handleMuteClick}>
           {audioActive ? <AiOutlineAudio /> : ( 
             <div className={styles.colorRed}><AiOutlineAudioMuted /></div>

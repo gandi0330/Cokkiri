@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const BASE_URL = 'https://i7c107.p.ssafy.io/api';
-const BASE_URL = '';
+const BASE_URL = 'https://i7c107.p.ssafy.io/api';
+// const BASE_URL = '';
 
 const useRefreshToken = () => {
   const refresh = async () => {
