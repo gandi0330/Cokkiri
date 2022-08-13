@@ -19,6 +19,7 @@ const SignupDetail = () => {
   const [sendAuthFailMsg, setSendAuthFailMsg] = useState(null);
   const [failMsg, setFailMsg] = useState(null);
   const [isEmailSend, setIsEmailSend] = useState(false);
+  const [timerOn, setTimerOn] = useState(true);
 
   const alertUser = (event) => {
     event.preventDefault();
@@ -81,7 +82,15 @@ const SignupDetail = () => {
   const requestAuthToken = () => {
     setSendAuthFailMsg(null);
     resetCertificateNumber();
+    setTimerOn(false);
+
+    if (emailHasError || nicknameHasError 
+      || passwordHasError || passwordCheckError) {
+      return;
+    }
+
     setIsEmailSend(true);
+    setTimerOn(false);
 
     if (emailHasError) {
       setSendAuthFailMsg('이메일을 다시 확인해주세요.');
@@ -105,7 +114,7 @@ const SignupDetail = () => {
 
     dispatch(fetchAuthToken({ email }))
       .unwrap()
-      .then()
+      .then(() => setTimerOn(true))
       .catch(() => {
         setSendAuthFailMsg('인증번호 요청 과정에서 에러가 발생했습니다. 다시 시도해 주세요.');
       });
@@ -223,9 +232,11 @@ const SignupDetail = () => {
 
             <div className={`${styles.inputBox} ${certificateNumberErrorMsg && styles.invalid}`}>
 
-              <span className={styles.timer}>
-                <Timer min={3} sec={0} onTimerZero={onTimerZero} />
-              </span>
+              {timerOn && (
+                <span className={styles.timer}>
+                  <Timer min={3} sec={0} onTimerZero={onTimerZero} />
+                </span>
+              )}
               
               <label htmlFor="number">인증번호</label>
               
