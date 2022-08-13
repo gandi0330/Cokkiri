@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { 
+  useCallback, useEffect, useState, useRef,
+} from 'react';
 import { useDispatch } from 'react-redux';
 import { AiFillWarning } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
@@ -15,11 +17,22 @@ const SignupDetail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [signupError, setSignupError] = useState(null);
-  // const isEmailSend = useSelector(getIsEmailSend);
   const [sendAuthFailMsg, setSendAuthFailMsg] = useState(null);
   const [failMsg, setFailMsg] = useState(null);
   const [isEmailSend, setIsEmailSend] = useState(false);
   const [timerOn, setTimerOn] = useState(true);
+  const [passwordCheck, setPasswordCheck] = useState('');
+  const [passwordCheckError, setPasswordCheckError] = useState(false);
+  const [isPwdOnFocus, setIsPwdOnFocus] = useState(false);
+  const pwdRef = useRef();
+
+  useEffect(() => {
+    if (document.activeElement === pwdRef.current) {
+      setIsPwdOnFocus(true);
+    } else {
+      setIsPwdOnFocus(false);
+    }
+  }, [document.activeElement]);
 
   const alertUser = (event) => {
     event.preventDefault();
@@ -49,13 +62,14 @@ const SignupDetail = () => {
     inputBlurHandler: nicknameBlurHandler,
   } = useValidation([{ fn: validateNickname, msg: '닉네임은 5글자 이상 영어 대소문자, 숫자, _만 가능합니다.' }]);
 
+  // '비밀번호는 영어 대문자, 소문자, 숫자, 특수문자(!@#$%^&*) 포함 8글자 이상입니다.'
   const {
     value: password,
     hasError: passwordHasError,
     errorMsg: passwordErrorMsg,
     valueChangeHandler: passwordChangeHandler,
     inputBlurHandler: passwordBlurHandler,
-  } = useValidation([{ fn: validatePassword, msg: '비밀번호는 영어 대문자, 소문자, 숫자, 특수문자(!@#$%^&*) 포함 8글자 이상입니다.' }]);
+  } = useValidation([{ fn: validatePassword, msg: '비밀번호를 다시 입력해 주세요.' }]);
 
   const {
     value: certificateNumber,
@@ -65,9 +79,6 @@ const SignupDetail = () => {
     valueChangeHandler: certificateNumberChangeHandler,
     inputBlurHandler: certificateNumberBlurHandler,
   } = useValidation([{ fn: validateNumber, msg: '잘못된 인증번호를 입력하셨습니다.' }]);
-  
-  const [passwordCheck, setPasswordCheck] = useState('');
-  const [passwordCheckError, setPasswordCheckError] = useState(false);
 
   const onChangePasswordCheck = useCallback((e) => {
     setPasswordCheck(e.target.value);
@@ -131,8 +142,7 @@ const SignupDetail = () => {
       || certificateNumberHasError) {
       return;
     }
-    // dispatch(addUserForSignup({ email, nickname, pwd: password }));
-    // navigate('/signupEmail', { replace: true });
+
     dispatch(signup({ 
       email, authToken: certificateNumber, nickname, password,
     })).unwrap()
@@ -186,9 +196,15 @@ const SignupDetail = () => {
           </div>
         )}
 
+        {isPwdOnFocus && (
+          <span className={styles.pwdMsg}>
+            * 비밀번호는 영어 대문자, 소문자, 숫자, 특수문자(!@#$%^&*) 포함 8글자 이상입니다.
+          </span>
+        )}
+
         <div className={`${styles.inputBox} ${passwordHasError && styles.invalid}`}>
           <label htmlFor="password">비밀번호</label>
-          <input type="password" placeholder="비밀번호를 입력해 주세요." id="password" name="password" value={password} onChange={passwordChangeHandler} onBlur={passwordBlurHandler} />
+          <input type="password" ref={pwdRef} placeholder="비밀번호를 입력해 주세요." id="password" name="password" value={password} onChange={passwordChangeHandler} onBlur={passwordBlurHandler} />
         </div>
 
         {passwordCheckError && (
