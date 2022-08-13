@@ -18,7 +18,7 @@ let OV;
 
 const VideoSection = ({
   // eslint-disable-next-line react/prop-types
-  roomId, getSession, getPublisher, getSubscribers,
+  roomId, getSession, getPublisher, getSubscribers, closeSession,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -78,6 +78,14 @@ const VideoSection = ({
     setPublisher(null);
     // setCurrentVideoDevice(null);
   };
+
+  // 추가 ========================
+  useEffect(() => {
+    if (closeSession) {
+      leaveSession2();
+    }
+  }, [closeSession]);
+  // =============================
 
   // const listener = (e) => {
   //   e.preventDefault();
