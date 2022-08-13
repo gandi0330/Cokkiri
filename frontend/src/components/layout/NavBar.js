@@ -29,8 +29,7 @@ const NavBar = () => {
   return (
     <nav className={classes.nav}>
       <i id="logo" className={classes.logo}>
-        <img src={Elephant} alt="코끼리 로고" />
-        <Link to="/">Co:kkiri</Link>
+        <Link to="/" className={classes.logo__content}><img src={Elephant} alt="코끼리 로고" />Co:kkiri</Link>
       </i>
       <input
         type="checkbox"
