@@ -2,25 +2,29 @@
 import {
   useEffect, useState,
 } from 'react';
-import { AiOutlineAudioMuted, AiOutlineAudio } from 'react-icons/ai';
-import { BiExit } from 'react-icons/bi';
-import { FiShare, FiVideo, FiVideoOff } from 'react-icons/fi';
-import { GiSoundOn, GiSoundOff } from 'react-icons/gi';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { OpenVidu } from 'openvidu-browser';
-import { useSelector, useDispatch } from 'react-redux';
+import { BiExit } from 'react-icons/bi';
+import { FiShare, FiVideo, FiVideoOff } from 'react-icons/fi';
+import { AiOutlineAudioMuted, AiOutlineAudio } from 'react-icons/ai';
+import { GiSoundOn, GiSoundOff } from 'react-icons/gi';
 
 import useAudio from '../../hooks/useAudio';
 import styles from './VideoController.module.css';
 import music from '../../audios/voice-elephant.mp3';
 import YesNoModal from '../layout/YesNoModal';
 import ExcitingElephant from '../icons/ExcitingElephant';
-import { clickAuido, clickCamera, clickSound } from '../../store/roomSlice';
+import {
+  clickAuido, clickCamera, clickSound, shareScreen,
+} from '../../store/roomSlice';
+import Modal from '../layout/Modal';
 
 let OV;
 
 const Controller = ({
   publisher, leaveSession, getToken, session, setMainStreamManager, subscribers, getSessionScreen,
+  // switchAudio,
 }) => {
   const dispatch = useDispatch();
   // const audioBtn = useRef();
@@ -29,9 +33,11 @@ const Controller = ({
   // const [videoActive, setVideoActive] = useState(true);
   // const [soundActive, setSoundActive] = useState(true);
   const [canExitRoom, setCanExitRoom] = useState(false);
-  const [doneShare, setDoneShare] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
   const { nickname } = useSelector((state) => state.auth);
-  const { audioActive, cameraActive, soundActive } = useSelector((state) => state.room);
+  const {
+    audioActive, cameraActive, soundActive, doneShare,
+  } = useSelector((state) => state.room);
 
   useEffect(() => {
     if (!session) {
@@ -62,6 +68,7 @@ const Controller = ({
 
   const handleShareClick = () => {
     if (doneShare) {
+      setIsSharing(true);
       return;
     }
     OV = new OpenVidu();
@@ -92,11 +99,11 @@ const Controller = ({
             // sessionScreen.disconnect();
             // setMainStreamManager(null);
             sessionScreen.unpublish(newPublisher);
-            setDoneShare(false);
+            dispatch(shareScreen(false));
             // setMainStreamManager(publisher);
           });
           sessionScreen.publish(newPublisher);
-          setDoneShare(true);
+          dispatch(shareScreen(true));
           setMainStreamManager(newPublisher);
         });
         newPublisher.once('accessDenied', () => {
@@ -118,6 +125,9 @@ const Controller = ({
 
   return (
     <>
+      <Modal open={isSharing} onClose={() => setIsSharing(false)}>
+        <p>이미 공유 중 입니다!</p>
+      </Modal>
       <YesNoModal
         open={canExitRoom}
         yes="나가기"
@@ -159,6 +169,8 @@ Controller.propTypes = {
   session: PropTypes.object.isRequired,
   setMainStreamManager: PropTypes.func.isRequired,
   getSessionScreen: PropTypes.func.isRequired,
+  // switchCamera: PropTypes.func.isRequired,
+  // switchAudio: PropTypes.func.isRequired,
 };
 
 export default Controller;
