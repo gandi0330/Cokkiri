@@ -5,17 +5,19 @@ import music from '../../../audios/voice-elephant.mp3';
 import useAudio from '../../../hooks/useAudio';
 import styles from './TheTimer.module.css';
 import ExcitingElephant from '../../icons/ExcitingElephant';
+import Modal from '../../layout/Modal';
 
 let countDown;
 
 const TheTimer = () => {
+  const [toggle] = useAudio(music);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [show, setShow] = useState(false);
   const [start, setStart] = useState(false);
   const [stop, setStop] = useState(false);
-  const [toggle] = useAudio(music);
+  const [isNoInputTime, setIsNoInputTime] = useState(false);
 
   useEffect(() => {
     if (!start) {
@@ -93,7 +95,7 @@ const TheTimer = () => {
 
   const onStart = () => {
     if (!hours && !minutes && !seconds) {
-      alert('시 분 초를 입력해주세요!');
+      setIsNoInputTime(true);
       return;
     }
     setShow(true);
@@ -136,6 +138,9 @@ const TheTimer = () => {
   
   return (
     <div className={styles.wrapper}>
+      <Modal open={isNoInputTime} onClose={() => setIsNoInputTime(false)}>
+        <p>시 분 초를 입력해주세요!</p>
+      </Modal>
       <div className={styles.timer__header}>
         <ExcitingElephant />
         <h4>타이머</h4>

@@ -15,7 +15,10 @@ import styles from './VideoController.module.css';
 import music from '../../audios/voice-elephant.mp3';
 import YesNoModal from '../layout/YesNoModal';
 import ExcitingElephant from '../icons/ExcitingElephant';
-import { clickAuido, clickCamera, clickSound } from '../../store/roomSlice';
+import {
+  clickAuido, clickCamera, clickSound, shareScreen,
+} from '../../store/roomSlice';
+import Modal from '../layout/Modal';
 
 let OV;
 
@@ -29,9 +32,11 @@ const Controller = ({
   // const [videoActive, setVideoActive] = useState(true);
   // const [soundActive, setSoundActive] = useState(true);
   const [canExitRoom, setCanExitRoom] = useState(false);
-  const [doneShare, setDoneShare] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
   const { nickname } = useSelector((state) => state.auth);
-  const { audioActive, cameraActive, soundActive } = useSelector((state) => state.room);
+  const {
+    audioActive, cameraActive, soundActive, doneShare,
+  } = useSelector((state) => state.room);
 
   useEffect(() => {
     if (!session) {
@@ -62,8 +67,10 @@ const Controller = ({
 
   const handleShareClick = () => {
     if (doneShare) {
+      setIsSharing(true);
       return;
     }
+    console.log(doneShare);
     OV = new OpenVidu();
     const sessionScreen = OV.initSession();
     getSessionScreen(sessionScreen);
@@ -92,11 +99,11 @@ const Controller = ({
             // sessionScreen.disconnect();
             // setMainStreamManager(null);
             sessionScreen.unpublish(newPublisher);
-            setDoneShare(false);
+            dispatch(shareScreen(false));
             // setMainStreamManager(publisher);
           });
           sessionScreen.publish(newPublisher);
-          setDoneShare(true);
+          dispatch(shareScreen(true));
           setMainStreamManager(newPublisher);
         });
         newPublisher.once('accessDenied', () => {
@@ -118,6 +125,9 @@ const Controller = ({
 
   return (
     <>
+      <Modal open={isSharing} onClose={() => setIsSharing(false)}>
+        <p>이미 공유 중 입니다!</p>
+      </Modal>
       <YesNoModal
         open={canExitRoom}
         yes="나가기"

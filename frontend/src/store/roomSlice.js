@@ -11,6 +11,8 @@ const initialState = {
   cameraActive: true,
   soundActive: true,
 
+  doneShare: false,
+
   loading: false,
   success: false,
   error: false,
@@ -84,6 +86,9 @@ const roomSlice = createSlice({
     clickSound(state, { payload }) {
       state.soundActive = payload;
     },
+    shareScreen(state, { payload }) {
+      state.doneShare = payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(makeRoom.pending, (state) => {
@@ -152,7 +157,7 @@ const roomSlice = createSlice({
 });
 
 export const {
-  updateChats, clickAuido, clickCamera, clickSound,
+  updateChats, clickAuido, clickCamera, clickSound, shareScreen,
 } = roomSlice.actions;
 
 export default roomSlice.reducer;
