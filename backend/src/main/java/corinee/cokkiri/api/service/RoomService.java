@@ -92,8 +92,8 @@ public class RoomService {
         if(room == null) {
             return false;
         }
-
-        room.setUserCount(room.getUserCount()-1);
+        if(room.getUserCount() > 0)
+            room.setUserCount(room.getUserCount()-1);
 
         return true;
     }
