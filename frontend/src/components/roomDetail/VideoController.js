@@ -2,13 +2,13 @@
 import {
   useEffect, useState,
 } from 'react';
-import { AiOutlineAudioMuted, AiOutlineAudio } from 'react-icons/ai';
-import { BiExit } from 'react-icons/bi';
-import { FiShare, FiVideo, FiVideoOff } from 'react-icons/fi';
-import { GiSoundOn, GiSoundOff } from 'react-icons/gi';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { OpenVidu } from 'openvidu-browser';
-import { useSelector, useDispatch } from 'react-redux';
+import { BiExit } from 'react-icons/bi';
+import { FiShare, FiVideo, FiVideoOff } from 'react-icons/fi';
+import { AiOutlineAudioMuted, AiOutlineAudio } from 'react-icons/ai';
+import { GiSoundOn, GiSoundOff } from 'react-icons/gi';
 
 import useAudio from '../../hooks/useAudio';
 import styles from './VideoController.module.css';
@@ -24,6 +24,7 @@ let OV;
 
 const Controller = ({
   publisher, leaveSession, getToken, session, setMainStreamManager, subscribers, getSessionScreen,
+  // switchAudio,
 }) => {
   const dispatch = useDispatch();
   // const audioBtn = useRef();
@@ -70,7 +71,6 @@ const Controller = ({
       setIsSharing(true);
       return;
     }
-    console.log(doneShare);
     OV = new OpenVidu();
     const sessionScreen = OV.initSession();
     getSessionScreen(sessionScreen);
@@ -169,6 +169,8 @@ Controller.propTypes = {
   session: PropTypes.object.isRequired,
   setMainStreamManager: PropTypes.func.isRequired,
   getSessionScreen: PropTypes.func.isRequired,
+  // switchCamera: PropTypes.func.isRequired,
+  // switchAudio: PropTypes.func.isRequired,
 };
 
 export default Controller;

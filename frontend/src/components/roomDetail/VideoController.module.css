@@ -23,6 +23,22 @@
   transform: translateY(-.1rem);
 }
 
+.cameraBtn {
+  position: relative;
+}
+
+.switchAudioBtn {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+}
+
+.switchCameraBtn {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+}
+
 .exitButton {
   color: var(--whiteShade1);
   background-color: var(--redShade2);

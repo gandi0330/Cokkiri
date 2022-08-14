@@ -10,6 +10,7 @@ import VideoController from './VideoController';
 import styles from './VideoSection.module.css';
 import { entranceRoom, exitRoom } from '../../store/roomSlice';
 import { updateRecentRooms } from '../../store/roomListSlice';
+import Modal from '../layout/Modal';
 
 const OPENVIDU_SERVER_URL = 'https://i7c107.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'COKKIRI';
@@ -27,16 +28,20 @@ const VideoSection = ({
   const [publisher, setPublisher] = useState(null);
   const [subscribers, setSubscribers] = useState([]);
   const [sessionScreen, setSessionScreen] = useState(null);
+  const [permissionDenied, setPermissionDenied] = useState(false);
+  const [activeCameraAndAudio, setActiveCameraAndAudio] = useState(false);
   // const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
+  // const [currentAudioDevice, setCurrentAudioDevice] = useState(null);
   const { email, nickname } = useSelector((state) => state.auth);
   const { id, loading } = useSelector((state) => state.room);
 
   const reqCameraAndAudio = async () => {
     try {
-      await navigator.mediaDevices.getUserMedia({ audio: true, video: { facingMode: 'user' } });
+      const res = await navigator.mediaDevices.getUserMedia({ audio: true, video: { facingMode: 'user' } });
+      setActiveCameraAndAudio(res.active);
     } catch (err) {
       if (err.message === 'Permission denied') {
-        window.alert('마이크, 오디오 권한을 재설정 해주세요!');
+        setPermissionDenied(true);
       }
     }
   };
@@ -63,6 +68,7 @@ const VideoSection = ({
     setPublisher(null);
     window.close();
     // setCurrentVideoDevice(null);
+    // setCurrentAudioDevice(null);
   };
 
   const leaveSession2 = () => {
@@ -76,7 +82,8 @@ const VideoSection = ({
     setSubscribers([]);
     setMainStreamManager(null);
     setPublisher(null);
-    // setCurrentVideoDevice(null);
+    setCurrentVideoDevice(null);
+    // setCurrentAudioDevice(null);
   };
 
   // 추가 ========================
@@ -180,6 +187,7 @@ const VideoSection = ({
   const connectCamera = async () => {
     const devices = await OV.getDevices();
     const videoDevices = devices.filter((device) => device.kind === 'videoinput');
+    // const audioDevices = devices.filter((device) => device.kind === 'audioinput');
     const tmpPublisher = OV.initPublisher(undefined, {
       audioSource: undefined, 
       videoSource: videoDevices[0].deviceId, 
@@ -192,12 +200,14 @@ const VideoSection = ({
     });
     session.publish(tmpPublisher);
     // setCurrentVideoDevice(videoDevices[0]);
+    // setCurrentAudioDevice(audioDevices[0]);
     // console.log('tmpPublisher', tmpPublisher, typeof tmpPublisher);
     setMainStreamManager(tmpPublisher);
     setPublisher(tmpPublisher);
   };
 
   useEffect(() => {
+    if (!activeCameraAndAudio) return;
     if (!session) return;
     session.on('streamCreated', (event) => {
       const subscriber = session.subscribe(event.stream, undefined);
@@ -227,9 +237,10 @@ const VideoSection = ({
             error.code,
             error.message,
           );
+          setIsConnecting(true);
         });
     });
-  }, [session]);
+  }, [session, activeCameraAndAudio]);
 
   // const switchCamera = async () => {
   //   try {
@@ -246,9 +257,36 @@ const VideoSection = ({
   //           publishVideo: true,
   //           mirror: true,
   //         });
-  //         await session.unpublish(mainStreamManager);
+  //         await session.unpublish(publisher);
   //         await session.publish(newPublisher);
-  //         setCurrentVideoDevice(newVideoDevice);
+  //         setCurrentVideoDevice(newVideoDevice[0]);
+  //         setMainStreamManager(newPublisher);
+  //         setPublisher(newPublisher);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // const switchAudio = async () => {
+  //   try {
+  //     const devices = await OV.getDevices();
+  //     const videoDevices = devices.filter((device) => device.kind === 'audioinput');
+  //     if (videoDevices?.length > 1) {
+  //       const newAudioDevice = videoDevices.filter((device) => {
+  //         return device.deviceId !== currentAudioDevice.deviceId;
+  //       });
+  //       if (newAudioDevice.length) {
+  //         const newPublisher = OV.initPublisher(undefined, {
+  //           videoSource: newAudioDevice[0].deviceId,
+  //           publishAudio: true,
+  //           publishVideo: true,
+  //           mirror: true,
+  //         });
+  //         await session.unpublish(publisher);
+  //         await session.publish(newPublisher);
+  //         setCurrentAudioDevice(newAudioDevice[0]);
   //         setMainStreamManager(newPublisher);
   //         setPublisher(newPublisher);
   //       }
@@ -282,12 +320,20 @@ const VideoSection = ({
     }
   }, [subscribers, publisher]);
 
+  const onModalExit = () => {
+    setPermissionDenied(false);
+    leaveSession();
+  };
+
   if (loading) {
     return null;
   }
 
   return (
     <div className={`container ${styles.container}`}>
+      <Modal open={permissionDenied} onClose={onModalExit}>
+        <p>마이크, 오디오 권한을 재설정 해주세요!</p>
+      </Modal>
       <div className={styles.smallVideoSection}>
         {publisher && (
           <div className={styles.video} onClick={() => handleMainVideoStream(publisher)}>
@@ -318,8 +364,12 @@ const VideoSection = ({
                   streamManager={mainStreamManager} 
                 />
               </div>
-              {/* <button className={styles.switchCamera} 
-              type="button" onClick={switchCamera}>Switch Camera</button> */}
+              {/* <button
+                className={styles.switchCamera} 
+                type="button"
+                onClick={switchCamera}
+              >Switch Camera
+              </button> */}
             </div>
           )}
           {publisher
@@ -332,6 +382,8 @@ const VideoSection = ({
               session={session}
               setMainStreamManager={setMainStreamManager}
               getSessionScreen={getSessionScreen}
+              // switchCamera={switchCamera}
+              // switchAudio={switchAudio}
             />
           )}
         </div>
