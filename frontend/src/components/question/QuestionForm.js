@@ -108,6 +108,10 @@ const QuestionForm = ({
   useEffect(() => {
     setTitle(qTitle);
     setContent(qContent);
+
+    if (type === '수정' && qCode) {
+      setCodeEditorOpen(true);
+    }
   }, []);
 
   return (

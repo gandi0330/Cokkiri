@@ -66,6 +66,13 @@
   font-size: var(--smallFontSize2);
 }
 
+.pwdMsg {
+  display: block;
+  padding-left: .3rem;
+  color: var(--blueShade1);
+  font-size: var(--smallFontSize2);
+}
+
 .authToken__msg {
   display: flex;
   flex-direction: column;

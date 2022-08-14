@@ -1,8 +1,8 @@
 import axios from 'axios';
 import useRefreshToken from '../hooks/useRefreshToken';
 
-// const BASE_URL = 'https://i7c107.p.ssafy.io/api';
-const BASE_URL = '';
+const BASE_URL = 'https://i7c107.p.ssafy.io/api';
+// const BASE_URL = '';
 
 const instance = axios.create({
   baseURL: BASE_URL,

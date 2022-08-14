@@ -123,7 +123,8 @@ const roomListSlice = createSlice({
       state.pageNumber = -1;
     },
     incrementPageNumber(state, action) {
-      state.pageNumber += action.payload.lastItemIdx;
+      console.log('action', action);
+      state.pageNumber = action.payload.lastIdx;
     },
   },
   extraReducers: (builder) => {
@@ -147,7 +148,8 @@ const roomListSlice = createSlice({
           state.rooms = [...new Set([...state.rooms, ...payload.payload.findRoomList])];
         }
       }
-      state.hasMore = payload === '';
+      state.hasMore = payload !== '';
+      console.log(payload, state.hasMore);
     });
     builder.addCase(fetchRoomList.rejected, (state, payload) => {
       if (payload.error?.message !== 'Aborted') {      

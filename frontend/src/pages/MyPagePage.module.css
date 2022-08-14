@@ -1,5 +1,5 @@
 .myPage {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   width: min(95%, 25rem);
@@ -89,4 +89,10 @@
   font-size: var(--smallFontSize1);
   color: var(--grayShade1);
   cursor: pointer;
+}
+
+@media only screen and (min-width: 750px) {
+  .myPage {
+    position: absolute;
+  }
 }

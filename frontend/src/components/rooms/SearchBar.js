@@ -10,7 +10,7 @@ import classes from './SearchBar.module.css';
 
 const SearchBar = (
   // { rooms, onSearchedRooms },
-  { rooms, onSearchHandler },
+  { onSearchHandler },
 ) => {
   const searchRef = useRef();
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ const SearchBar = (
 
     // api 용
     onSearchHandler(enteredInput);
-  }, [enteredInput, rooms]);
+  }, [enteredInput]);
 
   const handleMakeRoomBtn = () => {
     if (!isLoggedIn) {
@@ -61,7 +61,7 @@ const SearchBar = (
 };
 
 SearchBar.propTypes = {
-  rooms: PropTypes.array.isRequired,
+  // rooms: PropTypes.array.isRequired,
   // onSearchedRooms: PropTypes.func.isRequired,
   onSearchHandler: PropTypes.func.isRequired,
 };

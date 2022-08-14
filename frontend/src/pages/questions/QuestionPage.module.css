@@ -38,12 +38,12 @@
   background-color: var(--grayShade2);
 }
 
-.detail header button {
-  position: absolute;
-  top: 3%;
-  right: 0%;
+.detail__backBtn {
+  position: fixed;
+  bottom: 10%;
+  right: 5%;
   padding: .5rem;
-  background-color: rgba(188, 188, 188, 0.2);
+  background-color: rgba(188, 188, 188, 0.3);
   color: var(--blueShade1);
   border-radius: 20rem;
   border: none;
@@ -52,8 +52,25 @@
   cursor: pointer;
 }
 
+
+.detail__main h1,
+.detail__main h2,
+.detail__main h3,
+.detail__main h4,
+.detail__main h5,
+.detail__main h6,
 .detail__main p {
   color: var(--blackShade1);
+  margin: 0;
+}
+
+.detail__main h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+
+.detail__main p {
   font-size: var(--baseFontSize);
   overflow-wrap: break-word;
 }

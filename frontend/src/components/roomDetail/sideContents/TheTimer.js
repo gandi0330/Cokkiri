@@ -21,6 +21,7 @@ const TheTimer = () => {
     if (!start) {
       return;
     }
+
     if (start && !hours && !minutes && !seconds) {
       toggle();
       setShow(false);
@@ -46,15 +47,48 @@ const TheTimer = () => {
   }, [start, hours, minutes, seconds]);
   
   const onChangeHours = (e) => {
-    setHours(parseInt(e.target.value, 10));
+    const tmpHour = +(e.target.value);
+    if (!tmpHour || (tmpHour && tmpHour < 0)) {
+      setHours(0);
+    }
+
+    if (tmpHour && tmpHour >= 0 && tmpHour <= 24) {
+      setHours(tmpHour);
+    }
+
+    if (tmpHour && tmpHour > 24) {
+      setHours(24);
+    }
   };
 
   const onChangeMinutes = (e) => {
-    setMinutes(parseInt(e.target.value, 10));
+    const tmpMin = +(e.target.value);
+    if (!tmpMin || (tmpMin && tmpMin < 0)) {
+      setMinutes(0);
+    }
+
+    if (tmpMin && tmpMin >= 0 && tmpMin <= 59) {
+      setMinutes(tmpMin);
+    }
+
+    if (tmpMin && tmpMin > 59) {
+      setMinutes(59);
+    }
   };
 
   const onChangeSeconds = (e) => {
-    setSeconds(parseInt(e.target.value, 10));
+    const tmpSec = +(e.target.value);
+    if (!tmpSec || (tmpSec && tmpSec < 0)) {
+      setSeconds(0);
+    }
+
+    if (tmpSec && tmpSec >= 0 && tmpSec <= 59) {
+      setSeconds(tmpSec);
+    }
+
+    if (tmpSec && tmpSec > 59) {
+      setSeconds(59);
+    }
   };
 
   const onStart = () => {
@@ -70,6 +104,9 @@ const TheTimer = () => {
     clearInterval(countDown);
     setShow(false);
     setStart(false);
+    setHours(0);
+    setMinutes(0);
+    setSeconds(0);
   };
 
   const onStop = () => {
@@ -128,7 +165,7 @@ const TheTimer = () => {
           !start
             ? <button className={styles.start} type="button" onClick={onStart}>시작</button>
             : (stop
-              ? <button className={styles.start} type="button" onClick={onRestart}>재게</button>
+              ? <button className={styles.start} type="button" onClick={onRestart}>재개</button>
               : <button className={styles.stop} type="button" onClick={onStop}>일시정지</button>
             )
           }
