@@ -30,6 +30,7 @@ const VideoSection = ({
   const [sessionScreen, setSessionScreen] = useState(null);
   const [permissionDenied, setPermissionDenied] = useState(false);
   const [activeCameraAndAudio, setActiveCameraAndAudio] = useState(false);
+  const [isEntranced, setIsEntranced] = useState(false);
   // const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
   // const [currentAudioDevice, setCurrentAudioDevice] = useState(null);
   const { email, nickname } = useSelector((state) => state.auth);
@@ -56,7 +57,9 @@ const VideoSection = ({
   };
 
   const leaveSession = () => {
-    dispatch(exitRoom({ roomId, email, id }));
+    if (isEntranced) {
+      dispatch(exitRoom({ roomId, email, id }));
+    }
     if (session) session.disconnect();
     if (sessionScreen) sessionScreen.disconnect();
     navigate('/rooms', { place: true });
@@ -72,7 +75,9 @@ const VideoSection = ({
   };
 
   const leaveSession2 = () => {
-    dispatch(exitRoom({ roomId, email, id }));
+    if (isEntranced) {
+      dispatch(exitRoom({ roomId, email, id }));
+    }
     if (session) session.disconnect();
     if (sessionScreen) sessionScreen.disconnect();
     navigate('/rooms', { place: true });
@@ -228,6 +233,7 @@ const VideoSection = ({
           dispatch(entranceRoom({ roomId, email }))
             .unwrap()
             .then(() => {
+              setIsEntranced(true);
               dispatch(updateRecentRooms({ email, roomId }));
             });
         })

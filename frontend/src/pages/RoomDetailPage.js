@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import RightSideBar from '../components/roomDetail/RightSideBar';
 import RightSidePanel from '../components/roomDetail/RightSidePanel';
@@ -12,7 +12,7 @@ const RoomDetailPage = () => {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const { roomId } = useParams();
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  // const { isLoggedIn } = useSelector((state) => state.auth);
   const [type, setType] = useState('off');
   const [session, setSession] = useState(null);
   const [publisher, setPublisher] = useState({});
@@ -87,9 +87,9 @@ const RoomDetailPage = () => {
     setSubscribers(s);
   };
 
-  if (!isLoggedIn) {
-    return null;
-  }
+  // if (!isLoggedIn) {
+  //   return null;
+  // }
 
   return (
     <div className={classes.container}>
