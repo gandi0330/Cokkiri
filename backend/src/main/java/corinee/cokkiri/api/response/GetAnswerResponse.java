@@ -17,6 +17,7 @@ public class GetAnswerResponse extends BaseResponse {
     private LocalDateTime create_dateTime;
     private String code;
     private String language;
+    private String nickname;
 
     public static GetAnswerResponse of (int statusCode, String message, Answer answer){
         GetAnswerResponse res = new GetAnswerResponse();
@@ -30,6 +31,7 @@ public class GetAnswerResponse extends BaseResponse {
         res.setCreate_dateTime(answer.getCreateDatetime());
         res.setCode(answer.getCode());
         res.setLanguage(answer.getLanguage());
+        res.setNickname(answer.getUser().getNickname());
 
         return res;
     }
