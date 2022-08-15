@@ -48,8 +48,16 @@
 - **공부 시간 체크** 기능
     - 공부 시간을 기록하는 것은 한국인의 국룰 아닌가요? 코끼리는 방에 들어가 공부한 시간을 기록해 드립니다! 친구에게 찍어 보내 자랑해 보세요!
 
+## 🟦 팀원 소개
+|정현명|서동완|홍석호|윤정원|정혜령|
+|------|---|---|---|---|
+|IMG1|IMG2|IMG3|IMG4|IMG5|
+|Backend|Backend|Backend|Frontend|Frontend|
+|팀장, 서버 배포|BE 테크리더|QA|FE 테크리더|UI / UX 담당|
+
 ## 🟦 개발 환경 및 기술 스택
 
+### 1. 기술 스택
 <p align="center">
   <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">
   <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
@@ -60,90 +68,71 @@
   <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> 
 </p>
 
-### 🔹 Backend - SpringBoot
+|🔹 Backend - SpringBoot|🔹 Frontend - React|🔹 협업 툴|🔹 기타|
+|-----------------------|-----------------------|-----------------------|-----------------------|
+|- Intellij<br>- Java 11<br>- SpringBoot 2.7.1<br>- JPA<br>- Swagger|- VSCode<br>- HTML<br>- CSS<br>- JavaScript ES6<br>- React 18.2.0<br>- Redux 1.8.3|- Gitlab<br>- Jira<br>- Mattermost<br>- Notion<br>- Webex|- OS: Window 10<br>- DB: MySQL 8.0.29<br>- AWS<br>- Figma|
 
-- Intellij
-- Java 11
-- SpringBoot 2.7.1
-- JPA
-- Swagger
-
-### 🔹 Frontend - React
-
-- VSCode
-- HTML
-- CSS
-- JavaScript ES6
-- React 18.2.0
-- Redux 1.8.3
-
-### 🔹 협업 툴
-
-- Gitlab
-- Jira
-- Mattermost
-- Notion
-- Webex
-
-### 🔹 기타
-
-- OS: Window 10
-- DB: MySQL 8.0.29
-- AWS
-- Figma
-
-## 🟦 팀원 소개
-![cokkiri 팀원 이미지](images/teams.png)
+### 2. 아키텍처
+IMG
 
 
-<br>
+## 🟦 프로젝트 파일 구조
+
+### 1. Backend
+```markdown
+java/corinee/cokkiri
+├── api
+│   ├── controller
+│   │
+│   ├── request
+│   │
+│   ├── response
+│   │
+│   └── service
+│  
+├── common
+│   └── util
+│
+└── db
+    ├── domain
+    │
+    └── repository
+
+
+```
+
+### 2. Frontend
+```markdown
+frontend
+└── src
+   ├── api
+   │
+   ├── audios
+   │
+   ├── components
+   │   ├── account
+   │   ├── icons
+   │   ├── layout
+   │   ├── question
+   │   ├── record
+   │   ├── roomDetail
+   │   ├── rooms
+   │   └── layout
+   │
+   ├── hooks
+   │
+   ├── images
+   │
+   ├── pages
+   │   └── questions
+   ├── store
+   │
+   ├── App.js
+   ├── App.css
+   ├── index.css
+   └── index.js
+```
 
 ## 🟦 프로젝트 산출물
 
-- 추후 추가 예정
-
-## 🟦 Git Convention
-
-### 1. Git-Flow Branch 전략
-
-- **main** (master)
-- **dev** (From main)
-- **front** (From dev)
-- **back** (From dev)
-- **feat_JiraIssue_FE_이름**
-- **fix_JiraIssue_BE_이름**
-
-```
-feat_Spring환경설정_BE_이름
-```
-
-### 2. Pull Request 작성
-
-- **PR 제목** : Commit 메시지와 동일
-
-```
-feat : JiraIssue [내용]
-```
-
-- **PR 본문**
-
-```
-### 변경 사항
-
-### 특이 사항
-
-### 코드 리뷰 여부
-- [ ] 이름
-```
-
-### 3. Commit Convention 작성
-
-> feat : 추가(새로운 기능) <br>
-fix : 버그 (버그 수정) <br>
-style : 스타일 (코드 형식, 세미콜론 추가: 비즈니스 로직에 변경 없음) <br>
-docs : 문서 (문서 추가, 수정, 삭제) <br>
-test : 테스트 (테스트 코드 추가, 수정, 삭제: 비즈니스 로직에 변경 없음) <br>
-타입은 소문자로 <br>
-제목은 타입_제목 <br>
->
-
+- [CO:KKIRI Notion](https://www.notion.so/402cd5fd77484712a0f0632a7dab6b52)
