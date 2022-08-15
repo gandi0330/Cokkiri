@@ -7,8 +7,11 @@ import RightSidePanel from '../components/roomDetail/RightSidePanel';
 import VideoSection from '../components/roomDetail/VideoSection';
 import classes from './RoomDetailPage.module.css';
 import { getRoom, updateChats } from '../store/roomSlice';
+import useAudio from '../hooks/useAudio';
+import music from '../audios/voice-elephant.mp3';
 
 const RoomDetailPage = () => {
+  const [toggle] = useAudio(music);
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const { roomId } = useParams();
@@ -17,6 +20,20 @@ const RoomDetailPage = () => {
   const [session, setSession] = useState(null);
   const [publisher, setPublisher] = useState({});
   const [subscribers, setSubscribers] = useState([]);
+
+  useEffect(() => {
+    if (!session) {
+      return;
+    }
+    session.on('signal:timer', () => {
+      toggle();
+      // audioBtn.current.onClick();
+    });
+    return () => {
+      session.off('signal:timer', () => {});
+    };
+  // eslint-disable-next-line no-underscore-dangle
+  }, [session]);
 
   // 나가기 전에 체크 ===========================
 

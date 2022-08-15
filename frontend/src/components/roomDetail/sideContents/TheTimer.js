@@ -2,8 +2,8 @@
 /* eslint-disable no-nested-ternary */
 import { useEffect, useState } from 'react';
 
-import music from '../../../audios/voice-elephant.mp3';
-import useAudio from '../../../hooks/useAudio';
+// import music from '../../../audios/voice-elephant.mp3';
+// import useAudio from '../../../hooks/useAudio';
 import styles from './TheTimer.module.css';
 import ExcitingElephant from '../../icons/ExcitingElephant';
 import Modal from '../../layout/Modal';
@@ -12,7 +12,7 @@ let countDown;
 
 // eslint-disable-next-line react/prop-types
 const TheTimer = ({ session }) => {
-  const [toggle] = useAudio(music);
+  // const [toggle] = useAudio(music);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
@@ -20,20 +20,6 @@ const TheTimer = ({ session }) => {
   const [start, setStart] = useState(false);
   const [stop, setStop] = useState(false);
   const [isNoInputTime, setIsNoInputTime] = useState(false);
-
-  useEffect(() => {
-    if (!session) {
-      return;
-    }
-    session.on('signal:timer', () => {
-      toggle();
-      // audioBtn.current.onClick();
-    });
-    return () => {
-      session.off('signal:timer', () => {});
-    };
-  // eslint-disable-next-line no-underscore-dangle
-  }, [session]);
 
   useEffect(() => {
     if (!start) {
