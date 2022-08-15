@@ -196,8 +196,8 @@ const VideoSection = ({
     const tmpPublisher = OV.initPublisher(undefined, {
       audioSource: undefined, 
       videoSource: videoDevices[0].deviceId, 
-      publishAudio: true, 
-      publishVideo: true, 
+      publishAudio: false, 
+      publishVideo: false, 
       resolution: '640x480', 
       frameRate: 30, 
       insertMode: 'APPEND', 
