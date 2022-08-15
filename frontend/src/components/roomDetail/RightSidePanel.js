@@ -20,7 +20,7 @@ const RightSidePanel = ({
   if (type === 'watch') {
     return (
       <div className={classes.rightPanel}>
-        <TheTimer />
+        <TheTimer session={session} />
       </div>
     );
   }

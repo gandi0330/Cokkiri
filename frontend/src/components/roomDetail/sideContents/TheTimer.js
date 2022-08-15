@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-nested-ternary */
 import { useEffect, useState } from 'react';
 
@@ -9,7 +10,8 @@ import Modal from '../../layout/Modal';
 
 let countDown;
 
-const TheTimer = () => {
+// eslint-disable-next-line react/prop-types
+const TheTimer = ({ session }) => {
   const [toggle] = useAudio(music);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
@@ -20,12 +22,26 @@ const TheTimer = () => {
   const [isNoInputTime, setIsNoInputTime] = useState(false);
 
   useEffect(() => {
+    if (!session) {
+      return;
+    }
+    session.on('signal:timer', () => {
+      toggle();
+      // audioBtn.current.onClick();
+    });
+    return () => {
+      session.off('signal:timer', () => {});
+    };
+  // eslint-disable-next-line no-underscore-dangle
+  }, [session]);
+
+  useEffect(() => {
     if (!start) {
       return;
     }
 
     if (start && !hours && !minutes && !seconds) {
-      toggle();
+      session.signal({ type: 'timer' });
       setShow(false);
       setStart(false);
     }
