@@ -30,6 +30,7 @@ public class GetQuestionListResponse extends BaseResponse {
                     .createDateTime(question.getCreateDatetime())
                     .language(question.getLanguage())
                     .code(question.getCode())
+                    .nickname(question.getUser().getNickname())
                     .build();
             res.findQuestionList.add(findQuestion);
         }
@@ -51,4 +52,5 @@ class FindQuestion{
     private String code;
     private String questionWriterEmail;
     private LocalDateTime createDateTime;
+    private String nickname;
 }
