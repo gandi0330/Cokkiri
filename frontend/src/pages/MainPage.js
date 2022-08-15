@@ -12,11 +12,11 @@ const MainPage = () => {
           <h2>Co:kkiri</h2>
         </div>
       </header>
-      <button type="button" className={classses.link__btn}>
+      {/* <button type="button" className={classses.link__btn}>
         <a style={{ color: 'white', fontSize: '30px' }} href="https://forms.gle/CLV2mYCFgQzriH9GA" target="_blank" rel="noreferrer">
           구글폼 링크 : 추첨을 통해 소정의 선물을 드립니다!
         </a>
-      </button>
+      </button> */}
       <main className={classses.main}>
         <section className={classses.section}>
           <img src={Timer} alt="타이머 기능 소개 이미지" />
