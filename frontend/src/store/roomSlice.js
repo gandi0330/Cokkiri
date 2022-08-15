@@ -7,8 +7,8 @@ const initialState = {
   id: null,
   chats: [],
 
-  audioActive: true,
-  cameraActive: true,
+  audioActive: false,
+  cameraActive: false,
   soundActive: true,
   doneShare: false,
 
