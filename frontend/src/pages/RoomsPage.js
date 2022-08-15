@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 // import { useSelector } from 'react-redux';
 // import { 
 // fetchRoomList, resetRooms, resetPageNumber,
@@ -18,10 +18,10 @@ const RoomsPage = () => {
   // const dispatch = useDispatch();
   // const { 
   //   rooms, loading, error, hasMore, pageNumber,
-  // } = useSelector((state) => state.roomList);
-
+  // } = useSelector((state) => state.roomList) ;
+  // eslint-disable-next-line no-unused-vars
   const [query, setQuery] = useState('');
-  const [lastItemIdx, setLastItemIdx] = useState(-1); 
+  const [lastItemIdx, setLastItemIdx] = useState(-1);
 
   const onSearchHandler = (enteredQuery) => {
     setQuery(enteredQuery);

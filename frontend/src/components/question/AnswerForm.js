@@ -8,6 +8,7 @@ import { getUserEmail } from '../../store/authSlice';
 import CodeReview from './CodeReview';
 import YesNoModal from '../layout/YesNoModal';
 import classes from './QuestionList.module.css';
+import Modal from '../layout/Modal';
 
 const AnswerForm = ({ 
   type, prevAnswer, prevReview, code, language, answerId, questionId,
@@ -19,10 +20,15 @@ const AnswerForm = ({
   const [answer, setAnswer] = useState('');
   const [review, setReview] = useState('');
   const [answerModalOpen, setAnswerModalOpen] = useState(false);
+  const [isBlank, setIsBlank] = useState(false);
   // const oldCodes = code.match(/```[a-z]*\n[\s\S]*?\n```/g) || [];
 
   const submitHanlder = (event) => {
     event.preventDefault();
+    if (!answer.trim()) {
+      setIsBlank(true);
+      return;
+    }
     setAnswerModalOpen(true);
   };
 
@@ -82,6 +88,9 @@ const AnswerForm = ({
 
   return (
     <>
+      <Modal open={isBlank} onClose={() => setIsBlank(false)}>
+        <p>내용을 입력해주세요!</p>
+      </Modal>
       <YesNoModal 
         yes={type === 'create' ? '답글달기' : '수정하기'} 
         no="취소하기" 

@@ -5,7 +5,10 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { OpenVidu } from 'openvidu-browser';
-import { BiExit } from 'react-icons/bi';
+import { 
+  BiExit,
+  // BiBell, BiBellOff,
+} from 'react-icons/bi';
 import { FiShare, FiVideo, FiVideoOff } from 'react-icons/fi';
 import { AiOutlineAudioMuted, AiOutlineAudio } from 'react-icons/ai';
 import { GiSoundOn, GiSoundOff } from 'react-icons/gi';
@@ -24,14 +27,9 @@ let OV;
 
 const Controller = ({
   publisher, leaveSession, getToken, session, setMainStreamManager, subscribers, getSessionScreen,
-  // switchAudio,
 }) => {
   const dispatch = useDispatch();
-  // const audioBtn = useRef();
   const [toggle] = useAudio(music);
-  // const [audioActive, setAudioActive] = useState(true);
-  // const [videoActive, setVideoActive] = useState(true);
-  // const [soundActive, setSoundActive] = useState(true);
   const [canExitRoom, setCanExitRoom] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
   const { nickname } = useSelector((state) => state.auth);
@@ -45,7 +43,6 @@ const Controller = ({
     }
     session.on('signal:bell', () => {
       toggle();
-      // audioBtn.current.onClick();
     });
     return () => {
       session.off('signal:bell', () => {});
@@ -62,7 +59,6 @@ const Controller = ({
   const handelCameraClick = () => {
     const state = !publisher.stream.videoActive;
     publisher.publishVideo(state);
-    // setVideoActive(state);
     dispatch(clickCamera(state));
   };
 
@@ -123,6 +119,10 @@ const Controller = ({
     dispatch(clickSound(!soundActive));
   };
 
+  // const handleBellClick = () => {
+  //   dispatch(clickBell(!bellActive));
+  // };
+
   return (
     <>
       <Modal open={isSharing} onClose={() => setIsSharing(false)}>
@@ -140,9 +140,6 @@ const Controller = ({
         <p>정말로 나가시겠습니까?</p>
       </YesNoModal>
       <div className={styles.buttonGroup}>
-        {/* <div className={styles.hidden}>
-          <button onClick={() => toggle()} type="button" />
-        </div> */}
         <div className={styles.button} onClick={handleMuteClick}>
           {audioActive ? <AiOutlineAudio /> : ( 
             <div className={styles.colorRed}><AiOutlineAudioMuted /></div>
@@ -151,6 +148,11 @@ const Controller = ({
         <div className={styles.button} onClick={handelCameraClick}>
           {cameraActive ? <FiVideo /> : <div className={styles.colorRed}><FiVideoOff /></div>}
         </div>
+        {/* <div className={styles.button} onClick={handleBellClick}>
+          {bellActive ? <BiBell /> : ( 
+            <div className={styles.colorRed}><BiBellOff /></div>
+          )}
+        </div> */}
         <div className={styles.button} onClick={handleSoundClick}>
           {soundActive ? <GiSoundOn /> : <div className={styles.colorRed}><GiSoundOff /></div>}
         </div>
@@ -169,8 +171,6 @@ Controller.propTypes = {
   session: PropTypes.object.isRequired,
   setMainStreamManager: PropTypes.func.isRequired,
   getSessionScreen: PropTypes.func.isRequired,
-  // switchCamera: PropTypes.func.isRequired,
-  // switchAudio: PropTypes.func.isRequired,
 };
 
 export default Controller;

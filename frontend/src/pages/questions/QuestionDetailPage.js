@@ -24,6 +24,7 @@ const QuestionDetailPage = ({
   // const { roomId } = useParams();
   // const { roomId, questionId } = useParams();
   const question = useSelector(getQuestion);
+  console.log(1111111, question);
   const email = useSelector(getUserEmail);
   const loading = useSelector((state) => state.question.loading);
   const [removeModalOpen, setRemoveModalOpen] = useState(false);
@@ -40,7 +41,6 @@ const QuestionDetailPage = ({
           // TODO 나중에 처리 필요
           return;
         }
-
         console.error(err);
       });
   }, []);
@@ -81,7 +81,7 @@ const QuestionDetailPage = ({
             {/* <button type="button" onClick={() => setQuestionRoute('main')}><Back /></button> */}
             
             <span>
-              {`${question.questionWriterEmail} | ${question?.create_dateTime?.slice(0, question?.create_dateTime?.indexOf('T'))}`}
+              {`${question.nickname} | ${question?.create_dateTime?.slice(0, question?.create_dateTime?.indexOf('T'))}`}
             </span>
           </header>
           <main className={classes.detail__main}>
