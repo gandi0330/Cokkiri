@@ -29,6 +29,7 @@ public class GetAnswerListResponse extends BaseResponse {
                     .create_dateTime(answer.getCreateDatetime())
                     .code(answer.getCode())
                     .language(answer.getLanguage())
+                    .nickname(answer.getUser().getNickname())
                     .build();
             res.findAnswerList.add(findAnswer);
         }
@@ -49,4 +50,5 @@ class FindAnswer{
     private LocalDateTime create_dateTime;
     private String code;
     private String language;
+    private String nickname;
 }
