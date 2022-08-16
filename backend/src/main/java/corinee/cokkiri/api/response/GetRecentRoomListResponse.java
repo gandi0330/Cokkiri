@@ -24,6 +24,8 @@ public class GetRecentRoomListResponse extends BaseResponse {
                             .email(recentRoom.getUser().getEmail())
                             .roomId(recentRoom.getRoom().getRoomId())
                             .title(recentRoom.getRoom().getTitle())
+                            .userCount(recentRoom.getRoom().getUserCount())
+                            .userLimit(recentRoom.getRoom().getUserLimit())
                             .build();
             res.findRecentRoomList.add(findRecentRoom);
         }
@@ -41,4 +43,6 @@ class FindRecentRoom {
     private String email;
     private Long roomId;
     private String title;
+    private Long userCount;
+    private Long userLimit;
 }

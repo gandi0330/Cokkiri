@@ -26,6 +26,8 @@ public class GetUserLikeRoomListResponse extends BaseResponse {
                     .roomId(userLikeRoom.getRoom().getRoomId())
                     .title(userLikeRoom.getRoom().getTitle())
                     .id(userLikeRoom.getId())
+                    .userCount(userLikeRoom.getRoom().getUserCount())
+                    .userLimit(userLikeRoom.getRoom().getUserLimit())
                     .build();
             res.userLikeRoomList.add(findUserLikeRoom);
         }
@@ -43,4 +45,6 @@ class FindUserLikeRoom {
     private Long roomId;
     private String title;
     private Long id;
+    private Long userCount;
+    private Long userLimit;
 }
