@@ -13,8 +13,8 @@ import java.util.TimeZone;
 
 @SpringBootApplication
 @PropertySources({
-        @PropertySource("classpath:db.properties"),
-        @PropertySource("classpath:email.properties")
+		@PropertySource("classpath:db.properties"),
+		@PropertySource("classpath:email.properties")
 })
 public class CokkiriApplication extends SpringBootServletInitializer {
 	@Override
