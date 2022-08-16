@@ -5,13 +5,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.TimeZone;
 
 @SpringBootApplication
-@PropertySource(value = { "classpath:db.properties" })
+@PropertySources({
+        @PropertySource("classpath:db.properties"),
+        @PropertySource("classpath:email.properties")
+})
 public class CokkiriApplication extends SpringBootServletInitializer {
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application){

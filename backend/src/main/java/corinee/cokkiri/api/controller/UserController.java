@@ -2,6 +2,7 @@ package corinee.cokkiri.api.controller;
 
 import corinee.cokkiri.api.service.EmailService;
 import corinee.cokkiri.common.BaseResponse;
+import corinee.cokkiri.common.util.SHA256;
 import corinee.cokkiri.db.domain.Email;
 import corinee.cokkiri.db.domain.User;
 import corinee.cokkiri.api.request.UpdateNicknameRequest;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 
 @RestController
@@ -43,9 +45,12 @@ public class UserController {
             @ApiResponse(code=404, message = "유저가 존재하지 않습니다"),
             @ApiResponse(code=500, message = "토큰 넣는 도중 오류 발생"),
     })
-    public ResponseEntity<? extends BaseResponse> loginUser(@RequestBody @Valid UserLoginRequest request, HttpServletResponse response){
+    public ResponseEntity<? extends BaseResponse> loginUser(@RequestBody @Valid UserLoginRequest request, HttpServletResponse response) throws NoSuchAlgorithmException {
         String email = request.getEmail();
         String password = request.getPassword();
+
+        SHA256 sha256 = new SHA256();
+        password = sha256.encrypt(password);
 
         User user =userService.findByEmail(email);
 
@@ -169,7 +174,10 @@ public class UserController {
             @ApiResponse(code=403, message = "인증번호 만료"),
             @ApiResponse(code=409, message = "이미 존재하는 이메일"),
     })
-    public ResponseEntity<? extends BaseResponse> addUser(@RequestBody AddUserRequest request) {
+    public ResponseEntity<? extends BaseResponse> addUser(@RequestBody AddUserRequest request) throws NoSuchAlgorithmException{
+        SHA256 sha256 = new SHA256();
+        request.setPassword(sha256.encrypt(request.getPassword()));
+
         Email findEmail = emailService.findByEmail(request.getEmail());
 
         if(!findEmail.getAuthToken().equals(request.getAuthToken())){
