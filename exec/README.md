@@ -57,7 +57,6 @@
 git clone https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107.git
 ```
 
-<br>
 
 - 폴더 이동
 
@@ -65,7 +64,6 @@ git clone https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107.git
 cd frontend
 ```
 
-<br>
 
 - 빌드
 
@@ -73,7 +71,6 @@ cd frontend
 npm install
 ```
 
-<br>
 
 
 - 실행
