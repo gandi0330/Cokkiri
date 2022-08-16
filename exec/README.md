@@ -9,16 +9,17 @@
 
 코끼리와 함께라면 개발자끼리 함께 모여 즐겁게 코딩을 할 수 있습니다!
 
-
+<br>
+<br>
 
 ## 2. 도구 및 개발환경
 
 
-이슈 관리 : JIRA
-형상 관리 : Gitlab
-커뮤니케이션 : Notion, Mattermost
-디자인 : Figma
-UCC : 모바비
+- 이슈 관리 : JIRA
+- 형상 관리 : Gitlab
+- 커뮤니케이션 : Notion, Mattermost
+- 디자인 : Figma
+- UCC : 모바비
 
 
 | 설치 목록    | version   |
@@ -35,9 +36,11 @@ UCC : 모바비
 | React        | 18.2.0    |
 | Node.js      | 16.16.0   |
 | VS Code      | 1.70.0    |
-|              |           |
 
 
+<br>
+<br>
+<br>
 
 ## 3. 빌드 및 배포
 
@@ -48,42 +51,45 @@ UCC : 모바비
 #### 프론트엔드
 
 
-깃 클론
+- 깃 클론
 
 ```
 git clone https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107.git
 ```
 
+<br>
 
-
-폴더 이동
+- 폴더 이동
 
 ```
 cd frontend
 ```
 
+<br>
 
-
-빌드
+- 빌드
 
 ```
 npm install
 ```
 
+<br>
 
 
-실행
+- 실행
 
 ```
 npm start
 ```
 
+<br>
+<br>
 
 
 #### 백엔드
 
 
-깃 클론
+- 깃 클론
 
 ```
 git clone https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107.git
@@ -91,9 +97,44 @@ git clone https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107.git
 
 
 
-Nginx 설정
+- Nginx 설정
 
 ```
+server {
+        root /home/ubuntu/myapp/build;
+        index index.html index.htm index.nginx-debian.html;
+        server_name i7c107.p.ssafy.io; # managed by Certbot
+
+        location / {
+                try_files $uri $uri/ /index.html;
+        }
+
+        location /api {
+                proxy_pass http://localhost:8080/;
+        }
+
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/i7c107.p.ssafy.io/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/i7c107.p.ssafy.io/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+server {
+    if ($host = i7c107.p.ssafy.io) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+        listen 80 ;
+        listen [::]:80;
+    server_name i7c107.p.ssafy.io;
+    return 404; # managed by Certbot
+
+}
 ```
 
 
@@ -113,59 +154,109 @@ Nginx 설정
   - i7c107.p.ssafy.io
 
 
+<br>
+<br>
+<br>
 
 ## 4. DB 덤프 파일
 
- [덤프파일](dump) 
+ - [덤프파일](dump) 
 
 
-
+<br>
+<br>
+<br>
 
 ## 5. 시연 시나리오
 
+- 메인페이지에는 핵심 기능 소개를 볼 수 있습니다.
 <img src="https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/6b71cf37c9df856ba4cf8428e55a8e41/%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.gif" width="640" height="360"/>
 
-메인페이지에는 핵심 기능 소개를 볼 수 있습니다.
+
+<br>
+<br>
+<br>
+
+- 로그인
 
 <img src="https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/1c1d105ecbd03ae6abb82d756dd4054a/%EB%A1%9C%EA%B7%B8%EC%9D%B8.gif" width="640" height="360"/>
 
-로그인<br>
+
+<br>
+<br>
+<br>
+
+- 공부기록 페이지에서 오늘 공부한 시간, 주간 공부 시간, 누적 공부 시간을 확인할 수 있습니다.
 
 <img src="https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/9afdc28e31144fe5e5d95517c156ac7e/%EA%B3%B5%EB%B6%80%EA%B8%B0%EB%A1%9D_%ED%8E%98%EC%9D%B4%EC%A7%80.gif" width="640" height="360"/>
 
-공부기록 페이지에서 오늘 공부한 시간, 주간 공부 시간, 누적 공부 시간을 확인할 수 있습니다.<br>
+
+<br>
+<br>
+<br>
+
+- 생성된 스터디룸들을 확인할 수 있습니다. (무한 스크롤 가능)
+- 검색 바에 검색어를 입력해서 일치하는 스터디룸을 확인할 수 있습니다.
+- 방만들기 버튼을 누르고 방 정보를 입력해서 스터디룸을 생성하고 입장할 수 있습니다.
 
 <img src="https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/5ed2baa2bc984a6dbcd8391e90f4df56/%EC%8A%A4%ED%84%B0%EB%94%94%EB%A3%B8_%EB%AA%A9%EB%A1%9D_%ED%8E%98%EC%9D%B4%EC%A7%80.gif" width="640" height="360"/>
 
-생성된 스터디룸들을 확인할 수 있다. (무한 스크롤 가능)<br>
-검색 바에 검색어를 입력해서 일치하는 스터디룸을 확인할 수 있다.<br>
-방만들기 버튼을 누르고 방 정보를 입력해서 스터디룸을 생성하고 입장할 수 있다.<br>
+
+
+<br>
+<br>
+<br>
+
+- 최근 방문했던 스터디룸을 확인할 수 있고 토글해서 즐겨찾기에 저장 및 삭제할 수 있다.
 
 <img src="https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/72cd08aee7d535d951f202e71647cbac/%EC%A6%90%EA%B2%A8%EC%B0%BE%EA%B8%B0.gif" width="640" height="360"/>
 
-최근 방문했던 스터디룸을 확인할 수 있고 토글해서 즐겨찾기에 저장 및 삭제할 수 있다.<br>
 
+<br>
+<br>
+<br>
+
+- 특정 스터디룸을 클릭해서 그 스터디룸에 입장할 수 있다.
 <img src="https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/a4ae542c153d8a12f464f4c9116c2453/%EB%B0%A9_%EC%9E%85%EC%9E%A5.gif" width="640" height="360"/>
 
-특정 스터디룸을 클릭해서 그 스터디룸에 입장할 수 있다.<br>
+<br>
+<br>
+<br>
+
+- 화면 공유 버튼을 눌러 원하는 공유 화면을 클릭할 수 있다.
 
 <img src="https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/cc7534caac490e44dff15a79622ca587/%ED%99%94%EB%A9%B4%EA%B3%B5%EC%9C%A0_%EB%94%B0%EB%B4%89.gif" width="640" height="360"/>
 
-화면 공유 버튼을 눌러 원하는 공유 화면을 클릭할 수 있다.<br>
+<br>
+<br>
+<br>
+
+- 특정 상대방에게 사이렌 알림을 보낼 수 있다.
 
 <img src="https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/8c16d10d7a343ecf71660bfcc644322b/%EC%82%AC%EC%9D%B4%EB%A0%8C.gif" width="640" height="360"/>
 
-특정 상대방에게 사이렌 알림을 보낼 수 있다.<br>
+<br>
+<br>
+<br>
+
+- 타이머가 끝나면 스터디룸에 있는 모든 사람에게 완료됐다는 모달창이 뜨고 타이머 종료음이 난다.
 
 <img src="https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/9a345b5a136b902efdd2be29c328624f/%ED%83%80%EC%9D%B4%EB%A8%B8.gif" width="640" height="360"/>
 
-타이머가 끝나면 스터디룸에 있는 모든 사람에게 완료됐다는 모달창이 뜨고 타이머 종료음이 난다.<br>
+<br>
+<br>
+<br>
 
+- 스터디룸 안에 있는 모든 사람들과 채팅을 할 수 있다.
 <img src="https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/bda624131a52f20dd131e551f8902c55/%EC%B1%84%ED%8C%85.gif" width="640" height="360"/>
 
-스터디룸 안에 있는 모든 사람들과 채팅을 할 수 있다.<br>
+<br>
+<br>
+<br>
+
+- 질문자가 코드리뷰를 위해 코드를 올렸다면, 따로 코드리뷰 버튼을 눌러서 수정해 줄 수 있다.
 
 <img src="https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/87bf6e5b1a81729e25cb86b1339cf766/%EC%A7%88%EB%AC%B8%EA%B2%8C%EC%8B%9C%ED%8C%90.gif" width="640" height="360"/>
 
-질문자가 코드리뷰를 위해 코드를 올렸다면, 따로 코드리뷰 버튼을 눌러서 수정해 줄 수 있다.<br>
+
 
