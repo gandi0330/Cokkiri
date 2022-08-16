@@ -149,7 +149,25 @@ server {
   - cokkiri
 - MySQL 계정이름
   - i7c107.p.ssafy.io
+- properties 연결 정보
+``` 
+# db.properties
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=DB주소
+spring.datasource.username=User ID
+spring.datasource.password=User P/W
+```
+```
+# email.properties
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=User ID
+spring.mail.password=User P/W
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.timeout=5000
+spring.mail.properties.mail.smtp.starttls.enable=true
 
+```
 
 <br>
 <br>
