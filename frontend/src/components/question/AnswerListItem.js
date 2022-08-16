@@ -14,7 +14,7 @@ import SadElephant from '../icons/SadElephant';
 import classes from './QuestionList.module.css';
 
 const AnswerListItem = ({
-  answerId, writer, content, review, originalCode, language, questionId,
+  answerId, writerEmail, nickname, content, review, originalCode, language, questionId,
 }) => {
   const dispatch = useDispatch();
   const email = useSelector(getUserEmail);
@@ -30,7 +30,7 @@ const AnswerListItem = ({
   const removeClickHandler = () => {
     setRemoveModalOpen(false);
     
-    if (email !== writer) return;
+    if (email !== writerEmail) return;
     
     dispatch(deleteAnswer({ answerId, email }))
       .unwrap()
@@ -55,8 +55,8 @@ const AnswerListItem = ({
       </YesNoModal>
       <div className={classes.answer__item}>
         <div>
-          <span>{writer}</span>
-          {email === writer && (
+          <span>{nickname}</span>
+          {email === writerEmail && (
             <div className={classes.answer__item__btn}>
               <button type="button" onClick={() => setEditOpen((prev) => !prev)}>
                 {editOpen ? '수정 취소' : '수정'}
@@ -90,7 +90,8 @@ const AnswerListItem = ({
 AnswerListItem.propTypes = {
   questionId: PropTypes.number.isRequired,
   answerId: PropTypes.number.isRequired,
-  writer: PropTypes.string.isRequired,
+  writerEmail: PropTypes.string.isRequired,
+  nickname: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   review: PropTypes.string.isRequired,
   originalCode: PropTypes.string.isRequired,

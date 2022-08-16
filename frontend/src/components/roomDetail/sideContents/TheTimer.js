@@ -108,6 +108,7 @@ const TheTimer = ({ session }) => {
     clearInterval(countDown);
     setShow(false);
     setStart(false);
+    setStop(false);
     setHours(0);
     setMinutes(0);
     setSeconds(0);
@@ -154,7 +155,7 @@ const TheTimer = ({ session }) => {
               type="number"
               value={hours}
               onChange={onChangeHours}
-              max={24}
+              max={23}
               min={0}
               placeholder="시"
               required

@@ -51,6 +51,8 @@ const VisitedList = () => {
                     roomId={room.roomId}
                     title={room.title}
                     fav={!!true}
+                    userCount={room.userCount}
+                    userLimit={room.userLimit}
                   />
                 );
               } 
@@ -62,6 +64,8 @@ const VisitedList = () => {
                   roomId={room.roomId}
                   title={room.title}
                   fav={false}
+                  userCount={room.userCount}
+                  userLimit={room.userLimit}
                 />
               );
             })
@@ -82,6 +86,8 @@ const VisitedList = () => {
                 roomId={room.roomId}
                 title={room.title || ''}
                 fav={!!true}
+                userCount={room.userCount}
+                userLimit={room.userLimit}
               />
             ))}
         </div>

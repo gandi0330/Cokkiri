@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import classes from './QuestionList.module.css';
 
 const QuestionListItem = ({
-  questionId, title, writer, content, createdAt, setQuestionId, setQuestionRoute,
+  questionId, title, nickname, content, createdAt, setQuestionId,
+  setQuestionRoute,
 }) => {
   // const { roomId } = useParams();
   // console.log('questionID ========', questionId);
@@ -24,7 +25,7 @@ const QuestionListItem = ({
       <p>{content.length < 50 ? content : `${content.slice(0, 50)}...`}</p>
       <div className={classes.questions__extra}>
         <span>
-          {`${writer} | ${createdAt.slice(0, createdAt.indexOf('T'))}`}
+          {`${nickname} | ${createdAt.slice(0, createdAt.indexOf('T'))}`}
         </span>
         <span>
           {/* 답변: 0개 */}
@@ -37,7 +38,8 @@ const QuestionListItem = ({
 QuestionListItem.propTypes = {
   questionId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  writer: PropTypes.string.isRequired,
+  // writerEmail: PropTypes.string.isRequired,
+  nickname: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   setQuestionRoute: PropTypes.func.isRequired,

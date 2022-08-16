@@ -9,6 +9,7 @@ import classes from './RoomDetailPage.module.css';
 import { getRoom, updateChats } from '../store/roomSlice';
 import useAudio from '../hooks/useAudio';
 import music from '../audios/voice-elephant.mp3';
+import Modal from '../components/layout/Modal';
 
 const RoomDetailPage = () => {
   const [toggle] = useAudio(music);
@@ -20,12 +21,14 @@ const RoomDetailPage = () => {
   const [session, setSession] = useState(null);
   const [publisher, setPublisher] = useState({});
   const [subscribers, setSubscribers] = useState([]);
+  const [isFinishedTimer, setIsFinishedTimer] = useState(false);
 
   useEffect(() => {
     if (!session) {
       return;
     }
     session.on('signal:timer', () => {
+      setIsFinishedTimer(true);
       toggle();
       // audioBtn.current.onClick();
     });
@@ -110,6 +113,9 @@ const RoomDetailPage = () => {
 
   return (
     <div className={classes.container}>
+      <Modal open={isFinishedTimer} onClose={() => setIsFinishedTimer(false)}>
+        <p>타이머가 종료되었습니다!</p>
+      </Modal>
       <div className={`${classes.contents} ${type !== 'off' && classes.open}`}>
         <div className={`${classes.contents__left} ${type !== 'off' && classes.open}`}>
           {

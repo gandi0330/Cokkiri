@@ -24,7 +24,8 @@ const AnswerList = ({ originalCode, questionId }) => {
           answerId={answer.answerId}
           questionId={answer.questionId}
           roomId={answer.roomId}
-          writer={answer.answerWriterEmail}
+          writerEmail={answer.answerWriterEmail}
+          nickname={answer.nickname}
           content={answer.content}
           review={answer.code || ''}
           language={answer.language}

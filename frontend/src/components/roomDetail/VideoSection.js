@@ -62,7 +62,7 @@ const VideoSection = ({
     }
     if (session) session.disconnect();
     if (sessionScreen) sessionScreen.disconnect();
-    navigate('/rooms', { place: true });
+    navigate('/rooms', { replace: true });
     OV = null;
     setSession(null);
     setSessionScreen(null);
@@ -80,14 +80,14 @@ const VideoSection = ({
     }
     if (session) session.disconnect();
     if (sessionScreen) sessionScreen.disconnect();
-    navigate('/rooms', { place: true });
+    navigate('/rooms', { replace: true });
     OV = null;
     setSession(null);
     setSessionScreen(null);
     setSubscribers([]);
     setMainStreamManager(null);
     setPublisher(null);
-    setCurrentVideoDevice(null);
+    // setCurrentVideoDevice(null);
     // setCurrentAudioDevice(null);
   };
 

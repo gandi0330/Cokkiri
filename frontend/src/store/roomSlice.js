@@ -10,6 +10,7 @@ const initialState = {
   audioActive: false,
   cameraActive: false,
   soundActive: true,
+  // bellActive: true,
   doneShare: false,
 
   loading: false,
@@ -88,6 +89,9 @@ const roomSlice = createSlice({
     shareScreen(state, { payload }) {
       state.doneShare = payload;
     },
+    // clickBell(state, { payload }) {
+    //   state.bellActive = payload;
+    // },
   },
   extraReducers: (builder) => {
     builder.addCase(makeRoom.pending, (state) => {
@@ -149,8 +153,8 @@ const roomSlice = createSlice({
       state.id = null;
       state.room = {};
       state.chats = [];
-      state.audioActive = true;
-      state.cameraActive = true;
+      state.audioActive = false;
+      state.cameraActive = false;
       state.soundActive = true;
       state.doneShare = false;
     });
