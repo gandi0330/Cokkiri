@@ -68,12 +68,12 @@
   <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> 
 </p>
 
-|🔹 Backend - SpringBoot|🔹 Frontend - React|🔹 협업 툴|🔹 기타|
+|🔹 Backend|🔹 Frontend|🔹 협업 툴|🔹 기타|
 |-----------------------|-----------------------|-----------------------|-----------------------|
 |- Intellij<br>- Java 11<br>- SpringBoot 2.7.1<br>- JPA<br>- Swagger|- VSCode<br>- HTML<br>- CSS<br>- JavaScript ES6<br>- React 18.2.0<br>- Redux 1.8.3|- Gitlab<br>- Jira<br>- Mattermost<br>- Notion<br>- Webex|- OS: Window 10<br>- DB: MySQL 8.0.29<br>- AWS<br>- Figma|
 
 ### 2. 아키텍처
-IMG
+
 
 
 ## 🟦 프로젝트 파일 구조
@@ -83,11 +83,8 @@ IMG
 java/corinee/cokkiri
 ├── api
 │   ├── controller
-│   │
 │   ├── request
-│   │
 │   ├── response
-│   │
 │   └── service
 │  
 ├── common
@@ -95,7 +92,6 @@ java/corinee/cokkiri
 │
 └── db
     ├── domain
-    │
     └── repository
 
 
@@ -116,8 +112,7 @@ frontend
    │   ├── question
    │   ├── record
    │   ├── roomDetail
-   │   ├── rooms
-   │   └── layout
+   │   └── rooms
    │
    ├── hooks
    │
@@ -125,6 +120,7 @@ frontend
    │
    ├── pages
    │   └── questions
+   │
    ├── store
    │
    ├── App.js
