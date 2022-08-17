@@ -73,7 +73,7 @@
 |- Intellij<br>- Java 11<br>- SpringBoot 2.7.1<br>- JPA<br>- Swagger|- VSCode<br>- HTML<br>- CSS<br>- JavaScript ES6<br>- React 18.2.0<br>- Redux 1.8.3|- Gitlab<br>- Jira<br>- Mattermost<br>- Notion<br>- Webex|- OS: Window 10<br>- DB: MySQL 8.0.29<br>- AWS<br>- Figma|
 
 ### 2. 아키텍처
-
+![코끼리아키텍처](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/57aefb738020c6ab2301227596ad17bf/c107_cokkiri_%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98.jpg.jpg)
 
 
 ## 🟦 프로젝트 파일 구조
