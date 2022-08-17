@@ -156,12 +156,16 @@ public class UserController {
             @ApiResponse(code=500, message = "비밀번호가 정상적으로 수정 되지 않았습니다"),
     })
     public ResponseEntity<? extends BaseResponse> updatePassword(
-            @RequestBody @Valid UpdatePasswordRequest request) {
+            @RequestBody @Valid UpdatePasswordRequest request) throws NoSuchAlgorithmException {
 
-        User findUser = userService.updatePassword(request.getEmail(), request.getPassword());
+        SHA256 sha256 = new SHA256();
+
+        User findUser = userService.updatePassword(request.getEmail(), sha256.encrypt(request.getPassword()));
+
+
         if (findUser == null)
             return  ResponseEntity.status(404).body(BaseResponse.of(404,"유저가 존재하지 않습니다"));
-        else if (!findUser.getPassword().equals(request.getPassword()))
+        else if (!findUser.getPassword().equals(sha256.encrypt(request.getPassword())))
             return ResponseEntity.status(500).body(BaseResponse.of(500,"비밀번호가 정상적으로 수정 되지 않았습니다"));
         return ResponseEntity.status(200).body(BaseResponse.of(200,"success"));
     }
