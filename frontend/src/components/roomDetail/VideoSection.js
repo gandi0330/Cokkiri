@@ -35,7 +35,6 @@ const VideoSection = ({
   // const [currentAudioDevice, setCurrentAudioDevice] = useState(null);
   const { email, nickname } = useSelector((state) => state.auth);
   const { id, loading } = useSelector((state) => state.room);
-
   const reqCameraAndAudio = async () => {
     try {
       const res = await navigator.mediaDevices.getUserMedia({ audio: true, video: { facingMode: 'user' } });
@@ -57,12 +56,15 @@ const VideoSection = ({
   };
 
   const leaveSession = () => {
-    if (isEntranced) {
-      dispatch(exitRoom({ roomId, email, id }));
-    }
     if (session) session.disconnect();
     if (sessionScreen) sessionScreen.disconnect();
-    navigate('/rooms', { replace: true });
+    if (isEntranced) {
+      dispatch(exitRoom({ roomId, email, id }))
+        .unwrap()
+        .then(() => {
+          navigate('/rooms', { replace: true });
+        });
+    }
     OV = null;
     setSession(null);
     setSessionScreen(null);
@@ -75,12 +77,15 @@ const VideoSection = ({
   };
 
   const leaveSession2 = () => {
-    if (isEntranced) {
-      dispatch(exitRoom({ roomId, email, id }));
-    }
     if (session) session.disconnect();
     if (sessionScreen) sessionScreen.disconnect();
-    navigate('/rooms', { replace: true });
+    if (isEntranced) {
+      dispatch(exitRoom({ roomId, email, id }))
+        .unwrap()
+        .then(() => {
+          navigate('/rooms', { replace: true });
+        });
+    }
     OV = null;
     setSession(null);
     setSessionScreen(null);
@@ -342,7 +347,10 @@ const VideoSection = ({
       </Modal>
       <div className={styles.smallVideoSection}>
         {publisher && (
-          <div className={styles.video} onClick={() => handleMainVideoStream(publisher)}>
+          <div
+            className={styles.video}
+            onClick={() => handleMainVideoStream(publisher)}
+          >
             <span className={styles.nickname}>{publisher.stream.connection.data.split('"')[3]}</span>
             <UserVideoComponent 
               streamManager={publisher} 

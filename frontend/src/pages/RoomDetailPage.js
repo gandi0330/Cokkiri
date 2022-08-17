@@ -107,10 +107,6 @@ const RoomDetailPage = () => {
     setSubscribers(s);
   };
 
-  // if (!isLoggedIn) {
-  //   return null;
-  // }
-
   return (
     <div className={classes.container}>
       <Modal open={isFinishedTimer} onClose={() => setIsFinishedTimer(false)}>
