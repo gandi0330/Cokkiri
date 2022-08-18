@@ -1,0 +1,170 @@
+.nav {
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 100;
+  backdrop-filter: blur(0.9rem);
+  padding: 0 1em;
+}
+
+.logo__content {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+
+.nav .logo {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.nav .logo img {
+  width: 20%;
+  height: 20%;
+}
+
+.nav .logo a {
+  color: var(--blueShade1);
+  font-family: 'Nanum Brush Script', cursive;
+  font-size: var(--headingFontSize5);
+}
+
+.nav ul {
+  position: absolute;
+  text-align: center;
+  top: 99%;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(0.9rem);
+  transform: scale(1, 0);
+  transform-origin: top;
+  transition: transform 200ms ease-in-out;
+}
+
+.nav li {
+  margin-bottom: 1em;
+}
+
+.navToggle:checked ~ ul {
+  transform: scale(1, 1);
+}
+
+.navToggle:checked ~ ul a {
+  opacity: 1;
+}
+
+.navToggle {
+  display: none;
+}
+
+.navToggleLabel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 1.5rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.navToggleLabel span,
+.navToggleLabel span::before,
+.navToggleLabel span::after {
+  display: block;
+  background: var(--blueShade1);
+  height: 3px;
+  width: 1.5em;
+  border-radius: 5px;
+}
+
+.navToggleLabel span::before,
+.navToggleLabel span::after {
+  content: '';
+  position: absolute;
+  height: 3px;
+}
+
+.navToggleLabel span::after {
+  top: 30px;
+}
+
+.navToggleLabel span::before {
+  bottom: 30px;
+}
+
+.nav ul li a {
+  position: relative;
+  color: var(--grayShade1);
+  font-size: var(--baseFontSize1);
+  opacity: 0;
+}
+
+.nav ul li a:hover {
+  color: var(--blueShade1);
+}
+
+.nav ul li a::after {
+  content: "";
+  position: absolute;
+  background: var(--blueShade1);
+  height: .15em;
+  width: 100%;
+  left: 0;
+  bottom: -.25em;
+  transition: all .3s;
+  transform: scale(0);
+}
+
+.nav ul li a:hover::after,.nav button:hover::after {
+  transform: scale(1);
+}
+
+@media only screen and (min-width: 800px) {
+  .navToggleLabel {
+    display: none;
+  }
+
+  .nav {
+    display: grid;
+    grid-template-columns: 1fr auto minmax(600px, 1fr) 1fr;
+  }
+
+  .nav .logo {
+    margin: 0;
+    grid-column: 2 / 3;
+  }
+
+  .nav ul li a {
+    opacity: 1;
+  }
+
+  .nav ul {
+    all: unset;
+    grid-column: 3 / 4;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .nav ul li {
+    list-style: none;
+    margin: 0;
+    margin-left: 1rem;
+  }
+}
+
+@media only screen and (min-width: 990px) {
+  .nav {
+    display: grid;
+    grid-template-columns: 1fr auto minmax(720px, 1fr) 1fr;
+  }
+}
