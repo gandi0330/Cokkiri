@@ -1,6 +1,9 @@
 # 🐘 Co:kkiri - 코:끼리, 함께 코딩해 즐거운 화상 채팅 서비스
 ![cokkiri 메인 이미지](images/main.png)
 
+
+> [CO:KKIRI Notion](https://www.notion.so/402cd5fd77484712a0f0632a7dab6b52)
+
 ## 프로젝트 개요
 
 ## 🟦 Project
@@ -9,6 +12,8 @@
 
 - SSAFY 7기 2학기 공통 프로젝트 웹기술 트랙
 - **진행 기간** : 2022. 07. 05. ~ 2022. 08. 19.
+
+<br>
 
 ### 2. 프로젝트 소개
 
@@ -24,6 +29,8 @@
     - 코로나로 비대면 서비스의 필요성이 대두되었고, 이러한 흐름은 개발자도 피해 갈 수 없었습니다.
     - 스터디 플랫폼도 많고 화상 채팅 프로그램도 많은데 왜 이러한 프로그램을 만드는 개발자들을 위한 화상 플랫폼은 없는지 한 번쯤 생각해 보지 않았나요?
     - 없다면 직접 있었으면 하는 기능을 모아 만드는 게 바로 개발자 덕목이죠! 코끼리는 개발자로서 여러 화상 프로그램을 이용하며 느낀 필요한 기능을 넣고 불편한 점은 뺐답니다!
+
+<br>
 
 ### 3. Project 주요 기능
 
@@ -48,12 +55,18 @@
 - **공부 시간 체크** 기능
     - 공부 시간을 기록하는 것은 한국인의 국룰 아닌가요? 코끼리는 방에 들어가 공부한 시간을 기록해 드립니다! 친구에게 찍어 보내 자랑해 보세요!
 
+<br>
+<br>
+
 ## 🟦 팀원 소개
 |정현명|홍석호|윤정원|정혜령|
 |---|---|---|---|
 |IMG1|IMG3|IMG4|IMG5|
 |Backend|Backend|Frontend|Frontend|
 |BE 테크리더|QA|FE 테크리더|UI / UX 담당|
+
+<br>
+<br>
 
 ## 🟦 개발 환경 및 기술 스택
 
@@ -72,9 +85,14 @@
 |-----------------------|-----------------------|-----------------------|-----------------------|
 |- Intellij<br>- Java 11<br>- SpringBoot 2.7.1<br>- JPA<br>- Swagger|- VSCode<br>- HTML<br>- CSS<br>- JavaScript ES6<br>- React 18.2.0<br>- Redux 1.8.3|- Gitlab<br>- Jira<br>- Mattermost<br>- Notion<br>- Webex|- OS: Window 10<br>- DB: MySQL 8.0.29<br>- AWS<br>- Figma|
 
+<br>
+
 ### 2. 아키텍처
 ![코끼리아키텍처](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/57aefb738020c6ab2301227596ad17bf/c107_cokkiri_%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98.jpg.jpg)
 
+
+<br>
+<br>
 
 ## 🟦 프로젝트 파일 구조
 
@@ -96,6 +114,8 @@ java/corinee/cokkiri
 
 
 ```
+
+<br>
 
 ### 2. Frontend
 ```markdown
@@ -129,6 +149,7 @@ frontend
    └── index.js
 ```
 
-## 🟦 프로젝트 산출물
+<br>
+<br>
 
-- [CO:KKIRI Notion](https://www.notion.so/402cd5fd77484712a0f0632a7dab6b52)
+
