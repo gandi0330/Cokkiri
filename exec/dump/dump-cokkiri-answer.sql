@@ -40,6 +40,16 @@ CREATE TABLE `answer` (
   CONSTRAINT `FKsxqjw2241p9x3hphgujworn0b` FOREIGN KEY (`answer_writer_email`) REFERENCES `user` (`email`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `answer`
+--
+
+LOCK TABLES `answer` WRITE;
+/*!40000 ALTER TABLE `answer` DISABLE KEYS */;
+INSERT INTO `answer` VALUES (97,NULL,'promise부터 공부하세요!','2022-08-18 16:20:07.249308','java',93,83,'suaveh3681@gmail.com'),(103,NULL,'요리보고 저리보고','2022-08-18 16:24:09.075399','java',102,83,'gandi0330@naver.com');
+/*!40000 ALTER TABLE `answer` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -50,4 +60,4 @@ CREATE TABLE `answer` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-16 15:50:11
+-- Dump completed on 2022-08-18 16:33:07
