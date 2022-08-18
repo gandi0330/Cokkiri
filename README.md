@@ -3,6 +3,7 @@
 
 
 > [CO:KKIRI Notion](https://skitter-dogsled-8c1.notion.site/402cd5fd77484712a0f0632a7dab6b52)
+
 > [UCC](https://www.youtube.com/watch?v=LcW992gTHkE)
 
 ## 프로젝트 개요
