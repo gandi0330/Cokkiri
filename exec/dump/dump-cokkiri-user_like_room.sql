@@ -33,6 +33,16 @@ CREATE TABLE `user_like_room` (
   CONSTRAINT `FKdlb1fr6u9u45kghbmdq4gwjxw` FOREIGN KEY (`room_id`) REFERENCES `room` (`room_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_like_room`
+--
+
+LOCK TABLES `user_like_room` WRITE;
+/*!40000 ALTER TABLE `user_like_room` DISABLE KEYS */;
+INSERT INTO `user_like_room` VALUES (16,4,'suaveh3681@gmail.com'),(17,7,'suaveh3681@gmail.com'),(39,36,'suaveh3681@gmail.com'),(46,43,'suaveh3681@gmail.com');
+/*!40000 ALTER TABLE `user_like_room` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -43,4 +53,4 @@ CREATE TABLE `user_like_room` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-16 15:51:26
+-- Dump completed on 2022-08-18 16:31:56
