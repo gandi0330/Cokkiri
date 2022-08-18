@@ -63,7 +63,7 @@
 ## 🟦 팀원 소개
 |정현명|홍석호|윤정원|정혜령|
 |---|---|---|---|
-|IMG1|IMG3|[<img src="https://user-images.githubusercontent.com/76723987/185276017-48f9ac80-9bf6-4ae7-994a-19e9297e6f9d.jpg">](https://github.com/yunjeongwon)|IMG5|
+|IMG1|IMG3|[<img src="https://user-images.githubusercontent.com/76723987/185276017-48f9ac80-9bf6-4ae7-994a-19e9297e6f9d.jpg" style="width:200px; height: 300px;">](https://github.com/yunjeongwon)|IMG5|
 |Backend|Backend|Frontend|Frontend|
 |BE 테크리더|QA|FE 테크리더|UI / UX 담당|
 
