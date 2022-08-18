@@ -50,7 +50,7 @@
 
 ## 🟦 팀원 소개
 |정현명|홍석호|윤정원|정혜령|
-|------|---|---|---|---|
+|---|---|---|---|
 |IMG1|IMG3|IMG4|IMG5|
 |Backend|Backend|Frontend|Frontend|
 |BE 테크리더|QA|FE 테크리더|UI / UX 담당|
