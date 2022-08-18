@@ -152,7 +152,7 @@ frontend
 <br>
 <br>
 
-- 메인페이지에는 핵심 기능 소개를 볼 수 있습니다.
+- 메인페이지에는 핵심 기능 소개를 볼 수 있다.
 <img src="https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/6b71cf37c9df856ba4cf8428e55a8e41/%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.gif" width="640" height="360"/>
 
 
@@ -169,7 +169,7 @@ frontend
 <br>
 <br>
 
-- 공부기록 페이지에서 오늘 공부한 시간, 주간 공부 시간, 누적 공부 시간을 확인할 수 있습니다.
+- 공부기록 페이지에서 오늘 공부한 시간, 주간 공부 시간, 누적 공부 시간을 확인할 수 있다.
 
 <img src="https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/9afdc28e31144fe5e5d95517c156ac7e/%EA%B3%B5%EB%B6%80%EA%B8%B0%EB%A1%9D_%ED%8E%98%EC%9D%B4%EC%A7%80.gif" width="640" height="360"/>
 
@@ -178,9 +178,9 @@ frontend
 <br>
 <br>
 
-- 생성된 스터디룸들을 확인할 수 있습니다. (무한 스크롤 가능)
-- 검색 바에 검색어를 입력해서 일치하는 스터디룸을 확인할 수 있습니다.
-- 방만들기 버튼을 누르고 방 정보를 입력해서 스터디룸을 생성하고 입장할 수 있습니다.
+- 생성된 스터디룸들을 확인할 수 있다. (무한 스크롤 가능)
+- 검색 바에 검색어를 입력해서 일치하는 스터디룸을 확인할 수 있다.
+- 방만들기 버튼을 누르고 방 정보를 입력해서 스터디룸을 생성하고 입장할 수 있다.
 
 <img src="https://lab.ssafy.com/s07-webmobile1-sub2/S07P12C107/uploads/5ed2baa2bc984a6dbcd8391e90f4df56/%EC%8A%A4%ED%84%B0%EB%94%94%EB%A3%B8_%EB%AA%A9%EB%A1%9D_%ED%8E%98%EC%9D%B4%EC%A7%80.gif" width="640" height="360"/>
 
