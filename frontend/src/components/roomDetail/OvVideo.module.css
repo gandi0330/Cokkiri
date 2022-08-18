@@ -1,0 +1,5 @@
+.video {
+  height: 100%;
+  max-width: 70rem;
+  border-radius: var(--borderRadius1);
+}

@@ -1,0 +1,38 @@
+.form {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  bottom: 5%;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.chatInput {
+  width: 100%;
+  resize: none;
+  border-radius: var(--borderRadius2);
+  padding: 1rem 2.5rem 1rem 1rem;
+  color: var(--blackShade1);
+  font-size: var(--smallFontSize1);
+  outline: none;
+  border: 1px solid var(--blueShade2);
+}
+
+.chatBtn {
+  position: absolute;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--grayShade1);
+  font-size: var(--headingFontSize4);
+  top: 30%;
+  right: 10%;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 750px) {
+  .form {
+    bottom: 5%;
+  }
+}

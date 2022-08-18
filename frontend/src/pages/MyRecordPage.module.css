@@ -1,0 +1,106 @@
+.myRecord {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: min(90%, 55rem);
+  margin: 0 auto;
+  padding-top: 6rem;
+}
+
+.myRecord h2 {
+  width: 100%;
+  text-align: left;
+  padding-left: .5rem;
+  font-size: var(--headingFontSize3);
+  color: var(--blackShade1);
+  margin-bottom: 1rem;
+}
+
+.myRecord__partition {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.myRecord__title {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding-left: .5rem;
+  width: 100%;
+  margin-bottom: .5rem;
+  font-size: var(--headingFontSize4);
+}
+
+.myRecord__title:first-child {
+  color: var(--blueShade1);
+}
+
+.myRecord__title h3 {
+  font-size: var(--baseFontSize);
+  color: var(--blackShade1);
+}
+
+.myRecord__today {
+  width: 100%;
+}
+
+.myRecord__today__box {
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  text-align: left;
+  background-color: var(--blueShade1);
+  border-radius: var(--borderRadius2);
+}
+
+.myRecord__today__box small {
+  display: block;
+  margin-bottom: .5rem;
+  color: var(--whiteShade2);
+}
+
+.myRecord__today__box span {
+  color: var(--whiteShade1);
+  font-weight: bold;
+}
+
+.myRecord__today__diff {
+  padding-left: .5rem;
+  font-size: var(--baseFontSize);
+  color: var(--blackShade1);
+  margin-bottom: 2.5rem;
+}
+
+.myRecord__today__diff span {
+  font-weight: bold;
+}
+
+.myRecord__left__chart {
+  width: 100%;
+}
+
+.myRecord__right__chart {
+  width: 100%;
+}
+
+@media only screen and (min-width: 750px) {
+  .myRecord {
+    padding-top: 15%;
+  }
+
+  .myRecord__partition {
+    flex-direction: row;
+    gap: 5rem;
+  }
+
+  .myRecord__left__chart {
+    width: 50%;
+  }
+  
+  .myRecord__right__chart {
+    width: 50%;
+  }
+}

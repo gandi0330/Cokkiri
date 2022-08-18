@@ -1,0 +1,106 @@
+.accChart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: .2rem;
+  margin-bottom: 1rem;
+}
+
+.accChart__bar {
+  width: 100%;
+}
+
+.accChart__info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--blackShade1);
+  padding: 0 .5rem;
+  margin-bottom: .5rem;
+}
+
+.accChart__info div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  color: var(--blueShade1);
+  font-size: var(--headingFontSize4);
+}
+
+.accChart__info div span {
+  font-size: var(--baseFontSize);
+  font-weight: bold;
+  color: var(--blackShade1);
+}
+
+.accChart__info > span {
+  font-size: var(--smallFontSize1);
+}
+
+.accChart__progress {
+  position: relative;
+  height: 1.5rem;
+  width: 100%;
+  border-radius: 2rem;
+  background-color: var(--whiteShade2);
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.05),
+                    0px 1px rgba(255, 255, 255, 0.8);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: animate 1s cubic-bezier(1, 0, 0.5, 1) forwards;
+  overflow: hidden;
+}
+
+.accChart__progress__bar {
+  height: 100%;
+  width: 80%;
+  background: var(--blueShade2);
+  /* background: linear-gradient(to right, var(--whiteShade1), var(--blueShade2), var(--blueShade1)); */
+  position: absolute;
+  border-radius: 2rem;
+  border: 1px solid var(--blueShade2);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: animate 1s cubic-bezier(1, 0, 0.5, 1) forwards;
+}
+
+@keyframes animate {
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.accChart__caption {
+  width: 100%;
+  text-align: right;
+  margin-top: .2rem;
+  margin-right: 1.3rem;
+  font-size: var(--smallFontSize2);
+}
+
+/* ----- week chart ----- */
+
+.weekChart {
+  width: 100%;
+}
+
+.weekChart__title {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: .5rem;
+}
+
+.weekChart__title {
+  font-size: var(--headingFontSize4);
+  color: var(--blueShade1);
+  padding: 0 .5rem;
+}
+
+.weekChart__title h4 {
+  font-size: var(--baseFontSize);
+  color: var(--blackShade1);
+}

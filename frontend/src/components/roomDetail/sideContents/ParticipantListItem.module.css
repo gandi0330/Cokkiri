@@ -1,0 +1,35 @@
+.wrapper {
+  width: 100%;
+  padding: 0 .5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nickname {
+  color: var(--blueShade1);
+  font-size: var(--headingFontSize4);
+}
+
+.buttons {
+  color: var(--blueShade1);
+  font-size: var(--headingFontSize4);
+  display: flex;
+}
+
+.yes {
+  margin: 0 4px 0 4px;
+}
+
+.no {
+  margin: 0 4px 0 4px;
+  color: var(--redShade1);
+}
+
+.bell {
+  cursor: pointer;
+}
+
+.bell:hover {
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}

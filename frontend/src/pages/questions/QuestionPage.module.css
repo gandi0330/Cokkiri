@@ -1,0 +1,151 @@
+.questions,
+.detail {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.detail {
+  padding-bottom: 5rem;
+  gap: 1rem;
+  overflow-y: auto;
+}
+
+.detail h3 {
+  color: var(--blueShade1);
+  font-size: var(--headingFontSize3);
+  margin-bottom: 1rem;
+}
+
+.detail header {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.detail header span {
+  font-size: var(--smallFontSize2);
+}
+
+.detail header::after {
+  position: absolute;
+  left: 0;
+  bottom: -10%;
+  content: "";
+  width: 100%;
+  height: 1px;
+  background-color: var(--grayShade2);
+}
+
+.detail__backBtn {
+  position: fixed;
+  bottom: 10%;
+  right: 5%;
+  padding: .5rem;
+  background-color: rgba(188, 188, 188, 0.3);
+  color: var(--blueShade1);
+  border-radius: 20rem;
+  border: none;
+  outline: none;
+  z-index: 100;
+  cursor: pointer;
+}
+
+
+.detail__main h1,
+.detail__main h2,
+.detail__main h3,
+.detail__main h4,
+.detail__main h5,
+.detail__main h6,
+.detail__main p {
+  color: var(--blackShade1);
+  margin: 0;
+}
+
+.detail__main h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+
+.detail__main p {
+  font-size: var(--baseFontSize);
+  overflow-wrap: break-word;
+}
+
+.detail_btn {
+  display: flex;
+  justify-content: flex-end;
+  font-size: var(--smallFontSize3);
+  gap: .5rem;
+}
+
+.detail_btn button {
+  position: relative;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--grayShade1);
+  cursor: pointer;
+}
+
+.detail_btn button:first-child::after {
+  position: absolute;
+  content: "";
+  width: 1px;
+  height: .9rem;
+  top: 0;
+  right: -20%;
+  background-color: var(--grayShade1);
+}
+
+.question__remove {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.question__remove div {
+  width: 15rem;
+  text-align: center;
+  line-height: 1.5;
+  color: var(--blackShade1);
+  font-size: var(--baseFontSize);
+}
+
+.question__remove div:last-child {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.question__remove button {
+  padding: .5rem;
+  border: none;
+  border-radius: var(--borderRadius3);
+  outline: none;
+  cursor: pointer;
+  color: var(--whiteShade2);
+  font-size: var(--smallFontSize1);
+}
+
+.question__remove button:first-child {
+  background-color: var(--redShade1);
+}
+
+.question__remove button:last-child {
+  background-color: var(--blueShade1);
+}
+
+.question__remove button:first-child:hover {
+  background-color: var(--redShade2);
+}
+
+.question__remove button:last-child:hover {
+  background-color: var(--blueShade3);
+}
