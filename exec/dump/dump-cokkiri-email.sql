@@ -29,6 +29,16 @@ CREATE TABLE `email` (
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `email`
+--
+
+LOCK TABLES `email` WRITE;
+/*!40000 ALTER TABLE `email` DISABLE KEYS */;
+INSERT INTO `email` VALUES ('gandi0330@naver.com','511736','2022-08-18 16:00:32.471754'),('suaveh3681@gmail.com','466372','2022-08-18 16:02:13.366175'),('wjd10577@naver.com','766525','2022-08-18 16:02:54.463474'),('wow2867@naver.com','285847','2022-08-18 16:01:44.224164');
+/*!40000 ALTER TABLE `email` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -39,4 +49,4 @@ CREATE TABLE `email` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-16 15:50:24
+-- Dump completed on 2022-08-18 16:32:59
