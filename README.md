@@ -2,7 +2,7 @@
 ![cokkiri 메인 이미지](images/main.png)
 
 
-> [CO:KKIRI Notion](https://www.notion.so/402cd5fd77484712a0f0632a7dab6b52)
+> [CO:KKIRI Notion](https://skitter-dogsled-8c1.notion.site/402cd5fd77484712a0f0632a7dab6b52)
 
 ## 프로젝트 개요
 
