@@ -1,6 +1,4 @@
-import {
-  useState, useRef, useEffect,
-} from 'react';
+import { useState } from 'react';
 import {
   BsPeopleFill, BsPeople, BsStopwatch, BsStopwatchFill,
 } from 'react-icons/bs';
@@ -10,10 +8,8 @@ import PropTypes from 'prop-types';
 
 import styles from './RightSideBar.module.css';
 
-// eslint-disable-next-line react/prop-types
 const RightSideBar = ({ getType }) => {
   const [state, setState] = useState('off');
-  const sideBarRef = useRef();
 
   const toggleParticipants = () => {
     if (state === 'part') {
@@ -60,24 +56,8 @@ const RightSideBar = ({ getType }) => {
     getType('off');
   };
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (
-        (sideBarRef
-        && sideBarRef.current
-        && !sideBarRef.current.contains(e.target))
-      ) {
-        toggleVideo();
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [sideBarRef]);
-
   return (
-    <nav className={styles.nav} ref={sideBarRef}>
+    <nav className={styles.nav}>
       <div>
         {state === 'part'
           ? <BsPeopleFill onClick={toggleParticipants} /> 
