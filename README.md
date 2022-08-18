@@ -49,11 +49,11 @@
     - 공부 시간을 기록하는 것은 한국인의 국룰 아닌가요? 코끼리는 방에 들어가 공부한 시간을 기록해 드립니다! 친구에게 찍어 보내 자랑해 보세요!
 
 ## 🟦 팀원 소개
-|정현명|서동완|홍석호|윤정원|정혜령|
+|정현명|홍석호|윤정원|정혜령|
 |------|---|---|---|---|
-|IMG1|IMG2|IMG3|IMG4|IMG5|
-|Backend|Backend|Backend|Frontend|Frontend|
-|팀장, 서버 배포|BE 테크리더|QA|FE 테크리더|UI / UX 담당|
+|IMG1|IMG3|IMG4|IMG5|
+|Backend|Backend|Frontend|Frontend|
+|BE 테크리더|QA|FE 테크리더|UI / UX 담당|
 
 ## 🟦 개발 환경 및 기술 스택
 
